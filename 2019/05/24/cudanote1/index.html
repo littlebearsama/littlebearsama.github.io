@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>cudanote1 - LittleBear！！！</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="第三章 简介 缓冲与缓存的区别，核函数，内置参数，参数传递">
+<meta name="keywords" content="CUDA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cudanote1">
+<meta property="og:url" content="https://littlebearsama.github.io/2019/05/24/cudanote1/index.html">
+<meta property="og:site_name" content="LittleBear！！！">
+<meta property="og:description" content="第三章 简介 缓冲与缓存的区别，核函数，内置参数，参数传递">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2019-05-24T03:14:20.744Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="cudanote1">
+<meta name="twitter:description" content="第三章 简介 缓冲与缓存的区别，核函数，内置参数，参数传递">
+<meta name="twitter:image" content="https://littlebearsama.github.io/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/pig.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/pig.png" alt="cudanote1" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">Home</a>
+                
+                <a class="navbar-item" href="/archives">博文</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/littlebearsama">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-24T02:31:14.000Z">2019-05-24</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/编程/">编程</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/编程/CUDA/">CUDA</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    13 minutes read (About 1964 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                cudanote1
+            
+        </h1>
+        <div class="content">
+            <p><strong>第三章 简介</strong></p>
+<p>缓冲与缓存的区别，核函数，内置参数，参数传递</p>
+<a id="more"></a>
+
+<p>作者github:littlebearsama <a href="https://github.com/littlebearsama/CUDA-notes/tree/master/1.CUDA_by-example" target="_blank" rel="noopener">原文链接</a></p>
+<p><strong>(建议下载Typora来浏览markdown文件)</strong></p>
+<h2 id="缓冲区-buffer-与缓存区-cache"><a href="#缓冲区-buffer-与缓存区-cache" class="headerlink" title="缓冲区(buffer)与缓存区(cache)"></a>缓冲区(buffer)与缓存区(cache)</h2><h3 id="一、缓冲"><a href="#一、缓冲" class="headerlink" title="一、缓冲"></a><strong>一、缓冲</strong></h3><p>缓冲区(buffer)，它是内存空间的一部分。也就是说，在内存空间中预留了一定的存储空间，这些存储空间用来缓冲输入或输出的数据，这部分预留的空间就叫做缓冲区，显然缓冲区是具有一定大小的。</p>
+<p>缓冲区根据其对应的是输入设备还是输出设备，分为输入缓冲区和输出缓冲区。</p>
+<h3 id="二、缓存"><a href="#二、缓存" class="headerlink" title="二、缓存"></a>二、缓存</h3><ol>
+<li>CPU的Cache，它中文名称是高速缓冲存储器，读写速度很快，几乎与CPU一样。由于CPU的运算速度太快，内存的数据存取速度无法跟上CPU的速度，所以在cpu与内存间设置了cache为cpu的数据快取区。当计算机执行程序时，数据与地址管理部件会预测可能要用到的数据和指令，并将这些数据和指令预先从内存中读出送到Cache。一旦需要时，先检查Cache，若有就从Cache中读取，若无再访问内存，现在的CPU还有一级cache，二级cache。简单来说，Cache就是用来解决CPU与内存之间速度不匹配的问题，避免内存与辅助内存频繁存取数据，这样就提高了系统的执行效率。</li>
+<li>磁盘也有cache,硬盘的cache作用就类似于CPU的cache，它解决了总线接口的高速需求和读写硬盘的矛盾以及对某些扇区的反复读取。</li>
+</ol>
+<h3 id="三、缓存（cache）与缓冲-buffer-的主要区别"><a href="#三、缓存（cache）与缓冲-buffer-的主要区别" class="headerlink" title="三、缓存（cache）与缓冲(buffer)的主要区别"></a><strong>三、缓存（cache）与缓冲(buffer)的主要区别</strong></h3><p>Buffer的核心作用是用来缓冲，缓和冲击。比如你每秒要写100次硬盘，对系统冲击很大，浪费了大量时间在忙着处理开始写和结束写这两件事嘛。用个buffer暂存起来，变成每10秒写一次硬盘，对系统的冲击就很小，写入效率高了，日子过得爽了。极大缓和了冲击。</p>
+<p>Cache的核心作用是加快取用的速度。比如你一个很复杂的计算做完了，下次还要用结果，就把结果放手边一个好拿的地方存着，下次不用再算了。加快了数据取用的速度。</p>
+<p>简单来说就是buffer偏重于写，而cache偏重于读。</p>
+<h1 id="第三章-简介"><a href="#第三章-简介" class="headerlink" title="第三章 简介"></a>第三章 简介</h1><ul>
+<li>将CPU即系统的内存称为主机（<strong>host</strong>），而将GPU及其内存称为设备（<strong>device</strong>）</li>
+</ul>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">__<span class="hljs-function">global__ <span class="hljs-keyword">void</span> <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-keyword">int</span> a,<span class="hljs-keyword">int</span> b,<span class="hljs-keyword">int</span> *c)</span></span>&#123;</span><br><span class="line">  *c = a + b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">  <span class="hljs-keyword">int</span> c;</span><br><span class="line">  <span class="hljs-keyword">int</span> *dev_c;</span><br><span class="line">  cudaMalloc((<span class="hljs-keyword">void</span>**)&amp;dev_c,<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>));</span><br><span class="line">  add&lt;&lt;&lt;<span class="hljs-number">1</span>,<span class="hljs-number">1</span>&gt;&gt;&gt;(<span class="hljs-number">2</span>,<span class="hljs-number">7</span>,dev_c);</span><br><span class="line">  cudaMemcpy(&amp;c,</span><br><span class="line">             dev_c,</span><br><span class="line">             <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>),</span><br><span class="line">             cudaMemcpyDeviceToHost);</span><br><span class="line">  <span class="hljs-built_in">printf</span>(<span class="hljs-string">"2 + 7 = %d"</span>,c);</span><br><span class="line">  cudafree（dev_c）;</span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-核函数调用"><a href="#1-核函数调用" class="headerlink" title="1.核函数调用"></a>1.核函数调用</h2><ul>
+<li>1.函数的定义带有了<strong><code>__global__</code></strong>这个标签，表示这个函数是在GPU上运行。函数add()将被交给<strong>“编译设备代码的编译器”</strong>。需要指出的是尽管是在GPU上执行，但是仍然是由<strong>CPU端发起调用的</strong>。</li>
+<li>在每个启动线程中都被调用一遍。</li>
+<li>2.主机代码发送给一个编译器，而将设备代码发送给另外一个编译器（<strong>CUDA编译器</strong>）,CUDA编译器运行时<strong>将负责实现从主机代码中调用设备代码</strong>。</li>
+<li>3.核函数相对于CPU代码是异步的，也就是控制会在核函数执行完成之前就返回，这样<strong>CPU就可以不用等待核函数的完成而继续执行后面的CPU代码</strong></li>
+<li>4.核函数内部只能访问<strong>device内存</strong>。因为核函数是执行在设备端，所以只能访问设备端内存。所以要使用<strong>cudaMalloc</strong>在<strong>GPU</strong>的内存(全局内存)里开辟一片空间。用来存放结果<em>dev_c。再通过*</em>cudaMemcpy<strong>这个函数把内容</strong>从GPU**复制出来。</li>
+</ul>
+<p>函数部分前缀：</p>
+<table>
+<thead>
+<tr>
+<th>限定符</th>
+<th>在哪里被调用</th>
+<th>在哪里被执行</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong><code>__host__</code></strong>（默认缺省）</td>
+<td>仅由CPU调用</td>
+<td>由CPU执行</td>
+</tr>
+<tr>
+<td><strong><code>__gobal__</code></strong></td>
+<td>仅由CPU调用</td>
+<td>由GPU执行</td>
+</tr>
+<tr>
+<td><strong><code>__device__</code></strong></td>
+<td>仅由GPU中一个线程调用的函数</td>
+<td>由GPU执行</td>
+</tr>
+</tbody></table>
+<p>限制：</p>
+<ol>
+<li><p><strong><code>__host__</code></strong>：  </p>
+<p>限定符无法一起使用 </p>
+</li>
+<li><p><strong><code>__gobal__</code></strong>：</p>
+<p>限定符无法一起使用；</p>
+<p>函数不支持递归；</p>
+<p>函数的函数体内无法声明静态变量；</p>
+<p>函数不得有数量可变的参数；</p>
+<p>支持函数指针；</p>
+<p>函数的返回类型必须为空；</p>
+<p>函数的调用是异步的，也就是说它会在设备执行完成之前返回；</p>
+<p>函数参数将同时通过共享存储器传递给设备，且限制为 256 字节；</p>
+</li>
+<li><p><strong><code>__device__</code></strong>：</p>
+<p>函数不支持递归；</p>
+<p>函数的函数体内无法声明静态变量；</p>
+<p>函数不得有数量可变的参数；</p>
+<p>函数的地址无法获取</p>
+</li>
+<li><p>之前说了<strong><code>__host__</code></strong>和<strong><code>__gobal__</code></strong>限定符无法和其他限定符使用，但与 <strong><code>__device__</code></strong>限定符不是</p>
+</li>
+</ol>
+<p><strong><code>__constant__</code></strong> 限定符可选择与 <strong><code>__device__</code></strong>限定符一起使用，所声明的变量具有以下特征：</p>
+<p>1.位于固定存储器空间中；2. 与应用程序具有相同的生命周期；3.可通过网格内的所有线程访问，也可通过运行时库从主机访问。</p>
+<p><strong><code>__shared__</code></strong> 限定符可选择与 <strong><code>__device__</code></strong>限定符一起使用，所声明的变量具有以下特征：1.位于线程块的共享存储器空间中；2. 与块具有相同的生命周期；3.尽可通过块内的所有线程访问。只有在<code>_syncthreads()</code>_的执行写入之后，才能保证共享变量对其他线程可见。除非变量被声明为瞬时变量，否则只要之前的语句完成，编译器即可随意优化共享存储器的读写操作。</p>
+<h2 id="2-参数传递"><a href="#2-参数传递" class="headerlink" title="2.参数传递"></a>2.参数传递</h2><ul>
+<li><p><code>&lt;&lt;&lt;&gt;&gt;&gt;</code>尖括号表示要将一些参数传递给运行时系统，<strong>这些参数并不是传递给设备代码的参数</strong>，而是告诉运行时<strong>如何启动设备代码</strong>。传递给设备代码本身的参数是放在圆括号中传递的。</p>
+<blockquote>
+<p>尖括号作用？<strong>线程配置</strong>。</p>
+<p>&lt;&lt;&lt;Dg, Db, Ns, S&gt;&gt;&gt;</p>
+<ol>
+<li>Dg 的类型为 dim3，指定网格的维度和大小，<strong>Dg.x * Dg.y 等于所启动的块数量</strong>，Dg.z =1无用，目前还不支持三维的线程格；如果指定Dg=256，那么将有256个线程块在GPU上运行。</li>
+<li>Db 的类型为 dim3，指定各块的维度和大小，Db.x * Db.y * Db.z <strong>等于各块的线程数量</strong>；</li>
+<li>Ns 的类型为 size_t，指定各块为此调用动态分配的共享存储器（除静态分配的存储器之外），这些动态分配的存储器可供声明为外部数组的其他任何变量使用，Ns 是一个可选参数，默认值为 0；</li>
+<li>S 的类型为 cudaStream_t，指定相关流；S 是一个可选参数，默认值为 0。</li>
+</ol>
+</blockquote>
+</li>
+<li><p>核函数内部可以调用CUDA<strong>内置变量</strong>，比如threadIdx，blockDim等。下下章将具体谈到线程索引。</p>
+</li>
+<li><p>参数传递和普通函数一样，<strong>通过括号内的形参传递。</strong></p>
+</li>
+</ul>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/CUDA/">CUDA</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">Like this article? Support the author with</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>Alipay</span>
+    <div class="qrcode"><img src="/images/alqrcode.png" alt="Alipay"></div>
+</a>
+
+                
+                
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>Wechat</span>
+    <div class="qrcode"><img src="/images/wxqrcode.png" alt="Wechat"></div>
+</a>
+
+                
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/05/24/cudanote2/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">cudanote2</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/05/24/C++笔记9/">
+                <span class="level-item">C++ 笔记9</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/touxiang.jpg" alt="xiaoxiong">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        xiaoxiong
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        ROBOT and ANIME
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>GuangZhou</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Posts
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        19
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categories
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        3
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Tags
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        2
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/littlebearsama" target="_blank">
+                Follow</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/littlebearsama">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Links
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://github.com/RobotWithCV" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">RobotWithCV</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">github.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/编程/">
+            <span class="level-start">
+                <span class="level-item">编程</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/编程/C/">
+            <span class="level-start">
+                <span class="level-item">C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/编程/CUDA/">
+            <span class="level-start">
+                <span class="level-item">CUDA</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Tag Cloud
+        </h3>
+        <a href="/tags/C/" style="font-size: 20px;">C++</a> <a href="/tags/CUDA/" style="font-size: 10px;">CUDA</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/cudanote9/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="cudanote9">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-24T02:37:17.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/cudanote9/" class="has-link-black-ter is-size-6">cudanote9</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/CUDA/">CUDA</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/cudanote8/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="cudanote8">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-24T02:37:12.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/cudanote8/" class="has-link-black-ter is-size-6">cudanote8</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/CUDA/">CUDA</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/cudanote7/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="cudanote7">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-24T02:37:07.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/cudanote7/" class="has-link-black-ter is-size-6">cudanote7</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/CUDA/">CUDA</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/cudanote6/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="cudanote6">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-24T02:37:02.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/cudanote6/" class="has-link-black-ter is-size-6">cudanote6</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/CUDA/">CUDA</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/cudanote5/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="cudanote5">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-24T02:36:56.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/cudanote5/" class="has-link-black-ter is-size-6">cudanote5</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/CUDA/">CUDA</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">19</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/C/">
+                        <span class="tag">C++</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/CUDA/">
+                        <span class="tag">CUDA</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/cudanote9/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="cudanote9">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-24T02:37:17.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/cudanote9/" class="has-link-black-ter is-size-6">cudanote9</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/CUDA/">CUDA</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/cudanote8/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="cudanote8">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-24T02:37:12.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/cudanote8/" class="has-link-black-ter is-size-6">cudanote8</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/CUDA/">CUDA</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/cudanote7/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="cudanote7">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-24T02:37:07.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/cudanote7/" class="has-link-black-ter is-size-6">cudanote7</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/CUDA/">CUDA</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/cudanote6/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="cudanote6">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-24T02:37:02.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/cudanote6/" class="has-link-black-ter is-size-6">cudanote6</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/CUDA/">CUDA</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/cudanote5/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="cudanote5">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-24T02:36:56.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/cudanote5/" class="has-link-black-ter is-size-6">cudanote5</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/CUDA/">CUDA</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">19</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/C/">
+                        <span class="tag">C++</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/CUDA/">
+                        <span class="tag">CUDA</span>
+                        <span class="tag is-grey">9</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/pig.png" alt="cudanote1" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 小熊&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-Hans");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
