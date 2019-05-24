@@ -8,7 +8,7 @@
 
 
     <meta name="description" content="点云配准之迭代最近点">
-<meta name="keywords" content="ICP,PoseEstimation,Registration">
+<meta name="keywords" content="ICP,Registration,PoseEstimation">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ICP-Registration">
 <meta property="og:url" content="https://littlebearsama.github.io/2019/05/24/ICP-Registration/index.html">
@@ -16,7 +16,7 @@
 <meta property="og:description" content="点云配准之迭代最近点">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://littlebearsama.github.io/images/anime/2.jpg">
-<meta property="og:updated_time" content="2019-05-24T09:17:40.585Z">
+<meta property="og:updated_time" content="2019-05-24T09:59:21.740Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ICP-Registration">
 <meta name="twitter:description" content="点云配准之迭代最近点">
@@ -161,7 +161,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    4 minutes read (About 627 words)
+                    4 minutes read (About 549 words)
                 </span>
                 
                 
@@ -179,7 +179,7 @@
 
 <p><strong>A.配准的意义：</strong></p>
 <p>两个几何数据集的刚性配准在机器人导航、曲面重建和形状匹配等许多应用中都是必不可少的。最常见的方法是使用迭代最接近点(ICP)算法及其变体来完成这项任务。这些方法在最近点计算之间交替，以建立两个数据集之间的对应关系，并求解使这些对应关系对齐的最优转换。</p>
-<h1 id="求解刚体旋转平移关系–配准"><a href="#求解刚体旋转平移关系–配准" class="headerlink" title="求解刚体旋转平移关系–配准"></a>求解刚体旋转平移关系–配准</h1><p><a href="https://zhuanlan.zhihu.com/p/35901184" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/35901184</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/35901184" target="_blank" rel="noopener">求解刚体旋转平移关系–配准</a></p>
 <p><strong>B.ICP及其变种</strong></p>
 <p><strong>1.最开始的3D icp</strong></p>
 <p>Besl, Paul J., and Neil D. McKay. “A method for registration of 3-D shapes.” IEEE Transactions on pattern analysis and machine intelligence 14.2 (1992): 239-256.</p>
@@ -196,19 +196,22 @@
 <p><strong>5.全局优化ICP：Go-ICP</strong><br>Yang, Jiaolong, et al. “Go-ICP: a globally optimal solution to 3D ICP point-set registration.” IEEE transactions on pattern analysis and machine intelligence 38.11 (2016): 2241-2254.</p>
 <p><strong>C.基于CUDA加速</strong></p>
 <p><strong>1.em-icp</strong></p>
-<p><a href="http://home.hiroshimau.ac.jp/tamaki/study/cuda_softassign_emicp/" target="_blank" rel="noopener">http://home.hiroshimau.ac.jp/tamaki/study/cuda_softassign_emicp/</a></p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/1CVbd614QrEgaGe9TX6xH1ZFOlm38mfCF4ynD6mibyfLPhicBib4pjIH2tbJXDGkadPjCK9pgzCwyuhKgcicK3KJJw/640?wx_fmt=png" alt="img"></p>
-<p>​    <strong>2.cudaICP**</strong>应用**</p>
-<p>​    <strong>KinectFusion 中的 ICP 算法 GPU 代码解读</strong> </p>
-<p>​    <a href="http://blog.csdn.net/fuxingyin/article/details/51505854" target="_blank" rel="noopener">http://blog.csdn.net/fuxingyin/article/details/51505854</a></p>
+<p><a href="https://github.com/tttamaki/cuda_emicp_softassign" target="_blank" rel="noopener">cuda_emicp_softassign</a></p>
+<p> <strong>2.cudaICP**</strong>应用**</p>
+<p>​    <a href="http://blog.csdn.net/fuxingyin/article/details/51505854" target="_blank" rel="noopener">KinectFusion 中的 ICP 算法 GPU 代码解读 </a></p>
 <p><strong>D.使用pcl来实现ICP</strong></p>
 <p>简单的程序：迭代猴子</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_gif/1CVbd614QrEgaGe9TX6xH1ZFOlm38mfCje68iaU4X9T5NabU99ia9icRuGCtD385RJDTB6Dib9ZpY53vj4OR3iaI1DA/640?wx_fmt=gif" alt="img"></p>
-<p><strong>给出其他参考：</strong></p>
-<p><a href="https://www.mrpt.org/Iterative_Closest_Point_%28ICP%29_and_other_matching_algorithms" target="_blank" rel="noopener">https://www.mrpt.org/Iterative_Closest_Point_%28ICP%29_and_other_matching_algorithms</a></p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/1CVbd614QrEgaGe9TX6xH1ZFOlm38mfC4TUnwwOEEHjMDXdWGThhyyVwJDdD7XSPiaLxo9Kib0ESAdKZD2SD6Dqw/640?wx_fmt=png" alt="img"></p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_gif/1CVbd614QrE1zI4T5QbxzicccibMUaY0kRHnK0KS6tVseqFEnicSCsMzSf8Dt5x0qp7ZwKkmCBbC6ljfiapNgEogRg/640?wx_fmt=gif" alt="img"></p>
-<p>后台回复“icp”自动回复论文和代码（完）</p>
+<p><img src="/2019/05/24/ICP-Registration/icp.png" alt="迭代猴子"></p>
+<p><strong>E.给出其他参考：</strong></p>
+<p><a href="https://www.mrpt.org/Iterative_Closest_Point_%28ICP%29_and_other_matching_algorithms" target="_blank" rel="noopener">Iterative Closest Point (ICP) and other matching algorithms</a></p>
+<div align="center">
+
+<p><img src="/2019/05/24/ICP-Registration/icp2.png" alt="网站"></p></div><p></p>
+<div align="center">
+
+<p><img src="/2019/05/24/ICP-Registration/jiayou.gif" alt></p></div><p></p>
+<div align="center">后台回复“icp”自动回复论文和代码（完）</div>
+
 
         </div>
         
@@ -321,7 +324,7 @@
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Posts
+                        Entradas
                     </p>
                     <p class="title has-text-weight-normal">
                         27
@@ -331,27 +334,27 @@
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Categories
+                        Categorias
                     </p>
                     <p class="title has-text-weight-normal">
-                        7
+                        9
                     </p>
                 </div>
             </div>
             <div class="level-item has-text-centered is-marginless">
                 <div>
                     <p class="heading">
-                        Tags
+                        Etiquetas
                     </p>
                     <p class="title has-text-weight-normal">
-                        11
+                        9
                     </p>
                 </div>
             </div>
         </nav>
         <div class="level">
             <a class="level-item button is-link is-rounded" href="https://github.com/littlebearsama" target="_blank">
-                Follow</a>
+                SEGUIR</a>
         </div>
         
         
@@ -403,13 +406,13 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Categories
+                Categorias
             </h3>
             <ul class="menu-list">
             <li>
-        <a class="level is-marginless" href="/categories/DeepLearning/">
+        <a class="level is-marginless" href="/categories/CV-Source/">
             <span class="level-start">
-                <span class="level-item">DeepLearning</span>
+                <span class="level-item">CV-Source</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
@@ -422,7 +425,15 @@
             <span class="level-end">
                 <span class="level-item tag">1</span>
             </span>
-        </a></li><li>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/ObjectDetection-and-PoseEstimation/tutorial/">
+            <span class="level-start">
+                <span class="level-item">tutorial</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
         <a class="level is-marginless" href="/categories/PCL/">
             <span class="level-start">
                 <span class="level-item">PCL</span>
@@ -434,6 +445,14 @@
         <a class="level is-marginless" href="/categories/PCL/Registration/">
             <span class="level-start">
                 <span class="level-item">Registration</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/PCL/tutorial/">
+            <span class="level-start">
+                <span class="level-item">tutorial</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">2</span>
@@ -472,9 +491,9 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Tag Cloud
+            Nube de etiquetas
         </h3>
-        <a href="/tags/C/" style="font-size: 20px;">C++</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CV-Source/" style="font-size: 10px;">CV-Source</a> <a href="/tags/DeepLearning/" style="font-size: 10px;">DeepLearning</a> <a href="/tags/ICP/" style="font-size: 13.33px;">ICP</a> <a href="/tags/ObjectDetection/" style="font-size: 10px;">ObjectDetection</a> <a href="/tags/PCL/" style="font-size: 13.33px;">PCL</a> <a href="/tags/PointCloud/" style="font-size: 13.33px;">PointCloud</a> <a href="/tags/PoseEstimation/" style="font-size: 16.67px;">PoseEstimation</a> <a href="/tags/QT/" style="font-size: 10px;">QT</a> <a href="/tags/Registration/" style="font-size: 13.33px;">Registration</a>
+        <a href="/tags/C/" style="font-size: 20px;">C++</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CV-Source/" style="font-size: 10px;">CV-Source</a> <a href="/tags/ICP/" style="font-size: 10px;">ICP</a> <a href="/tags/NDT/" style="font-size: 10px;">NDT</a> <a href="/tags/ObjectDetection/" style="font-size: 10px;">ObjectDetection</a> <a href="/tags/PCL/" style="font-size: 13.33px;">PCL</a> <a href="/tags/PoseEstimation/" style="font-size: 16.67px;">PoseEstimation</a> <a href="/tags/Registration/" style="font-size: 13.33px;">Registration</a>
     </div>
 </div>
 
@@ -486,7 +505,7 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Recent
+            Recientes
         </h3>
         
         <article class="media">
@@ -578,7 +597,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-24T08:51:49.000Z">2019-05-24</time></div>
                     <a href="/2019/05/24/ObjectDetection-and-PoseEstimation/" class="has-link-black-ter is-size-6">ObjectDetection and PoseEstimation</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/">ObjectDetection and PoseEstimation</a>
+                        <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/">ObjectDetection and PoseEstimation</a> / <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/tutorial/">tutorial</a>
                     </p>
                 </div>
             </div>
@@ -592,7 +611,7 @@
     <div class="card-content">
         <div class="menu">
         <h3 class="menu-label">
-            Archives
+            Archivos
         </h3>
         <ul class="menu-list">
         
@@ -616,7 +635,7 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Tags
+                Etiquetas
             </h3>
             <div class="field is-grouped is-grouped-multiline">
                 
@@ -642,16 +661,16 @@
                 </div>
                 
                 <div class="control">
-                    <a class="tags has-addons" href="/tags/DeepLearning/">
-                        <span class="tag">DeepLearning</span>
+                    <a class="tags has-addons" href="/tags/ICP/">
+                        <span class="tag">ICP</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
                 
                 <div class="control">
-                    <a class="tags has-addons" href="/tags/ICP/">
-                        <span class="tag">ICP</span>
-                        <span class="tag is-grey">2</span>
+                    <a class="tags has-addons" href="/tags/NDT/">
+                        <span class="tag">NDT</span>
+                        <span class="tag is-grey">1</span>
                     </a>
                 </div>
                 
@@ -670,23 +689,9 @@
                 </div>
                 
                 <div class="control">
-                    <a class="tags has-addons" href="/tags/PointCloud/">
-                        <span class="tag">PointCloud</span>
-                        <span class="tag is-grey">2</span>
-                    </a>
-                </div>
-                
-                <div class="control">
                     <a class="tags has-addons" href="/tags/PoseEstimation/">
                         <span class="tag">PoseEstimation</span>
                         <span class="tag is-grey">3</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/QT/">
-                        <span class="tag">QT</span>
-                        <span class="tag is-grey">1</span>
                     </a>
                 </div>
                 
@@ -717,7 +722,7 @@
 <div class="card widget">
     <div class="card-content">
         <h3 class="menu-label">
-            Recent
+            Recientes
         </h3>
         
         <article class="media">
@@ -809,7 +814,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-24T08:51:49.000Z">2019-05-24</time></div>
                     <a href="/2019/05/24/ObjectDetection-and-PoseEstimation/" class="has-link-black-ter is-size-6">ObjectDetection and PoseEstimation</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/">ObjectDetection and PoseEstimation</a>
+                        <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/">ObjectDetection and PoseEstimation</a> / <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/tutorial/">tutorial</a>
                     </p>
                 </div>
             </div>
@@ -823,7 +828,7 @@
     <div class="card-content">
         <div class="menu">
         <h3 class="menu-label">
-            Archives
+            Archivos
         </h3>
         <ul class="menu-list">
         
@@ -847,7 +852,7 @@
     <div class="card-content">
         <div class="menu">
             <h3 class="menu-label">
-                Tags
+                Etiquetas
             </h3>
             <div class="field is-grouped is-grouped-multiline">
                 
@@ -873,16 +878,16 @@
                 </div>
                 
                 <div class="control">
-                    <a class="tags has-addons" href="/tags/DeepLearning/">
-                        <span class="tag">DeepLearning</span>
+                    <a class="tags has-addons" href="/tags/ICP/">
+                        <span class="tag">ICP</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
                 
                 <div class="control">
-                    <a class="tags has-addons" href="/tags/ICP/">
-                        <span class="tag">ICP</span>
-                        <span class="tag is-grey">2</span>
+                    <a class="tags has-addons" href="/tags/NDT/">
+                        <span class="tag">NDT</span>
+                        <span class="tag is-grey">1</span>
                     </a>
                 </div>
                 
@@ -901,23 +906,9 @@
                 </div>
                 
                 <div class="control">
-                    <a class="tags has-addons" href="/tags/PointCloud/">
-                        <span class="tag">PointCloud</span>
-                        <span class="tag is-grey">2</span>
-                    </a>
-                </div>
-                
-                <div class="control">
                     <a class="tags has-addons" href="/tags/PoseEstimation/">
                         <span class="tag">PoseEstimation</span>
                         <span class="tag is-grey">3</span>
-                    </a>
-                </div>
-                
-                <div class="control">
-                    <a class="tags has-addons" href="/tags/QT/">
-                        <span class="tag">QT</span>
-                        <span class="tag is-grey">1</span>
                     </a>
                 </div>
                 
@@ -1103,10 +1094,10 @@ document.addEventListener('DOMContentLoaded', function () {
     (function (window) {
         var INSIGHT_CONFIG = {
             TRANSLATION: {
-                POSTS: 'Posts',
+                POSTS: 'Entradas',
                 PAGES: 'Pages',
-                CATEGORIES: 'Categories',
-                TAGS: 'Tags',
+                CATEGORIES: 'Categorias',
+                TAGS: 'Etiquetas',
                 UNTITLED: '(Untitled)',
             },
             CONTENT_URL: '/content.json',
