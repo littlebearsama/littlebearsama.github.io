@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>C++ 笔记8 - LittleBear！！！</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="14C++中的代码重用（公有继承，包含对象的类，私有继承，多重继承，类模板）">
+<meta name="keywords" content="C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ 笔记8">
+<meta property="og:url" content="https://littlebearsama.github.io/2019/05/24/C++笔记8/index.html">
+<meta property="og:site_name" content="LittleBear！！！">
+<meta property="og:description" content="14C++中的代码重用（公有继承，包含对象的类，私有继承，多重继承，类模板）">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2019-05-23T16:17:31.173Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++ 笔记8">
+<meta name="twitter:description" content="14C++中的代码重用（公有继承，包含对象的类，私有继承，多重继承，类模板）">
+<meta name="twitter:image" content="https://littlebearsama.github.io/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/pig.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/pig.png" alt="C++ 笔记8" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">Home</a>
+                
+                <a class="navbar-item" href="/archives">博文</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/littlebearsama">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-23T16:17:00.000Z">2019-05-24</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/编程/">编程</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    31 minutes read (About 4626 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                C++ 笔记8
+            
+        </h1>
+        <div class="content">
+            <h1 id="14C-中的代码重用（公有继承，包含对象的类，私有继承，多重继承，类模板）"><a href="#14C-中的代码重用（公有继承，包含对象的类，私有继承，多重继承，类模板）" class="headerlink" title="14C++中的代码重用（公有继承，包含对象的类，私有继承，多重继承，类模板）"></a>14C++中的代码重用（公有继承，包含对象的类，私有继承，多重继承，类模板）</h1><a id="more"></a>
+
+<h2 id="包含（containment）：包含对象成员的类"><a href="#包含（containment）：包含对象成员的类" class="headerlink" title="包含（containment）：包含对象成员的类"></a>包含（containment）：包含对象成员的类</h2><p>本身是另外一个类的对象。这种方法称为包含（containment），组合（composition），或层次化（laying）</p>
+<h2 id="私有继承（还是has-a关系）"><a href="#私有继承（还是has-a关系）" class="headerlink" title="私有继承（还是has-a关系）"></a>私有继承（还是has-a关系）</h2><p>基类的公有成员和保护成员都将成为派生类的私有成员。和公有继承一样，基类的私有成员是会被派生类继承但是不能被派生类访问。基类方法将不会成为派生类对象公有接口的一部分，但可以在派生类中使用它们。</p>
+<ul>
+<li><p>1.初始化基类组件</p>
+<blockquote>
+<p>和包含不同，对于继承类的新版本的构造函数将使用成员初始化列表语法，它使用类名（std::string，std::valarry）而不是成员名来表示构造函数</p>
+</blockquote>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//Student类私有继承两个类派生而来,本来包含的时候两个基类分别是name和score</span></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Student</span>:</span><span class="hljs-keyword">private</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>,<span class="hljs-keyword">private</span> <span class="hljs-built_in">std</span>::valarry&lt;<span class="hljs-keyword">double</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line"><span class="hljs-keyword">public</span>:</span><br><span class="line">......</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-comment">//如果是包含的构造函数</span></span><br><span class="line">Student(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *str,<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *pd,<span class="hljs-keyword">int</span> n):name(str),score(pd,n)</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-comment">//继承类的构造函数 </span></span><br><span class="line">Student(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *str,<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *pd,<span class="hljs-keyword">int</span> n):<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>(str),<span class="hljs-built_in">std</span>::valarry&lt;<span class="hljs-keyword">double</span>&gt;(pd,n)</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2.访问基类的方法</p>
+<blockquote>
+<p>a.包含书用对象（<strong>对象名</strong>）来调用方法</p>
+</blockquote>
+</li>
+</ul>
+<blockquote>
+<p>b.私有继承时，<strong>将使用类名和作用域解析运算符来调用方法</strong></p>
+</blockquote>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">double</span> Student::Average() <span class="hljs-keyword">const</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="hljs-keyword">if</span>(ArrayDb::size()&gt;<span class="hljs-number">0</span>）<span class="hljs-comment">//ArrayDb typedef为std::valarry&lt;double&gt;</span></span><br><span class="line">  <span class="hljs-keyword">return</span> ArrayDb::sum()/ArrayDb::size();</span><br><span class="line"><span class="hljs-keyword">else</span></span><br><span class="line">  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>3.访问基类对象</li>
+</ul>
+<p>使用私有继承时，该string对象没有名称。<strong>那么，student类的代码如何访问内部string对象呢？</strong> <strong>强制类型转换!</strong></p>
+<blockquote>
+<p><strong>本来</strong>子到父自动类型提升,不需要强制类型转换。父到子才需要强制类型转换。<strong>但是</strong>下面是强制类型转换，原因在第4点那里写着。</p>
+</blockquote>
+<blockquote>
+<p>由于Student类是从string类派生而来的，因此可以通过强制类型转换，将Student对象转换为S=string对象</p>
+</blockquote>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//成员方法：打印出学生的名字</span></span><br><span class="line"><span class="hljs-comment">//因为不是包含，只能通过强制类型转换</span></span><br><span class="line"><span class="hljs-keyword">const</span> <span class="hljs-built_in">string</span> &amp; Student::Name()<span class="hljs-keyword">const</span></span><br><span class="line">&#123;</span><br><span class="line">retrun (<span class="hljs-keyword">const</span> <span class="hljs-built_in">string</span> &amp;) *<span class="hljs-keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>4.访问基类友的元函数</li>
+</ul>
+<p>用类名显式地限定函数名不适合友元函数，<strong>因为友元不属于类</strong>。不能通过这种方法访问基类。</p>
+<p>解决：<strong>通过显示地转换为基类来调用正确的函数</strong></p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">osstream &amp; <span class="hljs-keyword">operator</span>&lt;&lt;(ostream &amp; os,<span class="hljs-keyword">const</span> Student &amp; stu)</span><br><span class="line">&#123;</span><br><span class="line">os &lt;&lt; <span class="hljs-string">"Score for "</span>&lt;&lt;(<span class="hljs-keyword">const</span> String &amp;) stu &lt;&lt;<span class="hljs-string">":\n"</span>;<span class="hljs-comment">//显式地将stu转换为string对象引用，进而调用基类方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>引用不会自动转换为string引用</strong><br>原因：</p>
+<blockquote>
+<ul>
+<li>a.在私有继承中，未进行显示类型转换的派生类引用或指针，无法赋值给基类的引用或指针。</li>
+<li>b.即使这个例子使用的是公有继承，也必须使用显示类型转换。原因之一是，如果不使用类型转换，下述代码将无法与函数原型匹配从而导致递归调用，os&lt;&lt;stu</li>
+<li>c.由于这个类使用的是多重继承，编译器将无法确定应转换成哪个基类，如果两个基类都提供函数operator&lt;&lt;()。</li>
+</ul>
+</blockquote>
+<ul>
+<li>5.使用包含还是私有继承？<br>通常，应使用包含来建立has-a关系；如果新需要访问原有的保护成员，或重新定义虚函数，则应使用私有继承。</li>
+<li>6.保护继承<blockquote>
+<ul>
+<li>基类的公有成员和保护成员都将成为派生类的保护成员。</li>
+<li>共同点：和私有继承一样，基类的接口在派生类中也是可用的，但在继承和结构之外是不可用的。</li>
+<li>区别：使用私有继承时，第三代类将不能使用基类的接口，这是因为公有方法在派生类中将变成私有方法；使用保护继承时，基类的公有方法在第二代将变成保护的，因此第三代派生类可以使用它们。</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>特征</th>
+<th>公有继承</th>
+<th>保护继承</th>
+<th>私有继承</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>公有成员变成</td>
+<td>派生类的公有成员</td>
+<td>派生类的保护成员</td>
+<td>派生类的私有成员</td>
+</tr>
+<tr>
+<td>保护成员变成</td>
+<td>派生类的保护成员</td>
+<td>派生类的保护成员</td>
+<td>派生类的私有成员</td>
+</tr>
+<tr>
+<td>私有成员变成</td>
+<td>只能通过基类接口访问</td>
+<td>只能通过基类接口访问</td>
+<td>只能通过基类接口访问</td>
+</tr>
+<tr>
+<td>能否隐式向上转换</td>
+<td>是</td>
+<td>是（但只能在派生类中）</td>
+<td>否</td>
+</tr>
+</tbody></table>
+<ul>
+<li>7.使用using重新定义访问权限<br>使用派生或私有派生时，基类的公有成员将成为保护成员或私有成员，假设要让基类方法在派生类外面可用<blockquote>
+<ul>
+<li>方法1，定义一个使用该基类方法的派生类方法</li>
+</ul>
+</blockquote>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">double</span> Student::sum() <span class="hljs-keyword">const</span></span><br><span class="line">&#123;</span><br><span class="line"><span class="hljs-keyword">return</span> <span class="hljs-built_in">std</span>::valarray&lt;<span class="hljs-keyword">double</span>&gt;::sum();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<ul>
+<li>方法2，将函数调用包装在另外一个函数调用中，即使用一个using声明（就像空间名称一样）</li>
+</ul>
+</blockquote>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class Student::private std::string,private std::valarray&lt;double&gt;</span><br><span class="line">&#123;</span><br><span class="line">...</span><br><span class="line">public:</span><br><span class="line">  using std::valarray&lt;double&gt;::min;</span><br><span class="line">  using std::valarray&lt;double&gt;::max;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>//using声明只适用于继承，而不适用于包含<br>//using声明只使用成员名—没有圆括号，函数特征表和返回类型</p>
+<h2 id="多重继承"><a href="#多重继承" class="headerlink" title="多重继承"></a>多重继承</h2><p>必须使用关键字public来限定每一个基类，这是因为，除非特别指出，否则编译器将认为是私有派生。（class 默认访问类型是私有，strcut默认访问类型是公有）</p>
+<h3 id="多重继承带来的两个主要问题："><a href="#多重继承带来的两个主要问题：" class="headerlink" title="多重继承带来的两个主要问题："></a>多重继承带来的两个主要问题：</h3><ul>
+<li><p>1.从两个<strong>不同的基类</strong>继承<strong>同名方法</strong>。</p>
+</li>
+<li><p>2.从两个或更多相关的基类那里继承<strong>同一个类的多个实例</strong>。</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Singer</span>:</span><span class="hljs-keyword">public</span> Worker&#123;...&#125;;</span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Waiter</span>:</span><span class="hljs-keyword">public</span> Worker&#123;...&#125;;</span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SingerWaiter</span>:</span><span class="hljs-keyword">public</span> Singer,<span class="hljs-keyword">public</span> Waiter&#123;...&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Singer和Waiter都继承一个Worker组件，因此SingerWaiter将包含<strong>两份Worker的拷贝</strong>–&gt;通常可以将派生来对象的地址赋给基类指针，但是现在将出现二义性。（基类指针调用基类方法时不知道调用哪个基类方法），第二个问题：比如worker类中有一个对象成员，那么就会出现</p>
+</li>
+</ul>
+<h3 id="虚基类（virtual-base-class）"><a href="#虚基类（virtual-base-class）" class="headerlink" title="虚基类（virtual base class）"></a>虚基类（virtual base class）</h3><ul>
+<li>虚基类使得从多个类（他们的基类相同）派生出的对象只继承一个基类对象。<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Singer</span>:</span><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">public</span> Worker&#123;...&#125;;<span class="hljs-comment">//virtual可以和public调换位置</span></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Waiter</span>:</span><span class="hljs-keyword">public</span> <span class="hljs-keyword">virtual</span> Worker&#123;...;</span><br><span class="line"><span class="hljs-comment">//然后将SingingWaiter定义为</span></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SingingWaiter</span>：<span class="hljs-title">public</span> <span class="hljs-title">Singer</span>,<span class="hljs-title">public</span> <span class="hljs-title">Waiter</span>&#123;</span>...&#125;;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<p>现在,SingingWaiter对象只包含Worker对象的一个副本</p>
+</blockquote>
+<h3 id="为什么不抛弃将基类声明为虚的这种方式，使虚行为成为MI的准则呢？（为什么不讲虚行为设为默认，而要手动设置）"><a href="#为什么不抛弃将基类声明为虚的这种方式，使虚行为成为MI的准则呢？（为什么不讲虚行为设为默认，而要手动设置）" class="headerlink" title="为什么不抛弃将基类声明为虚的这种方式，使虚行为成为MI的准则呢？（为什么不讲虚行为设为默认，而要手动设置）"></a>为什么不抛弃将基类声明为虚的这种方式，使虚行为成为MI的准则呢？（为什么不讲虚行为设为默认，而要手动设置）</h3><blockquote>
+<ul>
+<li>第一，一些情况下，可能需要基类的多个拷贝；</li>
+<li>第二，将基类作为虚的要求程序完成额外的计算，为不需要的工具付出代价是不应当的；</li>
+<li>第三，这样做是有缺点的，<strong>为了使虚基类能够工作，需要对C++规则进行调整，必须以不同的方式编写一些代码。另外，使用虚基类还可能需要修改已有的代码</strong></li>
+</ul>
+</blockquote>
+<h3 id="虚基类的构造函数（需要修改）"><a href="#虚基类的构造函数（需要修改）" class="headerlink" title="虚基类的构造函数（需要修改）"></a>虚基类的构造函数（需要修改）</h3><blockquote>
+<ul>
+<li>对于非虚基类，唯一可以出现在初始化列表的构造函数是即是基类构造函数。</li>
+<li>对于虚基类，需要对类构造函数采用一种新的方法。</li>
+<li><strong>基类是虚的时候,禁止信息通过中间类自动传递给基类</strong>,因此向下面构造函数将初始化成员panache和voice，但wk参数中的信息将不会传递给子对象Waiter。然而，<strong>编译器必须在构造派生对象之前构造基类对象组件；</strong>在下面情况下，编译器将使用Worker的默认构造函数（<strong>即类型为Worker的参数没有用！而且调用了Worker的默认构造函数</strong>）</li>
+</ul>
+</blockquote>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SingingWaiter(<span class="hljs-keyword">const</span> Worker &amp;wk,<span class="hljs-keyword">int</span> p=<span class="hljs-number">0</span>;<span class="hljs-keyword">int</span> v=Singer:other):Waiter(wk,p),Singer(wk,v)&#123;&#125;<span class="hljs-comment">//flawed</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>如果不希望<strong>默认构造函数来构造虚基类对象</strong>，则需要显式地调用所需的基类构造函数。</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SingingWaiter(<span class="hljs-keyword">const</span> Worker &amp;wk,<span class="hljs-keyword">int</span> p=<span class="hljs-number">0</span>;<span class="hljs-keyword">int</span> v=Singer:other):Worker(wk),Waiter(wk,p),Singer(wk,v)&#123;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>上述代码将<strong>显式地调用构造函数</strong>worker(const Worker&amp;)。请注意，这种调用是合法的，<strong>对于虚基类，必须这样做；但对于非虚基类，则是非法的。</strong></p>
+<h3 id="有关MI的问题"><a href="#有关MI的问题" class="headerlink" title="有关MI的问题"></a>有关MI的问题</h3></li>
+<li><p>多重继承可能导致函数调用的二义性。</p>
+<blockquote>
+<p>假如每个祖先（Singer，waiter）都有Show()函数。那么如何调用</p>
+<ul>
+<li>1.可以使用作用域解析符来澄清编程者的意图：</li>
+</ul>
+</blockquote>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function">SingingWaiter <span class="hljs-title">newhire</span><span class="hljs-params">(<span class="hljs-string">"Elise Hawks"</span>,<span class="hljs-number">2005</span>,<span class="hljs-number">6</span>,soprano)</span></span>;</span><br><span class="line">newhire.Singer::Show();<span class="hljs-comment">//using Singer Version</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<ul>
+<li>2.然而，更好的方法是在SingingWaiter中重新定义Show(),并指出要使用哪个show。</li>
+</ul>
+</blockquote>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">P559～P560</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-混合使用虚基类和非虚基类"><a href="#1-混合使用虚基类和非虚基类" class="headerlink" title="1.混合使用虚基类和非虚基类"></a>1.混合使用虚基类和非虚基类</h4><ul>
+<li>如果基类是虚基类，派生类将包含基类的一个子对象；</li>
+<li>如果基类不是虚基类，派生类将包含多个子对象</li>
+<li>当虚基类和非虚基类混合是，情况将如何呢？<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//有下面情况</span></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">C</span>:</span><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">public</span> B&#123;...&#125;;<span class="hljs-comment">//B为虚基类</span></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">D</span>:</span><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">public</span> B&#123;...&#125;;<span class="hljs-comment">//B为虚基类</span></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">X</span>:</span> <span class="hljs-keyword">public</span> B&#123;...&#125;;       <span class="hljs-comment">//B为非虚基类</span></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Y</span>:</span> <span class="hljs-keyword">public</span> B&#123;...&#125;;       <span class="hljs-comment">//B为非虚基类</span></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">M</span>:</span><span class="hljs-keyword">public</span> C,<span class="hljs-keyword">public</span> D,<span class="hljs-keyword">public</span> X,<span class="hljs-keyword">public</span> Y&#123;...&#125;;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<ul>
+<li>这种情况下，类M从虚派生祖先C和D那里<strong>共继承了一个B类子对象</strong>，并从每一个非虚派生祖先X和Y<strong>分别继承了一个B类子对象</strong>。因此它(M)包含<strong>三个</strong>B类子对象。</li>
+<li>当类通过多条虚途径和非虚途径继承了某个特定的基类时，该类包含<strong>一个</strong>表示所有的虚途径的基类子对象<strong>和</strong>分别表示各条非虚途径的多个基类子对象。(本例子中是<strong>1+2=3</strong>)</li>
+</ul>
+</blockquote>
+<h4 id="2-虚基类和支配-使用虚基类将改变C-解释二义性的方式"><a href="#2-虚基类和支配-使用虚基类将改变C-解释二义性的方式" class="headerlink" title="2.虚基类和支配(使用虚基类将改变C++解释二义性的方式)"></a>2.虚基类和支配(使用虚基类将改变C++解释二义性的方式)</h4><ul>
+<li>使用非虚基类是，规则很简单，如果类从不同的类那里继承了两个或更多的同名函数（数据或方法），则使用该成员名是，如果没有用类名进行限定，将导致二义性。</li>
+<li>但如果使用的是虚基类，则这样做不一定会导致二义性。这种情况下，如果某个名称<strong>优先于（dominates）</strong>其他所有名称，则使用它时，即使不使用限定符，也不会导致二义性。<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">B</span></span></span><br><span class="line"><span class="hljs-class">&#123;</span></span><br><span class="line"><span class="hljs-keyword">public</span>:</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">short</span> <span class="hljs-title">q</span><span class="hljs-params">()</span></span>;</span><br><span class="line">...</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">C</span>:</span><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">public</span> B</span><br><span class="line">&#123;</span><br><span class="line"><span class="hljs-keyword">public</span>:</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">long</span> <span class="hljs-title">q</span><span class="hljs-params">()</span></span>;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">omg</span><span class="hljs-params">()</span></span>;</span><br><span class="line">...</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">D</span>:</span><span class="hljs-keyword">public</span> C</span><br><span class="line">&#123;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">E</span>:</span><span class="hljs-keyword">virtual</span> <span class="hljs-keyword">public</span> B</span><br><span class="line">&#123;</span><br><span class="line"><span class="hljs-keyword">private</span>:</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">omg</span><span class="hljs-params">()</span></span>;</span><br><span class="line">...</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">F</span>:</span> <span class="hljs-keyword">public</span> D,<span class="hljs-keyword">public</span> E</span><br><span class="line">&#123;</span><br><span class="line">...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<ul>
+<li>1.类C中的q()定义优先于类B中的q()定义，<strong>因为类C是从类B派生而来的</strong>。因此F中的方法可以使用q()来表示C::q().（<strong>父子类之间有优先级，子类大于父类</strong>）</li>
+<li>2.任何一个omg()定义都不优先于其他omg()定义，因为<strong>C和E都不是对方的基类</strong>。所以，在F中使用非限定的omg()将导致二义性。</li>
+<li>3.虚二义性规则与访问规则（pravite,public,protected）无关，<strong>也就是说即使E::omg是私有的，不能在F类中直接访问，但使用omg()仍将导致二义性。</strong></li>
+</ul>
+</blockquote>
+<h2 id="类模板"><a href="#类模板" class="headerlink" title="类模板"></a>类模板</h2><h3 id="类模板-1"><a href="#类模板-1" class="headerlink" title="类模板"></a>类模板</h3><ul>
+<li><p>类模板和模板函数都是以template开头（当然也可以使用class），后跟类型参数；类型参数不能为空，多个类型参数用逗号隔开。</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> 类型参数<span class="hljs-number">1</span>，<span class="hljs-keyword">typename</span> 类型参数<span class="hljs-number">2</span>，<span class="hljs-keyword">typename</span> 类型参数<span class="hljs-number">3</span>&gt;<span class="hljs-class"><span class="hljs-keyword">class</span> 类名</span></span><br><span class="line"><span class="hljs-class">&#123;</span></span><br><span class="line"><span class="hljs-comment">//TODO</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>类模板中定义的类型参数可以用在<strong>函数声明和函数定义中</strong>，</p>
+</li>
+<li><p>类模板中定义的类型参数可以用在<strong>类型类声明和类实现中</strong>，</p>
+</li>
+<li><p>类模板的目的同样是将数据的类型参数化。</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">template</span> &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span></span><br><span class="line"><span class="hljs-class"><span class="hljs-title">class</span> <span class="hljs-title">Stack</span></span></span><br><span class="line"><span class="hljs-class">&#123;</span></span><br><span class="line"><span class="hljs-keyword">private</span>:</span><br><span class="line">        <span class="hljs-keyword">enum</span> &#123;MAX=<span class="hljs-number">10</span>&#125;;</span><br><span class="line">        Type items[MAX];</span><br><span class="line">        <span class="hljs-keyword">int</span> top;</span><br><span class="line"><span class="hljs-keyword">public</span>:</span><br><span class="line">        Stack();</span><br><span class="line">        ……</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">template</span> &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Type</span>&gt;</span></span><br><span class="line"><span class="hljs-class"><span class="hljs-title">Stack</span>&lt;Type&gt;:</span>:Stack()</span><br><span class="line">&#123;</span><br><span class="line">        top=<span class="hljs-number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<ul>
+<li><strong>Type</strong>:泛型标识符，这里的type被称为类型参数。<strong>这意味着它们类似于变量，但赋给它们的不是数字，而只能是类型</strong></li>
+<li>相比于函数模板，类模板必须显式的提供所需的类型。</li>
+<li>模板不是函数，它们不能单独编译。模板必须与特定的<strong>模板实例化(instantiation)</strong>请求一起使用,为此，最简单的方法是将所有模板信息放在一个文件中，并在要使用这些模板的文件中包含该头文件。</li>
+</ul>
+</blockquote>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//类声明Stack&lt;int&gt;将使用int替换模板中所有的Type</span></span><br><span class="line">Stack&lt;<span class="hljs-keyword">int</span>&gt;kernels;</span><br><span class="line">Stack&lt;<span class="hljs-built_in">string</span>&gt;colonels;</span><br></pre></td></tr></table></figure>
+
+<h3 id="深入探讨模板"><a href="#深入探讨模板" class="headerlink" title="深入探讨模板"></a>深入探讨模板</h3><h3 id="模板具体化（instantiation）和实例化（specialization）"><a href="#模板具体化（instantiation）和实例化（specialization）" class="headerlink" title="模板具体化（instantiation）和实例化（specialization）"></a>模板具体化（instantiation）和实例化（specialization）</h3><blockquote>
+<p>模板以泛型的方式描述类，而具体化是使用具体的类型生成类声明。</p>
+<ul>
+<li>类模板具体化<strong>生成类声明</strong></li>
+<li>类实例化<strong>生成类对象</strong></li>
+<li>1.<strong>隐式实例化(implicit instantiation)</strong><br>他们声明一个或多个对象，指出所需的类型，而编译器使用通用模板提供的处方生成具体的类定义；</li>
+</ul>
+</blockquote>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Array&lt;<span class="hljs-keyword">int</span>,<span class="hljs-number">100</span>&gt;stuff;<span class="hljs-comment">//隐式实例化</span></span><br><span class="line"><span class="hljs-comment">//在编译器处理对象之间，不会生成隐式实例化，如下</span></span><br><span class="line">Array&lt;<span class="hljs-keyword">double</span>,<span class="hljs-number">30</span>&gt;*pt;<span class="hljs-comment">//a pointer,no object needed yet</span></span><br><span class="line"><span class="hljs-comment">//下面语句导致编译器生成类定义，并根据该定义创建一个对象昂</span></span><br><span class="line">pt=<span class="hljs-keyword">new</span> Array&lt;<span class="hljs-keyword">double</span>,<span class="hljs-number">30</span>&gt;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>2.<strong>显式实例化(explicit instantiation)</strong><blockquote>
+<p>当使用关键字template并指出所需类型来声明类时，编译器将生成类声明的实例化</p>
+</blockquote>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">template</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ArrayTP</span>&lt;string,100&gt;;</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<p>这种情况下，虽然没有指出创建或提及类对象，编译器也将生成类声明（包含方法定义）。和隐式实例化也将根据通用模板来生成具体化。</p>
+<ul>
+<li>3.<strong>显式具体化(explicit specialization)</strong>—是特定类型（用于替换模板中的泛型）的定义<br>格式：template&lt;&gt;class Classname<specialized-type-name>{…};<br>有时候，可能需要在特殊类型实例化是，对模板进行修改，使其行为不同。在这种情况下，可以创建显式实例化。</specialized-type-name></li>
+</ul>
+</blockquote>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//原来的类模板</span></span><br><span class="line"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">sortedArray</span></span></span><br><span class="line"><span class="hljs-class">&#123;</span></span><br><span class="line">...<span class="hljs-comment">//details omitted</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>当<strong>具体化模板</strong>和<strong>通用模板</strong>都与<strong>实例化</strong>请求匹配时，编译器将使用具体化版本。</p>
+</blockquote>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//新的表示法提供一个专供const char*类型使用的SortedArray模板</span></span><br><span class="line"><span class="hljs-keyword">template</span>&lt;&gt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SortedArray</span>&lt;const char*&gt;</span></span><br><span class="line"><span class="hljs-class">&#123;</span></span><br><span class="line">...<span class="hljs-comment">//details omitted</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>4.<strong>部分具体化(partical specialization)</strong><blockquote>
+<p>部分限制模板的通用性</p>
+</blockquote>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//general template 一般模板</span></span><br><span class="line">    <span class="hljs-keyword">template</span>&lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">T1</span>,<span class="hljs-title">class</span> <span class="hljs-title">T2</span>&gt;<span class="hljs-title">class</span> <span class="hljs-title">Pair</span>&#123;</span>...&#125;;</span><br><span class="line"><span class="hljs-comment">//specialization with T2 set to int部分具体化</span></span><br><span class="line">    <span class="hljs-keyword">template</span>&lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">T1</span>&gt;<span class="hljs-title">class</span> <span class="hljs-title">Pair</span>&lt;T1,int&gt;&#123;</span>...&#125;;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<p>如果有多个模板可供选择，编译器将使用具体化程度最高的模板</p>
+</blockquote>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Pair&lt;<span class="hljs-keyword">double</span>,<span class="hljs-keyword">double</span>&gt;p1;<span class="hljs-comment">//使用了一般的Pair类模板</span></span><br><span class="line">Pair&lt;<span class="hljs-keyword">double</span>,<span class="hljs-keyword">int</span>&gt;p2;<span class="hljs-comment">//使用了部分具体化Pair&lt;T1,int&gt;</span></span><br><span class="line">Pair&lt;<span class="hljs-keyword">int</span>,<span class="hljs-keyword">int</span>&gt;p3<span class="hljs-comment">//使用了显式实例化Pair&lt;int,int&gt;</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>也可以通过为<strong>指针</strong>提供特殊版本来部分具体化现有模板：</p>
+</blockquote>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">template</span>&lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">T</span>&gt;</span></span><br><span class="line"><span class="hljs-class"><span class="hljs-title">class</span> <span class="hljs-title">Feen</span>&#123;</span>...&#125;;<span class="hljs-comment">//一般版本的类模板</span></span><br><span class="line"><span class="hljs-keyword">template</span>&lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">T</span>*&gt;</span></span><br><span class="line"><span class="hljs-class"><span class="hljs-title">class</span> <span class="hljs-title">Feen</span>&#123;</span>...&#125;;<span class="hljs-comment">//部分具体化</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="将模板用作参数"><a href="#将模板用作参数" class="headerlink" title="将模板用作参数"></a>将模板用作参数</h3><p><code>template&lt;template&lt;typename T&gt;class Thing&gt;class Crab</code></p>
+<h3 id="模板类和友元"><a href="#模板类和友元" class="headerlink" title="模板类和友元"></a>模板类和友元</h3><blockquote>
+<p>模板类声明也可以有友元。模板的友元分为3类：</p>
+<ul>
+<li>非模板友元：</li>
+<li>约束(bound)模板友元，即友元的类型取决于类被实例化时的类型；</li>
+<li>非约束(unbund)模板友元，即友元的所有具体化都是类的每一个具体化的友元。</li>
+</ul>
+</blockquote>
+<h4 id="模板类的非模板友元函数"><a href="#模板类的非模板友元函数" class="headerlink" title="模板类的非模板友元函数"></a>模板类的非模板友元函数</h4><ul>
+<li>在模板类中奖一个常规函数声明为友元：<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">template</span> &lt;<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">T</span>&gt;</span></span><br><span class="line"><span class="hljs-class"><span class="hljs-title">class</span> <span class="hljs-title">HasFriend</span></span></span><br><span class="line"><span class="hljs-class">&#123;</span></span><br><span class="line"><span class="hljs-keyword">public</span>:</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">friend</span> <span class="hljs-keyword">void</span> <span class="hljs-title">counts</span><span class="hljs-params">()</span></span>;</span><br><span class="line">...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<p>上述声明指定counts()函数称为模板所有实例化的友元</p>
+<ul>
+<li><strong>counts()函数不是通过对象调用</strong>（它是友元不是成员函数），也没有对象参数，那么如何访问HasFriend对象？</li>
+<li>1.它可以访问全局对象</li>
+<li>2.它可以使用全局指针访问非全局对象</li>
+<li>3.可以创建自己的对象</li>
+<li>4.可以访问独立于对象的模板类的静态成员函数</li>
+</ul>
+</blockquote>
+<h4 id="模板类的约束模板友元"><a href="#模板类的约束模板友元" class="headerlink" title="模板类的约束模板友元"></a>模板类的约束模板友元</h4><ul>
+<li><p>1.首先，在类定义的前面声明每个模板函数</p>
+<blockquote>
+<p>template<typename t>void counts();<br>template<typename t>void report(T &amp;);</typename></typename></p>
+</blockquote>
+</li>
+<li><p>2.然后，在函数中再次将模板声明为友元。这些语句根据类模板参数的类型声明</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> TT&gt;</span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HasFriendT</span></span></span><br><span class="line"><span class="hljs-class">&#123;</span></span><br><span class="line">...</span><br><span class="line"><span class="hljs-keyword">friend</span> coid counts&lt;TT&gt;();</span><br><span class="line"><span class="hljs-keyword">friend</span> coid report&lt;&gt;(HasFriendT&lt;TT&gt; &amp;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>3.为友元提供模板定义</p>
+</li>
+</ul>
+<h4 id="模板类的非约束模板友元函数"><a href="#模板类的非约束模板友元函数" class="headerlink" title="模板类的非约束模板友元函数"></a>模板类的非约束模板友元函数</h4><ul>
+<li>前一节中的约束模板友元函数在类外面声明的模板的具体化。int类具体化获得int函数具体化，依此类推。通过类内部声明模板，可以创建非约束友元函数，即每个函数具体化都是每个类具体化的友元。对于非约束友元，友元模板类型参数与模板类类型参数是不同的：<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;</span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ManyFriend</span></span></span><br><span class="line"><span class="hljs-class">&#123;</span></span><br><span class="line">...</span><br><span class="line"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> C,<span class="hljs-keyword">typename</span> D&gt;<span class="hljs-function"><span class="hljs-keyword">friend</span> <span class="hljs-keyword">void</span> <span class="hljs-title">show2</span><span class="hljs-params">(C &amp;,D &amp;)</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="模板别名-C-11"><a href="#模板别名-C-11" class="headerlink" title="模板别名(C++11)"></a>模板别名(C++11)</h3><ul>
+<li><p>1.如果能为类型指定别名，浙江爱你个很方便，在模板设计中尤为如此。<strong>可使用typedef为模板具体化指定别名</strong></p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">typedef</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">array</span>&lt;<span class="hljs-keyword">double</span>,12&gt; arrd;</span><br><span class="line"><span class="hljs-keyword">typedef</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">array</span>&lt;<span class="hljs-keyword">int</span>,12&gt; arri;</span><br><span class="line"><span class="hljs-keyword">typedef</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">array</span>&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>,12&gt; arrst;</span><br><span class="line"><span class="hljs-comment">//使用</span></span><br><span class="line">arrd gallones；</span><br><span class="line">arri days;</span><br><span class="line">arrst months;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>2.C++11新增了一项功能—<strong>使用模板提供一系列别名</strong></p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">template</span>&lt;<span class="hljs-keyword">typename</span> T&gt;</span><br><span class="line"><span class="hljs-keyword">using</span> arrtype=<span class="hljs-built_in">std</span>::<span class="hljs-built_in">array</span>&lt;T,<span class="hljs-number">12</span>&gt;;<span class="hljs-comment">//template aliases</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<blockquote>
+<p>这将arrtype定义为一个模板别名，可以用它来指定类型</p>
+</blockquote>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">arrtype&lt;<span class="hljs-keyword">double</span>&gt; gallones;</span><br><span class="line">arrtype&lt;<span class="hljs-keyword">int</span>&gt; days;</span><br><span class="line">arrtype&lt;<span class="hljs-built_in">std</span>::<span class="hljs-built_in">string</span>&gt; months;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>C++11允许<strong>将语法using=用于非模板</strong>。用于非模板是，这种语法与常规typedef等价：<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *pc1; <span class="hljs-comment">//typedef syntax/ 常规typedef语法</span></span><br><span class="line"><span class="hljs-keyword">using</span> pc2=<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>*;   <span class="hljs-comment">//using = syntax/ using =语法</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="可变参数模板-variadic-template-18章"><a href="#可变参数模板-variadic-template-18章" class="headerlink" title="可变参数模板(variadic template)18章"></a>可变参数模板(variadic template)18章</h3><hr>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/C/">C++</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">Like this article? Support the author with</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>Alipay</span>
+    <div class="qrcode"><img src="/images/alqrcode.png" alt="Alipay"></div>
+</a>
+
+                
+                
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>Wechat</span>
+    <div class="qrcode"><img src="/images/wxqrcode.png" alt="Wechat"></div>
+</a>
+
+                
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/05/24/C++笔记9/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">C++ 笔记9</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/05/24/C++笔记7/">
+                <span class="level-item">C++ 笔记7</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/touxiang.jpg" alt="xiaoxiong">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        xiaoxiong
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        ROBOT and ANIME
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>GuangZhou</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Posts
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        10
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categories
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        2
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Tag
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        1
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/littlebearsama" target="_blank">
+                Follow</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/littlebearsama">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Links
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://github.com/RobotWithCV" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">RobotWithCV</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">github.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/编程/">
+            <span class="level-start">
+                <span class="level-item">编程</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/编程/C/">
+            <span class="level-start">
+                <span class="level-item">C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Tag Cloud
+        </h3>
+        <a href="/tags/C/" style="font-size: 10px;">C++</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/C++笔记9/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 笔记9">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T16:18:00.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/C++笔记9/" class="has-link-black-ter is-size-6">C++ 笔记9</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/C++笔记8/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 笔记8">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T16:17:00.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/C++笔记8/" class="has-link-black-ter is-size-6">C++ 笔记8</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/C++笔记7/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 笔记7">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T16:16:00.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/C++笔记7/" class="has-link-black-ter is-size-6">C++ 笔记7</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/C++笔记6/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 笔记6">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T16:15:00.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/C++笔记6/" class="has-link-black-ter is-size-6">C++ 笔记6</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/C++笔记5/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 笔记5">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T16:14:00.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/C++笔记5/" class="has-link-black-ter is-size-6">C++ 笔记5</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">10</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/C/">
+                        <span class="tag">C++</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/C++笔记9/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 笔记9">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T16:18:00.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/C++笔记9/" class="has-link-black-ter is-size-6">C++ 笔记9</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/C++笔记8/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 笔记8">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T16:17:00.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/C++笔记8/" class="has-link-black-ter is-size-6">C++ 笔记8</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/C++笔记7/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 笔记7">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T16:16:00.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/C++笔记7/" class="has-link-black-ter is-size-6">C++ 笔记7</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/C++笔记6/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 笔记6">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T16:15:00.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/C++笔记6/" class="has-link-black-ter is-size-6">C++ 笔记6</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/C++笔记5/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 笔记5">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T16:14:00.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/C++笔记5/" class="has-link-black-ter is-size-6">C++ 笔记5</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">10</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/C/">
+                        <span class="tag">C++</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/pig.png" alt="C++ 笔记8" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 小熊&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-Hans");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

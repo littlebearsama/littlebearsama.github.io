@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>C++ 笔记5 - LittleBear！！！</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="11使用类">
+<meta name="keywords" content="C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ 笔记5">
+<meta property="og:url" content="https://littlebearsama.github.io/2019/05/24/C++笔记5/index.html">
+<meta property="og:site_name" content="LittleBear！！！">
+<meta property="og:description" content="11使用类">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2019-05-23T16:15:13.501Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++ 笔记5">
+<meta name="twitter:description" content="11使用类">
+<meta name="twitter:image" content="https://littlebearsama.github.io/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/pig.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/pig.png" alt="C++ 笔记5" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">Home</a>
+                
+                <a class="navbar-item" href="/archives">博文</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/littlebearsama">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="Search" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-23T16:14:00.000Z">2019-05-24</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/编程/">编程</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    15 minutes read (About 2279 words)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                C++ 笔记5
+            
+        </h1>
+        <div class="content">
+            <h1 id="11使用类"><a href="#11使用类" class="headerlink" title="11使用类"></a>11使用类</h1><a id="more"></a>
+
+<h2 id="运算符重载"><a href="#运算符重载" class="headerlink" title="运算符重载"></a>运算符重载</h2><ul>
+<li>运算符重载或函数多态—定义多个名称相同但特征标（参数列表）不同的函数</li>
+<li>运算符重载—允许赋予运算符多种含义</li>
+</ul>
+<p>运算符函数：<code>operator op(argument-list)</code>示例：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//有类方法：</span></span><br><span class="line"><span class="hljs-function">Time <span class="hljs-title">Sum</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Time &amp;t)</span><span class="hljs-keyword">const</span></span>;</span><br><span class="line"><span class="hljs-comment">//定义：</span></span><br><span class="line">Time Time::Sum(<span class="hljs-keyword">const</span> Time &amp; t)<span class="hljs-keyword">const</span></span><br><span class="line">&#123;</span><br><span class="line">Time sum;</span><br><span class="line">sum.minutes = minutes + t.minutes;</span><br><span class="line">sum.hours = hours + t.hours + sum.minutes/<span class="hljs-number">60</span>;</span><br><span class="line">sum.minutes%=<span class="hljs-number">60</span>;</span><br><span class="line">retrun sum;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>返回值是函数创建一个新的Time对象（sum），但由于sum对象是局部变量，在函数结束时将被删除，因此引用指向一个不存在的对象，返回类型Time意味着程序将在删除sum之前构造他的拷贝，调用函数将得到该拷贝</p>
+<ul>
+<li>运算符重载，只需把上述函数名修改即可<code>Sum()的名称改为operator+()</code><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//调用：</span></span><br><span class="line">total=coding.Sum(fixing);</span><br><span class="line"><span class="hljs-comment">//运算符重载后调用</span></span><br><span class="line"><span class="hljs-number">1.</span> total=coding.<span class="hljs-keyword">operator</span>+(fixing);</span><br><span class="line"><span class="hljs-number">2.</span> total=coding+fixing;</span><br><span class="line"><span class="hljs-comment">//t1,t2,t3,t4都是Time对象</span></span><br><span class="line">t4=t1+t2+t3;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="重载限制"><a href="#重载限制" class="headerlink" title="重载限制"></a>重载限制</h3><p>下面是可重载的运算符列表：</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>分别</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>双目算术运算符</td>
+<td>+ (加)，-(减)，*(乘)，/(除)，% (取模)</td>
+</tr>
+<tr>
+<td>关系运算符</td>
+<td>==(等于)，!= (不等于)，&lt; (小于)，&gt; (大于&gt;，&lt;=(小于等于)，&gt;=(大于等于)</td>
+</tr>
+<tr>
+<td>逻辑运算符</td>
+<td>||(逻辑或)，&amp;&amp;(逻辑与)，!(逻辑非)</td>
+</tr>
+<tr>
+<td>单目运算符</td>
+<td>+ (正)，-(负)，*(指针)，&amp;(取地址)</td>
+</tr>
+<tr>
+<td>自增自减运算符</td>
+<td>++(自增)，–(自减)</td>
+</tr>
+<tr>
+<td>位运算符</td>
+<td>| (按位或)，&amp; (按位与)，~(按位取反)，^(按位异或),，&lt;&lt; (左移)，&gt;&gt;(右移)</td>
+</tr>
+<tr>
+<td>赋值运算符</td>
+<td>=, +=, -=, *=, /= , % = , &amp;=, |=, ^=, &lt;&lt;=, &gt;&gt;=</td>
+</tr>
+<tr>
+<td>空间申请与释放</td>
+<td>new, delete, new[ ] , delete[]</td>
+</tr>
+<tr>
+<td>其他运算符</td>
+<td><strong>()</strong>(函数调用)，<strong>-&gt;</strong>(成员访问)，<strong>,</strong>(逗号)，<strong>[]</strong>(下标)</td>
+</tr>
+</tbody></table>
+<p>下面是不可重载的运算符列表：</p>
+<ul>
+<li><code>.</code>：成员访问运算符</li>
+<li><code>.*</code>, <code>-&gt;*</code>：成员指针访问运算符</li>
+<li><code>::</code>：域运算符</li>
+<li><code>sizeof</code>：长度运算符</li>
+<li><code>?:</code>：条件运算符</li>
+</ul>
+<ol>
+<li>重载的运算符(有些例外情况)不必是成员函数,但必须至少有一个操作数是用户定义的类型.<strong>这防止用户标准类型重载运算符</strong></li>
+<li>使用运算符时不能违反运算符原来的语句法则,例如,不恩那个将秋末运算符(%)重载成一个操作数。</li>
+<li>不能创建新的运算符</li>
+<li>不能重载下面的运算符</li>
+</ol>
+<ul>
+<li><code>sizeof</code>：sizeof运算符</li>
+<li><code>.</code>：成员运算符</li>
+<li><code>::</code>：作用域解析运算符</li>
+<li><code>？:</code>：条件运算符</li>
+<li><code>typeid</code>：一个RTTI运算符</li>
+<li><code>const_cast</code>：强制类型转换运算符</li>
+<li><code>dynamic_cast</code>：强制类型转换运算符</li>
+<li><code>static_cast</code>：强制类型转换运算符</li>
+<li><code>reinterpret_cast</code>：强制类型转换运算符</li>
+</ul>
+<ol start="5">
+<li>下面运算符只能通过成员运算符函数进行重载</li>
+</ol>
+<ul>
+<li><code>=</code>：赋值运算符</li>
+<li><code>()</code>：函数调用运算符</li>
+<li><code>[]</code>：下标运算符</li>
+<li><code>-&gt;</code>：通过指针访问类成员的运算符</li>
+</ul>
+<h2 id="友元函数"><a href="#友元函数" class="headerlink" title="友元函数"></a>友元函数</h2><p>C++控制类对象私有部分的访问。通常，公有方法提供唯一的访问途径。</p>
+<ul>
+<li>C++提供了另外一种形式的访问权限：友元</li>
+</ul>
+<ol>
+<li>友元函数</li>
+<li>友元类（15章）</li>
+<li>友元成员函数（15章）</li>
+</ol>
+<ul>
+<li>友元函数：通过让函数成为类的友元，可以赋予该函数与类成员函数相同的访问权限。</li>
+<li>问：为何需要友元？为类重载二元运算符是（带两个参数的运算符）常常需要友元函数。将<strong>Time对象</strong>乘以<strong>实数</strong>就属于这种情况之前我们有运算符重载：</li>
+</ul>
+<p>A = B * 2.75;//Time operator*(double n)const;</p>
+<p>如果要实现</p>
+<p>A=2.75 * B;//不对应成员函数 cannot correspond to a member function</p>
+<p>因为2.75不是TIme类型的对象。左侧炒作书应是调用对象</p>
+<ul>
+<li>解决：</li>
+</ul>
+<ol>
+<li>告知每个人（包括程序员自己），只能按 B * 2.75这种格式编写。</li>
+<li><strong>非成员函数</strong>（非成员函数来重载运算符），非成员函数不是由对象调用的，它所使用的所有值（包括对象）都是显式参数。</li>
+</ol>
+<p>有函数原型：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Time <span class="hljs-keyword">operator</span> * (<span class="hljs-keyword">double</span> m,<span class="hljs-keyword">const</span> Time &amp;t);</span><br></pre></td></tr></table></figure>
+
+<p>使用：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">A=<span class="hljs-number">2.75</span> * B;或 A=<span class="hljs-keyword">operator</span> *(<span class="hljs-number">2.75</span>,B);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>问题：非成员函数不能访问类的私有数据，至少常规非成员函数不能访问</li>
+<li>解决：友元函数（非成员函数，但其访问权限与成员函数相同。）<h3 id="创建友元函数"><a href="#创建友元函数" class="headerlink" title="创建友元函数"></a>创建友元函数</h3></li>
+<li><em>将其原型放在类声明中，并在原型声明前加上关键字friend*</em></li>
+<li>声明：<code>friend Time operator * (double m,const Time &amp; t);</code>。该原型声明意味着下面两点：</li>
+</ul>
+<ol>
+<li>虽然，operator* ()函数是在类中声明的，但它不是成员函数，因此不能使用成员运算符来调用；</li>
+<li>虽然，operator* ()函数不是成员函数，但它与成员函数的访问权限相同。</li>
+</ol>
+<ul>
+<li><p>定义：不要使用Time::限定符，不要再定义中使用关键字friend</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Time <span class="hljs-keyword">operator</span>*(<span class="hljs-keyword">double</span> m,<span class="hljs-keyword">const</span> Time &amp; t)</span><br><span class="line">&#123;</span><br><span class="line">Time result;</span><br><span class="line"><span class="hljs-keyword">long</span> totalminutes=t.hours*mult*<span class="hljs-number">60</span>+t.minutes*mult;</span><br><span class="line">resut.hours = totalminutes/<span class="hljs-number">60</span>;</span><br><span class="line">result.minutes=totalminutes%<span class="hljs-number">60</span>;</span><br><span class="line"><span class="hljs-keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注：<strong>不必是友元函数</strong>（不访问数据成员也能完成功能)</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Time <span class="hljs-keyword">operator</span> * (<span class="hljs-keyword">double</span> m,<span class="hljs-keyword">const</span> Time &amp; t)</span><br><span class="line">&#123;</span><br><span class="line"><span class="hljs-keyword">return</span> t*m;<span class="hljs-comment">//调用了Time operator*(double n)const</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="重载-lt-lt-运算符"><a href="#重载-lt-lt-运算符" class="headerlink" title="重载&lt;&lt;运算符"></a>重载&lt;&lt;运算符</h2><p>常用友元：重载座左移运算符</p>
+<h3 id="第一种重载版本"><a href="#第一种重载版本" class="headerlink" title="第一种重载版本"></a>第一种重载版本</h3><ol>
+<li><p>使用一个Time成员函数重载&lt;&lt;</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">trip&lt;&lt;<span class="hljs-built_in">cout</span>;<span class="hljs-comment">//（trip是Time对象）这样会让人困惑</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过使用友元函数，可以像下面这样重载运算符：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">void</span> <span class="hljs-keyword">operator</span>&lt;&lt;(ostream &amp; os,<span class="hljs-keyword">const</span> Time&amp; t)</span><br><span class="line">&#123;</span><br><span class="line">os&lt;&lt;t.hours&lt;&lt;<span class="hljs-string">"hours"</span>&lt;&lt;t.minutes&lt;&lt;<span class="hljs-string">"minute"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ul>
+<li>该函数成为Time类的一个友元函数（operator&lt;&lt;()直接访问Time对象的私有成员），但不是ostream类的友元（从始至终都将ostream对象作为一个整体来使用）<h3 id="第二种重载版本"><a href="#第二种重载版本" class="headerlink" title="第二种重载版本"></a>第二种重载版本</h3>按照上面的定义，下面语句会出错：<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-built_in">cout</span>&lt;&lt;<span class="hljs-string">"Trip Time:"</span>&lt;&lt;trip&lt;&lt;<span class="hljs-string">"(Tuesday)\n"</span><span class="hljs-comment">//不能这么做</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>应该修改友元函数返回ostream对象的引用即可：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ostream&amp; <span class="hljs-keyword">operator</span>&lt;&lt;(ostream &amp; os,<span class="hljs-keyword">const</span> Time&amp; t)</span><br><span class="line">&#123;</span><br><span class="line">os&lt;&lt;t.hours&lt;&lt;<span class="hljs-string">"hours"</span>&lt;&lt;t.minutes&lt;&lt;<span class="hljs-string">"minute"</span>;</span><br><span class="line"><span class="hljs-keyword">return</span> os;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>按照上面的定义，下面可以正常运行：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-built_in">cout</span>&lt;&lt;<span class="hljs-string">"Trip Time:"</span>&lt;&lt;trip&lt;&lt;<span class="hljs-string">"(Tuesday)\n"</span><span class="hljs-comment">//正常运行</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="类继承属性让ostream引用能指向ostream对象和ofstream对象"><a href="#类继承属性让ostream引用能指向ostream对象和ofstream对象" class="headerlink" title="类继承属性让ostream引用能指向ostream对象和ofstream对象"></a>类继承属性让ostream引用能指向ostream对象和ofstream对象</h3><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;fstream&gt;</span></span></span><br><span class="line">ofstram fout;</span><br><span class="line">fout.open(<span class="hljs-string">"Savetime.txt"</span>);</span><br><span class="line"><span class="hljs-function">Time <span class="hljs-title">trip</span><span class="hljs-params">(<span class="hljs-number">12</span>,<span class="hljs-number">40</span>)</span></span>;</span><br><span class="line">fout&lt;&lt;trip;<span class="hljs-comment">//等价于operator&lt;&lt;(fout,trip);</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="类的自动类型转换和强制转换"><a href="#类的自动类型转换和强制转换" class="headerlink" title="类的自动类型转换和强制转换"></a>类的自动类型转换和强制转换</h2><p>有构造函数<code>Stonewt(double lbs);</code>可以编写下列代码：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">stonewt mycat;<span class="hljs-comment">//创建一个对象</span></span><br><span class="line">mycat=<span class="hljs-number">19.6</span>；<span class="hljs-comment">//使用了Stonewt(double lbs)构造函数创意了一个临时对象</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>上面使用了一个Stonewt(double lbs)构造函数创建了一个临时对象，然后将该对象内容复制到了mycat中</strong>，这一过程（19.6利用构造函数变成类对象）需要隐式转换，因为是自动进行的，而不需要显式强制转换。</p>
+<ul>
+<li>—&gt;只接受一个参数类型的构造函数定义了<strong>从参数类型到类类型</strong>的转换</li>
+</ul>
+<p>注意：只有接受一个参数的构造函数才能作为转换函数，然而，如果第二个参数提供默认值，它便可用于转换int</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stonewt(<span class="hljs-keyword">int</span> stn,<span class="hljs-keyword">double</span> lbs=<span class="hljs-number">0</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="explicit"><a href="#explicit" class="headerlink" title="explicit"></a>explicit</h3><p>这种自动特性并非总是合乎需要的，因为会导致意外的类型转换。</p>
+<ul>
+<li><strong>新增关键字explicit，用于关闭这种自动特性，也就是说，可以这样声明构造函数：</strong><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">explicit</span> <span class="hljs-title">Stonewt</span><span class="hljs-params">(<span class="hljs-keyword">double</span> lbs)</span></span>;<span class="hljs-comment">//关闭了上面的隐式转换，但允许显式转换，即显式强制类型转换</span></span><br><span class="line"></span><br><span class="line">Stonewt mycat;</span><br><span class="line">mycat =<span class="hljs-number">19.6</span>;<span class="hljs-comment">//错误代码</span></span><br><span class="line"></span><br><span class="line">mycat = Stonewt(<span class="hljs-number">19.6</span>);<span class="hljs-comment">//这里是调用构造函数</span></span><br><span class="line">mycat =(Stonewt)<span class="hljs-number">19.6</span>;<span class="hljs-comment">//这里是前置类型转换</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>当构造函数只接受一个参数是，可以使用下面的格式来初始化类对象。<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stonewt incognito=<span class="hljs-number">2.75</span>;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>这等价于前面介绍过的另外两种格式：(这两种格式可用于接收多个参数的构造函数)<br>Stonewt incognito(2.75);<br>Stonewt incognito = Stonewt(2.75);</p>
+<ul>
+<li><p>下面函数中，Stonewt和Stonewt&amp;形参都与Stonewt实参匹配</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">display</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Stonewt &amp; st,<span class="hljs-keyword">int</span> n)</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line"><span class="hljs-keyword">for</span>(<span class="hljs-keyword">int</span>=<span class="hljs-number">0</span>;i&lt;n;i++)</span><br><span class="line">&#123;</span><br><span class="line"><span class="hljs-built_in">cout</span>&lt;&lt;<span class="hljs-string">"WOW!"</span>;</span><br><span class="line">st&gt;show_stn();</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>语句display(422,2);中</p>
+</li>
+</ul>
+<ol>
+<li>编译器先查找自动类型转换中42转Stone的构造函数<code>Stonewt(int)</code></li>
+<li>不存在<code>Stonewt(int)</code>的话，Stonewt(double)构造函数满足这种要求因为，编译器将int转换为double</li>
+</ol>
+<h2 id="类的转换函数"><a href="#类的转换函数" class="headerlink" title="类的转换函数"></a>类的转换函数</h2><ul>
+<li><p>构造函数只用于某种类型到类类型的转换，<strong>要进行相反的转换，必须用到特殊的C++运算符—转换函数</strong></p>
+</li>
+<li><p>转换函数必定是类方法</p>
+</li>
+<li><p>用户定义的强制类型转换，可以向使用强制类型转换那样使用它们。</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function">Stonewt <span class="hljs-title">wolf</span><span class="hljs-params">(<span class="hljs-number">285</span>,<span class="hljs-number">7</span>)</span></span>;</span><br><span class="line"><span class="hljs-keyword">double</span> host = <span class="hljs-keyword">double</span>(wolfe);<span class="hljs-comment">//格式1</span></span><br><span class="line"><span class="hljs-keyword">double</span> thinker=(<span class="hljs-keyword">double</span>)wolfe;<span class="hljs-comment">//格式2</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>也可以让编译器来决定如何做：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function">Stonewt <span class="hljs-title">wolf</span><span class="hljs-params">(<span class="hljs-number">20</span>,<span class="hljs-number">3</span>)</span></span>;</span><br><span class="line"><span class="hljs-keyword">double</span> star =wells;<span class="hljs-comment">//隐式转换</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="创建转换函数"><a href="#创建转换函数" class="headerlink" title="创建转换函数"></a>创建转换函数</h3><p><strong>opeator typeName();</strong></p>
+<ul>
+<li>转换函数必定是类方法</li>
+<li>转换函数不能指定返回类型</li>
+<li>转换函数不能有参数</li>
+</ul>
+<p>例如：<strong>转换函数为double类型的原型如下</strong></p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">operator</span> <span class="hljs-title">double</span><span class="hljs-params">()</span></span>;<span class="hljs-comment">//不要返回类型也不要参数</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="如何定义"><a href="#如何定义" class="headerlink" title="如何定义"></a>如何定义</h3><ol>
+<li><p>头文件中声明： </p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">operator</span> <span class="hljs-title">int</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span></span>;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">operator</span> <span class="hljs-title">double</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span></span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>cpp文件中定义：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Stonewt::<span class="hljs-function">opeator <span class="hljs-title">int</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line"><span class="hljs-keyword">return</span> <span class="hljs-keyword">int</span> (pounds+<span class="hljs-number">0.5</span>);<span class="hljs-comment">//四舍五入</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Stonewt::<span class="hljs-function">opeator <span class="hljs-title">double</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line"><span class="hljs-keyword">return</span> pounds;<span class="hljs-comment">//四舍五入</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="二义性"><a href="#二义性" class="headerlink" title="二义性"></a>二义性</h3><p>C++中，int和double值都可以被赋值给long变量，下面语句被编译器认为有<strong>二义性</strong>而拒绝了。</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">long</span> gone = poppins;<span class="hljs-comment">//注：poppins是Stonewt对象</span></span><br><span class="line"><span class="hljs-comment">//但是还是可以进行强制类型转换</span></span><br><span class="line"><span class="hljs-keyword">long</span> gone = (<span class="hljs-keyword">double</span>)poppins;</span><br><span class="line"><span class="hljs-keyword">long</span> gone =<span class="hljs-keyword">int</span> (poppins);</span><br></pre></td></tr></table></figure>
+
+<h3 id="避免隐式转换"><a href="#避免隐式转换" class="headerlink" title="避免隐式转换"></a>避免隐式转换</h3><ul>
+<li>方法1：C++98中，关键字<code>explicit</code>不能用于转换函数，但C++11消除了这种限制。因此，在C++11中，可将转换运算符声明为显示的：<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Stonewr</span></span></span><br><span class="line"><span class="hljs-class">&#123;</span></span><br><span class="line">...</span><br><span class="line"><span class="hljs-comment">//conversion functions</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">explicit</span> <span class="hljs-keyword">operator</span> <span class="hljs-title">int</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span></span>;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">explicit</span> <span class="hljs-keyword">operator</span> <span class="hljs-title">double</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>有了这些声明后，需要前置转换时，将调用这些运算符。</p>
+<ul>
+<li>方法2：用一个功能相同的<strong>非转换函数</strong>替换转换函数即可，但仅在被显式调用时，该函数才会执行。也就是说，可以将：<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stonewt::<span class="hljs-function"><span class="hljs-keyword">operator</span> <span class="hljs-title">int</span><span class="hljs-params">()</span></span>&#123;<span class="hljs-keyword">return</span> <span class="hljs-keyword">int</span>(pounds+<span class="hljs-number">0.5</span>);&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>替换为</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> Stonewt <span class="hljs-title">stone_to_int</span><span class="hljs-params">()</span></span>&#123;<span class="hljs-keyword">return</span> <span class="hljs-keyword">int</span>(pounds+<span class="hljs-number">0.5</span>);&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样下面语句为非法的：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">int</span> plb=popins;</span><br></pre></td></tr></table></figure>
+
+<p>需要转换时只能调用stone_to_int()：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">int</span> plb =poppins.stone_to_int();</span><br></pre></td></tr></table></figure>
+
+<hr>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/C/">C++</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">Like this article? Support the author with</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>Alipay</span>
+    <div class="qrcode"><img src="/images/alqrcode.png" alt="Alipay"></div>
+</a>
+
+                
+                
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>Wechat</span>
+    <div class="qrcode"><img src="/images/wxqrcode.png" alt="Wechat"></div>
+</a>
+
+                
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/05/24/C++笔记6/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">C++ 笔记6</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/05/24/C++笔记4/">
+                <span class="level-item">C++ 笔记4</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/touxiang.jpg" alt="xiaoxiong">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        xiaoxiong
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        ROBOT and ANIME
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>GuangZhou</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Posts
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        10
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Categories
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        2
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        Tag
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        1
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/littlebearsama" target="_blank">
+                Follow</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/littlebearsama">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Links
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://github.com/RobotWithCV" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">RobotWithCV</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">github.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Categories
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/编程/">
+            <span class="level-start">
+                <span class="level-item">编程</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/编程/C/">
+            <span class="level-start">
+                <span class="level-item">C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Tag Cloud
+        </h3>
+        <a href="/tags/C/" style="font-size: 10px;">C++</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/C++笔记9/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 笔记9">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T16:18:00.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/C++笔记9/" class="has-link-black-ter is-size-6">C++ 笔记9</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/C++笔记8/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 笔记8">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T16:17:00.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/C++笔记8/" class="has-link-black-ter is-size-6">C++ 笔记8</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/C++笔记7/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 笔记7">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T16:16:00.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/C++笔记7/" class="has-link-black-ter is-size-6">C++ 笔记7</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/C++笔记6/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 笔记6">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T16:15:00.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/C++笔记6/" class="has-link-black-ter is-size-6">C++ 笔记6</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/C++笔记5/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 笔记5">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T16:14:00.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/C++笔记5/" class="has-link-black-ter is-size-6">C++ 笔记5</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">10</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/C/">
+                        <span class="tag">C++</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            Recent
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/C++笔记9/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 笔记9">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T16:18:00.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/C++笔记9/" class="has-link-black-ter is-size-6">C++ 笔记9</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/C++笔记8/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 笔记8">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T16:17:00.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/C++笔记8/" class="has-link-black-ter is-size-6">C++ 笔记8</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/C++笔记7/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 笔记7">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T16:16:00.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/C++笔记7/" class="has-link-black-ter is-size-6">C++ 笔记7</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/C++笔记6/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 笔记6">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T16:15:00.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/C++笔记6/" class="has-link-black-ter is-size-6">C++ 笔记6</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/C++笔记5/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 笔记5">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-23T16:14:00.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/C++笔记5/" class="has-link-black-ter is-size-6">C++ 笔记5</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            Archives
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">May 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">10</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                Tags
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/C/">
+                        <span class="tag">C++</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/pig.png" alt="C++ 笔记5" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 小熊&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-Hans");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="Back to Top" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="Type something...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: 'Posts',
+                PAGES: 'Pages',
+                CATEGORIES: 'Categories',
+                TAGS: 'Tags',
+                UNTITLED: '(Untitled)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
