@@ -2,24 +2,25 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>分类: ObjectDetection and PoseEstimation - LittleBear！！！</title>
+<title>compute-transform - LittleBear！！！</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta name="description" content="Robot With CV">
-<meta name="keywords" content="CUDA PCL OpenCV">
-<meta property="og:type" content="website">
-<meta property="og:title" content="LittleBear！！！">
-<meta property="og:url" content="https://littlebearsama.github.io/categories/ObjectDetection-and-PoseEstimation/index.html">
+    <meta name="description" content="���任���� ���⣺�Ѿ�����һ���Ӧ���(correspondence; point pairs)������Ӧ�㼯P,Q֮��ĸ���4X4�任����T��">
+<meta name="keywords" content="Registration,SVD,LM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="compute-transform">
+<meta property="og:url" content="https://littlebearsama.github.io/2019/05/28/compute-transformation/index.html">
 <meta property="og:site_name" content="LittleBear！！！">
-<meta property="og:description" content="Robot With CV">
+<meta property="og:description" content="���任���� ���⣺�Ѿ�����һ���Ӧ���(correspondence; point pairs)������Ӧ�㼯P,Q֮��ĸ���4X4�任����T��">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
+<meta property="og:image" content="https://littlebearsama.github.io/images/anime/game.jpg">
+<meta property="og:updated_time" content="2019-05-28T02:08:57.934Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LittleBear！！！">
-<meta name="twitter:description" content="Robot With CV">
-<meta name="twitter:image" content="https://littlebearsama.github.io/images/og_image.png">
+<meta name="twitter:title" content="compute-transform">
+<meta name="twitter:description" content="���任���� ���⣺�Ѿ�����һ���Ӧ���(correspondence; point pairs)������Ӧ�㼯P,Q֮��ĸ���4X4�任����T��">
+<meta name="twitter:image" content="https://littlebearsama.github.io/images/anime/game.jpg">
 
 
 
@@ -102,7 +103,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/pig.png" alt="LittleBear！！！" height="28">
+                <img src="/images/pig.png" alt="compute-transform" height="28">
             
             </a>
         </div>
@@ -148,40 +149,28 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
-    <div class="card-content">
-        <nav class="breadcrumb" aria-label="breadcrumbs">
-        <ul>
-            <li><a href="/categories">分类</a></li>
-            
-            <li class="is-active"><a href="#" aria-current="page">ObjectDetection and PoseEstimation</a></li>
-        </ul>
-        </nav>
-    </div>
-</div>
-
-    <div class="card">
     
     <div class="card-image">
-        <a href="/2019/05/24/ObjectDetection-and-PoseEstimation/" class="image is-7by1">
-            <img class="thumbnail" src="/images/anime/1.jpg" alt="ObjectDetection and PoseEstimation">
-        </a>
+        <span class="image is-7by1">
+            <img class="thumbnail" src="/images/anime/game.jpg" alt="compute-transform">
+        </span>
     </div>
     
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-24T08:51:49.000Z">2019-05-24</time>
+                <time class="level-item has-text-grey" datetime="2019-05-28T01:52:32.000Z">2019-05-28</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/">ObjectDetection and PoseEstimation</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/tutorial/">tutorial</a>
+                <a class="has-link-grey -link" href="/categories/PCL/">PCL</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/PCL/Registration/">Registration</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    14 分钟 读完 (大约 2040 个字)
+                    34 分钟 读完 (大约 5135 个字)
                 </span>
                 
                 
@@ -190,39 +179,196 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/05/24/ObjectDetection-and-PoseEstimation/">ObjectDetection and PoseEstimation</a>
+                compute-transform
             
         </h1>
         <div class="content">
-            <p><strong>物体检测与位姿估计</strong></p>
-<p>针对刚性物体识别与位姿估计的方法主要分为三类：</p>
-<ul>
-<li>基于模板匹配</li>
-<li>基于三维局部特征</li>
-<li>基于学习</li>
+            <p><strong>���任����</strong></p>
+<p>���⣺�Ѿ�����һ���Ӧ���(correspondence; point pairs)������Ӧ�㼯P,Q֮��ĸ���4X4�任����T��</p>
+<a id="more"></a>
+
+<p>�ο�1: <a href="https://zhuanlan.zhihu.com/p/35901184" target="_blank" rel="noopener">��������תƽ�ƹ�ϵ�C��׼</a></p>
+<p>�ο�2: <a href="https://blog.csdn.net/icameling/article/details/84103891" target="_blank" rel="noopener">SVD Least-Squares Rigid Motion Using SVD 3D3D��任����</a></p>
+<h2 id="1-ʹ�o���ϵ����"><a href="#1-ʹ�o���ϵ����" class="headerlink" title="1.ʹ�ô���ϵ����"></a>1.ʹ�ô���ϵ����</h2><ul>
+<li>˼·���Գ������̣�������С�������</li>
+<li>ȱ�㣺�������ڸ�ʽ���룬ƥ��������ݱ������ȵ�������������� ����R��һ���ϸ�������������</li>
 </ul>
+<p>Ҫ���ľ���R�������任���󣬿��Էֽ�Ϊ��ת����r��ƽ������t�������ת����r�Ϳ�����t����ô��������9��δ֪��Ҫ��⡣</p>
+<p>һ����Ӧ��Ծ����������̣�������Ӧ��Ծ���9�����̣�9�����̶�Ӧ�Ÿ�δ֪����</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cleft%28+%5Cbegin%7Barray%7D%7Bc%7D+%5Cbar%7Bq%7D_x+%5C%5C+%5Cbar%7Bq%7D_y+%5C%5C+%5Cbar%7Bq%7D_z+%5C%5C+%5Cend%7Barray%7D+%5Cright%29_i%3D%5Cleft%28+%5Cbegin%7Barray%7D%7Bcccc%7D+r_%7B11%7D+%26+r_%7B12%7D+%26+r_%7B13%7D+%5C%5C+r_%7B21%7D+%26+r_%7B22%7D+%26+r_%7B23%7D+%5C%5C+r_%7B31%7D+%26+r_%7B32%7D+%26+r_%7B33%7D+%5C%5C+%5Cend%7Barray%7D+%5Cright%29%5Cleft%28+%5Cbegin%7Barray%7D%7Bc%7D+%5Cbar%7Bp%7D_x+%5C%5C+%5Cbar%7Bp%7D_y+%5C%5C+%5Cbar%7Bp%7D_z+%5C%5C+%5Cend%7Barray%7D+%5Cright%29_i" alt></p>
+<p><strong>��ô������������Ӧ��Ծ������任����R��</strong></p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cleft%28+%5Cbegin%7Barray%7D%7Bcccccccc%7D+%5Cbar%7Bp%7D_x%5Ei+%26+%5Cbar%7Bp%7D_y%5Ei+%26%5Cbar%7Bp%7D_z%5Ei%260%260%260%260%260%260+%5C%5C+0%260%260%26%5Cbar%7Bp%7D_x%5Ei+%26+%5Cbar%7Bp%7D_y%5Ei+%26%5Cbar%7Bp%7D_z%5Ei%260%260%260+%5C%5C+0%260%260%260%260%260%26%5Cbar%7Bp%7D_x%5Ei+%26+%5Cbar%7Bp%7D_y%5Ei+%26%5Cbar%7Bp%7D_z%5Ei+%5C%5C+%5Cend%7Barray%7D+%5Cright%29%5Cleft%28+%5Cbegin%7Barray%7D%7Bc%7D+r_%7B11%7D+%5C%5C+r_%7B12%7D+%5C%5C+r_%7B13%7D+%5C%5C+r_%7B21%7D+%5C%5C+r_%7B22%7D+%5C%5C+r_%7B23%7D+%5C%5C+r_%7B31%7D+%5C%5C+r_%7B32%7D+%5C%5C+r_%7B33%7D+%5C%5C+%5Cend%7Barray%7D+%5Cright%29%3D%5Cleft%28+%5Cbegin%7Barray%7D%7Bc%7D+%5Cbar%7Bq%7D_x%5Ei+%5C%5C+%5Cbar%7Bq%7D_y%5Ei+%5C%5C+%5Cbar%7Bq%7D_z%5Ei+%5C%5C+%5Cend%7Barray%7D+%5Cright%29" alt></p>
+<p>ʵ���ϣ����Ƕ�Ӧ��Բ�ֹ����������������Ӧ��֮�䣬���㶼���뷽�̵Ļ����Եõ����������̣����̸�������δ֪���������������ⳬ������������Ҫ��������⡣</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BA%7D_%7B3N%5Ctimes9%7D%5Cboldsymbol%7Br%7D_%7B9%5Ctimes1%7D%3D%5Cboldsymbol%7Bb%7D_%7B3N%5Ctimes1%7D" alt></p>
+<p>����<strong>��С���˷����</strong></p>
+<p><img src="https://www.zhihu.com/equation?tex=%28%5Cboldsymbol%7BA%7D_%7B3N%5Ctimes9%7D%5E%5Ctext%7BT%7D%5Cboldsymbol%7BA%7D_%7B3N%5Ctimes9%7D%29%5Cboldsymbol%7Br%7D_%7B9%5Ctimes1%7D%3D%5Cboldsymbol%7BA%7D_%7B3N%5Ctimes9%7D%5E%5Ctext%7BT%7D%5Cboldsymbol%7Bb%7D_%7B3N%5Ctimes1%7D" alt></p>
+<p>�õ����� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7Br%7D" alt> , дΪ������ʽ�� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D" alt> .</p>
+<p>������С���˷����</p>
+<p>ȱ��: ����<strong>ԭʼ�������</strong>����<strong>�����ۻ����</strong>�����, �õ��ľ���R��һ���ϸ�������������������������ʵ<a href="https://baike.baidu.com/item/�ڻ��ռ�" target="_blank" rel="noopener">�ڻ��ռ�</a><em>V</em>ӳ�䵽<em>V</em>�������ұ�֤�任ǰ���ڻ����䣩�����������󽫾���任�󽫵��µ��Ʊ��Ρ�</p>
+<h2 id="2-Levenberg-Marquardt������⣨�������Z���"><a href="#2-Levenberg-Marquardt������⣨�������Z���" class="headerlink" title="2.Levenberg-Marquardt������⣨�������Ż���"></a>2.<em>Levenberg-Marquardt</em>������⣨�������Ż���</h2><ul>
+<li>��ŷ������Ϊ����</li>
+<li>ʹ��ģ�ͺ������Դ�����������  ���������������Խ��ƣ����Ե��������ϵĵ�������Ӷ�ת��Ϊ������С�������⡣</li>
+<li>ʹ�������뷨���е�����Ѱ�Һ����ļ�Сֵ</li>
+</ul>
+<p>��ת���� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D" alt> ����3�����ɶ�, ��������Ϊ3��Euler�ǿ�ȷ��һ����ת״̬, ��һ����Ԫ��(����Ϊ1, ���ɶ�Ϊ4-1=3)��ȷ��һ����ת״̬. ������ <img src="https://www.zhihu.com/equation?tex=%5Calpha~%5Cbeta~%5Cgamma~" alt> ��Ϊ��������ϵĲ���, ��ת���� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D" alt> �� <img src="https://www.zhihu.com/equation?tex=%5Calpha~%5Cbeta~%5Cgamma~" alt>Ψһȷ��, ��ʹ���ڸò����������С, ��:</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Calpha%2C~%5Cbeta%2C~%5Cgamma~+%3D+arg%5Cmin_%7B%5Calpha~%5Cbeta~%5Cgamma%7D+%5Csum_%7Bi%3D1%7D%5E%7BN%7D%5C%7C%7B%5Cbar%7B%5Cboldsymbol%7Bq%7D%7D_i-%5Cboldsymbol%7BR%7D%28%5Calpha%2C%5Cbeta%2C%5Cgamma%29%7D%5Cbar%7B%5Cboldsymbol%7Bp%7D%7D_i%5C%7C_2" alt></p>
+<p>�õ� <img src="https://www.zhihu.com/equation?tex=%5Calpha~%5Cbeta~%5Cgamma~" alt>���õ���ת���� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D" alt> , <strong>�÷����ɱ�֤�þ����ϸ�Ϊ��������</strong>.</p>
+<p><strong>ȱ��: Levenberg-Marquardt����һ����Ը��Ż�����ĳ�ֵ��һ��Ҫ��, ��һ����������㷨��Ч�ʽϵ�.</strong></p>
+<h3 id="LM�㷨��飺"><a href="#LM�㷨��飺" class="headerlink" title="LM�㷨��飺"></a>LM�㷨��飺</h3><p>LM�㷨��ȫ��ΪLevenberg-Marquard�㷨���������ڽ����������С�������⣬������������ϵȳ��ϡ�</p>
+<ul>
+<li><strong>�ؼ�����ģ�ͺ���  �Դ�����������  ���������������Խ��ƣ����Ե��������ϵĵ�����Ӷ�ת��Ϊ������С��������</strong>��</li>
+<li>�����������ٶȿ���ŵ㡣</li>
+</ul>
+<p>LM�㷨����һ�֡�<a href="http://www.codelast.com/?p=7488" target="_blank" rel="noopener">������</a>��������ν�������򷨣��˴���΢����һ�£������Ż��㷨�У�����Ҫ��һ�������ļ�Сֵ��ÿһ�������У���Ҫ��Ŀ�꺯��ֵ���½��ģ��������򷨣�����˼�壬���Ǵӳ�ʼ�㿪ʼ���ȼ���һ���������������λ��  ��Ȼ�����Ե�ǰ��Ϊ���ģ���  Ϊ�뾶�������ڣ�<strong>ͨ��Ѱ��Ŀ�꺯����һ�����ƺ��������εģ������ŵ㣬�����õ�������λ�ơ�</strong>�ڵõ���λ��֮���ټ���Ŀ�꺯��ֵ�������ʹĿ�꺯��ֵ���½�������һ����������ô��˵�����λ���ǿɿ��ģ���������˹������������ȥ������䲻��ʹĿ�꺯��ֵ���½�����һ������������Ӧ��С������ķ�Χ����������⡣</p>
+<p>��ʵ�ϣ�������п����ҵ��������￴����LM�㷨��˵�����������ҵ������ڡ����Ŀ�꺯��ֵ���������ĳϵ���ټ�����⣻���Ŀ�꺯��ֵ��С�������ĳϵ���ټ�����⡱�ĵ������̣����ֹ�����������˵���������Ƿǳ����Ƶģ�����˵LM�㷨��һ�������򷨡�</p>
+<h2 id="3-SVD����ֵ�ֽⷽ�������Դ�����⣩"><a href="#3-SVD����ֵ�ֽⷽ�������Դ�����⣩" class="headerlink" title="3.SVD����ֵ�ֽⷽ�������Դ�����⣩"></a>3.SVD����ֵ�ֽⷽ�������Դ�����⣩</h2><ul>
+<li>˼·����3X3��ά��Э�����������SVD������ת����R</li>
+</ul>
+<p>Singular Value Decomposition* </p>
+<p><img src="/2019/05/28/compute-transformation/1.png" alt></p>
+<p>0.<img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D+%3D+arg%5Cmin_%7B%5Cboldsymbol%7BR%7D%7D+%5Csum_%7Bi%3D1%7D%5E%7BN%7D%5C%7C%7B%5Cbar%7B%5Cboldsymbol%7Bq%7D%7D_i-%5Cboldsymbol%7BR%7D%7D%5Cbar%7B%5Cboldsymbol%7Bp%7D%7D_i%5C%7C_2%5E2" alt>�����������Ż����⡣</p>
+<p>1.����������Ӧ�㼯�����ģ�Ŀ������������Ľ������㼯�������Ƶ�ԭ��λ�ã�ʹ�������㼯����ͬһλ�á�</p>
+<p>2.����ƽ�ƺ�������㼯����Э�������S������������</p>
+<p>3.��Э�������ֽ⣬�õ�ѡ�����R</p>
+<p>4.����ѡ�����R��һ�����ĵ���ƽ������t</p>
+<p>5.���Ͼ�������SVD����ԵĹ���</p>
+<h2 id="�ܽ�"><a href="#�ܽ�" class="headerlink" title="�ܽ�"></a>�ܽ�</h2><p>����һ(����ϵ����ⷽ����)�ͷ�����(LM�Ż��������)��������������ת���� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D" alt> ��ƽ�ƾ��� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7Bt%7D" alt> ����ѷ���. ��������ֻ������SVD�ֽ�( <img src="https://www.zhihu.com/equation?tex=3%5Ctimes3" alt="3\times3"> ��ģ���ݾ���)���ɵõ�������, �������̼򵥶�����⾫�Ⱥܸ�.</p>
+<p>����һЩ���Ƶ���, ���ǵõ����յĽ��, �ǲ��Ǻ���….������Ƶ��Ĺ��̲�����Ȥ�Ļ�, ����<strong>ֱ�ӿ�����ļ��㲽��:</strong></p>
+<p><strong>STEP0:</strong> ��֪�����˶�ǰ��Ķ�Ӧ��ֱ�Ϊ <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7Bp%7D_i" alt> �� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7Bq%7D_i" alt> <img src="https://www.zhihu.com/equation?tex=i%3D1%2C2%2C%5Ccdots+N" alt> ), ��Ϊ <img src="https://www.zhihu.com/equation?tex=3%5Ctimes1" alt> ����</p>
+<p><strong>STEP1:</strong> �ֱ���� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7Bp%7D_i" alt> �� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7Bq%7D_i" alt="\"> ������(���ƽ��)�õ� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7Bp%7D_0" alt> �� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7Bq%7D_0" alt></p>
+<p><strong>STEP2:</strong> ��������ƽ�Ƶ�ԭ������� <img src="https://www.zhihu.com/equation?tex=%5Cbar%7B%5Cboldsymbol%7Bp%7D%7D_i+%3D+%5Cboldsymbol%7Bp%7D_i-%5Cboldsymbol%7Bp%7D_0~%2C~~~%5Cbar%7B%5Cboldsymbol%7Bq%7D%7D_i+%3D+%5Cboldsymbol%7Bq%7D_i-%5Cboldsymbol%7Bq%7D_0" alt></p>
+<p><strong>STEP3</strong>: ������ʽ���� <img src="https://www.zhihu.com/equation?tex=%5B~%5Cbar%7B%5Cboldsymbol%7Bp%7D%7D_1~%5Cbar%7B%5Cboldsymbol%7Bp%7D%7D_2~%5Ccdots~%5Cbar%7B%5Cboldsymbol%7Bp%7D%7D_N~%5D" alt="[~\bar{\boldsymbol{p}}_1~\bar{\boldsymbol{p}}_2~\cdots~\bar{\boldsymbol{p}}_N~]"> ��Ϊ <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BX%7D_0" alt> , <img src="https://www.zhihu.com/equation?tex=%5B~%5Cbar%7B%5Cboldsymbol%7Bq%7D%7D_1~%5Cbar%7B%5Cboldsymbol%7Bq%7D%7D_2~%5Ccdots~%5Cbar%7B%5Cboldsymbol%7Bq%7D%7D_N~%5D" alt="[~\bar{\boldsymbol{q}}_1~\bar{\boldsymbol{q}}_2~\cdots~\bar{\boldsymbol{q}}_N~]"> ��Ϊ <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BY%7D_0" alt></p>
+<p><strong>STEP4:</strong> �������ݾ��� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BX%7D_0%5Cboldsymbol%7BY%7D_0%5E%5Ctext%7BT%7D" alt> ����SVD�ֽ� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BX%7D_0%5Cboldsymbol%7BY%7D_0%5E%5Ctext%7BT%7D%3D%5Cboldsymbol%7BU%7D%5Cboldsymbol%7B%5CvarLambda%7D%5Cboldsymbol%7BV%7D%5E%5Ctext%7BT%7D" alt></p>
+<p><strong>STEP5:</strong> �õ���ת���� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D%3D%5Cboldsymbol%7BV%7D%5Cboldsymbol%7BU%7D%5E%5Ctext%7BT%7D" alt></p>
+<p><strong>STEP6:</strong> �õ�ƽ������ ![]](<a href="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7Bt%7D+%3D+%5Cboldsymbol%7Bq%7D_0-%5Cboldsymbol%7BR%7D%5Cboldsymbol%7Bp%7D_0" target="_blank" rel="noopener">https://www.zhihu.com/equation?tex=%5Cboldsymbol%7Bt%7D+%3D+%5Cboldsymbol%7Bq%7D_0-%5Cboldsymbol%7BR%7D%5Cboldsymbol%7Bp%7D_0</a>)</p>
+<h1 id="SVD�Z���"><a href="#SVD�Z���" class="headerlink" title="SVD�Ƶ���"></a>SVD�Ƶ���</h1><h2 id="1"><a href="#1" class="headerlink" title="1."></a>1.</h2><p>���Ĵ�SVD����ѧԭ������, �Ƶ�����һ����ʽ, ���ڴ˻����ϸ����˼��ν���. Ȼ�������SVD����ⷽ���;���Ӧ��. SVD��һ���ǳ�������ʵ�õķ���, ��Ӧ�ó����Ķ�, �ǹ��������ִ�����ϵͳ�ĺ��Ĳ���.</p>
+<h3 id="��SVD����Ӧ��ϵ֮��i任����"><a href="#��SVD����Ӧ��ϵ֮��i任����" class="headerlink" title="��SVD����Ӧ��ϵ֮��ı任����"></a>��SVD����Ӧ��ϵ֮��ı任����</h3><p>ͨ����Ӧ�������ת���� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D" alt> ��дΪ�Ż�����:</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D+%3D+arg%5Cmin_%7B%5Cboldsymbol%7BR%7D%7D+%5Csum_%7Bi%3D1%7D%5E%7BN%7D%5C%7C%7B%5Cbar%7B%5Cboldsymbol%7Bq%7D%7D_i-%5Cboldsymbol%7BR%7D%7D%5Cbar%7B%5Cboldsymbol%7Bp%7D%7D_i%5C%7C_2%5E2" alt></p>
+<p>���Խ���Ӧ����дΪ������ʽ</p>
+<p><img src="https://pic3.zhimg.com/80/v2-37a0573071717d5be6c41837fa2b66e2_hd.jpg" alt>3��N��</p>
+<p>���� <img src="https://www.zhihu.com/equation?tex=%5B~%5Cbar%7B%5Cboldsymbol%7Bp%7D%7D_1~%5Cbar%7B%5Cboldsymbol%7Bp%7D%7D_2~%5Ccdots~%5Cbar%7B%5Cboldsymbol%7Bp%7D%7D_N~%5D" alt="[~\bar{\boldsymbol{p}}_1~\bar{\boldsymbol{p}}_2~\cdots~\bar{\boldsymbol{p}}_N~]"> ��Ϊ <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BX%7D_0" alt> , <img src="https://www.zhihu.com/equation?tex=%5B~%5Cbar%7B%5Cboldsymbol%7Bq%7D%7D_1~%5Cbar%7B%5Cboldsymbol%7Bq%7D%7D_2~%5Ccdots~%5Cbar%7B%5Cboldsymbol%7Bq%7D%7D_N~%5D" alt="[~\bar{\boldsymbol{q}}_1~\bar{\boldsymbol{q}}_2~\cdots~\bar{\boldsymbol{q}}_N~]"> ��Ϊ <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BY%7D_0" alt> , ���Ż������Ϊ:</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D+%3D+arg%5Cmin_%5Cboldsymbol%7BR%7D+%5C%7C%5Cboldsymbol%7BY%7D_0-%5Cboldsymbol%7BRX%7D_0%5C%7C_F%5E2+" alt=" "></p>
+<p>����������Ż�����֮ǰ, �Ȼع˼������Դ�����Ļ���֪ʶ:</p>
+<ul>
+<li>��ת(����)��������� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D%5E%5Ctext%7BT%7D%5Cboldsymbol%7BR%7D%3D%5Cboldsymbol%7BR%7D%5Cboldsymbol%7BR%7D%5E%5Ctext%7BT%7D%3D%5Cboldsymbol%7BI%7D" alt> ;</li>
+<li><img src="https://www.zhihu.com/equation?tex=%5C%7C%5Ccdot%5C%7C_%5Ctext%7BF%7D" alt> Ϊ <em>Frobenius</em> ����, ����������ֵ��ƽ����֮����;</li>
+<li><img src="https://www.zhihu.com/equation?tex=%5C%7C%5Cboldsymbol%7BA%7D%5C%7C_%5Ctext%7BF%7D%5E2%3D%5Ctext%7Btrace%7D%28%5Cboldsymbol%7BA%7D%5E%5Ctext%7BT%7D%5Cboldsymbol%7BA%7D%29" alt> ���� <img src="https://www.zhihu.com/equation?tex=%5Ctext%7Btrace%7D" alt> Ϊ����ļ�;</li>
+<li>���� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BA%7D" alt> �� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BB%7D" alt> ��Ϊ<img src="https://www.zhihu.com/equation?tex=n%5Ctimes+m" alt>��, ��<img src="https://www.zhihu.com/equation?tex=%5Ctext%7Btrace%7D%28%5Cboldsymbol%7BA%7D%5E%5Ctext%7BT%7D%5Cboldsymbol%7BB%7D%29%3D%5Csum_%7Bj%3D1%7D%5E%7Bm%7D%5Csum_%7Bi%3D1%7D%5E%7Bn%7D%7Ba_%7Bij%7Db_%7Bij%7D%7D+%3D+%5Csum_%7Bi%3D1%7D%5E%7Bn%7D%5Csum_%7Bj%3D1%7D%5E%7Bm%7D%7Ba_%7Bij%7Db_%7Bij%7D%7D%3D%5Ctext%7Btrace%7D%28%5Cboldsymbol%7BB%7D%5Cboldsymbol%7BA%7D%5E%5Ctext%7BT%7D%29" alt> ;</li>
+<li><em>Singular Value Decomposition</em> (SVD)�ֽ�, ���� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BA%7D_%7Bn%5Ctimes+m%7D%3D%5Cboldsymbol%7BU%7D_%7Bn%5Ctimes+n%7D%5Cboldsymbol%7B%5CvarLambda%7D_%7Bn%5Ctimes+m%7D%5Cboldsymbol%7BV%7D_%7Bm%5Ctimes+m%7D%5E%5Ctext%7BT%7D" alt>,���� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BU%7D" alt>�� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BV%7D" alt> Ϊ��������, <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7B%5CvarLambda%7D" alt="\boldsymbol{\varLambda}"> Ϊ�ԽǾ���;</li>
+</ul>
+<p>�����Ż�����ɵȼ�Ϊ:</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cmin_%5Cboldsymbol%7BR%7D+%5C%7C%5Cboldsymbol%7BY%7D_0-%5Cboldsymbol%7BRX%7D_0%5C%7C_F%5E2+~~%5CLeftrightarrow~~%5Cmin_%5Cboldsymbol%7BR%7D+%5Ctext%7Btrace%7D%5Cbig%28%28%5Cboldsymbol%7BY%7D_0-%5Cboldsymbol%7BRX%7D_0%29%5E%5Ctext%7BT%7D%28%5Cboldsymbol%7BY%7D_0-%5Cboldsymbol%7BRX%7D_0%29%5Cbig%29" alt></p>
+<p><img src="https://www.zhihu.com/equation?tex=~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%5CLeftrightarrow%5Cmin_%5Cboldsymbol%7BR%7D+%5Ctext%7Btrace%7D%28%5Cboldsymbol%7BY%7D_0%5E%5Ctext%7BT%7D%5Cboldsymbol%7BY%7D_0%2B%5Cboldsymbol%7BX%7D_0%5E%5Ctext%7BT%7D%5Cboldsymbol%7BX%7D_0-2%5Cboldsymbol%7BY%7D_0%5E%5Ctext%7BT%7D%5Cboldsymbol%7BRX%7D_0%29" alt></p>
+<p>���о��� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BY%7D_0%5E%5Ctext%7BT%7D%5Cboldsymbol%7BY%7D_0" alt> �� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BX%7D_0%5E%5Ctext%7BT%7D%5Cboldsymbol%7BX%7D_0" alt> ��ԭʼ���ݵõ��ľ���, ����ת����<img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D+" alt=" "> �޹�, ����</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cmin_%5Cboldsymbol%7BR%7D+%5C%7C%5Cboldsymbol%7BY%7D_0-%5Cboldsymbol%7BRX%7D_0%5C%7C_F%5E2+~~%5CLeftrightarrow~~+%5Cmax_%5Cboldsymbol%7BR%7D+%5Ctext%7Btrace%7D%28%5Cboldsymbol%7BY%7D_0%5E%5Ctext%7BT%7D%5Cboldsymbol%7BRX%7D_0%29" alt></p>
+<p>��һ��, ���þ��󼣵�����(����֪ʶ��4��)</p>
+<p><img src="https://www.zhihu.com/equation?tex=+%5Cmax_%5Cboldsymbol%7BR%7D+%5Ctext%7Btrace%7D%28%5Cboldsymbol%7BY%7D_0%5E%5Ctext%7BT%7D%5Cboldsymbol%7BRX%7D_0%29~%5CLeftrightarrow~+%5Cmax_%5Cboldsymbol%7BR%7D+%5Ctext%7Btrace%7D%28%5Cboldsymbol%7BRX%7D_0%5Cboldsymbol%7BY%7D_0%5E%5Ctext%7BT%7D%29" alt></p>
+<p>ʹ��SVD�ֽ����ݾ��� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BX%7D_0%5Cboldsymbol%7BY%7D_0%5E%5Ctext%7BT%7D%3D%5Cboldsymbol%7BU%7D%5Cboldsymbol%7B%5CvarLambda%7D%5Cboldsymbol%7BV%7D%5E%5Ctext%7BT%7D" alt> , ���� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BU%7D" alt="\boldsymbol{U}"> �� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BV%7D" alt="\boldsymbol{V}"> Ϊ��������, ����</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cmax_%5Cboldsymbol%7BR%7D+%5Ctext%7Btrace%7D%28%5Cboldsymbol%7BRX%7D_0%5Cboldsymbol%7BY%7D_0%5E%5Ctext%7BT%7D%29~%5CLeftrightarrow~%5Cmax_%5Cboldsymbol%7BR%7D+%5Ctext%7Btrace%7D%28%5Cboldsymbol%7BR%7D%5Cboldsymbol%7BU%7D%5Cboldsymbol%7B%5CvarLambda%7D%5Cboldsymbol%7BV%7D%5E%5Ctext%7BT%7D%29" alt></p>
+<p>��һ��ʹ�þ��󼣵�����(����֪ʶ��4��)</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cmax_%5Cboldsymbol%7BR%7D+%5Ctext%7Btrace%7D%28%5Cboldsymbol%7BR%7D%5Cboldsymbol%7BU%7D%5Cboldsymbol%7B%5CvarLambda%7D%5Cboldsymbol%7BV%7D%5E%5Ctext%7BT%7D%29~%5CLeftrightarrow~%5Cmax_%5Cboldsymbol%7BR%7D+%5Ctext%7Btrace%7D%28%5Cboldsymbol%7B%5CvarLambda%7D%5Cboldsymbol%7BV%7D%5E%5Ctext%7BT%7D%5Cboldsymbol%7BR%7D%5Cboldsymbol%7BU%7D%29" alt></p>
+<p>�����еľ��� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BV%7D%5E%5Ctext%7BT%7D%5Cboldsymbol%7BR%7D%5Cboldsymbol%7BU%7D%3A%3D%5Cboldsymbol%7BZ%7D" alt> , ���ѵ�֪<strong><img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BZ%7D" alt="\boldsymbol{Z}"> ҲΪ��������</strong>, ����:</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cmin_%5Cboldsymbol%7BR%7D+%5C%7C%5Cboldsymbol%7BY%7D_0-%5Cboldsymbol%7BRX%7D_0%5C%7C_F%5E2+~%5CLeftrightarrow~%5Cmax_%5Cboldsymbol%7BR%7D+%5Ctext%7Btrace%7D%28%5Cboldsymbol%7B%5CvarLambda%7D%5Cboldsymbol%7BZ%7D%29" alt></p>
+<p>���� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7B%5CvarLambda%7D" alt> Ϊ�ԽǾ���</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cmin_%5Cboldsymbol%7BR%7D+%5C%7C%5Cboldsymbol%7BY%7D_0-%5Cboldsymbol%7BRX%7D_0%5C%7C_F%5E2+~%5CLeftrightarrow~%5Cmax_%5Cboldsymbol%7BR%7D+%5Ctext%7Btrace%7D%5Cleft%28%5Cleft%28+%5Cbegin%7Barray%7D%7Bcccc%7D+z_%7B11%7D+%26+z_%7B12%7D+%26+z_%7B13%7D+%5C%5C+z_%7B21%7D+%26+z_%7B22%7D+%26+z_%7B23%7D+%5C%5C+z_%7B31%7D%26+z_%7B31%7D%26+z_%7B33%7D+%5C%5C+%5Cend%7Barray%7D+%5Cright%29%5Cleft%28+%5Cbegin%7Barray%7D%7Bcccc%7D+%5Csigma_1+%26+0+%26+0+%5C%5C+0+%26+%5Csigma_2+%26+0+%5C%5C+0%26+0%26+%5Csigma_3+%5C%5C+%5Cend%7Barray%7D+%5Cright%29%5Cright%29" alt></p>
+<p><img src="https://www.zhihu.com/equation?tex=~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%5CLeftrightarrow~%5Cmax_%5Cboldsymbol%7BR%7D+%28%5Csigma_1z_%7B11%7D%2B%5Csigma_1z_%7B22%7D%2B%5Csigma_1z_%7B33%7D%29" alt></p>
+<p>���� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BZ%7D" alt>����Ϊ��������, �������������¶Խ��� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7B%5CvarLambda%7D" alt> �Խ�Ԫ��Ϊ���ݾ��������ֵ������0; ���� !](<a href="https://www.zhihu.com/equation?tex=z_%7B11%7D~z_%7B22%7D~z_%7B33%7D" target="_blank" rel="noopener">https://www.zhihu.com/equation?tex=z_%7B11%7D~z_%7B22%7D~z_%7B33%7D</a>) ��С�ڵ���1, ���ѵ�֪�� <img src="https://www.zhihu.com/equation?tex=z_%7B11%7D%3Dz_%7B22%7D%3Dz_%7B33%7D%3D1" alt> ʱȡ���ֵ, ��:</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BZ%7D+%3D+%5Cboldsymbol%7BI%7D" alt></p>
+<p>�Ӷ��õ�:</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BV%7D%5E%5Ctext%7BT%7D%5Cboldsymbol%7BR%7D%5Cboldsymbol%7BU%7D+%3D+%5Cboldsymbol%7BI%7D~%5CLeftrightarrow~%5Cboldsymbol%7BR%7D%3D%5Cboldsymbol%7BV%7D%5Cboldsymbol%7BU%7D%5E%5Ctext%7BT%7D" alt></p>
+<p>���˿��Եõ���ת���� <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D" alt> , ���ѵõ�ƽ������ <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7Bt%7D+%3D+%5Cboldsymbol%7Bq%7D_0-%5Cboldsymbol%7BR%7D%5Cboldsymbol%7Bp%7D_0" alt> .</p>
+<h2 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h2><p><img src="/2019/05/28/compute-transformation/2.png" alt="img"></p>
+
         </div>
         
-        
-        <div class="level is-mobile">
+        <div class="level is-size-7 is-uppercase">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/05/24/ObjectDetection-and-PoseEstimation/#more">阅读更多</a>
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/LM/">LM</a>, <a class="has-link-grey -link" href="/tags/Registration/">Registration</a>, <a class="has-link-grey -link" href="/tags/SVD/">SVD</a>
                 </div>
             </div>
         </div>
         
+        
+        
+        
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ce8d814d9c29712"></script>
+
         
     </div>
 </div>
 
 
 
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="/images/alqrcode.png" alt="支付宝"></div>
+</a>
+
+                
+                
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>微信</span>
+    <div class="qrcode"><img src="/images/wxqrcode.png" alt="微信"></div>
+</a>
+
+                
+        </div>
+    </div>
+</div>
 
 
 
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/05/24/NDT-Registration/">
+                <span class="level-item">NDT-Registration</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
 
 
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: '8eoAgWMqJvxDePfBogu64i1m-gzGzoHsz',
+        app_key: 'wooEMXdlCj5x9utpB1UhAobQ',
+        placeholder: '( *・ω・)✄╰ひ╯   快来评论鸭！！！'
+    });
+</script>
+
+    </div>
+</div>
 </div>
                 
 
@@ -931,7 +1077,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/pig.png" alt="LittleBear！！！" height="28">
+                    <img src="/images/pig.png" alt="compute-transform" height="28">
                 
                 </a>
                 <p class="is-size-7">
