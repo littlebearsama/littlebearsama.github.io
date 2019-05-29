@@ -16,7 +16,7 @@
 <meta property="og:description" content="随机采样一致性（RANSAC）—— 模型参数估计； 最大似然估计（MLESAC）—— 模型参数估计； 采样一致性初始对齐算法（SAC-IA）—— 粗对齐；">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/anime/game2.png">
-<meta property="og:updated_time" content="2019-05-29T12:26:13.282Z">
+<meta property="og:updated_time" content="2019-05-29T12:31:46.257Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SAC-IA">
 <meta name="twitter:description" content="随机采样一致性（RANSAC）—— 模型参数估计； 最大似然估计（MLESAC）—— 模型参数估计； 采样一致性初始对齐算法（SAC-IA）—— 粗对齐；">
@@ -170,7 +170,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    21 分钟 读完 (大约 3150 个字)
+                    21 分钟 读完 (大约 3115 个字)
                 </span>
                 
                 
@@ -245,8 +245,8 @@
 </li>
 </ol>
 <p>这个特征具有旋转平移不变形的</p>
-<p><img src="/2019/05/29/registration/SAC-IA/C:%5CUsers%5Cxiaoxiong%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1559124158428.png" alt="偶极子"></p>
-<p><img src="/2019/05/29/registration/SAC-IA/C:%5CUsers%5Cxiaoxiong%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1559124167003.png" alt="特征数学形式"></p>
+<p><img src="/2019/05/29/registration/SAC-IA/1.png" alt="偶极子"></p>
+<p><img src="/2019/05/29/registration/SAC-IA/2.png" alt="特征数学形式"></p>
 <ol start="3">
 <li>构建特征表：（找出两个数据的带有特征的关键点集）</li>
 </ol>
@@ -268,8 +268,8 @@
 <h3 id="ICP精确配准"><a href="#ICP精确配准" class="headerlink" title="ICP精确配准"></a>ICP精确配准</h3><p>刚刚的操作是一个预对齐，还要通过一个ICP algorithm 去 refine the pose estimate.</p>
 <h3 id="改进特征："><a href="#改进特征：" class="headerlink" title="改进特征："></a>改进特征：</h3><p>•再考虑到扫描条件不好的表面时候，比如塑料件还有金属表面，由于光学条件，我们用扫描仪扫出来的点云会有部分的点扫描不出来。</p>
 <p>•以及由于扫描仪的成像系统结构原理的原因，有的部分也会扫不出来，像图b一样</p>
-<p><img src="/2019/05/29/registration/SAC-IA/C:%5CUsers%5Cxiaoxiong%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1559127605355.png" alt="a）CAD模型    b）由工件扫描出来的点云                  "></p>
-<p><img src="/2019/05/29/registration/SAC-IA/C:%5CUsers%5Cxiaoxiong%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1559127621076.png" alt="c）由CAD模型提取出来的边界  d）扫描的边界"></p>
+<p><img src="/2019/05/29/registration/SAC-IA/3.png" alt="a）CAD模型    b）由工件扫描出来的点云                  "></p>
+<p><img src="/2019/05/29/registration/SAC-IA/4.png" alt="c）由CAD模型提取出来的边界  d）扫描的边界"></p>
 <p>Problem：请看图b</p>
 <ol>
 <li><p>由于扫描数据不好，会算出错误的”特征点”</p>
@@ -284,7 +284,7 @@
 <li>改进的特征点集</li>
 </ol>
 <p>Using 2d Image Analysis to Enhance the LocalizationPerformance（改进后通过2D图像的边界来代表特征点云）</p>
-<p><img src="/2019/05/29/registration/SAC-IA/C:%5CUsers%5Cxiaoxiong%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1559128010546.png" alt="改进后通过2D图像计算边界"></p>
+<p><img src="/2019/05/29/registration/SAC-IA/5.png" alt="改进后通过2D图像计算边界"></p>
 <ol start="2">
 <li>新的特征：tripole（不带法线）</li>
 </ol>
