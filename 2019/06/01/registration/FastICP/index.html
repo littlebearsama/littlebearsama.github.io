@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>FastICP - LittleBear！！！</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="ICP变种之一 — FastICP 超级详细分析配准步骤与影响ICP的因素，FastICP的由来与论文解读。">
+<meta name="keywords" content="Registration,ICP,FastICP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FastICP">
+<meta property="og:url" content="https://littlebearsama.github.io/2019/06/01/registration/FastICP/index.html">
+<meta property="og:site_name" content="LittleBear！！！">
+<meta property="og:description" content="ICP变种之一 — FastICP 超级详细分析配准步骤与影响ICP的因素，FastICP的由来与论文解读。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://littlebearsama.github.io/images/anime/game3.png">
+<meta property="og:updated_time" content="2019-05-31T16:26:30.705Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="FastICP">
+<meta name="twitter:description" content="ICP变种之一 — FastICP 超级详细分析配准步骤与影响ICP的因素，FastICP的由来与论文解读。">
+<meta name="twitter:image" content="https://littlebearsama.github.io/images/anime/game3.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/pig.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140787042-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-140787042-1');
+</script>
+
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/pig.png" alt="FastICP" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">Home</a>
+                
+                <a class="navbar-item" href="/archives">文章</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about/">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/littlebearsama">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-image">
+        <span class="image is-7by1">
+            <img class="thumbnail" src="/images/anime/game3.png" alt="FastICP">
+        </span>
+    </div>
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-31T16:23:32.000Z">2019-06-01</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Registration/">Registration</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Registration/FastICP/">FastICP</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    31 分钟 读完 (大约 4700 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                FastICP
+            
+        </h1>
+        <div class="content">
+            <p>ICP变种之一 — FastICP</p>
+<p>超级详细分析配准步骤与影响ICP的因素，FastICP的由来与论文解读。</p>
+<a id="more"></a>
+
+<p>建议下载下来用Typora软件阅读markdown文件</p>
+<h1 id="点云配准流程"><a href="#点云配准流程" class="headerlink" title="点云配准流程"></a>点云配准流程</h1><p><img src="/2019/06/01/registration/FastICP/%E4%B8%A4%E4%B8%A4%E9%85%8D%E5%87%86%E6%B5%81%E7%A8%8B.png" alt></p>
+<h1 id="对应估计"><a href="#对应估计" class="headerlink" title="对应估计"></a>对应估计</h1><ol>
+<li>穷举配准(brute force matching)</li>
+<li>kd-tree最近邻查询(第三方库FLANN)</li>
+<li>在有序点云数据的图像空间中查找</li>
+<li>在无序点云数据的索引空间中查找</li>
+</ol>
+<h1 id="对应关系去除"><a href="#对应关系去除" class="headerlink" title="对应关系去除"></a>对应关系去除</h1><p>由于噪声的影响，通常不是所有估计的对应关系都是正确的。由于错误的对应关系对于最终的刚体变换矩阵的估算会产生负面影响，所以必须去它们。</p>
+<p><strong>采用随机采样一致性估计(RANSAC,random sample consensus)</strong>或者其他方法提出错误对应关系，<strong>最终使用的对应关系数量只使用一定比例的对应关系</strong>，这样既可以提高变换矩阵的精度，也可以提高匹配速度。</p>
+<h1 id="计算变换矩阵"><a href="#计算变换矩阵" class="headerlink" title="计算变换矩阵"></a>计算变换矩阵</h1><p><a href="https://littlebearsama.github.io/2019/05/24/registration/compute-transformation/">compute-transform</a></p>
+<h1 id="ICP"><a href="#ICP" class="headerlink" title="ICP"></a>ICP</h1><ol>
+<li><p>寻找点集P在中点集Q的近邻点，将近邻点作为对应点。<strong>确定一组对应点</strong>。</p>
+<p>如何寻找近邻点？</p>
+<ul>
+<li><p>一般通过kdtree数据结构来查找，找到另外一个点集的最近邻点；（PCL中是通过快速近邻算法FLANN库来进行查找）</p>
+</li>
+<li><p>也有通过octree来查找的。</p>
+</li>
+<li><p>有通过互相确认两个点集之间的最近邻点（互为最近邻点），来确定对应关系。</p>
+</li>
+</ul>
+</li>
+<li><p>通过上一步骤计算出来的一组对应关系计算<strong>两个对应关系点集</strong>之间的<strong>变换矩阵</strong>；</p>
+<p>计算变换矩阵的方法有<a href="https://littlebearsama.github.io/2019/05/24/registration/compute-transformation/#more">compute-transform</a></p>
+<p>在ICP中采用了SVD来解算变换矩阵。</p>
+<p><img src="https://littlebearsama.github.io/2019/05/24/registration/compute-transformation/1.png" alt="SVD"></p>
+<p>a. 计算两个点集（对应点集）的质心</p>
+<p>b. 将两个点集通过刚刚计算出来的中心移动到原点。（计算每个点的去质心坐标）</p>
+<p>c. 将移动了的两个点集计算三乘三协方差矩阵</p>
+<p>d. 奇异值分解协方差矩阵得到，<a href="https://baike.sogou.com/v113161.htm?ch=ch.bk.innerlink" target="_blank" rel="noopener">四元数</a>，四元数转旋转矩阵。</p>
+<p>e. 通过旋转矩阵和中心计算平移向量。旋转矩阵和平移向量组成了本次迭代的变换矩阵</p>
+</li>
+<li><p>将点集通过新计算出来的变换矩阵<strong>变换到新的位置</strong>。</p>
+</li>
+<li><p>判断是否收敛。</p>
+<p>如何判断是否收敛？</p>
+<p><strong>重新计算对应点，新计算的对应点之间欧式距离的平方和小于某个设定值则判定为收敛</strong>。</p>
+</li>
+<li><p>判断是否达到迭代次数，或者达到收敛条件，达到条件则停止迭代。没有达到条件就从第二步<strong>SVD计算变换矩阵</strong>开始执行，直至达到收敛标准。</p>
+</li>
+</ol>
+<h1 id="FastICP"><a href="#FastICP" class="headerlink" title="FastICP"></a>FastICP</h1><p>Fast ICP是对ICP的改进与扩展。</p>
+<p>论文”Efficient Variants of the ICPalgorithm”<strong>详细给出了影响ICP算法的各种因素，且每种因素都哪些算法，其结果与性能如何。</strong></p>
+<p>下面内容参考了<a href="https://blog.csdn.net/viewcode/article/details/8426846" target="_blank" rel="noopener">应用Fast ICP进行点集或曲面配准 算法解析</a></p>
+<h2 id="Fast-ICP根据这些因素将ICP算法分为6个步骤："><a href="#Fast-ICP根据这些因素将ICP算法分为6个步骤：" class="headerlink" title="Fast ICP根据这些因素将ICP算法分为6个步骤："></a>Fast ICP根据这些因素将ICP算法分为6个步骤：</h2><p>a. 筛选：点集或曲面的筛选（滤波）</p>
+<p>b. 匹配：两个点集之间的点进行配对</p>
+<p>c. 权重：给每个匹配的点对分配权重</p>
+<p>d. 去除：去除不符合条件的点对</p>
+<p>e. 误差度量：基于以上点对，给出每个点对的误差计算方法</p>
+<p>f. 最小化：最小化误差度量</p>
+<p>为测试以上阶段中不同算法的性能和结果，论文提供了三个测试场景，并在这些点集（曲面）上加上噪声：</p>
+<p><img src="/2019/06/01/registration/FastICP/1.jpg" alt></p>
+<p>比较平滑的波纹： 比较简单的场景，几何尺度变换不是很大</p>
+<p>较复杂的不规则的草原地形： 相对复杂的，包含不同尺度的细节</p>
+<p>仅含有突出一个十字形雕刻面的平面： 对匹配而言，最困难的场景，因为特征太少</p>
+<p>下面是每个阶段的算法的比较：</p>
+<h3 id="a-测试点对的选择对ICP收敛的影响"><a href="#a-测试点对的选择对ICP收敛的影响" class="headerlink" title="a. 测试点对的选择对ICP收敛的影响"></a>a. 测试点对的选择对ICP收敛的影响</h3><p>筛选也有以下几种策略：</p>
+<ul>
+<li>应用点集内所有可用的点[Besl 92]：  无疑是性能最差的方法</li>
+<li>对可用的点进行等间距下采样筛选[Turk 94]</li>
+<li>随机筛选法（每次迭代的采样点都不同）[Masuda 96]</li>
+<li>根据点的密度，颜色来筛选[Weik 97]</li>
+<li>用上面的方法对一个面进行采样或者两个面都进行采样[Godin 94]</li>
+<li><strong>(本文提出(normal-space-sampling))</strong>:法线在所选点之间的分布尽可能地大,(筛选哪些能使点的向量的分布尽量大的点 )这样的目的是突出 特征很少的 点集的特征。</li>
+</ul>
+<p>如下图 a  随机采用法“random sampling”，  图b是”normal-space sampling”策略  </p>
+<p><img src="/2019/06/01/registration/FastICP/E:/sharePCL/6.registration/1.ICP/%E8%AE%BA%E6%96%87/FastICP/2.jpg" alt></p>
+<h4 id="分析："><a href="#分析：" class="headerlink" title="分析："></a>分析：</h4><ol>
+<li><p>对一个点集进行筛选，或者两个点集都进行筛选：对于一般的点集，<strong>两种方法收敛率和结果基本相同</strong>，但仅对一个点集筛选的算法，<strong>数据运算量相对比较大。</strong></p>
+</li>
+<li><p>对于单个mesh面采样和两个mesh面都采样的策略，使用“normal shooting”作为匹配方法，两面采样的收敛率只是比单面的高一点点（真的只是一点点）。</p>
+</li>
+<li><p>由图ab可以明显看出，normal-space sampling策略对点集的较少的特征有着比较好的提取能力。随机采样会对稀疏的特征造成覆盖，导致ICP算法不会收敛到一个正确值。而normal-space sampling策略确保了在特征中放置足够的样本点以使表面对齐</p>
+</li>
+<li><p>三种采样方法对于在<strong>wave数据</strong>中的比较，uniform、random、normal-space sampling，表现相似。</p>
+<p><img src="/2019/06/01/registration/FastICP/3.jpg" alt></p>
+</li>
+<li><p>三种采样方法对于在<strong>incised plane数据</strong>中的比较，uniform、random、normal-space sampling。</p>
+<ul>
+<li>对于incised plane数据只有normal-space sampling收敛，其他方法不收敛。</li>
+<li>在低曲率数据中，误差又短暂的迭代增加。这说明实际误差（ground truth error）和算法中用于估计的误差（algorithm‘s estimate of its own error）是有区别的。</li>
+</ul>
+<p><img src="/2019/06/01/registration/FastICP/4.jpg" alt></p>
+</li>
+</ol>
+<h4 id="Sampling-Direction："><a href="#Sampling-Direction：" class="headerlink" title="Sampling Direction："></a>Sampling Direction：</h4><p>对于数据wave：由于使用了下面提出的匹配方法（对称的symmetric）<strong>（the closest compatible point matching algorithm）</strong>，采样方法对收敛速率没什么大影响。如果我们使用更“非对称”的匹配算法，如projection或Normal shooting(参见3.2节)，对两个mesh下采样会给出稍微更好的结果。</p>
+<h3 id="b-匹配：两个点集之间的点进行配对"><a href="#b-匹配：两个点集之间的点进行配对" class="headerlink" title="b. 匹配：两个点集之间的点进行配对"></a>b. 匹配：两个点集之间的点进行配对</h3><p>匹配的策略有以下几种：</p>
+<ul>
+<li><p><strong>最邻近点法</strong>：此方法还可以<strong>应用k-d树或最邻近点缓存进行加速</strong>[Besl 92]</p>
+</li>
+<li><p><strong>Normal shooting</strong>：source中取一点，沿其点法向量，到destination（曲面的）的交点，形成一个点对。[Chen 91]</p>
+</li>
+<li><p><strong>投影法（projection）</strong>：沿destination mesh的深度相机的视角方向，将source的点投射到destination mesh上。该方法又称“reverse calibration”。</p>
+<p>将source点投影到destination mesh，然后在destination 深度图像中执行搜索；搜索度量:</p>
+<ul>
+<li>point-to-point distance[Benjemaa 97],点对点距离</li>
+<li>point-to-ray distance [Dorai 98], 点对线距离</li>
+<li>or compatibility of intensity [Weik 97] or color [Pulli 97]。密度，颜色</li>
+</ul>
+</li>
+<li><p>基于法线夹角[Pulli 99]或颜色[Godin 94]的兼容度量方法（Compatibility metric）</p>
+</li>
+</ul>
+<p>Fast ICP中不考虑颜色，密度信息。</p>
+<h4 id="分析：-1"><a href="#分析：-1" class="headerlink" title="分析："></a>分析：</h4><ol>
+<li><p><strong>收敛速率</strong>，场景：fractal</p>
+<p>对于这一场景，Normal shooting的效果最好，其次是投影（projection）算法。相比之下，最接近点算法的性能相对较差。</p>
+<p>我们假设这是因为最接近点算法对噪声更敏感，并且比其他算法更容易产生大量不正确的配对(下图)。</p>
+</li>
+</ol>
+<p><img src="/2019/06/01/registration/FastICP/7.jpg" alt="图7"></p>
+<p>在存在噪声和异常值（图ab中的凸起为干扰）的情况下，当网格距离较远时，最接近点匹配算法可能会产生大量不正确的配对，从而减缓收敛速度。(b)“投影”匹配策略对噪音较不敏感。</p>
+<p><img src="/2019/06/01/registration/FastICP/5.jpg" alt="投影法（b）与最近邻法（a）的示意图："></p>
+<p>从图上看，可以看出<strong>最邻近点法容易受到噪声的干扰，而投影法不受噪声的干扰。</strong></p>
+<ol start="2">
+<li><p><strong>收敛速度和时间</strong>，场景：fractal</p>
+<p>比较各种匹配算法的“fractal” meshes的<strong>收敛速度和时间</strong>(参见图7)。</p>
+</li>
+</ol>
+<p>注意，这些时间不包括预计算(特别是前四种算法使用的k-d树的计算需要0.64秒)</p>
+<p>下面匹配算法使用了kd-tree：</p>
+<ul>
+<li>closest-point</li>
+<li>closest compatible point</li>
+<li>Normal shooting</li>
+<li>Normal shoot compatibile</li>
+</ul>
+<p>下面没有使用匹配算法kdtree</p>
+<ul>
+<li>project</li>
+<li>project and walk</li>
+</ul>
+<p><img src="/2019/06/01/registration/FastICP/E:/sharePCL/6.registration/1.ICP/%E8%AE%BA%E6%96%87/FastICP/8.jpg" alt></p>
+<p><strong>从上图来看（没有包含kdtree计算时间，如果包含了对比起来投影算法更加有利），投影法的计算速度非常快，这是因为不仅投影法的收敛速度快，而且其算法复杂度为O(1),而其他的算法复杂度为O(logN)。</strong></p>
+<ol start="2">
+<li>在雕刻十字面的场景下：（closest-point algorithms是唯一收敛的方法）</li>
+</ol>
+<p><img src="/2019/06/01/registration/FastICP/6.jpg" alt></p>
+<p>(上图)在这里，最接近点算法是唯一收敛到正确解的算法。因此，我们的结论是，尽管对于“简单”场景，最接近点算法可能没有最快的收敛速度，<strong>但对于“简单”场景，它们是最健壮的</strong>。</p>
+<h4 id="匹配方法选择："><a href="#匹配方法选择：" class="headerlink" title="匹配方法选择："></a>匹配方法选择：</h4><ol>
+<li>对于非常简单的场景使用：closest-point algorithms</li>
+<li>其他场景使用：project</li>
+</ol>
+<h3 id="c-权重：给每个匹配的点对分配权重"><a href="#c-权重：给每个匹配的点对分配权重" class="headerlink" title="c. 权重：给每个匹配的点对分配权重"></a>c. 权重：给每个匹配的点对分配权重</h3><p>权重分配的策略有以下几种：</p>
+<ul>
+<li><p><strong>Constant weight</strong>：均匀分配，即常数加权。</p>
+</li>
+<li><p>根据点对距离加权，点对间距大，权重就小，反之，权重就大。<img src="/2019/06/01/registration/FastICP/gongshi.png" alt></p>
+</li>
+<li><p>根据向量的一致性（compability）进行加权，weight = n1 * n2</p>
+</li>
+<li><p>不确定性</p>
+</li>
+</ul>
+<p>这几种方法的收敛速度和效果都差别大。总体上来讲，向量一致（兼容）的方法 适应性和速度比其他方法好点。</p>
+<h4 id="分析：-2"><a href="#分析：-2" class="headerlink" title="分析："></a>分析：</h4><ol>
+<li><p>对于场景wave</p>
+<p>下图，比较wave meshes的收敛速率，为几种加权函数的选择。为了增加变量之间的差异，我们在网格中增加了一倍的噪声和异常值。</p>
+</li>
+</ol>
+<p><img src="/2019/06/01/registration/FastICP/11.png" alt="figure11"><br>        我们发现，即使添加额外的噪声，所有的加权策略都具有相似的性能，</p>
+<p> uncertainty 和 compatibility of normals  性能稍好</p>
+<ol start="2">
+<li>对于场景 incised plane scene<br><img src="/2019/06/01/registration/FastICP/12.png" alt="figure12"></li>
+</ol>
+<p>结果是与wave相似的，尽管在性能上有较大的差异。然而，我们在解释这个结果时必须谨慎，因为基于uncertainty 的权重会给模型中法线指向距离扫描器以外的点分配更高的权重。因此，对于这一场景，uncertainty 权重给切口内的点赋予了更高的权重，提高了收敛速度。</p>
+<h4 id="结论："><a href="#结论：" class="headerlink" title="结论："></a>结论：</h4><p><strong>我们的结论是，加权对收敛速度的影响一般较小，且高度依赖于数据，加权函数的选择应基于其他因素，如最终结果的准确性;</strong></p>
+<h3 id="d-去除：去除不符合条件的点对"><a href="#d-去除：去除不符合条件的点对" class="headerlink" title="d. 去除：去除不符合条件的点对"></a>d. 去除：去除不符合条件的点对</h3><p>这样做的目的通常是为了消除异常值，当执行最小二乘最小化时，这些异常值可能会产生很大的影响。</p>
+<p>这个阶段的策略包括：</p>
+<ul>
+<li><p>固定阈值法：当间距大于一个值时，就去除这个点对</p>
+</li>
+<li><p>固定比例法：每次迭代，去除最差的%n的点对</p>
+</li>
+<li><p>标准差法：将阈值设置为所有点对间距的标准差*2.5</p>
+</li>
+<li><p>去除曲面边界的点对，如下图，曲面边界点的点对是不合理的，在两个点集做部分匹配的时候。</p>
+</li>
+</ul>
+<p><img src="/2019/06/01/registration/FastICP/9.jpg" alt></p>
+<p>这几种方法的收敛速度差别不大，而且收敛效果也差别不大。<strong>但是去除outlier点对这个步骤 对收敛结果 的作用还是明显的。</strong></p>
+<p><img src="/2019/06/01/registration/FastICP/10.jpg" alt></p>
+<h3 id="ef-误差度量和最小化：基于以上点对，给出每个点对的误差计算方法"><a href="#ef-误差度量和最小化：基于以上点对，给出每个点对的误差计算方法" class="headerlink" title="ef. 误差度量和最小化：基于以上点对，给出每个点对的误差计算方法"></a>ef. 误差度量和最小化：基于以上点对，给出每个点对的误差计算方法</h3><h4 id="误差度量的策略："><a href="#误差度量的策略：" class="headerlink" title="误差度量的策略："></a>误差度量的策略：</h4><ol>
+<li><p>对应点之间距离的平方之和</p>
+<p>最小化：</p>
+<p>based on singular value decomposition [Arun 87], quaternions [Horn 87], orthonormal matrices [Horn 88], and dual quaternions [Walker 91] have been proposed</p>
+</li>
+<li><p>点到面的距离平方和：从每个源点到包含目标点且方向垂直于目标法线的平面距离的平方和[Chen 911]</p>
+<p>最小化：</p>
+<p>在这种“点对平面”的情况下，没有可用的封闭形式的解决方案。最小二乘方程可以用一般的非线性方法(如Levenberg-Marquardt)求解。</p>
+</li>
+<li><p>点到点和点到面的外推法</p>
+</li>
+</ol>
+<h3 id="为对齐（alignment）规划五种搜索方案"><a href="#为对齐（alignment）规划五种搜索方案" class="headerlink" title="为对齐（alignment）规划五种搜索方案"></a>为对齐（alignment）规划五种搜索方案</h3><ol>
+<li>使用当前变换反复生成一组对应的点，并找到一个最小化误差度量的新变换[Chen 91]。（简单来说就是在所有对应点对中随机采样，采样出多组子集，选出一个误差度量最小的变换）</li>
+<li>上述迭代最小化，结合变换空间的外推（extrapolation in transform space ），加速收敛[Besl 92]</li>
+<li>在初始条件下，从多个扰动开始进行迭代最小化，然后选择最佳结果[Simon 96]。这避免了误差函数中的伪局部极小值，特别是在使用点对点误差度量时。</li>
+<li>使用随机选择的点子集进行迭代最小化，然后使用鲁棒(最小二乘)度量选择最优结果[Masuda 96]。</li>
+<li>采用模拟退火随机搜索最佳变换[Blais 95]。</li>
+</ol>
+<p>由于我们的重点是收敛速度，而后三种方法往往比较慢，所以我们的比较将集中在上面描述的前两种方法(即，“经典”ICP ‘迭代，包括或不包括外推)。我们使用的外推算法是基于Besl和McKay所描述的算法，算法有两个小的变化，以提高效率和减少超调:</p>
+<ol>
+<li><p><strong>当尝试二次外推时，抛物线向下开口，我们使用最大的x截距，而不是抛物线的极值。</strong></p>
+</li>
+<li><p><strong>我们将外推量乘以一个阻尼因子，在实现中任意设置为/2。我们发现，虽然这偶尔会降低外推的好处，但它也增加了稳定性，消除了许多超调的问题。</strong></p>
+</li>
+</ol>
+<p>  <img src="/2019/06/01/registration/FastICP/11.jpg" alt><img src="/2019/06/01/registration/FastICP/12.jpg" alt></p>
+<p>比较其收敛速率和效果：</p>
+<ol>
+<li><p>在fractal scene中，我们可以看到<strong>点对面误差度量的性能明显优于点对点度量</strong>，即使添加了外推</p>
+</li>
+<li><p>在 incised plane中：点对点算法不能达到正确的解决方案，因为使用点对点误差度量不允许平面彼此容易滑动。</p>
+</li>
+</ol>
+<p>结论：<strong>点到面和点到面外推法的度量方式效果更好。</strong></p>
+<p>Fast ICP分析了不同阶段里，各种因素或策略对算法性能和结果的影响。应可以根据不同的需求，来选取不同的算法对点集或曲面进行配准。</p>
+<p><strong>在算法效果差别不大的情况下，尽量选择简单的算法，来提高运行速度，如随机采样，常数加权，固定阈值等。</strong></p>
+<h2 id="结论：-1"><a href="#结论：-1" class="headerlink" title="结论："></a>结论：</h2><h3 id="文章内容："><a href="#文章内容：" class="headerlink" title="文章内容："></a>文章内容：</h3><p>上述实验对几种icp变种进行了对比，着重于<strong>对收敛速度的影响</strong>。</p>
+<ol>
+<li><p>介绍了一种新的采样方法：normal-space-sampling</p>
+<p>有助于在小和稀疏特征曲面的场景收敛。</p>
+</li>
+<li><p>用投影法做对应点匹配收敛速度和运行速度都快</p>
+</li>
+<li><p>给出了一种等时变体（constant-time variant）的找对应点的方法，只用几十毫秒就能对齐两个meshes。</p>
+</li>
+<li><p>去除outliers作用还是明显的，各种方法区别不大</p>
+</li>
+<li><p>在误差度量和最小化中，点到面和点到面外推法的度量方式效果更好</p>
+</li>
+<li><p>本文并没有测试ICP变体的稳定性和鲁棒性。</p>
+</li>
+</ol>
+<h3 id="结论：-2"><a href="#结论：-2" class="headerlink" title="结论："></a>结论：</h3><p>提出了一种基于投影的点对应生成算法。与Neugebauer类似，我们将这种匹配算法与点对面误差度量和标准的选择匹配最小化ICP迭代相结合。(30毫秒完成两幅大象扫描的融合)</p>
+<ol start="0">
+<li><p>由于没有kdtree（时间复杂度O log(N)）的预处理步骤，系统快了很多。</p>
+</li>
+<li><p><strong>correspondences matching</strong>：提出了一种基于投影的点对应生成算法。（projection-based algorithm）</p>
+</li>
+<li><p><strong>error metric</strong>:点对面误差度量(point-to-plane error metric)</p>
+</li>
+<li><p>ICP过程的其他阶段似乎对收敛速度影响不大，因此我们选择了最简单的阶段，即<strong>随机抽样</strong>、<strong>恒定权重</strong>和<strong>距离阈值用于剔除outliers</strong></p>
+</li>
+</ol>
+<h1 id="ICP开源软件："><a href="#ICP开源软件：" class="headerlink" title="ICP开源软件："></a>ICP开源软件：</h1><h2 id="Implementations"><a href="#Implementations" class="headerlink" title="Implementations"></a>Implementations</h2><ul>
+<li><a href="https://en.wikipedia.org/wiki/MeshLab" target="_blank" rel="noopener">MeshLab</a> an open source mesh processing tool that includes a GNU General Public License implementation of the ICP algorithm.</li>
+<li><a href="https://en.wikipedia.org/wiki/CloudCompare" target="_blank" rel="noopener">CloudCompare</a> an open source point and model processing tool that includes an implementation of the ICP algorithm. Released under the GNU General Public License.</li>
+<li><a href="https://en.wikipedia.org/wiki/PCL_(Point_Cloud_Library)" target="_blank" rel="noopener">PCL (Point Cloud Library)</a> is an open-source framework for n-dimensional point clouds and 3D geometry processing. It includes several variants of the ICP algorithm.<a href="https://en.wikipedia.org/wiki/Iterative_closest_point#cite_note-PCL-Tutorial-8" target="_blank" rel="noopener">[8]</a></li>
+<li>Open source C++ implementations of the ICP algorithm are available in <a href="https://en.wikipedia.org/wiki/VTK" target="_blank" rel="noopener">VTK</a>, <a href="https://en.wikipedia.org/wiki/Insight_Segmentation_and_Registration_Toolkit" target="_blank" rel="noopener">ITK</a> and <a href="http://www.open3d.org/" target="_blank" rel="noopener">Open3D</a> libraries.</li>
+<li><a href="https://github.com/ethz-asl/libpointmatcher" target="_blank" rel="noopener">libpointmatcher</a> is an implementation of point-to-point and point-to-plane ICP released under a BSD license.</li>
+</ul>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/FastICP/">FastICP</a>, <a class="has-link-grey -link" href="/tags/ICP/">ICP</a>, <a class="has-link-grey -link" href="/tags/Registration/">Registration</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ce8d814d9c29712"></script>
+
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="/images/alqrcode.png" alt="支付宝"></div>
+</a>
+
+                
+                
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>微信</span>
+    <div class="qrcode"><img src="/images/wxqrcode.png" alt="微信"></div>
+</a>
+
+                
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/05/29/registration/SAC-IA/">
+                <span class="level-item">SAC-IA</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: '8eoAgWMqJvxDePfBogu64i1m-gzGzoHsz',
+        app_key: 'wooEMXdlCj5x9utpB1UhAobQ',
+        placeholder: '( *・ω・)✄╰ひ╯   快来评论鸭！！！'
+    });
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/touxiang.jpg" alt="xiaoxiong">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        xiaoxiong
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        ROBOT and ANIME
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>GuangZhou</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        30
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        17
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        16
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/littlebearsama" target="_blank">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/littlebearsama">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://github.com/RobotWithCV" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">RobotWithCV</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">github.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/CV-Source/">
+            <span class="level-start">
+                <span class="level-item">CV-Source</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/ObjectDetection-and-PoseEstimation/">
+            <span class="level-start">
+                <span class="level-item">ObjectDetection and PoseEstimation</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/ObjectDetection-and-PoseEstimation/tutorial/">
+            <span class="level-start">
+                <span class="level-item">tutorial</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/PCL/">
+            <span class="level-start">
+                <span class="level-item">PCL</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/PCL/config/">
+            <span class="level-start">
+                <span class="level-item">config</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/PCL/descriptors/">
+            <span class="level-start">
+                <span class="level-item">descriptors</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/PCL/keypoints/">
+            <span class="level-start">
+                <span class="level-item">keypoints</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/PCL/tutorial/">
+            <span class="level-start">
+                <span class="level-item">tutorial</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Registration/">
+            <span class="level-start">
+                <span class="level-item">Registration</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Registration/FastICP/">
+            <span class="level-start">
+                <span class="level-item">FastICP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/ICP/">
+            <span class="level-start">
+                <span class="level-item">ICP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/NDT/">
+            <span class="level-start">
+                <span class="level-item">NDT</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/SAC-IA/">
+            <span class="level-start">
+                <span class="level-item">SAC-IA</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/compute-transform/">
+            <span class="level-start">
+                <span class="level-item">compute transform</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/编程/">
+            <span class="level-start">
+                <span class="level-item">编程</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">19</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/编程/C/">
+            <span class="level-start">
+                <span class="level-item">C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/编程/CUDA/">
+            <span class="level-start">
+                <span class="level-item">CUDA</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/C/" style="font-size: 20px;">C++</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CV-Source/" style="font-size: 10px;">CV-Source</a> <a href="/tags/Despriptors/" style="font-size: 10px;">Despriptors</a> <a href="/tags/FastICP/" style="font-size: 10px;">FastICP</a> <a href="/tags/ICP/" style="font-size: 12px;">ICP</a> <a href="/tags/LM/" style="font-size: 10px;">LM</a> <a href="/tags/NDT/" style="font-size: 10px;">NDT</a> <a href="/tags/ObjectDetection/" style="font-size: 10px;">ObjectDetection</a> <a href="/tags/PCL/" style="font-size: 16px;">PCL</a> <a href="/tags/PoseEstimation/" style="font-size: 14px;">PoseEstimation</a> <a href="/tags/RANSAC/" style="font-size: 10px;">RANSAC</a> <a href="/tags/Registration/" style="font-size: 18px;">Registration</a> <a href="/tags/SAC-IA/" style="font-size: 10px;">SAC-IA</a> <a href="/tags/SVD/" style="font-size: 10px;">SVD</a> <a href="/tags/keypoints/" style="font-size: 10px;">keypoints</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/06/01/registration/FastICP/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/anime/game3.png" alt="FastICP">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T16:23:32.000Z">2019-06-01</time></div>
+                    <a href="/2019/06/01/registration/FastICP/" class="has-link-black-ter is-size-6">FastICP</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/FastICP/">FastICP</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/29/registration/SAC-IA/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/anime/game2.png" alt="SAC-IA">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-29T12:24:21.935Z">2019-05-29</time></div>
+                    <a href="/2019/05/29/registration/SAC-IA/" class="has-link-black-ter is-size-6">SAC-IA</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/SAC-IA/">SAC-IA</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/28/ObjectDetection-and-PoseEstimation/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/anime/1.jpg" alt="ObjectDetection and PoseEstimation">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-28T08:51:49.000Z">2019-05-28</time></div>
+                    <a href="/2019/05/28/ObjectDetection-and-PoseEstimation/" class="has-link-black-ter is-size-6">ObjectDetection and PoseEstimation</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/">ObjectDetection and PoseEstimation</a> / <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/tutorial/">tutorial</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/registration/NDT-Registration/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/anime/4.jpg" alt="NDT-Registration">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-24T09:03:21.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/registration/NDT-Registration/" class="has-link-black-ter is-size-6">NDT-Registration</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/NDT/">NDT</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/registration/ICP-Registration/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/anime/3.jpg" alt="ICP-Registration">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-24T09:02:54.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/registration/ICP-Registration/" class="has-link-black-ter is-size-6">ICP-Registration</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/ICP/">ICP</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">六月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">29</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/C/">
+                        <span class="tag">C++</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/CUDA/">
+                        <span class="tag">CUDA</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/CV-Source/">
+                        <span class="tag">CV-Source</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Despriptors/">
+                        <span class="tag">Despriptors</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/FastICP/">
+                        <span class="tag">FastICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ICP/">
+                        <span class="tag">ICP</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/LM/">
+                        <span class="tag">LM</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/NDT/">
+                        <span class="tag">NDT</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ObjectDetection/">
+                        <span class="tag">ObjectDetection</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/PCL/">
+                        <span class="tag">PCL</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/PoseEstimation/">
+                        <span class="tag">PoseEstimation</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/RANSAC/">
+                        <span class="tag">RANSAC</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Registration/">
+                        <span class="tag">Registration</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SAC-IA/">
+                        <span class="tag">SAC-IA</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SVD/">
+                        <span class="tag">SVD</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/keypoints/">
+                        <span class="tag">keypoints</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/06/01/registration/FastICP/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/anime/game3.png" alt="FastICP">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-31T16:23:32.000Z">2019-06-01</time></div>
+                    <a href="/2019/06/01/registration/FastICP/" class="has-link-black-ter is-size-6">FastICP</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/FastICP/">FastICP</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/29/registration/SAC-IA/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/anime/game2.png" alt="SAC-IA">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-29T12:24:21.935Z">2019-05-29</time></div>
+                    <a href="/2019/05/29/registration/SAC-IA/" class="has-link-black-ter is-size-6">SAC-IA</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/SAC-IA/">SAC-IA</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/28/ObjectDetection-and-PoseEstimation/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/anime/1.jpg" alt="ObjectDetection and PoseEstimation">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-28T08:51:49.000Z">2019-05-28</time></div>
+                    <a href="/2019/05/28/ObjectDetection-and-PoseEstimation/" class="has-link-black-ter is-size-6">ObjectDetection and PoseEstimation</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/">ObjectDetection and PoseEstimation</a> / <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/tutorial/">tutorial</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/registration/NDT-Registration/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/anime/4.jpg" alt="NDT-Registration">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-24T09:03:21.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/registration/NDT-Registration/" class="has-link-black-ter is-size-6">NDT-Registration</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/NDT/">NDT</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/05/24/registration/ICP-Registration/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/anime/3.jpg" alt="ICP-Registration">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-24T09:02:54.000Z">2019-05-24</time></div>
+                    <a href="/2019/05/24/registration/ICP-Registration/" class="has-link-black-ter is-size-6">ICP-Registration</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/ICP/">ICP</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">六月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">29</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/C/">
+                        <span class="tag">C++</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/CUDA/">
+                        <span class="tag">CUDA</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/CV-Source/">
+                        <span class="tag">CV-Source</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Despriptors/">
+                        <span class="tag">Despriptors</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/FastICP/">
+                        <span class="tag">FastICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ICP/">
+                        <span class="tag">ICP</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/LM/">
+                        <span class="tag">LM</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/NDT/">
+                        <span class="tag">NDT</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ObjectDetection/">
+                        <span class="tag">ObjectDetection</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/PCL/">
+                        <span class="tag">PCL</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/PoseEstimation/">
+                        <span class="tag">PoseEstimation</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/RANSAC/">
+                        <span class="tag">RANSAC</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Registration/">
+                        <span class="tag">Registration</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SAC-IA/">
+                        <span class="tag">SAC-IA</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SVD/">
+                        <span class="tag">SVD</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/keypoints/">
+                        <span class="tag">keypoints</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/pig.png" alt="FastICP" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2019 小熊&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
