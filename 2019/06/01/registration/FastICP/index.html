@@ -8,7 +8,7 @@
 
 
     <meta name="description" content="ICP变种之一 — FastICP 超级详细分析配准步骤与影响ICP的因素，FastICP的由来与论文解读。">
-<meta name="keywords" content="ICP,Registration,FastICP">
+<meta name="keywords" content="Registration,ICP,FastICP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="FastICP">
 <meta property="og:url" content="https://littlebearsama.github.io/2019/06/01/registration/FastICP/index.html">
@@ -16,7 +16,7 @@
 <meta property="og:description" content="ICP变种之一 — FastICP 超级详细分析配准步骤与影响ICP的因素，FastICP的由来与论文解读。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/anime/game3.png">
-<meta property="og:updated_time" content="2019-06-01T01:15:53.380Z">
+<meta property="og:updated_time" content="2019-06-01T01:32:09.816Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="FastICP">
 <meta name="twitter:description" content="ICP变种之一 — FastICP 超级详细分析配准步骤与影响ICP的因素，FastICP的由来与论文解读。">
@@ -170,7 +170,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    31 分钟 读完 (大约 4695 个字)
+                    31 分钟 读完 (大约 4679 个字)
                 </span>
                 
                 
@@ -254,7 +254,7 @@
 <li><strong>(本文提出(normal-space-sampling))</strong>:法线在所选点之间的分布尽可能地大,(筛选哪些能使点的向量的分布尽量大的点 )这样的目的是突出 特征很少的 点集的特征。</li>
 </ul>
 <p>如下图 a  随机采用法“random sampling”，  图b是”normal-space sampling”策略  </p>
-<p><img src="/2019/06/01/registration/FastICP/E:/sharePCL/6.registration/1.ICP/%E8%AE%BA%E6%96%87/FastICP/2.JPG" alt></p>
+<p><img src="/2019/06/01/registration/FastICP/2.JPG" alt></p>
 <h4 id="分析："><a href="#分析：" class="headerlink" title="分析："></a>分析：</h4><ol>
 <li><p>对一个点集进行筛选，或者两个点集都进行筛选：对于一般的点集，<strong>两种方法收敛率和结果基本相同</strong>，但仅对一个点集筛选的算法，<strong>数据运算量相对比较大。</strong></p>
 </li>
@@ -320,7 +320,7 @@
 <li>project</li>
 <li>project and walk</li>
 </ul>
-<p><img src="/2019/06/01/registration/FastICP/E:/sharePCL/6.registration/1.ICP/%E8%AE%BA%E6%96%87/FastICP/8.JPG" alt></p>
+<p><img src="/2019/06/01/registration/FastICP/8.JPG" alt></p>
 <p><strong>从上图来看（没有包含kdtree计算时间，如果包含了对比起来投影算法更加有利），投影法的计算速度非常快，这是因为不仅投影法的收敛速度快，而且其算法复杂度为O(1),而其他的算法复杂度为O(logN)。</strong></p>
 <ol start="2">
 <li>在雕刻十字面的场景下：（closest-point algorithms是唯一收敛的方法）</li>
