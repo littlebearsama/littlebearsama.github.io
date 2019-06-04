@@ -16,7 +16,7 @@
 <meta property="og:description" content="配准算法之 — NDT 超级详细介绍NDT">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-06-04T18:04:56.914Z">
+<meta property="og:updated_time" content="2019-06-04T18:08:11.512Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Detailed Notes to NDT">
 <meta name="twitter:description" content="配准算法之 — NDT 超级详细介绍NDT">
@@ -160,7 +160,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    25 分钟 读完 (大约 3715 个字)
+                    24 分钟 读完 (大约 3631 个字)
                 </span>
                 
                 
@@ -188,11 +188,11 @@
 <li>该变换<strong>将点云映射到光滑的表面表示</strong>，该表面表示为一组局部概率密度函数(PDFs)，每一个PDFs都描述了表面的一段形状。</li>
 </ul>
 <h2 id="PDFs："><a href="#PDFs：" class="headerlink" title="PDFs："></a>PDFs：</h2><h3 id="PDF的几何意义"><a href="#PDF的几何意义" class="headerlink" title="PDF的几何意义"></a>PDF的几何意义</h3><p><strong>正态分布给出了具有连续导数的点云的分段光滑表示。每个PDF都可以看作是局部表面的近似，描述了表面的位置以及它的方向和平滑度</strong>。二维激光扫描及其对应的正态分布如图6.1所示。图6.2展示了矿井巷道扫描的三维正态分布。</p>
-<p><img src="/2019/06/04/registration/Detailed_Notes_to_NDT/F:/github/littlebear_hexoblog/source/_posts/registration/Detailed_Notes_to_NDT/ndt_representation0.png" alt="图6.1"></p>
+<p><img src="/2019/06/04/registration/Detailed_Notes_to_NDT/ndt_representation0.png" alt="图6.1"></p>
 <blockquote>
 <p>一个二维激光扫描从一个矿井隧道(显示为点)和PDFs描述的表面形状。在这种情况下，每个单元格都是一个边长为2米的正方形。较亮的区域表示较高的概率。PDFs只计算了五点以上的单元格</p>
 </blockquote>
-<p><img src="/2019/06/04/registration/Detailed_Notes_to_NDT/F:/github/littlebear_hexoblog/source/_posts/registration/Detailed_Notes_to_NDT/ndt_representation.png" alt="图6.2"></p>
+<p><img src="/2019/06/04/registration/Detailed_Notes_to_NDT/ndt_representation.png" alt="图6.2"></p>
 <blockquote>
 <p>上图为隧道断面的3D-NDT表面表示。</p>
 <p>更亮、更密集的部分表示更高的概率。cell的边长为1米。</p>
@@ -201,11 +201,11 @@
 <li>在一维情况下,对于一个正态分布随机变量x来说，有确定的期望值:μ</li>
 </ol>
 <p>​                                                                                    和还不确定方差的值:σ。</p>
-<p><img src="/2019/06/04/registration/Detailed_Notes_to_NDT/F:/github/littlebear_hexoblog/source/_posts/registration/Detailed_Notes_to_NDT/6.4.png" alt="式子6.4"></p>
-<p>在式子6.1中的多元概率函数<img src="/2019/06/04/registration/Detailed_Notes_to_NDT/F:/github/littlebear_hexoblog/source/_posts/registration/Detailed_Notes_to_NDT/px.png" alt>，在一维情况下(D = 1)降为上面的p(x)。</p>
-<p>在多维的情况下，<strong>均值μ和方差σ</strong>取而代之的是<strong>均值向量和协方差矩阵</strong><img src="/2019/06/04/registration/Detailed_Notes_to_NDT/F:/github/littlebear_hexoblog/source/_posts/registration/Detailed_Notes_to_NDT/vecotrandcon.png" alt>。</p>
+<p><img src="/2019/06/04/registration/Detailed_Notes_to_NDT/6.4.png" alt="式子6.4"></p>
+<p>在式子6.1中的多元概率函数<img src="/2019/06/04/registration/Detailed_Notes_to_NDT/px.png" alt>，在一维情况下(D = 1)降为上面的p(x)。</p>
+<p>在多维的情况下，<strong>均值μ和方差σ</strong>取而代之的是<strong>均值向量和协方差矩阵</strong><img src="/2019/06/04/registration/Detailed_Notes_to_NDT/vecotrandcon.png" alt>。</p>
 <p>协方差矩阵的对角线元素表示每个变量的方差，非对角元素表示变量的协方差。图6.3说明了一维、二维和三维的正态分布。</p>
-<p><img src="/2019/06/04/registration/Detailed_Notes_to_NDT/F:/github/littlebear_hexoblog/source/_posts/registration/Detailed_Notes_to_NDT/PDFs.png" alt="图6.3"></p>
+<p><img src="/2019/06/04/registration/Detailed_Notes_to_NDT/PDFs.png" alt="图6.3"></p>
 <p>在二维和三维的情况下，可以通过<strong>协方差矩阵的特征向量和特征值</strong>来判断曲面的<strong>方向和光滑度</strong>,也就是说，一组正交向量对应于各变量协方差的主方向。取决于方差的比例，二维正态分布可以是点形(如果方差相似)，也可以是线形(如果一个比另一个大得多)，或者介于两者之间。</p>
 <p>在三维情况下如图6.4所示</p>
 <ol>
@@ -213,7 +213,7 @@
 <li><strong>一条直线</strong>(如果一个方向的方差远大于另两个方向的方差)，</li>
 <li>或者<strong>一个平面</strong>(如果一个方向的方差比另两个方向的方差小得多)。</li>
 </ol>
-<p><img src="/2019/06/04/registration/Detailed_Notes_to_NDT/F:/github/littlebear_hexoblog/source/_posts/registration/Detailed_Notes_to_NDT/tu6.4.png" alt="图6.4"></p>
+<p><img src="/2019/06/04/registration/Detailed_Notes_to_NDT/tu6.4.png" alt="图6.4"></p>
 <h3 id="计算每个网格里面的PDF"><a href="#计算每个网格里面的PDF" class="headerlink" title="计算每个网格里面的PDF"></a>计算每个网格里面的PDF</h3><ul>
 <li>该算法的第一步是将扫描占用的空间细<strong>分为单元格网格</strong>（a grid of cells）(二维情况下为正方形case，三维情况下为立方体cubes)。</li>
 <li>根据单元内的点分布，<strong>每个单元计算一个PDF</strong>。（probability density functions）概率密度函数</li>
@@ -244,9 +244,9 @@
 <ul>
 <li><strong>对点云通过变换函数变换后，对新的点云中每个点的概率的负对数累加</strong><img src="/2019/06/04/registration/Detailed_Notes_to_NDT/negative_log-likelihood.png" alt="式6.6"></li>
 </ul>
-<h3 id="d-改进PDF"><a href="#d-改进PDF" class="headerlink" title="d.改进PDF"></a>d.改进PDF</h3><p>如图6.5所示比较正态分布<img src="/2019/06/04/registration/Detailed_Notes_to_NDT/F:/github/littlebear_hexoblog/source/_posts/registration/Detailed_Notes_to_NDT/px.png" alt>和混合模型<img src="/2019/06/04/registration/Detailed_Notes_to_NDT/F:/github/littlebear_hexoblog/source/_posts/registration/Detailed_Notes_to_NDT/px-.png" alt>。</p>
+<h3 id="d-改进PDF"><a href="#d-改进PDF" class="headerlink" title="d.改进PDF"></a>d.改进PDF</h3><p>如图6.5所示比较正态分布<img src="/2019/06/04/registration/Detailed_Notes_to_NDT/px.png" alt>和混合模型<img src="/2019/06/04/registration/Detailed_Notes_to_NDT/px-.png" alt>。</p>
 <blockquote>
-<p>负对数似然是进行NDT扫描配准时的目标函数。它的导数描述了特定测量对解的偏置。对于<img src="/2019/06/04/registration/Detailed_Notes_to_NDT/F:/github/littlebear_hexoblog/source/_posts/registration/Detailed_Notes_to_NDT/px.png" alt>，对于较大的<img src="/2019/06/04/registration/Detailed_Notes_to_NDT/F:/github/littlebear_hexoblog/source/_posts/registration/Detailed_Notes_to_NDT/x_vector.png" alt>，影响是没有边界的，而对于<img src="/2019/06/04/registration/Detailed_Notes_to_NDT/F:/github/littlebear_hexoblog/source/_posts/registration/Detailed_Notes_to_NDT/px-.png" alt>，影响是有边界的。<br><img src="/2019/06/04/registration/Detailed_Notes_to_NDT/tu6.5.png" alt="图6.5"></p>
+<p>负对数似然是进行NDT扫描配准时的目标函数。它的导数描述了特定测量对解的偏置。对于<img src="/2019/06/04/registration/Detailed_Notes_to_NDT/px.png" alt>，对于较大的<img src="/2019/06/04/registration/Detailed_Notes_to_NDT/x_vector.png" alt>，影响是没有边界的，而对于<img src="/2019/06/04/registration/Detailed_Notes_to_NDT/px-.png" alt>，影响是有边界的。<br><img src="/2019/06/04/registration/Detailed_Notes_to_NDT/tu6.5.png" alt="图6.5"></p>
 </blockquote>
 <h4 id="1-使用正态分布和均匀分布的混合模型的PDF："><a href="#1-使用正态分布和均匀分布的混合模型的PDF：" class="headerlink" title="1.使用正态分布和均匀分布的混合模型的PDF："></a>1.使用正态分布和均匀分布的混合模型的PDF：<img src="/2019/06/04/registration/Detailed_Notes_to_NDT/px-.png" alt></h4><p><strong>PDF(概率密度函数)不一定限于正态分布，任何局部捕获表面点结构并对异常值具有鲁棒性的PDF都是合适的。</strong></p>
 <p>“正态分布的负对数”可能性在<strong>远离均值的点上无限增长</strong>。因此，扫描数据中的异常值可能对结果有很大的影响。摒弃正态分布的PDF。</p>
