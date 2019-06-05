@@ -16,7 +16,7 @@
 <meta property="og:description" content="第九章 原子性 计算功能集、原子操作、计算直方图 GitHub 建议下载下来用Typora软件阅读markdown文件">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-06-05T00:23:14.299Z">
+<meta property="og:updated_time" content="2019-06-05T00:46:10.855Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cudanote6">
 <meta name="twitter:description" content="第九章 原子性 计算功能集、原子操作、计算直方图 GitHub 建议下载下来用Typora软件阅读markdown文件">
@@ -196,7 +196,7 @@
 <li>当设置的计算能力比硬件本身高比如计算能力是6.1的（1080TI），设置 compute=62，sm=62 会出现错误，kernel不会被执行。</li>
 <li>在.cu文件设置自己硬件的计算能力，如果不去设置或者去设置比较低的计算能力，比如设置compute_30,sm_30，那么自然地编译出来的程序的性能就会打折扣。</li>
 </ul>
-<p><img src="/2019/05/24/cuda/cudanote6/pic/7.png" alt></p>
+<p><img src="/2019/05/24/cuda/cudanote6/7.png" alt></p>
 <h2 id="2-原子操作"><a href="#2-原子操作" class="headerlink" title="2.原子操作"></a>2.原子操作</h2><p>示例：</p>
 <p>x++；包含三步操作：a.读取x中的值；b.将步骤1中读到的值增加1；c.将递增后的结果写回到x。</p>
 <p>现在考虑线程A和B都需要执行上面三个操作，<strong>如果线程调度方式不正确，那么最终将（可能，因为六个步骤也可能会排出正确的结果）得到错误的结果</strong>；</p>
