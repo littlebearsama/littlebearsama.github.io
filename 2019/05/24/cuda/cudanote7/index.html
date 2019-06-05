@@ -16,7 +16,7 @@
 <meta property="og:description" content="第十章 流 页锁定主机内存、CUDA流、GPU工作调度机制 GitHub 建议下载下来用Typora软件阅读markdown文件">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-05-31T05:49:12.195Z">
+<meta property="og:updated_time" content="2019-06-05T00:24:19.185Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cudanote7">
 <meta name="twitter:description" content="第十章 流 页锁定主机内存、CUDA流、GPU工作调度机制 GitHub 建议下载下来用Typora软件阅读markdown文件">
@@ -164,7 +164,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    22 分钟 读完 (大约 3230 个字)
+                    21 分钟 读完 (大约 3218 个字)
                 </span>
                 
                 
@@ -202,7 +202,7 @@
 <li>由于知道内存的物理地址，因此可以通过“<strong>直接内存访问</strong>(Direct Memory Access,DMA)”技术来在GPU和主机之间复制数据。DMA操作在可分页内存中可能会延迟—&gt;DMA复制过程中使用固定内存非常重要，<strong>页锁定主机内存（固定内存）的性能比标准可分页的性能要高大约2倍。</strong></li>
 </ol>
 <p>实际上并不是说使用固定内存就好</p>
-<p><img src="/2019/05/24/cuda/cudanote7/8.png" alt="1558171366351"></p>
+<p><img src="/2019/05/24/cuda/cudanote7/pic/8.png" alt></p>
 <ol start="3">
 <li><p>固定内存是一把双刃剑。<strong>但是用固定内存时，你将失去虚拟内存的所有功能。</strong>应用程序中使用每个固定内存时都需要<strong>分配物理内存</strong>，因为这些内存不能交换到磁盘上。—&gt;意味着系统更快地耗尽内存。</p>
 </li>
@@ -239,7 +239,7 @@
 <li>任何一个传递给<code>cudaMemcpyAsync()</code>的主机内存指针都必须已经通过<code>cudaHostAlloc()</code>分配好内存。<strong>你只能已异步方式对固定内存进行复制操作。</strong></li>
 </ol>
 <h3 id="带有流参数的核函数"><a href="#带有流参数的核函数" class="headerlink" title="带有流参数的核函数"></a>带有流参数的核函数</h3><p>此时核函数的调用<strong>是异步的</strong>。</p>
-<h2 id="使用多个流"><a href="#使用多个流" class="headerlink" title="使用多个流"></a>使用多个流</h2><p><img src="/2019/05/24/cuda/cudanote7/9.png" alt="cuda流"></p>
+<h2 id="使用多个流"><a href="#使用多个流" class="headerlink" title="使用多个流"></a>使用多个流</h2><p><img src="/2019/05/24/cuda/cudanote7/pic/9.png" alt="cuda流"></p>
 <p>改进思想：</p>
 <ol>
 <li>分块计算</li>
@@ -267,11 +267,11 @@
 <li>程序员可以将流视为有序的操作序列，其中既包含内存复制操作，又包含核函数调用。</li>
 <li>然而，硬件中并没有流的概念，而是<strong>包含一个或多个引擎来执行内存复制操作</strong>，以及<strong>一个引擎来执行核函数</strong>。这些引擎彼此独立地对操作进行排队。</li>
 </ul>
-<p><img src="/2019/05/24/cuda/cudanote7/10.png" alt="技术分享"></p>
+<p><img src="/2019/05/24/cuda/cudanote7/pic/10.png" alt></p>
 <p>应用程序首先将第0个流的所有操作放入队列，然后是第一个流的所有操作。CUDA驱动程序负责按照这些操作的顺序把他们调度到硬件上执行，这就维持了流内部的依赖性。图10.3说明了这些依赖性，<strong>箭头表示复制操作要等核函数执行完成之后才能开始</strong>。</p>
-<p><img src="/2019/05/24/cuda/cudanote7/11.png" alt="技术分享"></p>
+<p><img src="/2019/05/24/cuda/cudanote7/pic/11.png" alt></p>
 <p>于是得到这些操作在硬件上执行的时间线：</p>
-<p><img src="/2019/05/24/cuda/cudanote7/12.png" alt="ææ¯åäº&quot;"></p>
+<p><img src="/2019/05/24/cuda/cudanote7/pic/12.png" alt></p>
 <ul>
 <li>图中显示，<strong>第0个流复制C</strong>阻塞了<strong>第1个流复制A,第一个流复制B</strong>，导致<strong>第0个流执行完核函数</strong>还要等待内存复制引擎完成流0复制C，流1复制A，流1复制B的三个操作才能执行<strong>流1核函数</strong></li>
 </ul>
@@ -280,7 +280,7 @@
 <figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;FULL_DATA_SIZE; i+= N*<span class="hljs-number">2</span>) &#123;</span><br><span class="line">      <span class="hljs-comment">// enqueue copies of a in stream0 and stream1</span></span><br><span class="line">      HANDLE_ERROR( cudaMemcpyAsync( dev_a0, host_a+i,</span><br><span class="line">                                     N * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>),</span><br><span class="line">                                     cudaMemcpyHostToDevice,</span><br><span class="line">                                     stream0 ) );</span><br><span class="line">      HANDLE_ERROR( cudaMemcpyAsync( dev_a1, host_a+i+N,</span><br><span class="line">                                     N * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>),</span><br><span class="line">                                     cudaMemcpyHostToDevice,</span><br><span class="line">                                     stream1 ) );</span><br><span class="line">      <span class="hljs-comment">// enqueue copies of b in stream0 and stream1</span></span><br><span class="line">      HANDLE_ERROR( cudaMemcpyAsync( dev_b0, host_b+i,</span><br><span class="line">                                     N * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>),</span><br><span class="line">                                     cudaMemcpyHostToDevice,</span><br><span class="line">                                     stream0 ) );</span><br><span class="line">      HANDLE_ERROR( cudaMemcpyAsync( dev_b1, host_b+i+N,</span><br><span class="line">                                     N * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>),</span><br><span class="line">                                     cudaMemcpyHostToDevice,</span><br><span class="line">                                     stream1 ) );</span><br><span class="line"></span><br><span class="line">      <span class="hljs-comment">// enqueue kernels in stream0 and stream1   </span></span><br><span class="line">      kernel&lt;&lt;&lt;N/<span class="hljs-number">256</span>,<span class="hljs-number">256</span>,<span class="hljs-number">0</span>,stream0&gt;&gt;&gt;( dev_a0, dev_b0, dev_c0 );</span><br><span class="line">      kernel&lt;&lt;&lt;N/<span class="hljs-number">256</span>,<span class="hljs-number">256</span>,<span class="hljs-number">0</span>,stream1&gt;&gt;&gt;( dev_a1, dev_b1, dev_c1 );</span><br><span class="line"></span><br><span class="line">      <span class="hljs-comment">// enqueue copies of c from device to locked memory</span></span><br><span class="line">      HANDLE_ERROR( cudaMemcpyAsync( host_c+i, dev_c0,</span><br><span class="line">                                     N * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>),</span><br><span class="line">                                     cudaMemcpyDeviceToHost,</span><br><span class="line">                                     stream0 ) );</span><br><span class="line">      HANDLE_ERROR( cudaMemcpyAsync( host_c+i+N, dev_c1,</span><br><span class="line">                                     N * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>),</span><br><span class="line">                                     cudaMemcpyDeviceToHost,</span><br><span class="line">                                     stream1 ) );</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 
 <p>如果内存复制操作的时间与核函数执行的时间大致相当，那么新的执行时间线将如图10.5所示，在新的调度顺序中，依赖性仍然能得到满足：</p>
-<p><img src="/2019/05/24/cuda/cudanote7/13.png" alt="技术分享"></p>
+<p><img src="/2019/05/24/cuda/cudanote7/pic/13.png" alt></p>
 <p>由于采用了宽度优先方式将操作放入各个流的队列中，因此第0个流对c的复制操作将不会阻塞第1个流对a和b的内存复制操作。这使得GPU能够并行的执行复制操作和核函数，从而使应用程序的运行速度显著加快。</p>
 <ul>
 <li>实验结果表明，并没有改进性能，可能是<strong>高版本的CUDA运行时已经对流和复制引擎等进行了优化（个人猜想）</strong></li>

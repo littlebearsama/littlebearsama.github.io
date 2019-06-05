@@ -16,7 +16,7 @@
 <meta property="og:description" content="第七章 纹理内存 纹理内存、纹理内存实现热传导模拟 GitHub 建议下载下来用Typora软件阅读markdown文件">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-05-31T05:48:52.991Z">
+<meta property="og:updated_time" content="2019-06-05T00:22:40.801Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cudanote4">
 <meta name="twitter:description" content="第七章 纹理内存 纹理内存、纹理内存实现热传导模拟 GitHub 建议下载下来用Typora软件阅读markdown文件">
@@ -191,19 +191,19 @@
 <li>与常量内存类似的是，<strong>纹理内存同样缓存在芯片上（利用了芯片上的缓存加速）！！！</strong>，因此在某些情况中，它能够减少对内存的请求并提供更高效的内存带宽。</li>
 <li><strong>纹理缓存</strong>是专门为那些<strong>在内存访问模式中存在大量空间局部性（Spatial Locality）</strong>的图形应用程序而设计的。在某个计算应用程序中，这意味着一个线程<strong>读取的位置</strong>可能与<strong>邻近</strong>的线程的<strong>读取位置</strong>非常接近</li>
 </ul>
-<p><img src="/2019/05/24/cuda/cudanote4/4.png" alt="img"></p>
+<p><img src="/2019/05/24/cuda/cudanote4/pic/4.png" alt="img"></p>
 <p>上图中，从数学角度来看，图中的四个地址并非连续的，在一般的CPU缓存模式中，这些地址将不会缓存。但由于GPU纹理内存是专门为了加速这种访问模式而设计的，因此如果在这种情况中使用纹理内存而不是全局内存，那么将获得性能提升。</p>
 <h2 id="使用纹理内存实现热传导模拟"><a href="#使用纹理内存实现热传导模拟" class="headerlink" title="使用纹理内存实现热传导模拟"></a>使用纹理内存实现热传导模拟</h2><h3 id="1-算法描述："><a href="#1-算法描述：" class="headerlink" title="1.算法描述："></a>1.算法描述：</h3><ol>
 <li>环境是一个矩形网格，在网格中随机散布一些”热源“，热源有着不同的固定温度（该点处的温度不会变）</li>
 <li>在随时间递进的每个步骤中，我们假设热量在某个单元机器邻接单元之间”流动“/如果某个单元的温度比邻接单元的温度更高，那么热量将从邻接单元传导到该单元。</li>
 <li>我们对新单元中心温度的计算方法为，将单元与邻接单元的温差相加起来，加上原有温度：</li>
 </ol>
-<p><img src="/2019/05/24/cuda/cudanote4/5.png" alt="1557992811022"></p>
+<p><img src="/2019/05/24/cuda/cudanote4/pic/5.png" alt></p>
 <ol start="4">
 <li>常量k表示模拟过程中热量的流动速率。k值越大，表示系统会更快地达到稳定温度，而k值越小，则温度梯度将存在更长时间。</li>
 <li>只考虑上下左右四个邻域的话讲上述式子展开有</li>
 </ol>
-<p><img src="/2019/05/24/cuda/cudanote4/6.png" alt="1557993195547"></p>
+<p><img src="/2019/05/24/cuda/cudanote4/pic/6.png" alt></p>
 <h3 id="2-实现流程："><a href="#2-实现流程：" class="headerlink" title="2.实现流程："></a>2.实现流程：</h3><ol>
 <li>给定一个包含<strong>初始输入温度的网格</strong>，将其中作为热源的单元温度值复制到网格的相应单元中。这将覆盖这些单元之前计算出的温度，因此也就确保了”加热单元将保持恒温“这个条件。用下面代码中的<code>copy_const_kernel()</code>实现；</li>
 <li>给定一个<strong>输入网格</strong>，用上面公式计算出<strong>输出网格</strong>。用下面代码中的<code>blend_kernel()</code>实现；</li>
