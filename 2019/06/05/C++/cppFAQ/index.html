@@ -7,19 +7,19 @@
 
 
 
-    <meta name="description" content="github q1:什么是重载和多态 q2:内存分配方式">
+    <meta name="description" content="github Q1：什么是重载(overload)和多态(polymorphic)，区别是什么 Q2：重载(overload)和覆盖(overrid)的区别 Q3:内存分配方式">
 <meta name="keywords" content="C++,cppFAQ">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++常见问题">
 <meta property="og:url" content="https://littlebearsama.github.io/2019/06/05/C++/cppFAQ/index.html">
 <meta property="og:site_name" content="LittleBear！！！">
-<meta property="og:description" content="github q1:什么是重载和多态 q2:内存分配方式">
+<meta property="og:description" content="github Q1：什么是重载(overload)和多态(polymorphic)，区别是什么 Q2：重载(overload)和覆盖(overrid)的区别 Q3:内存分配方式">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-06-05T01:44:18.920Z">
+<meta property="og:updated_time" content="2019-06-05T02:15:55.450Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++常见问题">
-<meta name="twitter:description" content="github q1:什么是重载和多态 q2:内存分配方式">
+<meta name="twitter:description" content="github Q1：什么是重载(overload)和多态(polymorphic)，区别是什么 Q2：重载(overload)和覆盖(overrid)的区别 Q3:内存分配方式">
 <meta name="twitter:image" content="https://littlebearsama.github.io/images/og_image.png">
 
 
@@ -164,7 +164,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    10 分钟 读完 (大约 1440 个字)
+                    13 分钟 读完 (大约 1981 个字)
                 </span>
                 
                 
@@ -178,22 +178,61 @@
         </h1>
         <div class="content">
             <p><a href="[https://github.com/littlebearsama/C-plusplus-notes-chinese-/tree/master/%EF%BC%9F%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98](https://github.com/littlebearsama/C-plusplus-notes-chinese-/tree/master/？常见问题)">github</a></p>
-<p>q1:什么是重载和多态</p>
-<p>q2:内存分配方式</p>
+<p>Q1：什么是重载(overload)和多态(polymorphic)，区别是什么</p>
+<p>Q2：重载(overload)和覆盖(overrid)的区别</p>
+<p>Q3:内存分配方式</p>
 <a id="more"></a>
 
 <p>建议下载下来用Typora软件阅读markdown文件</p>
-<h1 id="Q1：什么是重载和多态"><a href="#Q1：什么是重载和多态" class="headerlink" title="Q1：什么是重载和多态"></a>Q1：什么是重载和多态</h1><ol>
-<li>什么是多态</li>
+<h1 id="Q1：什么是重载-overload-和多态-polymorphic-，区别是什么"><a href="#Q1：什么是重载-overload-和多态-polymorphic-，区别是什么" class="headerlink" title="Q1：什么是重载(overload)和多态(polymorphic)，区别是什么"></a>Q1：什么是重载(overload)和多态(polymorphic)，区别是什么</h1><p><a href="https://www.cnblogs.com/devilmaycry812839668/p/6362082.html" target="_blank" rel="noopener">reference</a></p>
+<p><strong>多态</strong>是基于对抽象方法的覆盖来实现的，用统一的对外接口来完成不同的功能。<strong>重载</strong>也是用统一的对外接口来完成不同的功能。那么两者有什么区别呢？</p>
+<ol>
+<li><p>什么是重载（todo）</p>
+<p><strong>重载</strong>，是指允许存在多个同名方法，而这些方法的参数不同。重载的实现是：编译器根据方法不同的参数表，对同名方法的名称做修饰。对于编译器而言，这些同名方法就成了<strong>不同的方法</strong>。它们的<strong>调用地址</strong>在<strong>编译期就绑定了。</strong></p>
+</li>
+<li><p>什么是多态</p>
+<p><strong>多态</strong>是指子类重新定义父类的虚方法（virtual,abstract）。当子类重新定义了父类的虚方法后，父类根据赋给它的不同的子类，动态调用属于子类的该方法，这样的方法调用在<strong>编译期间是无法确定的</strong>。</p>
+</li>
 </ol>
-<ul>
-<li>多态：同一操作作用于不同的对象，可以有不同的解释，产生不同的执行结果。在运行时，可以通过指向基类的指针，来调用实现派生类中的方法。</li>
-<li>C++中，实现多态有以下方法：<strong>虚函数，抽象类，覆盖，模板（重载和多态无关）。</strong></li>
+<p>区别：<br>不难看出，两者的区别在于编译器何时去寻找所要调用的具体方法：</p>
+<p>对于<strong>重载</strong>而言，在方法调用之前，编译器就已经确定了所要调用的方法，这称为“早绑定”或“<strong>静态绑定</strong>”；</p>
+<p>而对于<strong>多态</strong>，只有等到<strong>方法调用的那一刻*</strong>，编译器才会确定所要调用的具体方法，这称为“晚绑定”或“<strong>动态绑定</strong>”。* </p>
+<h1 id="Q2：重载-overload-和覆盖-overrid-的区别"><a href="#Q2：重载-overload-和覆盖-overrid-的区别" class="headerlink" title="Q2：重载(overload)和覆盖(overrid)的区别"></a>Q2：重载(overload)和覆盖(overrid)的区别</h1><ol>
+<li><ul>
+<li><p>重载要求函数名相同，但是参数列表必须不同，返回值可以相同也可以不同。</p>
+</li>
+<li><p><strong>覆盖要求函数名、参数列表、返回值必须相同。</strong></p>
+</li>
 </ul>
-<ol start="2">
-<li>什么是重载（todo）</li>
+</li>
 </ol>
-<h1 id="Q2：内存分配方式"><a href="#Q2：内存分配方式" class="headerlink" title="Q2：内存分配方式"></a>Q2：内存分配方式</h1><p>在C++中，内存分为五个区，他们分别是：</p>
+<ol start="2">
+<li><ul>
+<li><p>在类中重载是同一个类中不同成员函数之间的关系</p>
+</li>
+<li><p>在类中<strong>覆盖</strong>则是<strong>子类和基类之间不同成员函数之间的关系</strong></p>
+</li>
+</ul>
+</li>
+</ol>
+<ol start="3">
+<li><p><strong>根据参数类型来判断调用的是哪一个和根据对象类型来决定调用哪一个</strong></p>
+<ul>
+<li><p>重载函数的调用是根据参数列表来决定调用哪一个函数</p>
+</li>
+<li><p>覆盖函数的调用是根据对象类型的不同决定调用哪一个</p>
+</li>
+</ul>
+</li>
+</ol>
+<ol start="4">
+<li><ul>
+<li>在类中对成员函数重载是不能够实现多态</li>
+<li><strong>在子类中对基类虚函数的覆盖可以实现多态</strong></li>
+</ul>
+</li>
+</ol>
+<h1 id="Q3：内存分配方式"><a href="#Q3：内存分配方式" class="headerlink" title="Q3：内存分配方式"></a>Q3：内存分配方式</h1><p>在C++中，内存分为五个区，他们分别是：</p>
 <ol>
 <li>栈，就是那些由编译器在需要的时候分配，在不需要的时候自动清楚的变量的存储区。里面的变量通常是<strong>局部变量、函数参数</strong>等。</li>
 <li>堆，就是那些由<strong>new分配的内存块</strong>，他们的释放编译器不去管，由我们的应用程序去控制，一般一个new就要对应一个delete。如果程序员没有释放掉，那么在程序结束后，操作系统会自动回收。</li>
