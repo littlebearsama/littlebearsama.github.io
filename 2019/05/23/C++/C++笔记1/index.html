@@ -16,7 +16,7 @@
 <meta property="og:description" content="第1~4章 基础 GitHub 建议下载下来用Typora软件阅读markdown文件">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-05-31T05:40:57.283Z">
+<meta property="og:updated_time" content="2019-06-05T03:24:44.560Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++ 笔记1">
 <meta name="twitter:description" content="第1~4章 基础 GitHub 建议下载下来用Typora软件阅读markdown文件">
@@ -164,7 +164,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    24 分钟 读完 (大约 3581 个字)
+                    24 分钟 读完 (大约 3600 个字)
                 </span>
                 
                 
@@ -274,7 +274,7 @@
 
 </li>
 </ul>
-<p><code>应用*</code>之前，一定要将指针初始化为一个确定的，适当的地址。就是说一定要初始化，否则<code>*pt</code> 将值会赋给一个未知内存。<strong>否者都还没引用，又怎么接触引用呢？</strong></p>
+<p><code>应用*</code>之前，一定要将指针初始化为一个确定的，适当的地址。就是说一定要初始化，否则<code>*pt</code> 将值会赋给一个未知内存。<strong>否者都还没引用，又怎么解除引用呢？</strong></p>
 <ul>
 <li>要将数字值作为地址来使用，应通过<strong>强制类型转换</strong>将数字转换为适当的地址类型。<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pt=(<span class="hljs-keyword">int</span> *)<span class="hljs-number">0</span>×B8000000;</span><br></pre></td></tr></table></figure>
 
@@ -301,7 +301,7 @@
 <li>2.动态联编（dynamic binding）</li>
 </ul>
 </blockquote>
-<p>意味着数组是在程序运行时创建的，这种数组叫作的哦你太数组。</p>
+<p>意味着数组是在程序运行时创建的，这种数组叫作动态数组。</p>
 <p>使用new创建动态数组–&gt;Vector模板类是替代品</p>
 <figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//创建</span></span><br><span class="line"><span class="hljs-keyword">int</span> * psome =<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[<span class="hljs-number">10</span>];</span><br><span class="line"><span class="hljs-comment">//释放</span></span><br><span class="line"><span class="hljs-keyword">delete</span>[] psome;<span class="hljs-comment">//方括号告诉程序，应释放整个数组。</span></span><br></pre></td></tr></table></figure>
 
@@ -317,13 +317,13 @@
 <p>数组：arrayname[i]等价于*(arrayname+i)</p>
 <p>指针：pointername[i]等价于*(pointername+i)</p>
 <p>因此，很多情况下，可以使用相同的方式使用<strong>数组名</strong>和<strong>指针名</strong></p>
-<p><code>const char *bird =&#39;&quot;wren&quot;</code>bird的值可以修改，但<code>*bird</code>值不可以修改。<strong>其实应该说是不能使用<code>bird</code>指针来修改！！！</strong></p>
+<p><code>const char *bird =&quot;wren&quot;</code>bird的值可以修改，但<code>*bird</code>值不可以修改。<strong>其实应该说是不能使用<code>bird</code>指针来修改！！！</strong></p>
 <ul>
-<li>常量指针：const修饰的是“char * bird”，里面的值是不可以改变的。可以使用指针bird访问字符串“wren”但不能修改字符串。</li>
+<li>常量指针(先出现const 再出现指针 char *)：const修饰的是“char * bird”，里面的值是不可以改变的。可以使用指针bird访问字符串“wren”但不能修改字符串。</li>
 </ul>
 <p><code>char * const p =&quot;wren&quot;;</code></p>
 <ul>
-<li>指针常量：const修饰的是指针“p”，指针的值是不能改变的。<h3 id="使用new来创建动态结构"><a href="#使用new来创建动态结构" class="headerlink" title="使用new来创建动态结构"></a>使用new来创建动态结构</h3>运行时创建数组（结构）由于编译时创建数组（结构）</li>
+<li>指针常量(先出现指针char*，再出现const)：const修饰的是指针“p”，指针的值是不能改变的。<h3 id="使用new来创建动态结构"><a href="#使用new来创建动态结构" class="headerlink" title="使用new来创建动态结构"></a>使用new来创建动态结构</h3>运行时创建数组（结构）由于编译时创建数组（结构）</li>
 </ul>
 <p>创建一个未命名的inflatable类型，并将其地址赋给一个指针。</p>
 <figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">inflatable *ps=<span class="hljs-keyword">new</span> inflatble</span><br></pre></td></tr></table></figure>
