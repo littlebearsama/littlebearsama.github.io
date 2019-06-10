@@ -16,7 +16,7 @@
 <meta property="og:description" content="第5～8章 函数 GitHub 建议下载下来用Typora软件阅读markdown文件">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-06-05T09:07:23.346Z">
+<meta property="og:updated_time" content="2019-06-06T13:00:27.460Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++ 笔记2">
 <meta name="twitter:description" content="第5～8章 函数 GitHub 建议下载下来用Typora软件阅读markdown文件">
@@ -164,7 +164,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    37 分钟 读完 (大约 5623 个字)
+                    38 分钟 读完 (大约 5750 个字)
                 </span>
                 
                 
@@ -182,7 +182,7 @@
 <p>建议下载下来用Typora软件阅读markdown文件</p>
 <a id="more"></a>
 
-<h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><p>函数—C++的编程模块（<strong>要提高编程效率，可更深入地学习STL和BOOST C++提供的功能</strong>）</p>
+<h1 id="一、函数"><a href="#一、函数" class="headerlink" title="一、函数"></a>一、函数</h1><p>函数—C++的编程模块（<strong>要提高编程效率，可更深入地学习STL和BOOST C++提供的功能</strong>）</p>
 <blockquote>
 <ul>
 <li>1.提供函数定义 function definition</li>
@@ -198,61 +198,66 @@
 <li>1.返回值类型有一定的限制：<strong>不能是数组</strong>，但可以是其他任何类型—整数，浮点数，指针，甚至可以是结构和对象。</li>
 <li>2.函数通过将返回值复制到指定的<strong>CPU寄存器</strong>或<strong>内存单元</strong>中来将其返回。</li>
 </ul>
-<h2 id="为什么需要原型"><a href="#为什么需要原型" class="headerlink" title="为什么需要原型"></a>为什么需要原型</h2><p>原型描述了函数到编译器的接口，它将1.函数返回值类型（如果有的话）以及2.参数的类型和3.数量告诉编译器。（在原型的参数列表中，可以包含变量名，也可以不包含。原型中的变量名相当于占位符，因此不必与函数中的变量名相同）</p>
+<h2 id="1-为什么需要原型"><a href="#1-为什么需要原型" class="headerlink" title="1.为什么需要原型"></a>1.为什么需要原型</h2><p><strong>原型描述了函数到编译器的接口</strong>:</p>
+<p>它将1.函数返回值类型（如果有的话）</p>
+<p>以及2.参数的类型</p>
+<p>和3.数量告诉编译器。（在原型的参数列表中，可以包含变量名，也可以不包含。原型中的变量名相当于占位符，因此不必与函数中的变量名相同）</p>
 <ul>
 <li>确保：编译器正确处理1，编译器检查2，3</li>
 </ul>
-<h2 id="函数参数传递和按值传递"><a href="#函数参数传递和按值传递" class="headerlink" title="函数参数传递和按值传递"></a>函数参数传递和按值传递</h2><ul>
+<h2 id="2-函数参数传递和按值传递"><a href="#2-函数参数传递和按值传递" class="headerlink" title="2.函数参数传递和按值传递"></a>2.函数参数传递和按值传递</h2><ul>
 <li>用于接收传递值的变量被称为形参（parameter），传递给函数的值被称为实参（argument）。</li>
 <li>值传递：调用函数时，使用的是实参的副本，而不是原来的数据。</li>
 <li>在函数中声明的变量（<strong>局部变量（自动变量）</strong>）（包括参数）是该函数<strong>私有的</strong>，函数调用时：计算机将为这些变量分配内存；函数结束时：计算机将释放这些变量使用的内存。</li>
 </ul>
-<h2 id="函数和数组"><a href="#函数和数组" class="headerlink" title="函数和数组"></a>函数和数组</h2><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sum_arr</span><span class="hljs-params">(<span class="hljs-keyword">int</span> arr[],<span class="hljs-keyword">int</span> n)</span></span>;<span class="hljs-comment">//arr=arrayname.n=size</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sum_arr</span><span class="hljs-params">(<span class="hljs-keyword">int</span> arr[],<span class="hljs-keyword">int</span> n)</span></span>;<span class="hljs-comment">//arr=arrayname.n=size</span></span><br><span class="line"><span class="hljs-comment">//两者是等价的</span></span><br></pre></td></tr></table></figure>
+<h2 id="3-函数和数组"><a href="#3-函数和数组" class="headerlink" title="3.函数和数组"></a>3.函数和数组</h2><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sum_arr</span><span class="hljs-params">(<span class="hljs-keyword">int</span> arr[],<span class="hljs-keyword">int</span> n)</span></span>;<span class="hljs-comment">//arr=arrayname.n=size</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sum_arr</span><span class="hljs-params">(<span class="hljs-keyword">int</span> * arr,<span class="hljs-keyword">int</span> n)</span></span>;<span class="hljs-comment">//arr=arrayname.n=size</span></span><br><span class="line"><span class="hljs-comment">//两者是等价的</span></span><br></pre></td></tr></table></figure>
 
+<h3 id="a-数组与指针"><a href="#a-数组与指针" class="headerlink" title="a.数组与指针"></a>a.数组与指针</h3><ul>
+<li>在C++中，当且仅当用于函数头或者函数原型中，<code>int * arr</code>和<code>int arr[]</code>的含义才是相同的。它们意味着arr是一个int指针。</li>
+<li>然而，数组表示法(int arr[])提醒用户，arr不仅指向int，还指向int数组的第一个int。</li>
+</ul>
+<h3 id="b-const保护数组（输入数组原数据不能改变）"><a href="#b-const保护数组（输入数组原数据不能改变）" class="headerlink" title="b.const保护数组（输入数组原数据不能改变）"></a>b.const保护数组（输入数组原数据不能改变）</h3><p>  <code>void show_array(const double ar[],int n);</code>//声明形参时使用const关键字</p>
 <ul>
-<li>const保护数组（输入数组原数据不能改变）<br><code>void show_array(const double ar[],int n);</code>//声明形参时使用const关键字</li>
-<li>该声明表明，指针or指向的是常量数据。这意味着不能使用or修改数据。<strong>这并不意味着原始数据必须是常量</strong></li>
+<li>该声明表明，指针or指向的是常量数据。这意味着不能使用or修改数据。<strong>这并不意味着原始数据必须是常量</strong>，只意味着不能使用该指针来修改原始数据。</li>
 <li>如果该函数要修改数组的值，声明ar时不能使用const</li>
 </ul>
 <hr>
-<ul>
-<li>1.对于处理数组的C++函数，必须将数组中的<blockquote>
+<h3 id="c-如何使用数组作为参数传递给函数"><a href="#c-如何使用数组作为参数传递给函数" class="headerlink" title="c.如何使用数组作为参数传递给函数"></a>c.如何使用数组作为参数传递给函数</h3><p>对于处理数组的C++函数，必须将数组中的</p>
+<blockquote>
 <p>1.数据类型</p>
 </blockquote>
-</li>
-</ul>
 <blockquote>
 <p>2.数组的起始位置</p>
 </blockquote>
 <blockquote>
 <p>3.和数组元素中的数量<strong>提交给他</strong></p>
-<ul>
-<li>传统的C/C++方法是，将指向数组起始处的指针作为一个参数，将数组长度作为第二个参数（指针指出数组位置和数据类型）</li>
-</ul>
+<ol>
+<li>传统的C/C++方法是，将<strong>指向数组起始处的指针</strong>作为一个参数，将<strong>数组长度</strong>作为第二个参数（指针指出数组位置和数据类型）</li>
+</ol>
 </blockquote>
-<ul>
-<li>2.第二种方法：指定元素区间（range）<br>通过传递两个指针来完成：一个指针表示数组的开头，另外一个指针表示数组的尾部。例子：<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sum_arr</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> *begun,<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> *end)</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line"><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> *pt;</span><br><span class="line"><span class="hljs-keyword">int</span> total=<span class="hljs-number">0</span>;</span><br><span class="line"><span class="hljs-keyword">for</span>(pt=begin;pt!=end;pt++)</span><br><span class="line">total=toatl+*pt;</span><br><span class="line"><span class="hljs-keyword">return</span> total;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">int</span> cookies[ArSize]= &#123;<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">4</span>,<span class="hljs-number">8</span>,<span class="hljs-number">16</span>,<span class="hljs-number">32</span>,<span class="hljs-number">64</span>,<span class="hljs-number">128</span>&#125;;</span><br><span class="line"><span class="hljs-keyword">int</span> sum=sum_arr(cookies,cookies+ArSize);</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>第二种方法：指定元素区间（range）<br>通过<strong>传递两个指针来完成</strong>：一个指针表示数组的<strong>开头</strong>，另外一个指针表示数组的<strong>尾部</strong>。例子：</li>
+</ol>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sum_arr</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> *begun,<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> *end)</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line"><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> *pt;</span><br><span class="line"><span class="hljs-keyword">int</span> total=<span class="hljs-number">0</span>;</span><br><span class="line"><span class="hljs-keyword">for</span>(pt=begin;pt!=end;pt++)</span><br><span class="line">total=toatl+*pt;</span><br><span class="line"><span class="hljs-keyword">return</span> total;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">int</span> cookies[ArSize]= &#123;<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">4</span>,<span class="hljs-number">8</span>,<span class="hljs-number">16</span>,<span class="hljs-number">32</span>,<span class="hljs-number">64</span>,<span class="hljs-number">128</span>&#125;;</span><br><span class="line"><span class="hljs-keyword">int</span> sum=sum_arr(cookies,cookies+ArSize);</span><br></pre></td></tr></table></figure>
 
-</li>
-</ul>
-<h2 id="函数与C风格字符串"><a href="#函数与C风格字符串" class="headerlink" title="函数与C风格字符串"></a>函数与C风格字符串</h2><p>假设要将字符串（实际传递的是字符串第一字符的地址）作为参数传递给函数，则表示字符串的方式有三种：</p>
+<h2 id="4-函数与C风格字符串"><a href="#4-函数与C风格字符串" class="headerlink" title="4.函数与C风格字符串"></a>4.函数与C风格字符串</h2><p>假设要将字符串（实际传递的是字符串第一字符的地址）作为参数传递给函数，则表示字符串的方式有三种：</p>
 <blockquote>
 <ul>
-<li>1.char数组</li>
-<li>2.用隐含阔气的字符串常量</li>
+<li>1.char数组T</li>
+<li>2.用引号的字符串常量</li>
 <li>3.被设置为字符串的地址的char指针。</li>
 </ul>
 </blockquote>
-<h2 id="函数和结构"><a href="#函数和结构" class="headerlink" title="函数和结构"></a>函数和结构</h2><p>涉及函数时，结构变量的行为更接近基于基本的<strong>单值变量</strong></p>
+<h2 id="5-函数和结构"><a href="#5-函数和结构" class="headerlink" title="5.函数和结构"></a>5.函数和结构</h2><p>涉及函数时，结构变量的行为更接近基于基本的<strong>单值变量</strong></p>
 <blockquote>
 <ul>
-<li>1.按值传递–&gt;如果结构非常大，则复制结构将增加内存要求，且<strong>使用的是原始变量的副本</strong></li>
+<li>1.按值传递–&gt;如果结构非常大，则复制结构将增加内存要求，且<code>使用的是原始变量的副本</code></li>
 <li>2.传递结构的地址，然后使用指针来访问结构的内容</li>
 </ul>
 </blockquote>
 <figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">rect rplace;</span><br><span class="line">polar pplace;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">rect_to_polar</span><span class="hljs-params">(<span class="hljs-keyword">const</span> rect*pxy,polar*pda)</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br><span class="line">rect_to_polar(&amp;rplace,&amp;pplace);</span><br></pre></td></tr></table></figure>
 
-<p>调用函数时，将结构的地址（&amp;pplace）而不是结构本身（pplace）传递给它；将形参声明为指向polar的指针，即<code>polar*</code>类型。由于函数不应该修改结构，因此使用了const修饰符，由于形参是指针不是结构，因此应使用姐姐成员运算符(<strong>-&gt;</strong>)，而不是成员运算符（.）。</p>
+<p>调用函数时，将结构的地址（&amp;pplace）而不是结构本身（pplace）传递给它；将形参声明为指向polar的指针，即<code>polar*</code>类型。由于函数不应该修改结构，因此使用了const修饰符，由于形参是指针不是结构，因此应使用间接成员运算符(<strong>-&gt;</strong>)，而不是成员运算符（.）。</p>
 <blockquote>
 <ul>
 <li>3.按引传递用，传指针和传引用效率都高，一般主张是引用传递代码逻辑更加紧凑清晰。</li>
@@ -268,7 +273,7 @@
 <p>3.从1加到n</p>
 <figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span></span></span><br><span class="line"><span class="hljs-class">&#123;</span></span><br><span class="line"><span class="hljs-keyword">public</span>:</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">Sum_Solution</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span></span>&#123;</span><br><span class="line"><span class="hljs-keyword">int</span> ans=n;</span><br><span class="line">ans&amp;&amp;(ans+=Sum_Solution(n<span class="hljs-number">-1</span>));</span><br><span class="line"><span class="hljs-keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-comment">//&amp;&amp;就是逻辑与，逻辑与有个短路特点，前面为假，后面不计算。</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="函数指针"><a href="#函数指针" class="headerlink" title="函数指针"></a>函数指针</h2><p>函数也有地址—存储其机器语言代码的内存的开始地址</p>
+<h2 id="6-函数指针"><a href="#6-函数指针" class="headerlink" title="6.函数指针"></a>6.函数指针</h2><p>函数也有地址—存储其机器语言代码的内存的开始地址</p>
 <ul>
 <li><ol>
 <li>获取函数的地址，只要使用函数名（后面不跟参数）即可。<blockquote>
@@ -279,7 +284,7 @@
 </ol>
 </li>
 <li><ol start="2">
-<li>进阶<br>下面函数原型的特征表和返回类型相同<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *<span class="hljs-title">f1</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> ar[],<span class="hljs-keyword">int</span> n)</span></span>;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *<span class="hljs-title">f2</span><span class="hljs-params">(<span class="hljs-keyword">const</span> dopuble [],<span class="hljs-keyword">int</span> )</span></span>;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *<span class="hljs-title">f3</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *,<span class="hljs-keyword">int</span> )</span></span>;</span><br><span class="line"><span class="hljs-comment">//声明一个指针可以指向f1，f2，f3</span></span><br><span class="line"><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> * (*p1)(<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *,<span class="hljs-keyword">int</span> );<span class="hljs-comment">//返回类型相同，函数的特征标相同</span></span><br><span class="line"><span class="hljs-comment">//声明并初始化</span></span><br><span class="line"><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> * (*p1)(<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *,<span class="hljs-keyword">int</span> )=f1;</span><br><span class="line"><span class="hljs-comment">//也可以使用自动类型推断</span></span><br><span class="line"><span class="hljs-keyword">auto</span> p2=f2;</span><br></pre></td></tr></table></figure>
+<li>进阶<br>下面函数原型的特征表和返回类型相同<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *<span class="hljs-title">f1</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> ar[],<span class="hljs-keyword">int</span> n)</span></span>;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *<span class="hljs-title">f2</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> [],<span class="hljs-keyword">int</span> )</span></span>;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *<span class="hljs-title">f3</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *,<span class="hljs-keyword">int</span> )</span></span>;</span><br><span class="line"><span class="hljs-comment">//声明一个指针可以指向f1，f2，f3</span></span><br><span class="line"><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> * (*p1)(<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *,<span class="hljs-keyword">int</span> );<span class="hljs-comment">//返回类型相同，函数的特征标相同</span></span><br><span class="line"><span class="hljs-comment">//声明并初始化</span></span><br><span class="line"><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> * (*p1)(<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *,<span class="hljs-keyword">int</span> )=f1;</span><br><span class="line"><span class="hljs-comment">//也可以使用自动类型推断</span></span><br><span class="line"><span class="hljs-keyword">auto</span> p2=f2;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 </li>
@@ -304,7 +309,7 @@
 <figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> * (*p_fun)(<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *,<span class="hljs-keyword">int</span> );</span><br><span class="line">p_fun p1=f1;</span><br></pre></td></tr></table></figure>
 
 <hr>
-<h1 id="函数探幽"><a href="#函数探幽" class="headerlink" title="函数探幽"></a>函数探幽</h1><p>C++11新特性</p>
+<h1 id="二、函数探幽"><a href="#二、函数探幽" class="headerlink" title="二、函数探幽"></a>二、函数探幽</h1><p>C++11新特性</p>
 <ol>
 <li>函数内联</li>
 <li>按引用传递变量</li>
@@ -312,7 +317,7 @@
 <li>函数重载（多态）</li>
 <li>模板函数</li>
 </ol>
-<h2 id="内联函数"><a href="#内联函数" class="headerlink" title="内联函数"></a>内联函数</h2><p>c++内联函数–&gt;提高程序运行速度：常规函数与内联函数的区别在于,<strong>C++编译器如何将它们组合到程序中</strong></p>
+<h2 id="1-内联函数"><a href="#1-内联函数" class="headerlink" title="1.内联函数"></a>1.内联函数</h2><p>c++内联函数–&gt;提高程序运行速度：常规函数与内联函数的区别在于,<strong>C++编译器如何将它们组合到程序中</strong></p>
 <ul>
 <li>常规函数调用过程：</li>
 </ul>
@@ -344,7 +349,7 @@
 <p>故有时候会出现错误</p>
 <figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">c=<span class="hljs-number">10</span>;</span><br><span class="line">d=SQUARE(C++);is replaced by d=C++*c++=<span class="hljs-number">11</span>X12=<span class="hljs-number">122</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="按引用传递变量"><a href="#按引用传递变量" class="headerlink" title="按引用传递变量"></a>按引用传递变量</h2><p><strong>引用变量</strong>–&gt;是复合类型<br><code>int &amp; rodents =rats;</code>其中int &amp;是类型，该声明允许将rats和rodent互换—他们指向相同的值和内存单元。</p>
+<h2 id="2-按引用传递变量"><a href="#2-按引用传递变量" class="headerlink" title="2.按引用传递变量"></a>2.按引用传递变量</h2><p><strong>引用变量</strong>–&gt;是复合类型<br><code>int &amp; rodents =rats;</code>其中int &amp;是类型，该声明允许将rats和rodent互换—他们指向相同的值和内存单元。</p>
 <ul>
 <li>必须在声明引用变量时进行初始化</li>
 <li>引用更接近const指针(指向const数据的指针)，必须在创建时进行初始化，一旦与某个变量关联起来就一直效忠于它。<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">int</span> &amp; rodents=rats;</span><br><span class="line"><span class="hljs-comment">//实际上是下述代码的伪装表示</span></span><br><span class="line"><span class="hljs-keyword">int</span> * <span class="hljs-keyword">const</span> pr=&amp;rats;</span><br><span class="line"><span class="hljs-comment">//引用rodents扮演的角色与*pr相同。</span></span><br><span class="line"><span class="hljs-comment">//*pr值是个地址，且该地址恒等于&amp;rat--&gt;rats的地址</span></span><br></pre></td></tr></table></figure>
@@ -402,7 +407,7 @@
 <p>（3）如果数据对象是结构，则使用引用或指针。</p>
 <p>（4）如果数据对象是类对象，则使用引用。</p>
 <p>　　当然，这只是一些指导原则，很可能有充分到理由做出其他的选择。例如，对于基本类型，cin使用引用，因此可以使用cin&gt;&gt;n，而不是cin&gt;&gt;&amp;n。</p>
-<h2 id="默认参数值—当函数调用中省略了实参时自动使用的一个值"><a href="#默认参数值—当函数调用中省略了实参时自动使用的一个值" class="headerlink" title="默认参数值—当函数调用中省略了实参时自动使用的一个值"></a>默认参数值—当函数调用中省略了实参时自动使用的一个值</h2><p>如何设置默认值？**必须通过函数原型</p>
+<h2 id="3-默认参数值—当函数调用中省略了实参时自动使用的一个值"><a href="#3-默认参数值—当函数调用中省略了实参时自动使用的一个值" class="headerlink" title="3.默认参数值—当函数调用中省略了实参时自动使用的一个值"></a>3.默认参数值—当函数调用中省略了实参时自动使用的一个值</h2><p>如何设置默认值？**必须通过函数原型</p>
 <p><code>char* left(const char* str,int n=1);</code>原型声明</p>
 <p>定义长这样 char * left(const char* str,int n){…}</p>
 <p>对于带参数列表的函数，必须从左向右添加默认值：下面代码错误，int j应该也设默认值</p>
@@ -411,7 +416,7 @@
 <ul>
 <li>通过默认参数，可以减少要定义的<strong>析构函数</strong>，<strong>方法</strong>以及<strong>方法重载</strong>的数量</li>
 </ul>
-<h2 id="函数重载"><a href="#函数重载" class="headerlink" title="函数重载"></a>函数重载</h2><ul>
+<h2 id="4-函数重载"><a href="#4-函数重载" class="headerlink" title="4.函数重载"></a>4.函数重载</h2><ul>
 <li><ol>
 <li>默认参数让你能够使用不同数目的参数调用的同一个函数。</li>
 </ol>
@@ -433,7 +438,7 @@
 <p>名称修饰（内部转换）：<code>?MyFunctionFoo@@YAXH</code>—&gt;将对参数数目和类型进行编码</p>
 <h3 id="重载与多态的区别"><a href="#重载与多态的区别" class="headerlink" title="重载与多态的区别"></a>重载与多态的区别</h3><ul>
 <li><ol>
-<li>重载：是指允许存在多个同名方法，而这些方法的参数不同(<strong>特征标不同</strong>)。重载的实现是：编译器根据方法不同的参数表，对同名方法的名称做修饰，对于编译器而言，这些同名方法就成了不同的方法。他们的调用地址在编译器就绑定了。**重载，是在编译阶段便已确定具体的代码，对同名不同参数的方法调用（静态联编）</li>
+<li>重载：是指允许存在多个同名方法，而这些方法的参数不同(<strong>特征标不同</strong>)。重载的实现是：编译器根据方法不同的参数表，对同名方法的名称做修饰，对于编译器而言，这些同名方法就成了不同的方法。他们的调用地址在编译器就绑定了。<strong>重载</strong>，是在编译阶段便已确定具体的代码，对同名不同参数的方法调用（静态联编）</li>
 </ol>
 </li>
 <li>C++中，子类中若有同名函数则隐藏父类的同名函数，即子类如果有永明函数则不能继承父类的重载。</li>
@@ -448,7 +453,7 @@
 <li>重载函数的调用是根据参数列表来决定调用哪一个函数 覆盖函数的调用是根据对象类型的不不同决定调用哪一个</li>
 <li>在类中对成员函数重载是不不能够实现多态 在子类中对基类虚函数的覆盖可以实现多态</li>
 </ol>
-<h2 id="模板函数—通用的函数描述"><a href="#模板函数—通用的函数描述" class="headerlink" title="模板函数—通用的函数描述"></a>模板函数—通用的函数描述</h2><ul>
+<h2 id="5-模板函数—通用的函数描述"><a href="#5-模板函数—通用的函数描述" class="headerlink" title="5.模板函数—通用的函数描述"></a>5.模板函数—通用的函数描述</h2><ul>
 <li><p>用于函数参数个数相同的<strong>类型不同</strong>的情况，如果参数个数不同，则不能那个使用函数模板</p>
 </li>
 <li><p>函数模板自动完成重载函数的过程。只需要使用泛型和具体算法来定义函数，编译器将为程序使用特定的参数类型生成正确的函数定义</p>
@@ -683,7 +688,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        32
+                        33
                     </p>
                 </div>
             </div>
@@ -693,7 +698,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        17
+                        18
                     </p>
                 </div>
             </div>
@@ -703,7 +708,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        17
+                        18
                     </p>
                 </div>
             </div>
@@ -835,12 +840,20 @@
                 <span class="level-item">Registration</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">6</span>
+                <span class="level-item tag">7</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Registration/FastICP/">
             <span class="level-start">
                 <span class="level-item">FastICP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/Generalized-ICP/">
+            <span class="level-start">
+                <span class="level-item">Generalized-ICP</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
@@ -913,7 +926,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/C/" style="font-size: 20px;">C++</a> <a href="/tags/CUDA/" style="font-size: 18.33px;">CUDA</a> <a href="/tags/CV-Source/" style="font-size: 10px;">CV-Source</a> <a href="/tags/Despriptors/" style="font-size: 10px;">Despriptors</a> <a href="/tags/FastICP/" style="font-size: 10px;">FastICP</a> <a href="/tags/ICP/" style="font-size: 11.67px;">ICP</a> <a href="/tags/LM/" style="font-size: 10px;">LM</a> <a href="/tags/NDT/" style="font-size: 11.67px;">NDT</a> <a href="/tags/ObjectDetection/" style="font-size: 10px;">ObjectDetection</a> <a href="/tags/PCL/" style="font-size: 15px;">PCL</a> <a href="/tags/PoseEstimation/" style="font-size: 13.33px;">PoseEstimation</a> <a href="/tags/RANSAC/" style="font-size: 10px;">RANSAC</a> <a href="/tags/Registration/" style="font-size: 16.67px;">Registration</a> <a href="/tags/SAC-IA/" style="font-size: 10px;">SAC-IA</a> <a href="/tags/SVD/" style="font-size: 10px;">SVD</a> <a href="/tags/cppFAQ/" style="font-size: 10px;">cppFAQ</a> <a href="/tags/keypoints/" style="font-size: 10px;">keypoints</a>
+        <a href="/tags/C/" style="font-size: 20px;">C++</a> <a href="/tags/CUDA/" style="font-size: 18.33px;">CUDA</a> <a href="/tags/CV-Source/" style="font-size: 10px;">CV-Source</a> <a href="/tags/Despriptors/" style="font-size: 10px;">Despriptors</a> <a href="/tags/FastICP/" style="font-size: 10px;">FastICP</a> <a href="/tags/Generalized-ICP/" style="font-size: 10px;">Generalized-ICP</a> <a href="/tags/ICP/" style="font-size: 13.33px;">ICP</a> <a href="/tags/LM/" style="font-size: 10px;">LM</a> <a href="/tags/NDT/" style="font-size: 11.67px;">NDT</a> <a href="/tags/ObjectDetection/" style="font-size: 10px;">ObjectDetection</a> <a href="/tags/PCL/" style="font-size: 15px;">PCL</a> <a href="/tags/PoseEstimation/" style="font-size: 13.33px;">PoseEstimation</a> <a href="/tags/RANSAC/" style="font-size: 10px;">RANSAC</a> <a href="/tags/Registration/" style="font-size: 16.67px;">Registration</a> <a href="/tags/SAC-IA/" style="font-size: 10px;">SAC-IA</a> <a href="/tags/SVD/" style="font-size: 10px;">SVD</a> <a href="/tags/cppFAQ/" style="font-size: 10px;">cppFAQ</a> <a href="/tags/keypoints/" style="font-size: 10px;">keypoints</a>
     </div>
 </div>
 
@@ -927,6 +940,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/06/10/registration/GeneralizedICP/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Generalized-ICP">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-09T16:23:32.000Z">2019-06-10</time></div>
+                    <a href="/2019/06/10/registration/GeneralizedICP/" class="has-link-black-ter is-size-6">Generalized-ICP</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/Generalized-ICP/">Generalized-ICP</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1004,25 +1036,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/05/28/ObjectDetection-and-PoseEstimation/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="ObjectDetection and PoseEstimation">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-28T08:51:49.000Z">2019-05-28</time></div>
-                    <a href="/2019/05/28/ObjectDetection-and-PoseEstimation/" class="has-link-black-ter is-size-6">ObjectDetection and PoseEstimation</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/">ObjectDetection and PoseEstimation</a> / <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/tutorial/">tutorial</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1041,7 +1054,7 @@
                     <span class="level-item">六月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1106,9 +1119,16 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/Generalized-ICP/">
+                        <span class="tag">Generalized-ICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/ICP/">
                         <span class="tag">ICP</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1157,7 +1177,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Registration/">
                         <span class="tag">Registration</span>
-                        <span class="tag is-grey">6</span>
+                        <span class="tag is-grey">7</span>
                     </a>
                 </div>
                 
@@ -1214,6 +1234,25 @@
         
         <article class="media">
             
+            <a href="/2019/06/10/registration/GeneralizedICP/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Generalized-ICP">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-09T16:23:32.000Z">2019-06-10</time></div>
+                    <a href="/2019/06/10/registration/GeneralizedICP/" class="has-link-black-ter is-size-6">Generalized-ICP</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/Generalized-ICP/">Generalized-ICP</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/06/05/C++/cppFAQ/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="C++常见问题">
@@ -1288,25 +1327,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/05/28/ObjectDetection-and-PoseEstimation/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="ObjectDetection and PoseEstimation">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-28T08:51:49.000Z">2019-05-28</time></div>
-                    <a href="/2019/05/28/ObjectDetection-and-PoseEstimation/" class="has-link-black-ter is-size-6">ObjectDetection and PoseEstimation</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/">ObjectDetection and PoseEstimation</a> / <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/tutorial/">tutorial</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1325,7 +1345,7 @@
                     <span class="level-item">六月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1390,9 +1410,16 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/Generalized-ICP/">
+                        <span class="tag">Generalized-ICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/ICP/">
                         <span class="tag">ICP</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1441,7 +1468,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Registration/">
                         <span class="tag">Registration</span>
-                        <span class="tag is-grey">6</span>
+                        <span class="tag is-grey">7</span>
                     </a>
                 </div>
                 
