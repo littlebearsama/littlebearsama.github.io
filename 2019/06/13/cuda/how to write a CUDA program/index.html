@@ -2,23 +2,24 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>标签: keypoints - LittleBear！！！</title>
+<title>how to write a CUDA program - LittleBear！！！</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta name="description" content="Robot With CV">
-<meta name="keywords" content="CUDA PCL OpenCV">
-<meta property="og:type" content="website">
-<meta property="og:title" content="LittleBear！！！">
-<meta property="og:url" content="https://littlebearsama.github.io/tags/keypoints/index.html">
+    <meta name="description" content="简单总结如何写一个CUDA程序">
+<meta name="keywords" content="CUDA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="how to write a CUDA program">
+<meta property="og:url" content="https://littlebearsama.github.io/2019/06/13/cuda/how to write a CUDA program/index.html">
 <meta property="og:site_name" content="LittleBear！！！">
-<meta property="og:description" content="Robot With CV">
+<meta property="og:description" content="简单总结如何写一个CUDA程序">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2019-06-13T09:05:24.300Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LittleBear！！！">
-<meta name="twitter:description" content="Robot With CV">
+<meta name="twitter:title" content="how to write a CUDA program">
+<meta name="twitter:description" content="简单总结如何写一个CUDA程序">
 <meta name="twitter:image" content="https://littlebearsama.github.io/images/og_image.png">
 
 
@@ -102,7 +103,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/pig.png" alt="LittleBear！！！" height="28">
+                <img src="/images/pig.png" alt="how to write a CUDA program" height="28">
             
             </a>
         </div>
@@ -148,33 +149,22 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
-    <div class="card-content">
-        <nav class="breadcrumb" aria-label="breadcrumbs">
-        <ul>
-            <li><a href="/tags">标签</a></li>
-            <li class="is-active"><a href="#" aria-current="page">keypoints</a></li>
-        </ul>
-        </nav>
-    </div>
-</div>
-
-    <div class="card">
     
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-24T09:01:33.000Z">2019-05-24</time>
+                <time class="level-item has-text-grey" datetime="2019-06-13T09:03:14.000Z">2019-06-13</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/PCL/">PCL</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/PCL/keypoints/">keypoints</a>
+                <a class="has-link-grey -link" href="/categories/编程/">编程</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/编程/learn-CUDA/">learn CUDA</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    几秒 读完 (大约 0 个字)
+                    11 分钟 读完 (大约 1587 个字)
                 </span>
                 
                 
@@ -183,25 +173,209 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/05/24/pcl_tutorial/about-Keypoints/">about-Keypoints</a>
+                how to write a CUDA program
             
         </h1>
         <div class="content">
-            
+            <p>简单总结如何写一个CUDA程序</p>
+<a id="more"></a>
+
+<p>建议下载下来用Typora软件阅读markdown文件</p>
+<h2 id="CUDA并行计算原理"><a href="#CUDA并行计算原理" class="headerlink" title="CUDA并行计算原理"></a>CUDA并行计算原理</h2><p>CUDA程序运行可以简单理解为：主机代码在CPU中运行，在调用<code>__device__</code>和<code>__global__</code>核函数时，进入GPU运行（此时并不会中断主机代码的运行，除非在等待GPU出结果）。此时在设备中每个线程执行一个核函数。</p>
+<h2 id="CUDA程序编写步骤"><a href="#CUDA程序编写步骤" class="headerlink" title="CUDA程序编写步骤"></a>CUDA程序编写步骤</h2><h3 id="一、编写GPU运行的核函数"><a href="#一、编写GPU运行的核函数" class="headerlink" title="一、编写GPU运行的核函数"></a>一、编写GPU运行的核函数</h3><ol>
+<li><p>根据数据的个数与数据形式（二维图像？三维点云？）来<a href="https://littlebearsama.github.io/2019/05/24/cuda/cudanote2/"><strong>考虑线程配置</strong></a>。</p>
+<p>在二维中：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function">dim3    <span class="hljs-title">blocks</span><span class="hljs-params">(DIM/<span class="hljs-number">16</span>,DIM/<span class="hljs-number">16</span>)</span></span>;</span><br><span class="line"><span class="hljs-function">dim3    <span class="hljs-title">threads</span><span class="hljs-params">(<span class="hljs-number">16</span>,<span class="hljs-number">16</span>)</span></span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>核函数参数一般为：</p>
+<ul>
+<li>输入数组(指针形式)</li>
+<li>数组大小</li>
+<li>输出数组(指针形式)</li>
+</ul>
+</li>
+<li><p>核函数中，根据<strong>线程布置</strong>来<strong>确定线程索引tid</strong>。而在二维线程格和二维线程块中，数据索引根据图像的xy坐标来确定。</p>
+<blockquote>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="hljs-keyword">int</span> x = threadIdx.x + blockIdx.x * blockDim.x;</span><br><span class="line">&gt; <span class="hljs-keyword">int</span> y = threadIdx.y + blockIdx.y * blockDim.y;</span><br><span class="line">&gt; <span class="hljs-keyword">int</span> offset = x + y * blockDim.x * gridDim.x;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+<li><p>核函数中，<strong>设置线程索引判断条件,检测当前线程是否要工作</strong><code>while (tid &lt; N)</code>或<code>if (tid &lt; N)</code>。</p>
+</li>
+<li><p>然后添加该线程执行的运算/函数。</p>
+</li>
+<li><p>当数据大于运行线程时，在核函数中，添加语句<code>tid+=blockDim.x*gridDim.x;</code>增加的值等于<strong>每个线程块中的线程数量乘以线程网格中线程块的数量</strong>，在一维的线程格，一维的线程块线程分配中为<code>blockDim.x*gridDim.x</code></p>
+</li>
+</ol>
+<h3 id="二、给数据在GPU中分配内存"><a href="#二、给数据在GPU中分配内存" class="headerlink" title="二、给数据在GPU中分配内存"></a>二、给数据在GPU中分配内存</h3><h4 id="GPU内存类型："><a href="#GPU内存类型：" class="headerlink" title="GPU内存类型："></a>GPU内存类型：</h4><h5 id="1-全局内存"><a href="#1-全局内存" class="headerlink" title="1.全局内存"></a>1.全局内存</h5><p>GPU中用<code>cudaMalloc()</code>申请的GPU全局内存</p>
+<h5 id="2-共享内存"><a href="#2-共享内存" class="headerlink" title="2.共享内存"></a>2.<a href="https://littlebearsama.github.io/2019/05/24/cuda/cudanote2/">共享内存</a></h5><ol>
+<li><p>简介</p>
+<p>规约运算是在核函数申请的共享内存。</p>
+<p>通过共享内存实现block内的线程通信，实现通信前要进行线程同步，否则会发生<strong>竞态条件</strong>，但是block和block之间的线程是无法互相通信的。</p>
+</li>
+<li><p>细节</p>
+<ul>
+<li>使用该语句申请共享内存：<code>__shared__ float cache[threadsPerBlock];</code></li>
+<li>将关键字<strong><code>__share__</code></strong>添加到变量声明中，这将是这个变量<strong>驻留</strong>在<strong>共享内存</strong>中。在访问共享内存时的延迟要远远低于访问普通缓存区的延迟<strong>，使得共享内存像</strong>每个线程块的高速缓存或中间结果暂存器那样高效</li>
+<li>每次对共享内存的数据进行操作时都要对线程块内的<strong>线程同步</strong>：<code>__syncthreads();</code></li>
+</ul>
+</li>
+<li><p>例程</p>
+<ul>
+<li>规约运算</li>
+</ul>
+</li>
+</ol>
+<h5 id="3-常量内存-只读内存"><a href="#3-常量内存-只读内存" class="headerlink" title="3.常量内存-只读内存"></a>3.<a href="https://littlebearsama.github.io/2019/05/24/cuda/cudanote3/">常量内存</a>-只读内存</h5><ol>
+<li><p>简介</p>
+<p>常量内存用于保存在核函数<strong>执行期间不会发生变化的数据</strong>。</p>
+<p>与从全局内存中读取数据相比，从常量内存中读取相同的数据可以节约带宽，原因有二：</p>
+<ol>
+<li>对常量内存的单次读操作可以广播到其他的“邻近”线程，这将节约15次读取操作。</li>
+<li>常量内存的数据将缓存(cache)起来，因此对相同地址的连续读操作将不会产生额外的内存通信量。</li>
+</ol>
+</li>
+<li><p>细节</p>
+<ul>
+<li>在核函数外面，使用该语句申请常量内存：<code>__constant__ Sphere s[SPHERES];</code></li>
+<li>常量内存为静态分配空间，所以不需要调用 <code>cudaMalloc()</code>, <code>cudaFree()</code></li>
+</ul>
+</li>
+<li><p>应用</p>
+<ul>
+<li>在光线追踪的程序中，将球面数组存入常量内存中。注意，处理图像使用二维的线程块和线程格。</li>
+</ul>
+</li>
+</ol>
+<h5 id="4-纹理内存-只读内存"><a href="#4-纹理内存-只读内存" class="headerlink" title="4.纹理内存-只读内存"></a>4.<a href="https://littlebearsama.github.io/2019/05/24/cuda/cudanote4/">纹理内存</a>-只读内存</h5><ol>
+<li><p>简介</p>
+<p><strong>纹理内存(Texture Memory)</strong>和常量内存一样，纹理内存是另外一种类型的<strong>只读内存</strong>，在特定的访问模式中，纹理内存同样能够提升性能并减少内存流量。</p>
+<p><strong>纹理内存同样缓存在芯片上（利用了芯片上的缓存加速）！！！</strong></p>
+<p>！重点：<strong>纹理缓存</strong>是专门为那些<strong>在内存访问模式中存在大量空间局部性（Spatial Locality）</strong>的图形应用程序而设计的。在某个计算应用程序中，这意味着一个线程<strong>读取的位置</strong>可能与<strong>邻近</strong>的线程的<strong>读取位置</strong>非常接近。</p>
+<p>比如在模拟热传导，计算温度时<code>dst[offset] = c + SPEED * (t + b + r + l - 4 * c);</code>参考了近邻像素的内容，那么这时后使用纹理内存能够加速读取数据。</p>
+</li>
+<li><p>细节</p>
+<ul>
+<li>纹理内存有一维和二维，两者性能基本相同，但是使用二维的代码更简单</li>
+<li>在核函数外面申请纹理内存，<code>texture&lt;float,2&gt;  texConstSrc;</code></li>
+<li>需要申请<strong>全局内存</strong>用于和<strong>纹理内存进行绑定</strong></li>
+</ul>
+</li>
+<li><p>应用</p>
+<ul>
+<li>在使用纹理内存实现热传导模拟的程序中，<strong>1.初始的输入温度的网格，2.输入温度网格，3.输出温度网格都使用纹理内存。</strong></li>
+</ul>
+</li>
+</ol>
+<h4 id="申请GPU内存："><a href="#申请GPU内存：" class="headerlink" title="申请GPU内存："></a>申请GPU内存：</h4><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">int</span> a[N], b[N], c[N];</span><br><span class="line"><span class="hljs-keyword">int</span> *dev_a, *dev_b, *dev_c;</span><br><span class="line"><span class="hljs-comment">// 申请GPU全局内存</span></span><br><span class="line">cudaMalloc( (<span class="hljs-keyword">void</span>**)&amp;dev_a, N * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>) );</span><br><span class="line">cudaMalloc( (<span class="hljs-keyword">void</span>**)&amp;dev_b, N * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>) );</span><br><span class="line">cudaMalloc( (<span class="hljs-keyword">void</span>**)&amp;dev_c, N * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>) );    </span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 申请共享内存</span></span><br><span class="line">__shared__ <span class="hljs-keyword">float</span> cache[threadsPerBlock];<span class="hljs-comment">//核函数中</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 申请GPU常量内存</span></span><br><span class="line">__constant__ Sphere s[SPHERES]</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 申请纹理内存</span></span><br><span class="line">texture&lt;<span class="hljs-keyword">float</span>,<span class="hljs-number">2</span>&gt;  texConstSrc;</span><br><span class="line">texture&lt;<span class="hljs-keyword">float</span>,<span class="hljs-number">2</span>&gt;  texIn;</span><br><span class="line">texture&lt;<span class="hljs-keyword">float</span>,<span class="hljs-number">2</span>&gt;  texOut;</span><br></pre></td></tr></table></figure>
+
+<h4 id="拷贝内存："><a href="#拷贝内存：" class="headerlink" title="拷贝内存："></a>拷贝内存：</h4><p>情况一：将主机内存拷贝到<strong>GPU全局内存</strong>上</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cudaMemcpy( dev_a, a, N * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>),</span><br><span class="line">                          cudaMemcpyHostToDevice );</span><br><span class="line">cudaMemcpy( dev_b, b, N * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>),</span><br><span class="line">                          cudaMemcpyHostToDevice );</span><br></pre></td></tr></table></figure>
+
+<p>情况二：使用<strong>GPU常量内存</strong>时，将数据拷贝到GPU常量内存上</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">// 分配临时内存，对其初始化，并复制到GPU上的常量内存，然后释放临时内存</span></span><br><span class="line">Sphere *temp_s = (Sphere*)<span class="hljs-built_in">malloc</span>( <span class="hljs-keyword">sizeof</span>(Sphere) * SPHERES );</span><br><span class="line"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;SPHERES; i++) &#123;</span><br><span class="line">        temp_s[i].r = rnd( <span class="hljs-number">1.0f</span> );</span><br><span class="line">        temp_s[i].g = rnd( <span class="hljs-number">1.0f</span> );</span><br><span class="line">        temp_s[i].b = rnd( <span class="hljs-number">1.0f</span> );</span><br><span class="line">        temp_s[i].x = rnd( <span class="hljs-number">1000.0f</span> ) - <span class="hljs-number">500</span>;</span><br><span class="line">        temp_s[i].y = rnd( <span class="hljs-number">1000.0f</span> ) - <span class="hljs-number">500</span>;</span><br><span class="line">        temp_s[i].z = rnd( <span class="hljs-number">1000.0f</span> ) - <span class="hljs-number">500</span>;</span><br><span class="line">        temp_s[i].radius = rnd( <span class="hljs-number">100.0f</span> ) + <span class="hljs-number">20</span>;</span><br><span class="line">    &#125;</span><br><span class="line">cudaMemcpyToSymbol( s, temp_s, <span class="hljs-keyword">sizeof</span>(Sphere) * SPHERES)；</span><br><span class="line"><span class="hljs-built_in">free</span>( temp_s );</span><br></pre></td></tr></table></figure>
+
+<p>情况三：全局内存绑定<strong>纹理内存</strong></p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//申请全局内存用于绑定纹理内存</span></span><br><span class="line">cudaMalloc( (<span class="hljs-keyword">void</span>**)&amp;data.dev_inSrc,imageSize );</span><br><span class="line"><span class="hljs-comment">//纹理内存与GPU全局内存绑定</span></span><br><span class="line">cudaBindTexture( <span class="hljs-literal">NULL</span>, texConstSrc,data.dev_constSrc,imageSize )</span><br></pre></td></tr></table></figure>
+
+<h3 id="三、执行核函数、拷贝内存、释放内存"><a href="#三、执行核函数、拷贝内存、释放内存" class="headerlink" title="三、执行核函数、拷贝内存、释放内存"></a>三、执行核函数、拷贝内存、释放内存</h3><h4 id="执行核函数"><a href="#执行核函数" class="headerlink" title="执行核函数"></a>执行核函数</h4><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//一维</span></span><br><span class="line">add&lt;&lt;&lt;N,<span class="hljs-number">1</span>&gt;&gt;&gt;( dev_a, dev_b, dev_c );</span><br><span class="line"><span class="hljs-comment">//。。。</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//处理二维图像</span></span><br><span class="line"><span class="hljs-comment">//图像有DIMXDIM个像素</span></span><br><span class="line"><span class="hljs-comment">//启动DIM/16 x DIM/16个线程块，使得每个像素对应一个线程</span></span><br><span class="line"><span class="hljs-function">dim3    <span class="hljs-title">blocks</span><span class="hljs-params">(DIM/<span class="hljs-number">16</span>,DIM/<span class="hljs-number">16</span>)</span></span>;</span><br><span class="line"><span class="hljs-function">dim3    <span class="hljs-title">threads</span><span class="hljs-params">(<span class="hljs-number">16</span>,<span class="hljs-number">16</span>)</span></span>;</span><br><span class="line">kernel&lt;&lt;&lt;blocks,threads&gt;&gt;&gt;( data.dev_bitmap, ticks );</span><br></pre></td></tr></table></figure>
+
+<h4 id="拷贝内存"><a href="#拷贝内存" class="headerlink" title="拷贝内存"></a>拷贝内存</h4><p>将存在设备内存的结果拷贝到主机内存中</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cudaMemcpy( c, dev_c, N * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>),cudaMemcpyDeviceToHost );</span><br></pre></td></tr></table></figure>
+
+<h4 id="释放内存"><a href="#释放内存" class="headerlink" title="释放内存"></a>释放内存</h4><p>释放申请的主机内存和设备内存</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cudaFree( dev_a );</span><br><span class="line">cudaFree( dev_b );</span><br><span class="line">cudaFree( dev_c );</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/CUDA/">CUDA</a>
+                </div>
+            </div>
         </div>
         
         
+        
+        
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ce8d814d9c29712"></script>
+
         
     </div>
 </div>
 
 
 
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="/images/alqrcode.png" alt="支付宝"></div>
+</a>
+
+                
+                
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>微信</span>
+    <div class="qrcode"><img src="/images/wxqrcode.png" alt="微信"></div>
+</a>
+
+                
+        </div>
+    </div>
+</div>
 
 
 
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/06/13/3Dreconstruction/3d_reconstruction/">
+                <span class="level-item">3D reconstruction</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
 
 
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: '8eoAgWMqJvxDePfBogu64i1m-gzGzoHsz',
+        app_key: 'wooEMXdlCj5x9utpB1UhAobQ',
+        placeholder: '( *・ω・)✄╰ひ╯   快来评论鸭！！！'
+    });
+</script>
+
+    </div>
+</div>
 </div>
                 
 
@@ -1112,7 +1286,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/pig.png" alt="LittleBear！！！" height="28">
+                    <img src="/images/pig.png" alt="how to write a CUDA program" height="28">
                 
                 </a>
                 <p class="is-size-7">
