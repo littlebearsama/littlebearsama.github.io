@@ -16,7 +16,7 @@
 <meta property="og:description" content="第四章 CUDA C 并行编程、第五章线程协作 CUDA C并行编程、线程协作、GPU逻辑结构、配置线程、共享内存与同步、二维线程块实现波纹、共享内存实现点积 GitHub 建议下载下来用Typora软件阅读markdown文件">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-06-05T00:44:20.829Z">
+<meta property="og:updated_time" content="2019-06-12T15:31:02.116Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cudanote2">
 <meta name="twitter:description" content="第四章 CUDA C 并行编程、第五章线程协作 CUDA C并行编程、线程协作、GPU逻辑结构、配置线程、共享内存与同步、二维线程块实现波纹、共享内存实现点积 GitHub 建议下载下来用Typora软件阅读markdown文件">
@@ -164,7 +164,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    13 分钟 读完 (大约 1982 个字)
+                    13 分钟 读完 (大约 1983 个字)
                 </span>
                 
                 
@@ -222,7 +222,7 @@
 <p>gridDim.y代表grid中y轴上块的数量，</p>
 <p>gridDim.z代表grid中z轴上块的数量</p>
 <p><strong>定义grid、block大小：</strong><br>dim3 numBlock(m,n)<br>dim3 threadPerBlock(i,j)<br>则blockDim.x=i; blockDim.y=j; gridDim.x=m; gridDim.y=n</p>
-<p><strong>kernel调用：</strong><br>kernel&lt;&lt;&lt;numBlock,threadPerBlock&gt;&gt;&gt;(a,b)<br>这是调用kernel时的参数，尖括号&lt;&lt;&lt;&gt;&gt;&gt;中第一个参数代表启动的线程块的数量，第二个参数代表每个线程块中线程的数量.</p>
+<p><strong>kernel调用：</strong><br>kernel&lt;&lt;&lt;numBlock,threadPerBlock&gt;&gt;&gt;(a,b)<br>这是调用kernel时的参数，尖括号&lt;&lt;&lt;&gt;&gt;&gt;中第一个参数代表启动的线程块的数量，第二个参数代表每个线程块中线程的数量。</p>
 <p><strong>总的线程号：</strong><br>设线程号为tid,以下讨论几种调用情况下的tid的值，这里只讨论一维／二维的情况</p>
 <p><strong>一维：</strong><br>１．kernel&lt;&lt;&lt;1,N&gt;&gt;&gt;()<br>block和thread都是一维的，启动一个block，里面有N个thread，１维的。<strong>tid=threadIdx.x</strong></p>
 <p>２．kernel&lt;&lt;&lt;N,1&gt;&gt;&gt;()<br>启动N个一维的block，每个block里面１个thread。<strong>tid=blockIdx.x</strong></p>
@@ -293,7 +293,7 @@
 <figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">if</span> (cacheIndex &lt; i)&#123;</span><br><span class="line">    cache[cacheIndex] += cache[cacheIndex + i];</span><br><span class="line">  __syncthreads();</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>例子2（二维线程布置）基于共享内存的位图（略）</li>
+<li>例子2（二维线程布置）基于共享内存的位图（略）                            </li>
 </ul>
 
         </div>
@@ -436,7 +436,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        33
+                        34
                     </p>
                 </div>
             </div>
@@ -446,7 +446,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        18
+                        20
                     </p>
                 </div>
             </div>
@@ -456,7 +456,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        18
+                        19
                     </p>
                 </div>
             </div>
@@ -519,6 +519,22 @@
             </h3>
             <ul class="menu-list">
             <li>
+        <a class="level is-marginless" href="/categories/3D-reconstruction/">
+            <span class="level-start">
+                <span class="level-item">3D reconstruction</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/3D-reconstruction/tutorial/">
+            <span class="level-start">
+                <span class="level-item">tutorial</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
         <a class="level is-marginless" href="/categories/CV-Source/">
             <span class="level-start">
                 <span class="level-item">CV-Source</span>
@@ -674,7 +690,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/C/" style="font-size: 20px;">C++</a> <a href="/tags/CUDA/" style="font-size: 18.33px;">CUDA</a> <a href="/tags/CV-Source/" style="font-size: 10px;">CV-Source</a> <a href="/tags/Despriptors/" style="font-size: 10px;">Despriptors</a> <a href="/tags/FastICP/" style="font-size: 10px;">FastICP</a> <a href="/tags/Generalized-ICP/" style="font-size: 10px;">Generalized-ICP</a> <a href="/tags/ICP/" style="font-size: 13.33px;">ICP</a> <a href="/tags/LM/" style="font-size: 10px;">LM</a> <a href="/tags/NDT/" style="font-size: 11.67px;">NDT</a> <a href="/tags/ObjectDetection/" style="font-size: 10px;">ObjectDetection</a> <a href="/tags/PCL/" style="font-size: 15px;">PCL</a> <a href="/tags/PoseEstimation/" style="font-size: 13.33px;">PoseEstimation</a> <a href="/tags/RANSAC/" style="font-size: 10px;">RANSAC</a> <a href="/tags/Registration/" style="font-size: 16.67px;">Registration</a> <a href="/tags/SAC-IA/" style="font-size: 10px;">SAC-IA</a> <a href="/tags/SVD/" style="font-size: 10px;">SVD</a> <a href="/tags/cppFAQ/" style="font-size: 10px;">cppFAQ</a> <a href="/tags/keypoints/" style="font-size: 10px;">keypoints</a>
+        <a href="/tags/3D-reconstruction/" style="font-size: 10px;">3D reconstruction</a> <a href="/tags/C/" style="font-size: 20px;">C++</a> <a href="/tags/CUDA/" style="font-size: 18.33px;">CUDA</a> <a href="/tags/CV-Source/" style="font-size: 10px;">CV-Source</a> <a href="/tags/Despriptors/" style="font-size: 10px;">Despriptors</a> <a href="/tags/FastICP/" style="font-size: 10px;">FastICP</a> <a href="/tags/Generalized-ICP/" style="font-size: 10px;">Generalized-ICP</a> <a href="/tags/ICP/" style="font-size: 13.33px;">ICP</a> <a href="/tags/LM/" style="font-size: 10px;">LM</a> <a href="/tags/NDT/" style="font-size: 11.67px;">NDT</a> <a href="/tags/ObjectDetection/" style="font-size: 10px;">ObjectDetection</a> <a href="/tags/PCL/" style="font-size: 15px;">PCL</a> <a href="/tags/PoseEstimation/" style="font-size: 13.33px;">PoseEstimation</a> <a href="/tags/RANSAC/" style="font-size: 10px;">RANSAC</a> <a href="/tags/Registration/" style="font-size: 16.67px;">Registration</a> <a href="/tags/SAC-IA/" style="font-size: 10px;">SAC-IA</a> <a href="/tags/SVD/" style="font-size: 10px;">SVD</a> <a href="/tags/cppFAQ/" style="font-size: 10px;">cppFAQ</a> <a href="/tags/keypoints/" style="font-size: 10px;">keypoints</a>
     </div>
 </div>
 
@@ -688,6 +704,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/06/13/3Dreconstruction/3d_reconstruction/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="3D reconstruction">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-13T02:07:49.000Z">2019-06-13</time></div>
+                    <a href="/2019/06/13/3Dreconstruction/3d_reconstruction/" class="has-link-black-ter is-size-6">3D reconstruction</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/3D-reconstruction/">3D reconstruction</a> / <a class="has-link-grey -link" href="/categories/3D-reconstruction/tutorial/">tutorial</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -765,25 +800,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/05/29/registration/SAC-IA/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="SAC-IA">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-29T12:24:21.935Z">2019-05-29</time></div>
-                    <a href="/2019/05/29/registration/SAC-IA/" class="has-link-black-ter is-size-6">SAC-IA</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/SAC-IA/">SAC-IA</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -802,7 +818,7 @@
                     <span class="level-item">六月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">4</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -830,6 +846,13 @@
                 标签
             </h3>
             <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/3D-reconstruction/">
+                        <span class="tag">3D reconstruction</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/C/">
@@ -982,6 +1005,25 @@
         
         <article class="media">
             
+            <a href="/2019/06/13/3Dreconstruction/3d_reconstruction/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="3D reconstruction">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-13T02:07:49.000Z">2019-06-13</time></div>
+                    <a href="/2019/06/13/3Dreconstruction/3d_reconstruction/" class="has-link-black-ter is-size-6">3D reconstruction</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/3D-reconstruction/">3D reconstruction</a> / <a class="has-link-grey -link" href="/categories/3D-reconstruction/tutorial/">tutorial</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/06/10/registration/GeneralizedICP/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Generalized-ICP">
@@ -1056,25 +1098,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/05/29/registration/SAC-IA/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="SAC-IA">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-05-29T12:24:21.935Z">2019-05-29</time></div>
-                    <a href="/2019/05/29/registration/SAC-IA/" class="has-link-black-ter is-size-6">SAC-IA</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/SAC-IA/">SAC-IA</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1093,7 +1116,7 @@
                     <span class="level-item">六月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">4</span>
+                    <span class="level-item tag">5</span>
                 </span>
             </a>
         </li>
@@ -1121,6 +1144,13 @@
                 标签
             </h3>
             <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/3D-reconstruction/">
+                        <span class="tag">3D reconstruction</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/C/">
