@@ -2,23 +2,24 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>标签: LM - LittleBear！！！</title>
+<title>CUDA笔记补充 - LittleBear！！！</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta name="description" content="Robot With CV">
-<meta name="keywords" content="CUDA PCL OpenCV">
-<meta property="og:type" content="website">
-<meta property="og:title" content="LittleBear！！！">
-<meta property="og:url" content="https://littlebearsama.github.io/tags/LM/index.html">
+    <meta name="description" content="几种同步方式">
+<meta name="keywords" content="CUDA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CUDA笔记补充">
+<meta property="og:url" content="https://littlebearsama.github.io/2019/06/14/cuda/cuda QandA/index.html">
 <meta property="og:site_name" content="LittleBear！！！">
-<meta property="og:description" content="Robot With CV">
+<meta property="og:description" content="几种同步方式">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2019-06-14T03:03:57.085Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LittleBear！！！">
-<meta name="twitter:description" content="Robot With CV">
+<meta name="twitter:title" content="CUDA笔记补充">
+<meta name="twitter:description" content="几种同步方式">
 <meta name="twitter:image" content="https://littlebearsama.github.io/images/og_image.png">
 
 
@@ -102,7 +103,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/pig.png" alt="LittleBear！！！" height="28">
+                <img src="/images/pig.png" alt="CUDA笔记补充" height="28">
             
             </a>
         </div>
@@ -148,33 +149,22 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
-    <div class="card-content">
-        <nav class="breadcrumb" aria-label="breadcrumbs">
-        <ul>
-            <li><a href="/tags">标签</a></li>
-            <li class="is-active"><a href="#" aria-current="page">LM</a></li>
-        </ul>
-        </nav>
-    </div>
-</div>
-
-    <div class="card">
     
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-24T01:52:32.000Z">2019-05-24</time>
+                <time class="level-item has-text-grey" datetime="2019-06-14T03:03:14.000Z">2019-06-14</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Registration/">Registration</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Registration/compute-transform/">compute transform</a>
+                <a class="has-link-grey -link" href="/categories/编程/">编程</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/编程/cuda-Q-A/">cuda Q&A</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    25 分钟 读完 (大约 3717 个字)
+                    1 分钟 读完 (大约 199 个字)
                 </span>
                 
                 
@@ -183,34 +173,115 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/05/24/registration/compute-transformation/">compute-transform</a>
+                CUDA笔记补充
             
         </h1>
         <div class="content">
-            <p><strong>计算刚体变换矩阵</strong></p>
-<p>问题：已知有对应点对(correspondence; point pairs)P、Q集合，求解PQ之间的刚体变换矩阵</p>
+            <ul>
+<li>几种同步方式</li>
+</ul>
+<a id="more"></a>
+
+<h3 id="几种同步方式"><a href="#几种同步方式" class="headerlink" title="几种同步方式"></a>几种同步方式</h3><p><a href="https://blog.csdn.net/zhouliyang1990/article/details/38094709" target="_blank" rel="noopener">参考</a></p>
+<p>1.<code>cudaDeviceSynchronize();</code></p>
+<p>2.<code>cudaThreadSynchronize();</code></p>
+<p>3.<code>cudaStreamSynchronize();</code></p>
+<ol>
+<li><code>cudaDeviceSynchronize()</code>会阻塞当前程序的执行，直到所有任务都处理完毕（这里的任务其实就是指的是<strong>所有的线程都已经执行完了kernel function</strong>）</li>
+<li><del><code>udaThreadSynchronize()</code>的功能和<code>cudaDeviceSynchronize()</code>基本上一样，这个函数在新版本的cuda中已经被“废弃”了，</del>不推荐使用，如果程序中真的需要做同步操作，推荐使用<code>cudaDeviceSynchronize()</code>。</li>
+<li><code>cudaStreamSynchronize()</code>和上面的两个函数类似，这个函数带有一个参数，cuda流ID，它只阻塞那些cuda流ID等于参数中指定ID的那些cuda例程，对于那些流ID不等的例程，还是异步执行的。</li>
+</ol>
+
         </div>
         
-        
-        <div class="level is-mobile">
+        <div class="level is-size-7 is-uppercase">
             <div class="level-start">
                 <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/05/24/registration/compute-transformation/#more">阅读更多</a>
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/CUDA/">CUDA</a>
                 </div>
             </div>
         </div>
         
+        
+        
+        
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ce8d814d9c29712"></script>
+
         
     </div>
 </div>
 
 
 
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="/images/alqrcode.png" alt="支付宝"></div>
+</a>
+
+                
+                
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>微信</span>
+    <div class="qrcode"><img src="/images/wxqrcode.png" alt="微信"></div>
+</a>
+
+                
+        </div>
+    </div>
+</div>
 
 
 
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/06/13/cuda/how to write a CUDA program/">
+                <span class="level-item">how to write a CUDA program</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
 
 
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: '8eoAgWMqJvxDePfBogu64i1m-gzGzoHsz',
+        app_key: 'wooEMXdlCj5x9utpB1UhAobQ',
+        placeholder: '( *・ω・)✄╰ひ╯   快来评论鸭！！！'
+    });
+</script>
+
+    </div>
+</div>
 </div>
                 
 
@@ -1129,7 +1200,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/pig.png" alt="LittleBear！！！" height="28">
+                    <img src="/images/pig.png" alt="CUDA笔记补充" height="28">
                 
                 </a>
                 <p class="is-size-7">
