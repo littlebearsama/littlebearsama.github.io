@@ -16,7 +16,7 @@
 <meta property="og:description" content="如何开始学习PCL点云库">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-06-04T13:58:40.596Z">
+<meta property="og:updated_time" content="2019-06-15T08:23:28.746Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="how-to-start-PCL">
 <meta name="twitter:description" content="如何开始学习PCL点云库">
@@ -164,7 +164,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    11 分钟 读完 (大约 1617 个字)
+                    9 分钟 读完 (大约 1366 个字)
                 </span>
                 
                 
@@ -184,6 +184,7 @@
 <h3 id="建议："><a href="#建议：" class="headerlink" title="建议："></a><strong>建议：</strong></h3><ul>
 <li>首先推荐不要自己编译源码，建议安装all-in-one能够满足大部分人的需求。</li>
 <li>其次先实现基本功能再配置QT，可能qvtk插件会有点麻烦</li>
+<li><a href="https://littlebearsama.github.io/2019/05/24/pcl_tutorial/config-PCL-qt-cuda/#more">配置教程</a></li>
 <li>如有需要再安装cuda</li>
 </ul>
 <h3 id="资源："><a href="#资源：" class="headerlink" title="资源："></a><strong>资源：</strong></h3><ol>
@@ -209,10 +210,7 @@
 <p>b.kitti，用于点云配准的遥感激光（车载或机载的）点云数据集。</p>
 <p>c.<a href="http://rgbd-dataset.cs.washington.edu/" target="_blank" rel="noopener"><strong>室内物体rgbd数据集</strong></a></p>
 <p>d.<a href="http://cmp.felk.cvut.cz/sixd/challenge_2017/" target="_blank" rel="noopener"><strong>SIXD Challenge 2017</strong>数据集</a></p>
-</li>
-</ol>
-<p>   下面参考：<a href="https://github.com/timzhang642/3D-Machine-Learning" target="_blank" rel="noopener">3D-Machine-Learning</a></p>
-<p>   e.点云深度学习数据集：</p>
+<p>e.点云深度学习数据集：<a href="https://github.com/timzhang642/3D-Machine-Learning" target="_blank" rel="noopener">3D-Machine-Learning</a></p>
 <ul>
 <li><p><a href="https://shapenet.org/" target="_blank" rel="noopener">ShapeNet</a>;</p>
 </li>
@@ -227,27 +225,27 @@
 <li><p>佐治亚理工<a href="https://www.cc.gatech.edu/projects/large_models/" target="_blank" rel="noopener">大型几何模型数据集</a></p>
 </li>
 </ul>
+</li>
+</ol>
 <ol start="4">
 <li><p>用得最多的处理点云的必备软件（好用又开源）</p>
 <p>a.cloudcompare非常好用，可以进行点云查看，配准，剪裁，格式转换等</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/1CVbd614QrEgaGe9TX6xH1ZFOlm38mfCFRCCthO3PXQ6yrpLibhH6fWbdia15ZBlyjj9uEpK6ciaos8W6QrHvV6vg/640?wx_fmt=png" alt></p>
+<p><img src="/2019/05/24/pcl_tutorial/how-to-start-PCL/cc.png" alt="cloudcompare"></p>
 <p>b.meshlab，可以对网格点云等进行处理，集成了大部分重建，分割等算法</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/1CVbd614QrEgaGe9TX6xH1ZFOlm38mfCyxofJqtcTwX83ibPHFWISvdzIN0sficib8odiaSteKLNxkAibv5ZhuHYiapg/640?wx_fmt=png" alt="img"></p>
+<p><img src="/2019/05/24/pcl_tutorial/how-to-start-PCL/meshlab.png" alt="meshlab"></p>
 </li>
 </ol>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_gif/1CVbd614QrE1zI4T5QbxzicccibMUaY0kR0cmejt0Pj5UIHoOibr7WYnOm5tD2QUmUoJg2FA2yyCHSUHenJruDJ0A/640?wx_fmt=gif" alt></p>
 <h3 id="一些知识点："><a href="#一些知识点：" class="headerlink" title="一些知识点："></a><strong>一些知识点：</strong></h3><ol>
 <li><p><strong>两种数据结构：kdtree和octree</strong></p>
-<p><strong>kdtree：</strong><img src="https://mmbiz.qpic.cn/mmbiz_png/1CVbd614QrHIseAf99d41t0dVQatA3cKOrISFgzlILTaPr2zbm6fuvNwmvapOA3wuJZdQqcVOicad4mGJba3FKQ/640?wx_fmt=png" alt></p>
+<p><strong>kdtree：</strong></p>
+<p><strong>octree：</strong></p>
+<p>kdtree和octree都是两种计算机数据结构。可以简单理解为建立这些数据结构是为了方便我们进行三维空间检索。</p>
+<p>kdtree用来组织表示<strong>k维空间</strong>中点的集合，</p>
+<p>1.PCL中kdtree库提供了kdtree数据结构。基于FLANN（快速近邻算法）进行快速近邻查询即帮助你找到最近的几个点。有了近邻点的信息可以计算特征描述子（feature descriptor）用于描述该点的特征，建立kdtree可以简单理解为通过kdtree帮助你找到每个点的邻居，具体描述请看文档。</p>
+<p>2.PCL中octree可以理解为：通过循环递归划分空间为八个子立方体来进行空间细分，octree的编码知道每个点云所在的octree空间，递归的次数越多就使得划分的空间越细。同样的，octree也可以像kdtree一样进行FLANN，邻域检索，邻域的特征提取，计算描述符等。另外还有一些相应的空间处理算法比如：压缩，空间变化检测。通过空间变化检测来提取两个点云的差异非常好用。</p>
+<p>kdtree和octree具体内容会有相关的详细文档，放在百度云。</p>
 </li>
 </ol>
-<p>   <strong>octree：</strong></p>
-<p>   <img src="https://mmbiz.qpic.cn/mmbiz_png/1CVbd614QrHIseAf99d41t0dVQatA3cKO8qzOfVANq5MpibFjn6Nkqw9v8uwNHdTxICLgsDoKqbQ0HnXVPLNSWA/640?wx_fmt=png" alt></p>
-<p>   kdtree和octree都是两种计算机数据结构。可以简单理解为建立这些数据结构是为了方便我们进行三维空间检索。</p>
-<p>   kdtree用来组织表示k维空间中点的集合，</p>
-<p>   1.PCL中kdtree库提供了kdtree数据结构。基于FLANN（快速近邻算法）进行快速近邻查询即帮助你找到最近的几个点。有了近邻点的信息可以计算特征描述子（feature descriptor）用于描述该点的特征，建立kdtree可以简单理解为通过kdtree帮助你找到每个点的邻居，具体描述请看文档。</p>
-<p>   2.PCL中octree可以理解为：通过循环递归划分空间为八个子立方体来进行空间细分，octree的编码知道每个点云所在的octree空间，递归的次数越多就使得划分的空间越细。同样的，octree也可以像kdtree一样进行FLANN，邻域检索，邻域的特征提取，计算描述符等。另外还有一些相应的空间处理算法比如：压缩，空间变化检测。通过空间变化检测来提取两个点云的差异非常好用。</p>
-<p>   kdtree和octree具体内容会有相关的详细文档，放在百度云。</p>
 <ol start="2">
 <li><p><strong>随机采样一致性算法RANSAC</strong></p>
 <p>RANSAC是一种随机参数估计算法。RANSAC从样本中随机抽选出一个样本子集，使用最小方差估计算法对这个自己计算模型参数。</p>
@@ -256,7 +254,6 @@
 <p>实例：用平面模型对常见的室内点云进行平面分割提取，比如墙，地板，桌面等，或者用圆柱体分割出一个圆柱体的杯子。</p>
 </li>
 </ol>
-<p>   <img src="https://mmbiz.qpic.cn/mmbiz_png/1CVbd614QrHIseAf99d41t0dVQatA3cKricia2dn1AibumibvgrpBRdu9XyUgODpQWu1icuMoUiccqybHXEicdnyh3nVw/640?wx_fmt=png" alt></p>
 <ol start="3">
 <li><p><strong>关键点与特征描述符</strong></p>
 <p>在另外的文章会给出</p>
@@ -270,7 +267,6 @@
 <ol start="5">
 <li><strong>点云分割</strong></li>
 </ol>
-<p>   <img src="https://mmbiz.qpic.cn/mmbiz_png/1CVbd614QrHIseAf99d41t0dVQatA3cK4AZruaibu5GllpBIdBkY1PhibLgURbWbb45dpKvxmtjA8mP4DdNHpib8A/640?wx_fmt=png" alt></p>
 <p>   点云分割是根据空间，几何和纹理等特征对点云进行划分。</p>
 <p>   点云分割可以划分为下面几种：</p>
 <p>   <strong>a.基于模型分割</strong></p>
@@ -284,20 +280,16 @@
 <p>pcl里面有很多曲面重建的算法，也可以通过先前提到的meshlab软件先进行可行性验证，再去编写代码。</p>
 <p>我举一些曲面处理与曲面重建的算法出来，给大家参考一下。</p>
 <ul>
-<li>使用双边滤波（Bilateral Filtering）进行上采样</li>
-</ul>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/1CVbd614QrHIseAf99d41t0dVQatA3cKYDRQda9DfibQol38VBCemdPQdmh3hB4kynaZGQLQXnJHialmjN3Q5aZw/640?wx_fmt=png" alt></p>
-<ul>
-<li>使用移动最小二乘法（Moving Least Squares）进行上采样</li>
-</ul>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/1CVbd614QrHIseAf99d41t0dVQatA3cKb88wIsiaaVlibw6su8QJHskr7b6FVvS3EKviayia6dzmmfOX61QH8hTdUg/640?wx_fmt=png" alt></p>
-<ul>
-<li>3.使用Poisson算法进行表面重建</li>
-</ul>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/1CVbd614QrHIseAf99d41t0dVQatA3cKp6X81PZx6icNahTtGdpRTdDa4ia001u3N4KhicnM14Ak2R6cSLua0nQFQ/640?wx_fmt=png" alt></p>
+<li><p>使用双边滤波（Bilateral Filtering）进行上采样</p>
+</li>
+<li><p>使用移动最小二乘法（Moving Least Squares）进行上采样</p>
+</li>
+<li><p>使用Poisson算法进行表面重建</p>
 <p>曲面重建还有多的其他算法，具体可以参照pcl官网的例程或者查看pcl的类定义来获取具体信息。</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_gif/1CVbd614QrE1zI4T5QbxzicccibMUaY0kRHnK0KS6tVseqFEnicSCsMzSf8Dt5x0qp7ZwKkmCBbC6ljfiapNgEogRg/640?wx_fmt=gif" alt="img"></p>
-<p>上述文档输入关键字“开始”获得百度云链接（完）</p>
+</li>
+</ul>
+<hr>
+<p>未完待续</p>
 
         </div>
         
