@@ -16,7 +16,7 @@
 <meta property="og:description" content="随机采样一致性（RANSAC）—— 模型参数估计； 最大似然估计（MLESAC）—— 模型参数估计； 采样一致性初始对齐算法（SAC-IA）—— 粗对齐；">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-06-04T13:59:43.096Z">
+<meta property="og:updated_time" content="2019-06-16T06:27:54.623Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SAC-IA">
 <meta name="twitter:description" content="随机采样一致性（RANSAC）—— 模型参数估计； 最大似然估计（MLESAC）—— 模型参数估计； 采样一致性初始对齐算法（SAC-IA）—— 粗对齐；">
@@ -164,7 +164,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    21 分钟 读完 (大约 3115 个字)
+                    22 分钟 读完 (大约 3263 个字)
                 </span>
                 
                 
@@ -182,26 +182,36 @@
 <p>采样一致性初始对齐算法（SAC-IA）—— 粗对齐；</p>
 <a id="more"></a>
 
+<p>处理外点的最常用的两种方案：</p>
+<ol>
+<li>随机采样一致性（random sample consensus）</li>
+<li>M估计(M-Estimation)—–误差分布不是正态分布时,最小二乘估计不是最优估计，M-估计中可以找到优于最小二乘法的估计</li>
+</ol>
 <h1 id="一、RANSAC"><a href="#一、RANSAC" class="headerlink" title="一、RANSAC"></a>一、RANSAC</h1><p>在计算机视觉领域广泛应用各种不同的<strong>采样一致性参数估计算法</strong>，用于排除错误的样本，样本不同，对应的应用则也不同，例如<strong>剔除错误的匹配点对，分割出处在模型上的点集等。</strong></p>
-<h3 id="PCL中的模型参数估计方法"><a href="#PCL中的模型参数估计方法" class="headerlink" title="PCL中的模型参数估计方法"></a>PCL中的模型参数估计方法</h3><p>PCL中以随机采样一致性算法（RANSAC）为核心，同时实现了五种类似于<strong>随机采样一致性参数估计算法</strong>。</p>
+<h3 id="PCL中的“模型参数”估计方法"><a href="#PCL中的“模型参数”估计方法" class="headerlink" title="PCL中的“模型参数”估计方法"></a>PCL中的“模型参数”估计方法</h3><p>PCL中以随机采样一致性算法（RANSAC）为核心，同时实现了五种类似于<strong>随机采样一致性参数估计算法</strong>。</p>
 <ul>
 <li>随机采样一致性估计（RANSAC）</li>
 <li>最大似然估计（MLESAC）</li>
 <li>最小中值方差估计（LMEDS）</li>
 </ul>
-<h4 id="随机采样一致性估计（RANSAC）"><a href="#随机采样一致性估计（RANSAC）" class="headerlink" title="随机采样一致性估计（RANSAC）"></a>随机采样一致性估计（RANSAC）</h4><p>两个缺点：</p>
+<h4 id="1-随机采样一致性估计（RANSAC）"><a href="#1-随机采样一致性估计（RANSAC）" class="headerlink" title="1.随机采样一致性估计（RANSAC）"></a>1.随机采样一致性估计（RANSAC）</h4><p>两个缺点：</p>
 <ul>
-<li>当模型具有明显的物理意义时，阈值比较容易设定，但若模型比较抽象是，阈值不易确定。</li>
-<li>RANSAC迭代次数是运行期决定的，不能与之迭代的确切次数</li>
-<li>只能从一个特定数据集中估计一个模型，当来年改革或者更多个模型存在是，RANSAC不能找到别的模型。</li>
+<li><p>当模型具有明显的物理意义时，阈值比较容易设定，但若模型比较抽象是，阈值不易确定。</p>
+</li>
+<li><p>RANSAC迭代次数是运行期决定的，不能与之迭代的确切次数</p>
+</li>
+<li><p>只能从一个特定数据集中估计一个模型，当来年改革或者更多个模型存在是，RANSAC不能找到别的模型。</p>
+</li>
 </ul>
+<p>步骤：</p>
 <ol>
-<li>从样本中抽选出一个样本子集，使用<strong>最小方差估计算法</strong>对这个子集计算模型参数。</li>
+<li>从样本中抽选出一个（最小）样本子集作为假设的内点（例如，如果根据数据拟合一条二维直线，则选择两个点）。</li>
+<li>根据假设的内点拟合一个模型（例如，根据两个点拟合直线）。实际上是，使用<strong>最小方差估计算法</strong>对这个子集计算模型参数。</li>
 <li>计算所有样本与该模型的偏差，再使用预先设定好的阈值t与偏差比较，当偏差小于阈值是，该样本点属于模型内样本点（inliers），否则为外样本点。</li>
 <li>记录下当前inliers的个数，然后重复这一过程（选子集-&gt;估计模型参数-&gt;记录inliers个数）。每一次重复，都记录当前最佳（inliers个数最多，best_nlinliers）的模型参数。</li>
 <li>每次迭代的末尾，根据<strong>期望的误差率、best_nlinliers、总样本个数，当前迭代次数，计算一个迭代结束评判因子，根据此决定是否结束迭代</strong>，结束迭代后，最佳模型参数就是最终的模型参数估计值。</li>
 </ol>
-<h4 id="最大似然估计（MLESAC）"><a href="#最大似然估计（MLESAC）" class="headerlink" title="最大似然估计（MLESAC）"></a>最大似然估计（MLESAC）</h4><p>LMedS理论上也可以提出outliers的影响，并得到全局最优的参数估计，并且克服了RANSAC的两个缺点。但是当outliers在样本中比例达到或超过50%时，LMeds就无能为力。</p>
+<h4 id="2-最大似然估计（MLESAC）"><a href="#2-最大似然估计（MLESAC）" class="headerlink" title="2.最大似然估计（MLESAC）"></a>2.最大似然估计（MLESAC）</h4><p>LMedS理论上也可以提出outliers的影响，并得到全局最优的参数估计，并且克服了RANSAC的两个缺点。但是当outliers在样本中比例达到或超过50%时，LMeds就无能为力。</p>
 <ol>
 <li>从样本中抽选出一个样本子集，使用<strong>最小方差估计算法</strong>对子集计算模型参数</li>
 <li>计算所有样本与该模型的偏差，与RANSAC不同的是，LMedS记录的是所有样本中，<strong>偏差值居中的那个样本的偏差[称为Med偏差]</strong>，以及本次计算得到的模型参数。</li>
