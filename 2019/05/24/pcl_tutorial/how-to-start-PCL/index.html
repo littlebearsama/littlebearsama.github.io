@@ -16,7 +16,7 @@
 <meta property="og:description" content="如何开始学习PCL点云库">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-06-15T08:23:28.746Z">
+<meta property="og:updated_time" content="2019-06-15T09:48:28.322Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="how-to-start-PCL">
 <meta name="twitter:description" content="如何开始学习PCL点云库">
@@ -164,7 +164,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    9 分钟 读完 (大约 1366 个字)
+                    9 分钟 读完 (大约 1387 个字)
                 </span>
                 
                 
@@ -189,7 +189,11 @@
 </ul>
 <h3 id="资源："><a href="#资源：" class="headerlink" title="资源："></a><strong>资源：</strong></h3><ol>
 <li><p>学习资源</p>
-<p>a.官网文档<a href="http://pointclouds.org/documentation/" target="_blank" rel="noopener">http://pointclouds.org/documentation/</a></p>
+<p>a.<strong>最好就是直接看官网文档</strong></p>
+<ol>
+<li><a href="http://pointclouds.org/documentation/" target="_blank" rel="noopener">http://pointclouds.org/documentation/</a></li>
+<li><a href="http://docs.pointclouds.org/trunk/" target="_blank" rel="noopener">http://docs.pointclouds.org/trunk/</a></li>
+</ol>
 <p>b.微信公众号：点云PCL</p>
 <p>c.微信公众号：泡泡机器人SLAM，里面做slam关于点云的也是比较多的。</p>
 <p>d.书《点云库PCL从入门到精通》</p>
@@ -237,12 +241,14 @@
 </ol>
 <h3 id="一些知识点："><a href="#一些知识点：" class="headerlink" title="一些知识点："></a><strong>一些知识点：</strong></h3><ol>
 <li><p><strong>两种数据结构：kdtree和octree</strong></p>
-<p><strong>kdtree：</strong></p>
-<p><strong>octree：</strong></p>
+<p><a href="http://docs.pointclouds.org/trunk/group__kdtree.html" target="_blank" rel="noopener"><strong>kdtree：</strong></a></p>
+<p>kd是k维的意思，在点云中k=3。</p>
+<p><a href="http://docs.pointclouds.org/trunk/group__octree.html" target="_blank" rel="noopener"><strong>octree：</strong></a></p>
 <p>kdtree和octree都是两种计算机数据结构。可以简单理解为建立这些数据结构是为了方便我们进行三维空间检索。</p>
-<p>kdtree用来组织表示<strong>k维空间</strong>中点的集合，</p>
+<p>kdtree用<strong>来组织表示k维空间</strong>中点的集合，</p>
 <p>1.PCL中kdtree库提供了kdtree数据结构。基于FLANN（快速近邻算法）进行快速近邻查询即帮助你找到最近的几个点。有了近邻点的信息可以计算特征描述子（feature descriptor）用于描述该点的特征，建立kdtree可以简单理解为通过kdtree帮助你找到每个点的邻居，具体描述请看文档。</p>
-<p>2.PCL中octree可以理解为：通过循环递归划分空间为八个子立方体来进行空间细分，octree的编码知道每个点云所在的octree空间，递归的次数越多就使得划分的空间越细。同样的，octree也可以像kdtree一样进行FLANN，邻域检索，邻域的特征提取，计算描述符等。另外还有一些相应的空间处理算法比如：压缩，空间变化检测。通过空间变化检测来提取两个点云的差异非常好用。</p>
+<p>2.PCL中octree可以理解为：通过循环递归划分空间为八个子立方体来进行空间细分，octree的编码知道每个点云所在的octree空间，递归的次数越多就使得划分的空间越细。同样的，octree也可以像kdtree一样进行FLANN，邻域检索，邻域的特征提取，计算描述符等。另外还有一些相应的空间处理算法比如：压缩，空间变化检测。</p>
+<p><strong>通过空间变化检测来提取两个点云的差异非常好用。</strong></p>
 <p>kdtree和octree具体内容会有相关的详细文档，放在百度云。</p>
 </li>
 </ol>
