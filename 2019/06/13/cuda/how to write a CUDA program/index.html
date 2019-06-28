@@ -7,19 +7,19 @@
 
 
 
-    <meta name="description" content="简单总结如何写一个CUDA程序">
+    <meta name="description" content="学习资源 简单总结如何写一个CUDA程序">
 <meta name="keywords" content="CUDA">
 <meta property="og:type" content="article">
 <meta property="og:title" content="how to write a CUDA program">
 <meta property="og:url" content="https://littlebearsama.github.io/2019/06/13/cuda/how to write a CUDA program/index.html">
 <meta property="og:site_name" content="LittleBear！！！">
-<meta property="og:description" content="简单总结如何写一个CUDA程序">
+<meta property="og:description" content="学习资源 简单总结如何写一个CUDA程序">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-06-13T09:05:24.300Z">
+<meta property="og:updated_time" content="2019-06-28T13:26:11.204Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="how to write a CUDA program">
-<meta name="twitter:description" content="简单总结如何写一个CUDA程序">
+<meta name="twitter:description" content="学习资源 简单总结如何写一个CUDA程序">
 <meta name="twitter:image" content="https://littlebearsama.github.io/images/og_image.png">
 
 
@@ -164,7 +164,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    11 分钟 读完 (大约 1587 个字)
+                    11 分钟 读完 (大约 1673 个字)
                 </span>
                 
                 
@@ -177,12 +177,28 @@
             
         </h1>
         <div class="content">
-            <p>简单总结如何写一个CUDA程序</p>
+            <ul>
+<li>学习资源</li>
+<li>简单总结如何写一个CUDA程序</li>
+</ul>
 <a id="more"></a>
 
 <p>建议下载下来用Typora软件阅读markdown文件</p>
-<h2 id="CUDA并行计算原理"><a href="#CUDA并行计算原理" class="headerlink" title="CUDA并行计算原理"></a>CUDA并行计算原理</h2><p>CUDA程序运行可以简单理解为：主机代码在CPU中运行，在调用<code>__device__</code>和<code>__global__</code>核函数时，进入GPU运行（此时并不会中断主机代码的运行，除非在等待GPU出结果）。此时在设备中每个线程执行一个核函数。</p>
-<h2 id="CUDA程序编写步骤"><a href="#CUDA程序编写步骤" class="headerlink" title="CUDA程序编写步骤"></a>CUDA程序编写步骤</h2><h3 id="一、编写GPU运行的核函数"><a href="#一、编写GPU运行的核函数" class="headerlink" title="一、编写GPU运行的核函数"></a>一、编写GPU运行的核函数</h3><ol>
+<h2 id="A-学习资源"><a href="#A-学习资源" class="headerlink" title="A.学习资源"></a>A.学习资源</h2><ol>
+<li><p>官方文档(安装cuda时自带的)</p>
+<p><img src="/2019/06/13/cuda/how to write a CUDA program/writecuda/1.png" alt></p>
+</li>
+<li><p>自带例程</p>
+<p>例程中文介绍：<a href="https://blog.csdn.net/fishseeker/article/details/76708830" target="_blank" rel="noopener">CUDA Samples</a></p>
+<p><img src="/2019/06/13/cuda/how to write a CUDA program/writecuda/2.png" alt></p>
+</li>
+<li><p>CUDA书籍与博客</p>
+<p><a href="https://github.com/littlebearsama/CUDA-notes" target="_blank" rel="noopener">书籍</a></p>
+<p><a href="https://littlebearsama.github.io/tags/CUDA/">博客</a></p>
+</li>
+</ol>
+<h2 id="B-CUDA并行计算原理"><a href="#B-CUDA并行计算原理" class="headerlink" title="B.CUDA并行计算原理"></a>B.CUDA并行计算原理</h2><p>CUDA程序运行可以简单理解为：主机代码在CPU中运行，在调用<code>__device__</code>和<code>__global__</code>核函数时，进入GPU运行（此时并不会中断主机代码的运行，除非在等待GPU出结果）。此时在设备中每个线程执行一个核函数。</p>
+<h2 id="C-CUDA程序编写步骤"><a href="#C-CUDA程序编写步骤" class="headerlink" title="C.CUDA程序编写步骤"></a>C.CUDA程序编写步骤</h2><h3 id="一、编写GPU运行的核函数"><a href="#一、编写GPU运行的核函数" class="headerlink" title="一、编写GPU运行的核函数"></a>一、编写GPU运行的核函数</h3><ol>
 <li><p>根据数据的个数与数据形式（二维图像？三维点云？）来<a href="https://littlebearsama.github.io/2019/05/24/cuda/cudanote2/"><strong>考虑线程配置</strong></a>。</p>
 <p>在二维中：</p>
 <figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function">dim3    <span class="hljs-title">blocks</span><span class="hljs-params">(DIM/<span class="hljs-number">16</span>,DIM/<span class="hljs-number">16</span>)</span></span>;</span><br><span class="line"><span class="hljs-function">dim3    <span class="hljs-title">threads</span><span class="hljs-params">(<span class="hljs-number">16</span>,<span class="hljs-number">16</span>)</span></span>;</span><br></pre></td></tr></table></figure>
@@ -285,6 +301,7 @@
 <h4 id="释放内存"><a href="#释放内存" class="headerlink" title="释放内存"></a>释放内存</h4><p>释放申请的主机内存和设备内存</p>
 <figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cudaFree( dev_a );</span><br><span class="line">cudaFree( dev_b );</span><br><span class="line">cudaFree( dev_c );</span><br></pre></td></tr></table></figure>
 
+<h3 id="四、利用好CUDA自带的库以及性能原语"><a href="#四、利用好CUDA自带的库以及性能原语" class="headerlink" title="四、利用好CUDA自带的库以及性能原语"></a>四、利用好CUDA自带的库以及性能原语</h3><p><img src="/2019/06/13/cuda/how to write a CUDA program/writecuda/3.png" alt></p>
 
         </div>
         
