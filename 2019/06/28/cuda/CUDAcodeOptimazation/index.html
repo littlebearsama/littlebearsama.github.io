@@ -16,7 +16,7 @@
 <meta property="og:description" content="张也冬视频笔记 内存上的优化 计算上的优化">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-06-28T11:41:12.395Z">
+<meta property="og:updated_time" content="2019-06-28T11:51:44.228Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CUDA Code Optimization">
 <meta name="twitter:description" content="张也冬视频笔记 内存上的优化 计算上的优化">
@@ -183,7 +183,7 @@
 <a id="more"></a>
 
 <p><a href="https://www.bilibili.com/video/av6060299?t=1811" target="_blank" rel="noopener">B站视频</a></p>
-<h1 id="CUDA代码优化"><a href="#CUDA代码优化" class="headerlink" title="CUDA代码优化"></a>CUDA代码优化</h1><h3 id="代码（转置矩阵）"><a href="#代码（转置矩阵）" class="headerlink" title="代码（转置矩阵）"></a>代码（转置矩阵）</h3><p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/0.png" alt></p>
+<h1 id="CUDA代码优化"><a href="#CUDA代码优化" class="headerlink" title="CUDA代码优化"></a>CUDA代码优化</h1><h3 id="代码（转置矩阵）"><a href="#代码（转置矩阵）" class="headerlink" title="代码（转置矩阵）"></a>代码（转置矩阵）</h3><p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/0.png" alt></p>
 <ul>
 <li>输入/输出数据：N×N（1024 * 1024） 维度的矩阵</li>
 <li>每个block的线程数目为16X16=256</li>
@@ -227,7 +227,7 @@
 </li>
 </ol>
 <h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>合并Coalesce和跨步Strided</p>
-<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/1.png" alt></p>
+<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/1.png" alt></p>
 <p>存储到<strong>全局内存时，线程数据的复制方式</strong>：合并形式与跨步形式，合并方式比跨步方式好，小跨步比大跨步好。</p>
 <ol>
 <li><p>目前代码问题：</p>
@@ -237,7 +237,7 @@
 <p>Coalesced reads,Coalesced writes</p>
 </li>
 </ol>
-<h4 id="1-使用共享内存"><a href="#1-使用共享内存" class="headerlink" title="1.使用共享内存"></a>1.使用共享内存</h4><p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/3.png" alt></p>
+<h4 id="1-使用共享内存"><a href="#1-使用共享内存" class="headerlink" title="1.使用共享内存"></a>1.使用共享内存</h4><p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/3.png" alt></p>
 <ul>
 <li>声明了一个<strong>共享内存</strong>的空间tile，把<strong>全局内存in</strong>里面的数据转置后复制到tile中</li>
 <li>同步线程块里面的线程（线程之间互相等待，同步好之后再执行下一步）</li>
@@ -265,7 +265,7 @@
 </li>
 </ol>
 </blockquote>
-<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/4.png" alt></p>
+<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/4.png" alt></p>
 <h4 id="3-Locate-low-efficiency"><a href="#3-Locate-low-efficiency" class="headerlink" title="3.Locate low efficiency"></a>3.Locate low efficiency</h4><ol>
 <li><p>反观代码</p>
 <ul>
@@ -280,14 +280,14 @@
 <li>增加使用每个SM中的线程块数</li>
 </ul>
 <p>尝试结果：</p>
-<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/5.png" alt></p>
+<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/5.png" alt></p>
 </li>
 </ol>
-<h3 id="占用率Occupancy"><a href="#占用率Occupancy" class="headerlink" title="占用率Occupancy"></a>占用率Occupancy</h3><p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/6.png" alt></p>
+<h3 id="占用率Occupancy"><a href="#占用率Occupancy" class="headerlink" title="占用率Occupancy"></a>占用率Occupancy</h3><p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/6.png" alt></p>
 <h3 id="共享内存的架构"><a href="#共享内存的架构" class="headerlink" title="共享内存的架构"></a>共享内存的架构</h3><ol>
 <li><p>没有bank conflicts</p>
 <p>各个线程同时分别访问对应的Bank（线程0访问Bank0，线程1访问Bank1。。。，大家同时进行Bank访问时没有冲突）</p>
-<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/7.png" alt></p>
+<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/7.png" alt></p>
 </li>
 <li><p>有bank conflicts</p>
 <ul>
@@ -295,16 +295,16 @@
 <li>八个线程同时访问同一个Bank，造成Bank Conficts，八个比两个更加严重</li>
 </ul>
 <p>不能多个线程同时访问同一个内存位置（cache），否则会造成等待（延迟）。<strong>就把本来是一个并行的事变成串行的事</strong>。</p>
-<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/8.png" alt></p>
+<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/8.png" alt></p>
 </li>
 </ol>
 <h4 id="bank-conflict-in-code"><a href="#bank-conflict-in-code" class="headerlink" title="bank conflict in code"></a>bank conflict in code</h4><p>在上面改进后的代码(使用了共享内存的代码)中也存在这样的问题(bank conflicts)。是下面的图1中的情况。</p>
 <ol>
 <li><p>下图中对应线程每次都访问同一个bank，比如线程0每次访问的都是绿色的bank0。线程1每次访问的都是橙色的bank1。</p>
-<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/9.png" alt="图1"></p>
+<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/9.png" alt="图1"></p>
 </li>
 <li><p>下图中，线程1第一次访问的是bank0，第二次访问的是bank1，不会每次都在等候同一个bank。下面的图2中加了个<strong>padding（填充）</strong>，使得线程0访问的是Bank1，线程1访问的是Bank2了，<strong>这样子使得线程不会一直占用着同一个bank进行等候</strong>。 </p>
-<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/10.png" alt="图2"></p>
+<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/10.png" alt="图2"></p>
 </li>
 </ol>
 <h2 id="二、计算上的优化"><a href="#二、计算上的优化" class="headerlink" title="二、计算上的优化"></a>二、计算上的优化</h2><ol>
@@ -316,7 +316,7 @@
 </li>
 </ol>
 <h3 id="减少线程发散："><a href="#减少线程发散：" class="headerlink" title="减少线程发散："></a>减少线程发散：</h3><p>Minimize Threads DIvergence</p>
-<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/11.png" alt></p>
+<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/11.png" alt></p>
 <p>线程束内线程会进行等待，避免有的线程计算时间长有的线程计算时间短。</p>
 <h3 id="更有效果的方法"><a href="#更有效果的方法" class="headerlink" title="更有效果的方法"></a>更有效果的方法</h3><p>More efficiency,less accuracy—save the amount of time</p>
 <ol>
@@ -332,10 +332,10 @@
 <li>cudaMemcpy()是一种阻塞传输；而cudaMemcpyAsync()非阻塞</li>
 <li>cudaHostMalloc()+cudaMemcoyAsync()实现异步传输和计算</li>
 </ol>
-<h2 id="四、Stream"><a href="#四、Stream" class="headerlink" title="四、Stream"></a>四、Stream</h2><p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/12.png" alt></p>
+<h2 id="四、Stream"><a href="#四、Stream" class="headerlink" title="四、Stream"></a>四、Stream</h2><p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/12.png" alt></p>
 <p>保证流之间不相关。</p>
 <h1 id="基本算法"><a href="#基本算法" class="headerlink" title="基本算法"></a>基本算法</h1><h2 id="一、Reduce（规约）"><a href="#一、Reduce（规约）" class="headerlink" title="一、Reduce（规约）"></a>一、Reduce（规约）</h2><p>自带库中已经有很好的接口。下图中，第二个和第三个都是四步，但是第二个没有第三个好。</p>
-<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/13.png" alt></p>
+<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/13.png" alt></p>
 <ol>
 <li><p>规约版本1(不是指上图的第一个版本的计算)，线程的执行在下面表示</p>
 <p>执行线程流程</p>
@@ -347,7 +347,7 @@
 <li>存在一些没有意义的遍历，线程分散度比较高，</li>
 <li>使用求余运算符占用时间大</li>
 </ul>
-<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/v1.png" alt></p>
+<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/v1.png" alt></p>
 </li>
 <li><p>在线程号上面改动，线程的执行在下面表示，</p>
 <ul>
@@ -358,24 +358,24 @@
 </ul>
 </li>
 </ol>
-<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/v2.png" alt></p>
+<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/v2.png" alt></p>
 <ol start="3">
 <li><p>线程的执行在下面表示，</p>
 <ul>
 <li>保证了对应线程的对应bank一直是一样的，那么每个bank就不会被其他线程索引，除去了线程冲突。</li>
 <li>但是后面大量的线程没有被利用，是空着的。</li>
 </ul>
-<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/v3.png" alt></p>
+<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/v3.png" alt></p>
 </li>
 <li><p>改进4</p>
 <p>在把数据移到共享内存的过程中实现一部分规约操作</p>
-<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/v4.png" alt></p>
+<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/v4.png" alt></p>
 </li>
 </ol>
-<h4 id="其他优化手段"><a href="#其他优化手段" class="headerlink" title="其他优化手段"></a>其他优化手段</h4><p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/14.png" alt></p>
-<h4 id="TIPs"><a href="#TIPs" class="headerlink" title="TIPs"></a>TIPs</h4><p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/15.png" alt></p>
+<h4 id="其他优化手段"><a href="#其他优化手段" class="headerlink" title="其他优化手段"></a>其他优化手段</h4><p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/14.png" alt></p>
+<h4 id="TIPs"><a href="#TIPs" class="headerlink" title="TIPs"></a>TIPs</h4><p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/15.png" alt></p>
 <h1 id="书籍推荐"><a href="#书籍推荐" class="headerlink" title="书籍推荐"></a>书籍推荐</h1><p>不推荐买书，因为CUDA更新得快，看文档就好了</p>
-<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/books.png" alt></p>
+<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/books.png" alt></p>
 
         </div>
         
