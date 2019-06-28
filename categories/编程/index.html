@@ -165,6 +165,244 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-06-28T11:34:14.000Z">2019-06-28</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/编程/">编程</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/编程/learn-CUDA/">learn CUDA</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    12 分钟 读完 (大约 1856 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/06/28/cuda/CUDAcodeOptimazation/">CUDA Code Optimization</a>
+            
+        </h1>
+        <div class="content">
+            <h1 id="CUDA代码优化"><a href="#CUDA代码优化" class="headerlink" title="CUDA代码优化"></a>CUDA代码优化</h1><p>张也冬视频笔记</p>
+<h3 id="代码（转置矩阵）"><a href="#代码（转置矩阵）" class="headerlink" title="代码（转置矩阵）"></a>代码（转置矩阵）</h3><p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/0.png" alt></p>
+<ul>
+<li>输入/输出数据：N×N（1024 * 1024） 维度的矩阵</li>
+<li>每个block的线程数目为16X16=256</li>
+<li>运行时间0.46ms</li>
+</ul>
+<h3 id="影响代码性能的2个方面的因素"><a href="#影响代码性能的2个方面的因素" class="headerlink" title="影响代码性能的2个方面的因素"></a>影响代码性能的2个方面的因素</h3><ol>
+<li><strong>内存的存取耗时</strong>—可能是制约性能的主要原因，进入优化阶段</li>
+<li>运算耗时—几乎没有运算</li>
+</ol>
+<h2 id="一、内存上的优化"><a href="#一、内存上的优化" class="headerlink" title="一、内存上的优化"></a>一、内存上的优化</h2><h3 id="Memory-Optimization"><a href="#Memory-Optimization" class="headerlink" title="Memory Optimization"></a>Memory Optimization</h3><ol>
+<li>deviceQuery查询得到;<ul>
+<li>Memory clock rate(MHz)—每秒内存周期clock/second （每秒内存跑多少次）</li>
+<li>Memory Bus Width(bit)—每秒周期传输的比特数bits/clock （每次跑多少数据量）</li>
+</ul>
+</li>
+<li>可以计算内存峰值带宽(Theoretical peak bandwidth)<ul>
+<li>Memory clock rate * Memory Bus Width （每秒跑多少数据量）</li>
+</ul>
+</li>
+<li>Titan X的参数为：<ul>
+<li>Memory clock rate =3505 MHz =3.42 GHz</li>
+<li>Memory Bus Width =384 bit</li>
+<li>Bus Type GDDR5(double data rate)</li>
+<li>得理论峰值带宽为3.42 x (384/8) x 2 =328.31GB/s</li>
+</ul>
+</li>
+</ol>
+<h3 id="经验法则Rule-of-Thumb"><a href="#经验法则Rule-of-Thumb" class="headerlink" title="经验法则Rule of Thumb"></a>经验法则Rule of Thumb</h3><p>接上面</p>
+<ol>
+<li><p>一条经验法则是，如果实际内存带宽达到理想理论峰值内存带宽的：</p>
+<ul>
+<li>40%~60%-&gt;okay</li>
+<li>60%~75%-&gt;good</li>
+<li>大于75%-&gt;excellent</li>
+</ul>
+</li>
+<li><p>本代码中世纪内存带宽表现如何？</p>
+<p>1024 * 1024 * 4(4字节数据) * 2（2次读写内存）/0.67e-3=18.24GB/s &lt;&lt;328.31GB/s</p>
+</li>
+<li><p>并行化元素级别后，DRAM利用率还是那么低，思考解决方法</p>
+</li>
+</ol>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>合并Coalesce和跨步Strided</p>
+<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/1.png" alt></p>
+<p>存储到<strong>全局内存时，线程数据的复制方式</strong>：合并形式与跨步形式，合并方式比跨步方式好，小跨步比大跨步好。</p>
+<ol>
+<li><p>目前代码问题：</p>
+<p>Coalesced reads,scattered writes</p>
+</li>
+<li><p>修改的目标是：</p>
+<p>Coalesced reads,Coalesced writes</p>
+</li>
+</ol>
+<h4 id="1-使用共享内存"><a href="#1-使用共享内存" class="headerlink" title="1.使用共享内存"></a>1.使用共享内存</h4><p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/3.png" alt></p>
+<ul>
+<li>声明了一个<strong>共享内存</strong>的空间tile，把<strong>全局内存in</strong>里面的数据转置后复制到tile中</li>
+<li>同步线程块里面的线程（线程之间互相等待，同步好之后再执行下一步）</li>
+<li>一次性将tile中的数据复制到<strong>全局内存out中</strong></li>
+</ul>
+<p>由于之前复制到全局内存的时候是以32×32=1024个</p>
+<p>现在使用共享内存之后的步长为32个，但是没有带到完全Coalesced的方式，但是减少了步长。</p>
+<h4 id="2-Another-Point-Useful-memory-bandwith"><a href="#2-Another-Point-Useful-memory-bandwith" class="headerlink" title="2.Another Point:Useful memory bandwith"></a>2.Another Point:Useful memory bandwith</h4><ul>
+<li>问题：如果内存不能及时将数据传递到处理器中，或及时存储运算结果，GPU工作的效率会大打折扣</li>
+<li>目标：对于内存带宽受限的kernel函数，存在优化的子目标—<strong>充分利用有效的内存带宽</strong></li>
+</ul>
+<blockquote>
+<p>Little’s Law</p>
+<ol>
+<li>什么是有效的内存带宽？—由排队论的Little’s Law<ul>
+<li>Number of useful bytes delivered = average latency of each transaction*bandwidth</li>
+<li>传送的字节数为<strong>每个内存事物的平均延迟与带宽的乘积</strong></li>
+<li>类似于在星巴克排队等待购买咖啡</li>
+</ul>
+</li>
+<li>由此，改善代码内存带宽还可以有以下出发点：<ul>
+<li>增加传送的字节数—有很多服务员同时提供咖啡 </li>
+<li>减少食物见的延迟—服务员更快地提供服务 </li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/4.png" alt></p>
+<h4 id="3-Locate-low-efficiency"><a href="#3-Locate-low-efficiency" class="headerlink" title="3.Locate low efficiency"></a>3.Locate low efficiency</h4><ol>
+<li><p>反观代码</p>
+<ul>
+<li>每个tile完成转置后，执行<code>__syncthreads()</code>同步</li>
+<li>32×32=1024个线程执行少量任务后，互相等待，再把这1024个数据存到内存当中，造成<strong>平局延迟较大</strong></li>
+</ul>
+</li>
+<li><p>改进：reduce Average Delay</p>
+<p>解决方法：</p>
+<ul>
+<li>减少每个线程块中的线程束</li>
+<li>增加使用每个SM中的线程块数</li>
+</ul>
+<p>尝试结果：</p>
+<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/5.png" alt></p>
+</li>
+</ol>
+<h3 id="占用率Occupancy"><a href="#占用率Occupancy" class="headerlink" title="占用率Occupancy"></a>占用率Occupancy</h3><p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/6.png" alt></p>
+<h3 id="共享内存的架构"><a href="#共享内存的架构" class="headerlink" title="共享内存的架构"></a>共享内存的架构</h3><ol>
+<li><p>没有bank conflicts</p>
+<p>各个线程同时分别访问对应的Bank（线程0访问Bank0，线程1访问Bank1。。。，大家同时进行Bank访问时没有冲突）</p>
+<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/7.png" alt></p>
+</li>
+<li><p>有bank conflicts</p>
+<ul>
+<li>两个线程同时访问同一个Bank，造成Bank Conficts</li>
+<li>八个线程同时访问同一个Bank，造成Bank Conficts，八个比两个更加严重</li>
+</ul>
+<p>不能多个线程同时访问同一个内存位置（cache），否则会造成等待（延迟）。<strong>就把本来是一个并行的事变成串行的事</strong>。</p>
+<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/8.png" alt></p>
+</li>
+</ol>
+<h4 id="bank-conflict-in-code"><a href="#bank-conflict-in-code" class="headerlink" title="bank conflict in code"></a>bank conflict in code</h4><p>在上面改进后的代码(使用了共享内存的代码)中也存在这样的问题(bank conflicts)。是下面的图1中的情况。</p>
+<ol>
+<li><p>下图中对应线程每次都访问同一个bank，比如线程0每次访问的都是绿色的bank0。线程1每次访问的都是橙色的bank1。</p>
+<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/9.png" alt="图1"></p>
+</li>
+<li><p>下图中，线程1第一次访问的是bank0，第二次访问的是bank1，不会每次都在等候同一个bank。下面的图2中加了个<strong>padding（填充）</strong>，使得线程0访问的是Bank1，线程1访问的是Bank2了，<strong>这样子使得线程不会一直占用着同一个bank进行等候</strong>。 </p>
+<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/10.png" alt="图2"></p>
+</li>
+</ol>
+<h2 id="二、计算上的优化"><a href="#二、计算上的优化" class="headerlink" title="二、计算上的优化"></a>二、计算上的优化</h2><ol>
+<li>优化内存访问通常是GPU优化的瓶颈</li>
+<li>优化内存访问之余，优化运算性能也很重要<ul>
+<li>最小化线程发散程度</li>
+<li>选择效率更高的数学计算—提升“最后一点性能”</li>
+</ul>
+</li>
+</ol>
+<h3 id="减少线程发散："><a href="#减少线程发散：" class="headerlink" title="减少线程发散："></a>减少线程发散：</h3><p>Minimize Threads DIvergence</p>
+<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/11.png" alt></p>
+<p>线程束内线程会进行等待，避免有的线程计算时间长有的线程计算时间短。</p>
+<h3 id="更有效果的方法"><a href="#更有效果的方法" class="headerlink" title="更有效果的方法"></a>更有效果的方法</h3><p>More efficiency,less accuracy—save the amount of time</p>
+<ol>
+<li><p>仅在必要时使用双精度浮点运算</p>
+<p>快速的数学近似算法：牺牲精度追求效率。</p>
+</li>
+<li><p>内部函数（intrinsic functions）</p>
+<p>cuda的内部函数，比如sin，cos，指数运算</p>
+</li>
+</ol>
+<h2 id="三、CPU-GPU-Interaction"><a href="#三、CPU-GPU-Interaction" class="headerlink" title="三、CPU-GPU Interaction"></a>三、CPU-GPU Interaction</h2><ol>
+<li>GPU通过DMA方式访问CPU的锁叶内存(pinned memory)</li>
+<li>cudaMemcpy()是一种阻塞传输；而cudaMemcpyAsync()非阻塞</li>
+<li>cudaHostMalloc()+cudaMemcoyAsync()实现异步传输和计算</li>
+</ol>
+<h2 id="四、Stream"><a href="#四、Stream" class="headerlink" title="四、Stream"></a>四、Stream</h2><p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/12.png" alt></p>
+<p>保证流之间不相关。</p>
+<h1 id="基本算法"><a href="#基本算法" class="headerlink" title="基本算法"></a>基本算法</h1><h2 id="一、Reduce（规约）"><a href="#一、Reduce（规约）" class="headerlink" title="一、Reduce（规约）"></a>一、Reduce（规约）</h2><p>自带库中已经有很好的接口。下图中，第二个和第三个都是四步，但是第二个没有第三个好。</p>
+<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/13.png" alt></p>
+<ol>
+<li><p>规约版本1(不是指上图的第一个版本的计算)，线程的执行在下面表示</p>
+<p>执行线程流程</p>
+<p>遍历0～14</p>
+<p>遍历0～12</p>
+<p>遍历0～8</p>
+<p>最后一个执行线程0</p>
+<ul>
+<li>存在一些没有意义的遍历，线程分散度比较高，</li>
+<li>使用求余运算符占用时间大</li>
+</ul>
+<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/v1.png" alt></p>
+</li>
+<li><p>在线程号上面改动，线程的执行在下面表示，</p>
+<ul>
+<li><p>遍历个数在减少第一次遍历8个，第二次遍历4个，第三次2个</p>
+</li>
+<li><p>但是引起bank conflicts（格子表示bank）下图中bank4（第5个格子）对应了两个线程，线程2和1，会引起多对1问题。</p>
+</li>
+</ul>
+</li>
+</ol>
+<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/v2.png" alt></p>
+<ol start="3">
+<li><p>线程的执行在下面表示，</p>
+<ul>
+<li>保证了对应线程的对应bank一直是一样的，那么每个bank就不会被其他线程索引，除去了线程冲突。</li>
+<li>但是后面大量的线程没有被利用，是空着的。</li>
+</ul>
+<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/v3.png" alt></p>
+</li>
+<li><p>改进4</p>
+<p>在把数据移到共享内存的过程中实现一部分规约操作</p>
+<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/v4.png" alt></p>
+</li>
+</ol>
+<h4 id="其他优化手段"><a href="#其他优化手段" class="headerlink" title="其他优化手段"></a>其他优化手段</h4><p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/14.png" alt></p>
+<h4 id="TIPs"><a href="#TIPs" class="headerlink" title="TIPs"></a>TIPs</h4><p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/15.png" alt></p>
+<h1 id="书籍推荐"><a href="#书籍推荐" class="headerlink" title="书籍推荐"></a>书籍推荐</h1><p>不推荐买书，因为CUDA更新得快，看文档就好了</p>
+<p><img src="/2019/06/28/cuda/CUDAcodeOptimazation/CUDACodeOp/books.png" alt></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-06-14T03:03:14.000Z">2019-06-14</time>
                 
                 <div class="level-item">
@@ -650,61 +888,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-24T02:36:20.000Z">2019-05-24</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/编程/">编程</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/编程/CUDA/">CUDA</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    12 分钟 读完 (大约 1830 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/05/24/cuda/cudanote3/">cudanote3</a>
-            
-        </h1>
-        <div class="content">
-            <p><strong>第六章 常量内存与事件</strong></p>
-<p>光线追踪、常量内存与事件、常量内存带来的性能提升、线程束</p>
-<p><a href="https://github.com/littlebearsama/CUDA-notes" target="_blank" rel="noopener">GitHub</a></p>
-<p>建议下载下来用Typora软件阅读markdown文件</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/05/24/cuda/cudanote3/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -769,7 +952,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        37
+                        38
                     </p>
                 </div>
             </div>
@@ -1009,7 +1192,7 @@
                 <span class="level-item">编程</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">22</span>
+                <span class="level-item tag">23</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/编程/C/">
@@ -1049,7 +1232,7 @@
                 <span class="level-item">learn CUDA</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li></ul></li>
             </ul>
@@ -1077,6 +1260,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/06/28/cuda/CUDAcodeOptimazation/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="CUDA Code Optimization">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-28T11:34:14.000Z">2019-06-28</time></div>
+                    <a href="/2019/06/28/cuda/CUDAcodeOptimazation/" class="has-link-black-ter is-size-6">CUDA Code Optimization</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/learn-CUDA/">learn CUDA</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1154,25 +1356,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/06/10/registration/GeneralizedICP/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Generalized-ICP">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-09T16:23:32.000Z">2019-06-10</time></div>
-                    <a href="/2019/06/10/registration/GeneralizedICP/" class="has-link-black-ter is-size-6">Generalized-ICP</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/Generalized-ICP/">Generalized-ICP</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1191,7 +1374,7 @@
                     <span class="level-item">六月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">8</span>
+                    <span class="level-item tag">9</span>
                 </span>
             </a>
         </li>
@@ -1237,7 +1420,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/CUDA/">
                         <span class="tag">CUDA</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">13</span>
                     </a>
                 </div>
                 
@@ -1378,6 +1561,25 @@
         
         <article class="media">
             
+            <a href="/2019/06/28/cuda/CUDAcodeOptimazation/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="CUDA Code Optimization">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-28T11:34:14.000Z">2019-06-28</time></div>
+                    <a href="/2019/06/28/cuda/CUDAcodeOptimazation/" class="has-link-black-ter is-size-6">CUDA Code Optimization</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/learn-CUDA/">learn CUDA</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/06/15/books/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="books/videos/blogs/acticles">
@@ -1452,25 +1654,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/06/10/registration/GeneralizedICP/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Generalized-ICP">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-09T16:23:32.000Z">2019-06-10</time></div>
-                    <a href="/2019/06/10/registration/GeneralizedICP/" class="has-link-black-ter is-size-6">Generalized-ICP</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/Generalized-ICP/">Generalized-ICP</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1489,7 +1672,7 @@
                     <span class="level-item">六月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">8</span>
+                    <span class="level-item tag">9</span>
                 </span>
             </a>
         </li>
@@ -1535,7 +1718,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/CUDA/">
                         <span class="tag">CUDA</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">13</span>
                     </a>
                 </div>
                 
