@@ -2,24 +2,24 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>C++常见问题 - LittleBear！！！</title>
+<title>howtowriteaCUDAprogram - LittleBear！！！</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta name="description" content="github Q1：什么是重载(overload)和多态(polymorphic)，区别是什么 Q2：重载(overload)和覆盖(overrid)的区别 Q3：内存分配方式">
-<meta name="keywords" content="C++">
+    <meta name="description" content="学习资源 简单总结如何写一个CUDA程序">
+<meta name="keywords" content="CUDA">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C++常见问题">
-<meta property="og:url" content="https://littlebearsama.github.io/2019/06/05/C++/cppFAQ/index.html">
+<meta property="og:title" content="howtowriteaCUDAprogram">
+<meta property="og:url" content="https://littlebearsama.github.io/2019/06/13/cuda/howtowriteaCUDAprogram/index.html">
 <meta property="og:site_name" content="LittleBear！！！">
-<meta property="og:description" content="github Q1：什么是重载(overload)和多态(polymorphic)，区别是什么 Q2：重载(overload)和覆盖(overrid)的区别 Q3：内存分配方式">
+<meta property="og:description" content="学习资源 简单总结如何写一个CUDA程序">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-06-14T05:22:49.409Z">
+<meta property="og:updated_time" content="2019-06-28T13:30:40.854Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C++常见问题">
-<meta name="twitter:description" content="github Q1：什么是重载(overload)和多态(polymorphic)，区别是什么 Q2：重载(overload)和覆盖(overrid)的区别 Q3：内存分配方式">
+<meta name="twitter:title" content="howtowriteaCUDAprogram">
+<meta name="twitter:description" content="学习资源 简单总结如何写一个CUDA程序">
 <meta name="twitter:image" content="https://littlebearsama.github.io/images/og_image.png">
 
 
@@ -103,7 +103,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/pig.png" alt="C++常见问题" height="28">
+                <img src="/images/pig.png" alt="howtowriteaCUDAprogram" height="28">
             
             </a>
         </div>
@@ -154,17 +154,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-06-05T01:41:07.000Z">2019-06-05</time>
+                <time class="level-item has-text-grey" datetime="2019-06-13T09:03:14.000Z">2019-06-13</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/编程/">编程</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/编程/C-FQA/">C++ FQA</a>
+                <a class="has-link-grey -link" href="/categories/编程/">编程</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/编程/learn-CUDA/">learn CUDA</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    9 分钟 读完 (大约 1285 个字)
+                    11 分钟 读完 (大约 1673 个字)
                 </span>
                 
                 
@@ -173,82 +173,135 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                C++常见问题
+                howtowriteaCUDAprogram
             
         </h1>
         <div class="content">
-            <p><a href="[https://github.com/littlebearsama/C-plusplus-notes-chinese-/tree/master/%EF%BC%9F%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98](https://github.com/littlebearsama/C-plusplus-notes-chinese-/tree/master/？常见问题)">github</a></p>
-<p>Q1：什么是重载(overload)和多态(polymorphic)，区别是什么</p>
-<p>Q2：重载(overload)和覆盖(overrid)的区别</p>
-<p>Q3：内存分配方式</p>
+            <ul>
+<li>学习资源</li>
+<li>简单总结如何写一个CUDA程序</li>
+</ul>
 <a id="more"></a>
 
 <p>建议下载下来用Typora软件阅读markdown文件</p>
-<h1 id="Q1：什么是重载-overload-和多态-polymorphic-，区别是什么"><a href="#Q1：什么是重载-overload-和多态-polymorphic-，区别是什么" class="headerlink" title="Q1：什么是重载(overload)和多态(polymorphic)，区别是什么"></a>Q1：什么是重载(overload)和多态(polymorphic)，区别是什么</h1><p><a href="https://www.cnblogs.com/devilmaycry812839668/p/6362082.html" target="_blank" rel="noopener">reference</a></p>
-<p><strong>多态</strong>是基于对抽象方法的覆盖来实现的，用统一的对外接口来完成不同的功能。<strong>重载</strong>也是用统一的对外接口来完成不同的功能。那么两者有什么区别呢？</p>
-<ol>
-<li><p>什么是重载（todo）</p>
-<p><strong>重载</strong>，是指允许存在多个同名方法，而这些方法的参数不同。重载的实现是：编译器根据方法不同的参数表，对同名方法的名称做修饰。对于编译器而言，这些同名方法就成了<strong>不同的方法</strong>。它们的<strong>调用地址</strong>在<strong>编译期就绑定了。</strong></p>
+<h2 id="A-学习资源"><a href="#A-学习资源" class="headerlink" title="A.学习资源"></a>A.学习资源</h2><ol>
+<li><p>官方文档(安装cuda时自带的)</p>
+<p><img src="/2019/06/13/cuda/howtowriteaCUDAprogram/1.png" alt></p>
 </li>
-<li><p>什么是多态</p>
-<p><strong>多态</strong>是指子类重新定义父类的虚方法（virtual,abstract）。当子类重新定义了父类的虚方法后，父类根据赋给它的不同的子类，动态调用属于子类的该方法，这样的方法调用在<strong>编译期间是无法确定的</strong>。</p>
+<li><p>自带例程</p>
+<p>例程中文介绍：<a href="https://blog.csdn.net/fishseeker/article/details/76708830" target="_blank" rel="noopener">CUDA Samples</a></p>
+<p><img src="/2019/06/13/cuda/howtowriteaCUDAprogram/2.png" alt></p>
 </li>
-</ol>
-<p>区别：<br>不难看出，两者的区别在于编译器何时去寻找所要调用的具体方法：</p>
-<p>对于<strong>重载</strong>而言，在方法调用之前，编译器就已经确定了所要调用的方法，这称为“早绑定”或“<strong>静态绑定</strong>”；</p>
-<p>而对于<strong>多态</strong>，只有等到<strong>方法调用的那一刻*</strong>，编译器才会确定所要调用的具体方法，这称为“晚绑定”或“<strong>动态绑定</strong>”。* </p>
-<h1 id="Q2：重载-overload-和覆盖-overrid-的区别"><a href="#Q2：重载-overload-和覆盖-overrid-的区别" class="headerlink" title="Q2：重载(overload)和覆盖(overrid)的区别"></a>Q2：重载(overload)和覆盖(overrid)的区别</h1><ol>
-<li><ul>
-<li><p>重载要求函数名相同，但是参数列表必须不同，返回值可以相同也可以不同。</p>
-</li>
-<li><p><strong>覆盖要求函数名、参数列表、返回值必须相同。</strong></p>
-</li>
-</ul>
+<li><p>CUDA书籍与博客</p>
+<p><a href="https://github.com/littlebearsama/CUDA-notes" target="_blank" rel="noopener">书籍</a></p>
+<p><a href="https://littlebearsama.github.io/tags/CUDA/">博客</a></p>
 </li>
 </ol>
-<ol start="2">
-<li><ul>
-<li><p>在类中重载是同一个类中不同成员函数之间的关系</p>
+<h2 id="B-CUDA并行计算原理"><a href="#B-CUDA并行计算原理" class="headerlink" title="B.CUDA并行计算原理"></a>B.CUDA并行计算原理</h2><p>CUDA程序运行可以简单理解为：主机代码在CPU中运行，在调用<code>__device__</code>和<code>__global__</code>核函数时，进入GPU运行（此时并不会中断主机代码的运行，除非在等待GPU出结果）。此时在设备中每个线程执行一个核函数。</p>
+<h2 id="C-CUDA程序编写步骤"><a href="#C-CUDA程序编写步骤" class="headerlink" title="C.CUDA程序编写步骤"></a>C.CUDA程序编写步骤</h2><h3 id="一、编写GPU运行的核函数"><a href="#一、编写GPU运行的核函数" class="headerlink" title="一、编写GPU运行的核函数"></a>一、编写GPU运行的核函数</h3><ol>
+<li><p>根据数据的个数与数据形式（二维图像？三维点云？）来<a href="https://littlebearsama.github.io/2019/05/24/cuda/cudanote2/"><strong>考虑线程配置</strong></a>。</p>
+<p>在二维中：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function">dim3    <span class="hljs-title">blocks</span><span class="hljs-params">(DIM/<span class="hljs-number">16</span>,DIM/<span class="hljs-number">16</span>)</span></span>;</span><br><span class="line"><span class="hljs-function">dim3    <span class="hljs-title">threads</span><span class="hljs-params">(<span class="hljs-number">16</span>,<span class="hljs-number">16</span>)</span></span>;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>在类中<strong>覆盖</strong>则是<strong>子类和基类之间不同成员函数之间的关系</strong></p>
-</li>
-</ul>
-</li>
-</ol>
-<ol start="3">
-<li><p><strong>根据参数类型来判断调用的是哪一个和根据对象类型来决定调用哪一个</strong></p>
+<li><p>核函数参数一般为：</p>
 <ul>
-<li><p>重载函数的调用是根据参数列表来决定调用哪一个函数</p>
-</li>
-<li><p>覆盖函数的调用是根据对象类型的不同决定调用哪一个</p>
-</li>
+<li>输入数组(指针形式)</li>
+<li>数组大小</li>
+<li>输出数组(指针形式)</li>
 </ul>
 </li>
-</ol>
-<ol start="4">
-<li><ul>
-<li>在类中对成员函数重载是不能够实现多态</li>
-<li><strong>在子类中对基类虚函数的覆盖可以实现多态</strong></li>
-</ul>
+<li><p>核函数中，根据<strong>线程布置</strong>来<strong>确定线程索引tid</strong>。而在二维线程格和二维线程块中，数据索引根据图像的xy坐标来确定。</p>
+<blockquote>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="hljs-keyword">int</span> x = threadIdx.x + blockIdx.x * blockDim.x;</span><br><span class="line">&gt; <span class="hljs-keyword">int</span> y = threadIdx.y + blockIdx.y * blockDim.y;</span><br><span class="line">&gt; <span class="hljs-keyword">int</span> offset = x + y * blockDim.x * gridDim.x;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+</li>
+<li><p>核函数中，<strong>设置线程索引判断条件,检测当前线程是否要工作</strong><code>while (tid &lt; N)</code>或<code>if (tid &lt; N)</code>。</p>
+</li>
+<li><p>然后添加该线程执行的运算/函数。</p>
+</li>
+<li><p>当数据大于运行线程时，在核函数中，添加语句<code>tid+=blockDim.x*gridDim.x;</code>增加的值等于<strong>每个线程块中的线程数量乘以线程网格中线程块的数量</strong>，在一维的线程格，一维的线程块线程分配中为<code>blockDim.x*gridDim.x</code></p>
 </li>
 </ol>
-<h1 id="Q3：内存分配方式"><a href="#Q3：内存分配方式" class="headerlink" title="Q3：内存分配方式"></a>Q3：内存分配方式</h1><p>在C++中，内存分为五个区，他们分别是：</p>
-<ol>
-<li>栈，就是那些由编译器在需要的时候分配，在不需要的时候自动清除的变量的存储区。里面的变量通常是<strong>局部变量、函数参数</strong>等。</li>
-<li>堆，C语言和操作系统的术语，堆是操作系统所维护的一块特殊内存，它提供了动态分配的功能，当运行程序调用malloc()时就会从中分配，调用free()归还内存</li>
-<li>自由存储区，是C++中通过new和delete动态分配和释放对象的抽象概念，通过new来申请的内存区域可称为自由存储区，通过delete归还内存。</li>
-<li>全局/静态存储区，全局变量和静态变量被分配到同一块内存中，<strong>在以前的C语言中，全局变量又分为初始化的和未初始化的，在C++里面没有这个区分了，他们共同占用同一块内存区。</strong></li>
-<li>常量存储区，这是一块比较特殊的存储区，他们里面存放的是常量，不允许修改（当然，你要通过非正当手段也可以修改）</li>
-</ol>
-<p><strong>堆和自由存储区的区别：</strong></p>
+<h3 id="二、给数据在GPU中分配内存"><a href="#二、给数据在GPU中分配内存" class="headerlink" title="二、给数据在GPU中分配内存"></a>二、给数据在GPU中分配内存</h3><h4 id="GPU内存类型："><a href="#GPU内存类型：" class="headerlink" title="GPU内存类型："></a>GPU内存类型：</h4><h5 id="1-全局内存"><a href="#1-全局内存" class="headerlink" title="1.全局内存"></a>1.全局内存</h5><p>GPU中用<code>cudaMalloc()</code>申请的GPU全局内存</p>
+<h5 id="2-共享内存"><a href="#2-共享内存" class="headerlink" title="2.共享内存"></a>2.<a href="https://littlebearsama.github.io/2019/05/24/cuda/cudanote2/">共享内存</a></h5><ol>
+<li><p>简介</p>
+<p>规约运算是在核函数申请的共享内存。</p>
+<p>通过共享内存实现block内的线程通信，实现通信前要进行线程同步，否则会发生<strong>竞态条件</strong>，但是block和block之间的线程是无法互相通信的。</p>
+</li>
+<li><p>细节</p>
 <ul>
-<li><p>自由存储是C++中通过new与delete动态分配和释放对象的<strong>抽象概念</strong>，而堆（heap）是C语言和操作系统的术语，是操作系统维护的一块动态分配内存。</p>
-</li>
-<li><p>一般new是通过malloc来实现的，当new通过malloc来实现时，可以说new分配的内存在自由存储区，也可以说new分配的内存在堆上。</p>
-</li>
-<li><p>new是可以重载的，当使用重载的new来实现内存分配时，且内部实现并非只有malloc()时，此时的内存空间就和堆不同了，这是一块组合的内存空间，C++中称为“自由存储区”，这是一个抽象的概念。</p>
-</li>
+<li>使用该语句申请共享内存：<code>__shared__ float cache[threadsPerBlock];</code></li>
+<li>将关键字<strong><code>__share__</code></strong>添加到变量声明中，这将是这个变量<strong>驻留</strong>在<strong>共享内存</strong>中。在访问共享内存时的延迟要远远低于访问普通缓存区的延迟<strong>，使得共享内存像</strong>每个线程块的高速缓存或中间结果暂存器那样高效</li>
+<li>每次对共享内存的数据进行操作时都要对线程块内的<strong>线程同步</strong>：<code>__syncthreads();</code></li>
 </ul>
+</li>
+<li><p>例程</p>
+<ul>
+<li>规约运算</li>
+</ul>
+</li>
+</ol>
+<h5 id="3-常量内存-只读内存"><a href="#3-常量内存-只读内存" class="headerlink" title="3.常量内存-只读内存"></a>3.<a href="https://littlebearsama.github.io/2019/05/24/cuda/cudanote3/">常量内存</a>-只读内存</h5><ol>
+<li><p>简介</p>
+<p>常量内存用于保存在核函数<strong>执行期间不会发生变化的数据</strong>。</p>
+<p>与从全局内存中读取数据相比，从常量内存中读取相同的数据可以节约带宽，原因有二：</p>
+<ol>
+<li>对常量内存的单次读操作可以广播到其他的“邻近”线程，这将节约15次读取操作。</li>
+<li>常量内存的数据将缓存(cache)起来，因此对相同地址的连续读操作将不会产生额外的内存通信量。</li>
+</ol>
+</li>
+<li><p>细节</p>
+<ul>
+<li>在核函数外面，使用该语句申请常量内存：<code>__constant__ Sphere s[SPHERES];</code></li>
+<li>常量内存为静态分配空间，所以不需要调用 <code>cudaMalloc()</code>, <code>cudaFree()</code></li>
+</ul>
+</li>
+<li><p>应用</p>
+<ul>
+<li>在光线追踪的程序中，将球面数组存入常量内存中。注意，处理图像使用二维的线程块和线程格。</li>
+</ul>
+</li>
+</ol>
+<h5 id="4-纹理内存-只读内存"><a href="#4-纹理内存-只读内存" class="headerlink" title="4.纹理内存-只读内存"></a>4.<a href="https://littlebearsama.github.io/2019/05/24/cuda/cudanote4/">纹理内存</a>-只读内存</h5><ol>
+<li><p>简介</p>
+<p><strong>纹理内存(Texture Memory)</strong>和常量内存一样，纹理内存是另外一种类型的<strong>只读内存</strong>，在特定的访问模式中，纹理内存同样能够提升性能并减少内存流量。</p>
+<p><strong>纹理内存同样缓存在芯片上（利用了芯片上的缓存加速）！！！</strong></p>
+<p>！重点：<strong>纹理缓存</strong>是专门为那些<strong>在内存访问模式中存在大量空间局部性（Spatial Locality）</strong>的图形应用程序而设计的。在某个计算应用程序中，这意味着一个线程<strong>读取的位置</strong>可能与<strong>邻近</strong>的线程的<strong>读取位置</strong>非常接近。</p>
+<p>比如在模拟热传导，计算温度时<code>dst[offset] = c + SPEED * (t + b + r + l - 4 * c);</code>参考了近邻像素的内容，那么这时后使用纹理内存能够加速读取数据。</p>
+</li>
+<li><p>细节</p>
+<ul>
+<li>纹理内存有一维和二维，两者性能基本相同，但是使用二维的代码更简单</li>
+<li>在核函数外面申请纹理内存，<code>texture&lt;float,2&gt;  texConstSrc;</code></li>
+<li>需要申请<strong>全局内存</strong>用于和<strong>纹理内存进行绑定</strong></li>
+</ul>
+</li>
+<li><p>应用</p>
+<ul>
+<li>在使用纹理内存实现热传导模拟的程序中，<strong>1.初始的输入温度的网格，2.输入温度网格，3.输出温度网格都使用纹理内存。</strong></li>
+</ul>
+</li>
+</ol>
+<h4 id="申请GPU内存："><a href="#申请GPU内存：" class="headerlink" title="申请GPU内存："></a>申请GPU内存：</h4><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">int</span> a[N], b[N], c[N];</span><br><span class="line"><span class="hljs-keyword">int</span> *dev_a, *dev_b, *dev_c;</span><br><span class="line"><span class="hljs-comment">// 申请GPU全局内存</span></span><br><span class="line">cudaMalloc( (<span class="hljs-keyword">void</span>**)&amp;dev_a, N * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>) );</span><br><span class="line">cudaMalloc( (<span class="hljs-keyword">void</span>**)&amp;dev_b, N * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>) );</span><br><span class="line">cudaMalloc( (<span class="hljs-keyword">void</span>**)&amp;dev_c, N * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>) );    </span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 申请共享内存</span></span><br><span class="line">__shared__ <span class="hljs-keyword">float</span> cache[threadsPerBlock];<span class="hljs-comment">//核函数中</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 申请GPU常量内存</span></span><br><span class="line">__constant__ Sphere s[SPHERES]</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 申请纹理内存</span></span><br><span class="line">texture&lt;<span class="hljs-keyword">float</span>,<span class="hljs-number">2</span>&gt;  texConstSrc;</span><br><span class="line">texture&lt;<span class="hljs-keyword">float</span>,<span class="hljs-number">2</span>&gt;  texIn;</span><br><span class="line">texture&lt;<span class="hljs-keyword">float</span>,<span class="hljs-number">2</span>&gt;  texOut;</span><br></pre></td></tr></table></figure>
+
+<h4 id="拷贝内存："><a href="#拷贝内存：" class="headerlink" title="拷贝内存："></a>拷贝内存：</h4><p>情况一：将主机内存拷贝到<strong>GPU全局内存</strong>上</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cudaMemcpy( dev_a, a, N * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>),</span><br><span class="line">                          cudaMemcpyHostToDevice );</span><br><span class="line">cudaMemcpy( dev_b, b, N * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>),</span><br><span class="line">                          cudaMemcpyHostToDevice );</span><br></pre></td></tr></table></figure>
+
+<p>情况二：使用<strong>GPU常量内存</strong>时，将数据拷贝到GPU常量内存上</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">// 分配临时内存，对其初始化，并复制到GPU上的常量内存，然后释放临时内存</span></span><br><span class="line">Sphere *temp_s = (Sphere*)<span class="hljs-built_in">malloc</span>( <span class="hljs-keyword">sizeof</span>(Sphere) * SPHERES );</span><br><span class="line"><span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;SPHERES; i++) &#123;</span><br><span class="line">        temp_s[i].r = rnd( <span class="hljs-number">1.0f</span> );</span><br><span class="line">        temp_s[i].g = rnd( <span class="hljs-number">1.0f</span> );</span><br><span class="line">        temp_s[i].b = rnd( <span class="hljs-number">1.0f</span> );</span><br><span class="line">        temp_s[i].x = rnd( <span class="hljs-number">1000.0f</span> ) - <span class="hljs-number">500</span>;</span><br><span class="line">        temp_s[i].y = rnd( <span class="hljs-number">1000.0f</span> ) - <span class="hljs-number">500</span>;</span><br><span class="line">        temp_s[i].z = rnd( <span class="hljs-number">1000.0f</span> ) - <span class="hljs-number">500</span>;</span><br><span class="line">        temp_s[i].radius = rnd( <span class="hljs-number">100.0f</span> ) + <span class="hljs-number">20</span>;</span><br><span class="line">    &#125;</span><br><span class="line">cudaMemcpyToSymbol( s, temp_s, <span class="hljs-keyword">sizeof</span>(Sphere) * SPHERES)；</span><br><span class="line"><span class="hljs-built_in">free</span>( temp_s );</span><br></pre></td></tr></table></figure>
+
+<p>情况三：全局内存绑定<strong>纹理内存</strong></p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//申请全局内存用于绑定纹理内存</span></span><br><span class="line">cudaMalloc( (<span class="hljs-keyword">void</span>**)&amp;data.dev_inSrc,imageSize );</span><br><span class="line"><span class="hljs-comment">//纹理内存与GPU全局内存绑定</span></span><br><span class="line">cudaBindTexture( <span class="hljs-literal">NULL</span>, texConstSrc,data.dev_constSrc,imageSize )</span><br></pre></td></tr></table></figure>
+
+<h3 id="三、执行核函数、拷贝内存、释放内存"><a href="#三、执行核函数、拷贝内存、释放内存" class="headerlink" title="三、执行核函数、拷贝内存、释放内存"></a>三、执行核函数、拷贝内存、释放内存</h3><h4 id="执行核函数"><a href="#执行核函数" class="headerlink" title="执行核函数"></a>执行核函数</h4><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//一维</span></span><br><span class="line">add&lt;&lt;&lt;N,<span class="hljs-number">1</span>&gt;&gt;&gt;( dev_a, dev_b, dev_c );</span><br><span class="line"><span class="hljs-comment">//。。。</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">//处理二维图像</span></span><br><span class="line"><span class="hljs-comment">//图像有DIMXDIM个像素</span></span><br><span class="line"><span class="hljs-comment">//启动DIM/16 x DIM/16个线程块，使得每个像素对应一个线程</span></span><br><span class="line"><span class="hljs-function">dim3    <span class="hljs-title">blocks</span><span class="hljs-params">(DIM/<span class="hljs-number">16</span>,DIM/<span class="hljs-number">16</span>)</span></span>;</span><br><span class="line"><span class="hljs-function">dim3    <span class="hljs-title">threads</span><span class="hljs-params">(<span class="hljs-number">16</span>,<span class="hljs-number">16</span>)</span></span>;</span><br><span class="line">kernel&lt;&lt;&lt;blocks,threads&gt;&gt;&gt;( data.dev_bitmap, ticks );</span><br></pre></td></tr></table></figure>
+
+<h4 id="拷贝内存"><a href="#拷贝内存" class="headerlink" title="拷贝内存"></a>拷贝内存</h4><p>将存在设备内存的结果拷贝到主机内存中</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cudaMemcpy( c, dev_c, N * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>),cudaMemcpyDeviceToHost );</span><br></pre></td></tr></table></figure>
+
+<h4 id="释放内存"><a href="#释放内存" class="headerlink" title="释放内存"></a>释放内存</h4><p>释放申请的主机内存和设备内存</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cudaFree( dev_a );</span><br><span class="line">cudaFree( dev_b );</span><br><span class="line">cudaFree( dev_c );</span><br></pre></td></tr></table></figure>
+
+<h3 id="四、利用好CUDA自带的库以及性能原语"><a href="#四、利用好CUDA自带的库以及性能原语" class="headerlink" title="四、利用好CUDA自带的库以及性能原语"></a>四、利用好CUDA自带的库以及性能原语</h3><p><img src="/2019/06/13/cuda/howtowriteaCUDAprogram/3.png" alt></p>
 
         </div>
         
@@ -256,7 +309,7 @@
             <div class="level-start">
                 <div class="level-item">
                     <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/C/">C++</a>
+                    <a class="has-link-grey -link" href="/tags/CUDA/">CUDA</a>
                 </div>
             </div>
         </div>
@@ -308,16 +361,16 @@
     <div class="level post-navigation is-flex-wrap is-mobile">
         
         <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/06/10/registration/GeneralizedICP/">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/06/14/cuda/cuda FQA/">
                 <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">Generalized-ICP</span>
+                <span class="level-item">CUDA笔记补充</span>
             </a>
         </div>
         
         
         <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2019/06/04/registration/Detailed_Notes_to_NDT/">
-                <span class="level-item">Detailed Notes to NDT</span>
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/06/13/3Dreconstruction/3d_reconstruction/">
+                <span class="level-item">3D reconstruction</span>
                 <i class="level-item fas fa-chevron-right"></i>
             </a>
         </div>
@@ -1289,7 +1342,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/pig.png" alt="C++常见问题" height="28">
+                    <img src="/images/pig.png" alt="howtowriteaCUDAprogram" height="28">
                 
                 </a>
                 <p class="is-size-7">
