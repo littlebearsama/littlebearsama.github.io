@@ -7,19 +7,19 @@
 
 
 
-    <meta name="description" content="学习资源 简单总结如何写一个CUDA程序">
+    <meta name="description" content="学习资源 简单总结如何写一个CUDA程序 CUDA自带的库">
 <meta name="keywords" content="CUDA">
 <meta property="og:type" content="article">
 <meta property="og:title" content="howtowriteaCUDAprogram">
 <meta property="og:url" content="https://littlebearsama.github.io/2019/06/13/cuda/howtowriteaCUDAprogram/index.html">
 <meta property="og:site_name" content="LittleBear！！！">
-<meta property="og:description" content="学习资源 简单总结如何写一个CUDA程序">
+<meta property="og:description" content="学习资源 简单总结如何写一个CUDA程序 CUDA自带的库">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-06-28T13:30:40.854Z">
+<meta property="og:updated_time" content="2019-06-29T01:39:03.568Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="howtowriteaCUDAprogram">
-<meta name="twitter:description" content="学习资源 简单总结如何写一个CUDA程序">
+<meta name="twitter:description" content="学习资源 简单总结如何写一个CUDA程序 CUDA自带的库">
 <meta name="twitter:image" content="https://littlebearsama.github.io/images/og_image.png">
 
 
@@ -164,7 +164,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    11 分钟 读完 (大约 1673 个字)
+                    11 分钟 读完 (大约 1677 个字)
                 </span>
                 
                 
@@ -180,6 +180,7 @@
             <ul>
 <li>学习资源</li>
 <li>简单总结如何写一个CUDA程序</li>
+<li>CUDA自带的库</li>
 </ul>
 <a id="more"></a>
 
@@ -301,7 +302,7 @@
 <h4 id="释放内存"><a href="#释放内存" class="headerlink" title="释放内存"></a>释放内存</h4><p>释放申请的主机内存和设备内存</p>
 <figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cudaFree( dev_a );</span><br><span class="line">cudaFree( dev_b );</span><br><span class="line">cudaFree( dev_c );</span><br></pre></td></tr></table></figure>
 
-<h3 id="四、利用好CUDA自带的库以及性能原语"><a href="#四、利用好CUDA自带的库以及性能原语" class="headerlink" title="四、利用好CUDA自带的库以及性能原语"></a>四、利用好CUDA自带的库以及性能原语</h3><p><img src="/2019/06/13/cuda/howtowriteaCUDAprogram/3.png" alt></p>
+<h2 id="D-利用好CUDA自带的库以及性能原语"><a href="#D-利用好CUDA自带的库以及性能原语" class="headerlink" title="D.利用好CUDA自带的库以及性能原语"></a>D.利用好CUDA自带的库以及性能原语</h2><p><img src="/2019/06/13/cuda/howtowriteaCUDAprogram/3.png" alt></p>
 
         </div>
         
@@ -443,7 +444,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        38
+                        39
                     </p>
                 </div>
             </div>
@@ -587,7 +588,7 @@
                 <span class="level-item">PCL</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">4</span>
+                <span class="level-item tag">5</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/PCL/config/">
@@ -619,7 +620,7 @@
                 <span class="level-item">tutorial</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">2</span>
             </span>
         </a></li></ul></li><li>
         <a class="level is-marginless" href="/categories/Registration/">
@@ -754,6 +755,25 @@
         
         <article class="media">
             
+            <a href="/2019/06/30/pcl_tutorial/pcl1.8samples/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="pcl samples">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-30T07:42:06.000Z">2019-06-30</time></div>
+                    <a href="/2019/06/30/pcl_tutorial/pcl1.8samples/" class="has-link-black-ter is-size-6">pcl samples</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/PCL/">PCL</a> / <a class="has-link-grey -link" href="/categories/PCL/tutorial/">tutorial</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/06/28/cuda/CUDAcodeOptimazation/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="CUDA Code Optimization">
@@ -828,25 +848,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/06/13/3Dreconstruction/3d_reconstruction/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="3D reconstruction">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-13T02:07:49.000Z">2019-06-13</time></div>
-                    <a href="/2019/06/13/3Dreconstruction/3d_reconstruction/" class="has-link-black-ter is-size-6">3D reconstruction</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/3D-reconstruction/">3D reconstruction</a> / <a class="has-link-grey -link" href="/categories/3D-reconstruction/tutorial/">tutorial</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -865,7 +866,7 @@
                     <span class="level-item">六月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">9</span>
+                    <span class="level-item tag">10</span>
                 </span>
             </a>
         </li>
@@ -974,7 +975,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/PCL/">
                         <span class="tag">PCL</span>
-                        <span class="tag is-grey">4</span>
+                        <span class="tag is-grey">5</span>
                     </a>
                 </div>
                 
@@ -1052,6 +1053,25 @@
         
         <article class="media">
             
+            <a href="/2019/06/30/pcl_tutorial/pcl1.8samples/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="pcl samples">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-30T07:42:06.000Z">2019-06-30</time></div>
+                    <a href="/2019/06/30/pcl_tutorial/pcl1.8samples/" class="has-link-black-ter is-size-6">pcl samples</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/PCL/">PCL</a> / <a class="has-link-grey -link" href="/categories/PCL/tutorial/">tutorial</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/06/28/cuda/CUDAcodeOptimazation/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="CUDA Code Optimization">
@@ -1126,25 +1146,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/06/13/3Dreconstruction/3d_reconstruction/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="3D reconstruction">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-13T02:07:49.000Z">2019-06-13</time></div>
-                    <a href="/2019/06/13/3Dreconstruction/3d_reconstruction/" class="has-link-black-ter is-size-6">3D reconstruction</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/3D-reconstruction/">3D reconstruction</a> / <a class="has-link-grey -link" href="/categories/3D-reconstruction/tutorial/">tutorial</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1163,7 +1164,7 @@
                     <span class="level-item">六月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">9</span>
+                    <span class="level-item tag">10</span>
                 </span>
             </a>
         </li>
@@ -1272,7 +1273,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/PCL/">
                         <span class="tag">PCL</span>
-                        <span class="tag is-grey">4</span>
+                        <span class="tag is-grey">5</span>
                     </a>
                 </div>
                 
