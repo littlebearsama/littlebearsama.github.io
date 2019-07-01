@@ -16,7 +16,7 @@
 <meta property="og:description" content="SLAM技术分类 SLAM资源">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-07-01T07:28:27.623Z">
+<meta property="og:updated_time" content="2019-07-01T13:56:59.496Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SLAM_tutorial">
 <meta name="twitter:description" content="SLAM技术分类 SLAM资源">
@@ -164,7 +164,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    1 分钟 读完 (大约 160 个字)
+                    3 分钟 读完 (大约 486 个字)
                 </span>
                 
                 
@@ -181,51 +181,47 @@
 <p>SLAM资源</p>
 <a id="more"></a>
 
-<h2 id="技术分类"><a href="#技术分类" class="headerlink" title="技术分类"></a>技术分类</h2><p><a href="https://mp.weixin.qq.com/s/U25NezeHBDloVdFIRFZmLw" target="_blank" rel="noopener"><strong>激光SLAM和视觉SLAM</strong></a></p>
+<h2 id="技术分类"><a href="#技术分类" class="headerlink" title="技术分类"></a>技术分类</h2><p><a href="http://www.slamcn.org/index.php/%E9%A6%96%E9%A1%B5#.E4.B8.BB.E6.B5.81.E5.BC.80.E6.BA.90SLAM.E6.96.B9.E6.A1.88" target="_blank" rel="noopener">slamCN</a></p>
 <p>基于这两种传感器有激光SLAM和视觉SLAM。</p>
-<p>其中激光SLAM经典开源方案：</p>
 <ul>
-<li>Gmapping</li>
-<li>Cartographer</li>
+<li><h3 id="视觉传感器"><a href="#视觉传感器" class="headerlink" title="视觉传感器"></a>视觉传感器</h3><ul>
+<li><p>稀疏法(特征点):</p>
+<ul>
+<li><a href="http://www.slamcn.org/index.php/ORB-SLAM" target="_blank" rel="noopener">ORB-SLAM</a>(单目，双目，RGBD)<a href="http://webdiis.unizar.es/~raulmur/orbslam/" target="_blank" rel="noopener">[1]</a>(ORB-SLAM: a Versatile and Accurate Monocular SLAM System中文翻译)<a href="http://qiqitek.com/blog/?p=13" target="_blank" rel="noopener">[2]</a></li>
+<li><a href="http://www.slamcn.org/index.php/PTAM" target="_blank" rel="noopener">PTAM</a>(单目)<a href="http://www.robots.ox.ac.uk/~gk/PTAM/" target="_blank" rel="noopener">[3]</a></li>
+<li>MonoSLAM(单目)<a href="https://github.com/hanmekim/SceneLib2" target="_blank" rel="noopener">[4]</a></li>
 </ul>
-<p>视觉SLAM常见开源方案有：</p>
-<ol>
-<li>稀疏法(特征点):</li>
-</ol>
+</li>
+<li><p>半稠密法:</p>
 <ul>
-<li>​    ORB-SLAM(单目，双目，RGBD）</li>
-<li>​    PTAM(单目)</li>
-<li>​    MonoSLAM(单目)</li>
+<li><a href="http://www.slamcn.org/index.php/LSD-SLAM" target="_blank" rel="noopener">LSD-SLAM</a>(单目，双目，RGBD)<a href="http://vision.in.tum.de/research/vslam/lsdslam" target="_blank" rel="noopener">[5]</a></li>
+<li><a href="http://www.slamcn.org/index.php?title=DSO&action=edit&redlink=1" target="_blank" rel="noopener">DSO</a>(单目)<a href="https://vision.in.tum.de/research/vslam/dso" target="_blank" rel="noopener">[6]</a></li>
+<li><a href="http://www.slamcn.org/index.php/SVO" target="_blank" rel="noopener">SVO</a>(单目, 仅VO)<a href="https://github.com/uzh-rpg/rpg_svo" target="_blank" rel="noopener">[7]</a><a href="https://github.com/uzh-rpg/rpg_svo/wiki" target="_blank" rel="noopener">详细安装使用说明</a></li>
 </ul>
-<ol start="2">
-<li>半稠密法:</li>
-</ol>
+</li>
+<li><p>稠密法:</p>
 <ul>
-<li><p>​     LSD-SLAM(单目，双目，RGBD)</p>
+<li><a href="http://www.slamcn.org/index.php?title=DTAM&action=edit&redlink=1" target="_blank" rel="noopener">DTAM</a>(RGBD): Paper: <a href="http://homes.cs.washington.edu/~newcombe/papers/newcombe_etal_iccv2011.pdf" target="_blank" rel="noopener">[8]</a> Open source code:<a href="https://github.com/anuranbaka/OpenDTAM" target="_blank" rel="noopener">[9]</a></li>
+<li><a href="http://www.slamcn.org/index.php?title=Elastic_Fusion&action=edit&redlink=1" target="_blank" rel="noopener">Elastic Fusion</a>(RGBD): Open source code:<a href="https://github.com/mp3guy/ElasticFusion" target="_blank" rel="noopener">[10]</a></li>
+<li><a href="http://www.slamcn.org/index.php?title=Kintinous&action=edit&redlink=1" target="_blank" rel="noopener">Kintinous</a>(RGBD):Open source code: <a href="https://github.com/mp3guy/Kintinuous" target="_blank" rel="noopener">[11]</a></li>
+<li><a href="http://www.slamcn.org/index.php?title=DVO&action=edit&redlink=1" target="_blank" rel="noopener">DVO</a>: Open source code: <a href="https://github.com/tum-vision/dvo_slam" target="_blank" rel="noopener">[12]</a></li>
+<li><a href="http://www.slamcn.org/index.php?title=RGBD-SLAM-V2&action=edit&redlink=1" target="_blank" rel="noopener">RGBD-SLAM-V2</a>: Open source code: <a href="https://github.com/felixendres/rgbdslam_v2" target="_blank" rel="noopener">[13]</a></li>
+<li><a href="http://www.slamcn.org/index.php?title=RTAB-MAP&action=edit&redlink=1" target="_blank" rel="noopener">RTAB-MAP</a>: Code: <a href="https://github.com/introlab/rtabmap" target="_blank" rel="noopener">[14]</a></li>
+<li><a href="http://www.slamcn.org/index.php?title=MLM&action=edit&redlink=1" target="_blank" rel="noopener">MLM</a>:(单目) paper:<a href="https://groups.csail.mit.edu/rrg/papers/greene_icra16.pdf" target="_blank" rel="noopener">[15]</a> Demo Video:<a href="https://www.youtube.com/watch?v=qk2ViPVxmq0" target="_blank" rel="noopener">[16]</a></li>
+</ul>
 </li>
-<li><p>​    DSO(单目)</p>
-</li>
-<li><p>​    SVO(单目, 仅VO)</p>
-<ol start="3">
-<li>稠密法:</li>
-</ol>
-</li>
-<li><p>​    DTAM(RGBD)</p>
-</li>
-<li><p>​    Elastic Fusion(RGBD)</p>
-</li>
-<li><p>​    Kintinous(RGBD)</p>
-</li>
-<li><p>​    DVO</p>
-</li>
-<li><p>​    RGBD-SLAM-V2</p>
-</li>
-<li><p>​    RTAB-MAP</p>
+<li><p>其他</p>
+<ul>
+<li><a href="http://www.slamcn.org/index.php?title=ScaViSLAM&action=edit&redlink=1" target="_blank" rel="noopener">ScaViSLAM</a>: Open source code <a href="https://github.com/strasdat/ScaViSLAM" target="_blank" rel="noopener">[17]</a></li>
+</ul>
 </li>
 </ul>
-<p>其他：</p>
-<ul>
-<li>as-built BIM</li>
+<h3 id="激光传感器"><a href="#激光传感器" class="headerlink" title="激光传感器"></a>激光传感器</h3><ul>
+<li>Hector SLAM<a href="http://wiki.ros.org/hector_slam" target="_blank" rel="noopener">[18]</a></li>
+<li>Gmapping <a href="http://wiki.ros.org/gmapping" target="_blank" rel="noopener">[19]</a></li>
+<li>tinySLAM（基于蒙特卡洛定位算法的简单SLAM实现） [svn co <a href="https://svn.openslam.org/data/svn/tinyslam]" target="_blank" rel="noopener">https://svn.openslam.org/data/svn/tinyslam]</a></li>
+</ul>
+</li>
 </ul>
 <h2 id="SLAM资源"><a href="#SLAM资源" class="headerlink" title="SLAM资源"></a>SLAM资源</h2><p><a href="https://github.com/dianyunPCL/ORB-SLAM-bydianyunpcl" target="_blank" rel="noopener"><strong>ORB-SLAM-bydianyunpcl</strong></a></p>
 
@@ -285,6 +281,13 @@
 
 <div class="card card-transparent">
     <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/07/01/SFM/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">SFM</span>
+            </a>
+        </div>
         
         
         <div class="level-end">
@@ -362,7 +365,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        42
+                        43
                     </p>
                 </div>
             </div>
@@ -372,7 +375,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        28
+                        29
                     </p>
                 </div>
             </div>
@@ -382,7 +385,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        22
+                        23
                     </p>
                 </div>
             </div>
@@ -482,12 +485,20 @@
                 <span class="level-item">CV-Source</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">3</span>
+                <span class="level-item tag">4</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/CV-Source/CV-Source/">
             <span class="level-start">
                 <span class="level-item">CV-Source</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/CV-Source/SFM/">
+            <span class="level-start">
+                <span class="level-item">SFM</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
@@ -680,7 +691,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/3D-Reconstruction/" style="font-size: 10px;">3D Reconstruction</a> <a href="/tags/3D-scene-Reconstruction/" style="font-size: 10px;">3D scene Reconstruction</a> <a href="/tags/C/" style="font-size: 18.33px;">C++</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CV-Source/" style="font-size: 13.33px;">CV-Source</a> <a href="/tags/Despriptors/" style="font-size: 10px;">Despriptors</a> <a href="/tags/FastICP/" style="font-size: 10px;">FastICP</a> <a href="/tags/Generalized-ICP/" style="font-size: 10px;">Generalized-ICP</a> <a href="/tags/ICP/" style="font-size: 13.33px;">ICP</a> <a href="/tags/LM/" style="font-size: 10px;">LM</a> <a href="/tags/NDT/" style="font-size: 11.67px;">NDT</a> <a href="/tags/ObjectDetection/" style="font-size: 10px;">ObjectDetection</a> <a href="/tags/PCL/" style="font-size: 15px;">PCL</a> <a href="/tags/PoseEstimation/" style="font-size: 13.33px;">PoseEstimation</a> <a href="/tags/RANSAC/" style="font-size: 10px;">RANSAC</a> <a href="/tags/Reconstruction/" style="font-size: 13.33px;">Reconstruction</a> <a href="/tags/Registration/" style="font-size: 16.67px;">Registration</a> <a href="/tags/SAC-IA/" style="font-size: 10px;">SAC-IA</a> <a href="/tags/SVD/" style="font-size: 10px;">SVD</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/keypoints/" style="font-size: 10px;">keypoints</a> <a href="/tags/surface-Reconstruction/" style="font-size: 10px;">surface Reconstruction</a>
+        <a href="/tags/3D-Reconstruction/" style="font-size: 10px;">3D Reconstruction</a> <a href="/tags/3D-scene-Reconstruction/" style="font-size: 10px;">3D scene Reconstruction</a> <a href="/tags/C/" style="font-size: 18.57px;">C++</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CV-Source/" style="font-size: 14.29px;">CV-Source</a> <a href="/tags/Despriptors/" style="font-size: 10px;">Despriptors</a> <a href="/tags/FastICP/" style="font-size: 10px;">FastICP</a> <a href="/tags/Generalized-ICP/" style="font-size: 10px;">Generalized-ICP</a> <a href="/tags/ICP/" style="font-size: 12.86px;">ICP</a> <a href="/tags/LM/" style="font-size: 10px;">LM</a> <a href="/tags/NDT/" style="font-size: 11.43px;">NDT</a> <a href="/tags/ObjectDetection/" style="font-size: 10px;">ObjectDetection</a> <a href="/tags/PCL/" style="font-size: 15.71px;">PCL</a> <a href="/tags/PoseEstimation/" style="font-size: 12.86px;">PoseEstimation</a> <a href="/tags/RANSAC/" style="font-size: 10px;">RANSAC</a> <a href="/tags/Reconstruction/" style="font-size: 12.86px;">Reconstruction</a> <a href="/tags/Registration/" style="font-size: 17.14px;">Registration</a> <a href="/tags/SAC-IA/" style="font-size: 10px;">SAC-IA</a> <a href="/tags/SFM/" style="font-size: 10px;">SFM</a> <a href="/tags/SVD/" style="font-size: 10px;">SVD</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/keypoints/" style="font-size: 10px;">keypoints</a> <a href="/tags/surface-Reconstruction/" style="font-size: 10px;">surface Reconstruction</a>
     </div>
 </div>
 
@@ -694,6 +705,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/07/01/SFM/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="SFM">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-01T13:55:49.000Z">2019-07-01</time></div>
+                    <a href="/2019/07/01/SFM/" class="has-link-black-ter is-size-6">SFM</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/CV-Source/">CV-Source</a> / <a class="has-link-grey -link" href="/categories/CV-Source/SFM/">SFM</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -771,25 +801,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/06/28/cuda/CUDAcodeOptimazation/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="CUDA Code Optimization">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-28T11:34:14.000Z">2019-06-28</time></div>
-                    <a href="/2019/06/28/cuda/CUDAcodeOptimazation/" class="has-link-black-ter is-size-6">CUDA Code Optimization</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/learn-CUDA/">learn CUDA</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -808,7 +819,7 @@
                     <span class="level-item">七月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -879,7 +890,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/CV-Source/">
                         <span class="tag">CV-Source</span>
-                        <span class="tag is-grey">3</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
@@ -970,6 +981,13 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/SAC-IA/">
                         <span class="tag">SAC-IA</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SFM/">
+                        <span class="tag">SFM</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1027,6 +1045,25 @@
         
         <article class="media">
             
+            <a href="/2019/07/01/SFM/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="SFM">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-01T13:55:49.000Z">2019-07-01</time></div>
+                    <a href="/2019/07/01/SFM/" class="has-link-black-ter is-size-6">SFM</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/CV-Source/">CV-Source</a> / <a class="has-link-grey -link" href="/categories/CV-Source/SFM/">SFM</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/07/01/SLAM/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="SLAM_tutorial">
@@ -1101,25 +1138,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/06/28/cuda/CUDAcodeOptimazation/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="CUDA Code Optimization">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-28T11:34:14.000Z">2019-06-28</time></div>
-                    <a href="/2019/06/28/cuda/CUDAcodeOptimazation/" class="has-link-black-ter is-size-6">CUDA Code Optimization</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/learn-CUDA/">learn CUDA</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1138,7 +1156,7 @@
                     <span class="level-item">七月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -1209,7 +1227,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/CV-Source/">
                         <span class="tag">CV-Source</span>
-                        <span class="tag is-grey">3</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
@@ -1300,6 +1318,13 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/SAC-IA/">
                         <span class="tag">SAC-IA</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SFM/">
+                        <span class="tag">SFM</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>

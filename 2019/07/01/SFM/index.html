@@ -2,23 +2,24 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>分类: descriptors - LittleBear！！！</title>
+<title>SFM - LittleBear！！！</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta name="description" content="Robot With CV">
-<meta name="keywords" content="CUDA PCL OpenCV">
-<meta property="og:type" content="website">
-<meta property="og:title" content="LittleBear！！！">
-<meta property="og:url" content="https://littlebearsama.github.io/categories/PCL/descriptors/index.html">
+    <meta name="description" content="SLAM和SfM视觉SLAM中大量使用了SfM中的方法，如特征点跟踪、捆集优化(Bundle Adjustment)等，以至于许多研究者把它们视为同一个研究领域。然而，尽管方法上很相似，SLAM和SfM的侧重点是不同的。SLAM的应用场合主要在机器人和VR/AR，计算资源有限，需要很强的实时性，故侧重点在于，如何在有限的资源里快速地对相机进行定位。而SfM方法通常是离线的，可以调用大量计算资源">
+<meta name="keywords" content="CV-Source,SFM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SFM">
+<meta property="og:url" content="https://littlebearsama.github.io/2019/07/01/SFM/index.html">
 <meta property="og:site_name" content="LittleBear！！！">
-<meta property="og:description" content="Robot With CV">
+<meta property="og:description" content="SLAM和SfM视觉SLAM中大量使用了SfM中的方法，如特征点跟踪、捆集优化(Bundle Adjustment)等，以至于许多研究者把它们视为同一个研究领域。然而，尽管方法上很相似，SLAM和SfM的侧重点是不同的。SLAM的应用场合主要在机器人和VR/AR，计算资源有限，需要很强的实时性，故侧重点在于，如何在有限的资源里快速地对相机进行定位。而SfM方法通常是离线的，可以调用大量计算资源">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2019-07-01T14:01:06.230Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LittleBear！！！">
-<meta name="twitter:description" content="Robot With CV">
+<meta name="twitter:title" content="SFM">
+<meta name="twitter:description" content="SLAM和SfM视觉SLAM中大量使用了SfM中的方法，如特征点跟踪、捆集优化(Bundle Adjustment)等，以至于许多研究者把它们视为同一个研究领域。然而，尽管方法上很相似，SLAM和SfM的侧重点是不同的。SLAM的应用场合主要在机器人和VR/AR，计算资源有限，需要很强的实时性，故侧重点在于，如何在有限的资源里快速地对相机进行定位。而SfM方法通常是离线的，可以调用大量计算资源">
 <meta name="twitter:image" content="https://littlebearsama.github.io/images/og_image.png">
 
 
@@ -102,7 +103,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/pig.png" alt="LittleBear！！！" height="28">
+                <img src="/images/pig.png" alt="SFM" height="28">
             
             </a>
         </div>
@@ -148,36 +149,22 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
-    <div class="card-content">
-        <nav class="breadcrumb" aria-label="breadcrumbs">
-        <ul>
-            <li><a href="/categories">分类</a></li>
-            
-            <li><a href="/categories/PCL/">PCL</a></li>
-            
-            <li class="is-active"><a href="#" aria-current="page">descriptors</a></li>
-        </ul>
-        </nav>
-    </div>
-</div>
-
-    <div class="card">
     
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-05-24T09:02:07.000Z">2019-05-24</time>
+                <time class="level-item has-text-grey" datetime="2019-07-01T13:55:49.000Z">2019-07-01</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/PCL/">PCL</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/PCL/descriptors/">descriptors</a>
+                <a class="has-link-grey -link" href="/categories/CV-Source/">CV-Source</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/CV-Source/SFM/">SFM</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    几秒 读完 (大约 0 个字)
+                    1 分钟 读完 (大约 210 个字)
                 </span>
                 
                 
@@ -186,25 +173,110 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/05/24/pcl_tutorial/about-Descriptors/">about-Descriptors</a>
+                SFM
             
         </h1>
         <div class="content">
-            
+            <a id="more"></a>
+
+<h3 id="SLAM和SfM"><a href="#SLAM和SfM" class="headerlink" title="SLAM和SfM"></a>SLAM和SfM</h3><p>视觉SLAM中大量使用了SfM中的方法，如特征点跟踪、捆集优化(Bundle Adjustment)等，以至于许多研究者把它们视为同一个研究领域。然而，尽管方法上很相似，SLAM和SfM的侧重点是不同的。SLAM的应用场合主要在机器人和VR/AR，计算资源有限，需要很强的实时性，故侧重点在于，如何在有限的资源里快速地对相机进行定位。而SfM方法通常是离线的，可以调用大量计算资源进行长时间的计算，侧重于重建出更精确、美观的场景。</p>
+<h3 id="SFM开源项目"><a href="#SFM开源项目" class="headerlink" title="SFM开源项目"></a>SFM开源项目</h3><ol>
+<li><a href="https://github.com/mapillary/OpenSfM" target="_blank" rel="noopener">https://github.com/mapillary/OpenSfM</a></li>
+<li><a href="https://github.com/snavely/bundler_sfm" target="_blank" rel="noopener">https://github.com/snavely/bundler_sfm</a></li>
+<li><a href="https://github.com/colmap/colmap" target="_blank" rel="noopener">https://github.com/colmap/colmap</a></li>
+<li><a href="https://github.com/openMVG/openMVG" target="_blank" rel="noopener">https://github.com/openMVG/openMVG</a></li>
+</ol>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/CV-Source/">CV-Source</a>, <a class="has-link-grey -link" href="/tags/SFM/">SFM</a>
+                </div>
+            </div>
         </div>
         
         
+        
+        
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ce8d814d9c29712"></script>
+
         
     </div>
 </div>
 
 
 
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="/images/alqrcode.png" alt="支付宝"></div>
+</a>
+
+                
+                
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>微信</span>
+    <div class="qrcode"><img src="/images/wxqrcode.png" alt="微信"></div>
+</a>
+
+                
+        </div>
+    </div>
+</div>
 
 
 
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/07/01/SLAM/">
+                <span class="level-item">SLAM_tutorial</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
 
 
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: '8eoAgWMqJvxDePfBogu64i1m-gzGzoHsz',
+        app_key: 'wooEMXdlCj5x9utpB1UhAobQ',
+        placeholder: '( *・ω・)✄╰ひ╯   快来评论鸭！！！ 记得填上昵称～ 邮箱（仅博主可见）～ 还有主页地址～'
+    });
+</script>
+
+    </div>
+</div>
 </div>
                 
 
@@ -1257,7 +1329,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/pig.png" alt="LittleBear！！！" height="28">
+                    <img src="/images/pig.png" alt="SFM" height="28">
                 
                 </a>
                 <p class="is-size-7">

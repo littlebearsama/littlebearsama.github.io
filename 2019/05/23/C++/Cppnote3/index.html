@@ -16,7 +16,7 @@
 <meta property="og:description" content="第9章 内存模型和名称空间 GitHub 建议下载下来用Typora软件阅读markdown文件">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-05-31T05:43:24.710Z">
+<meta property="og:updated_time" content="2019-07-01T13:32:40.486Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="C++ 笔记3">
 <meta name="twitter:description" content="第9章 内存模型和名称空间 GitHub 建议下载下来用Typora软件阅读markdown文件">
@@ -164,7 +164,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    1 小时 读完 (大约 8340 个字)
+                    1 小时 读完 (大约 8371 个字)
                 </span>
                 
                 
@@ -236,7 +236,7 @@
 <h2 id="存储持续性，作用域与和链接性"><a href="#存储持续性，作用域与和链接性" class="headerlink" title="存储持续性，作用域与和链接性"></a>存储持续性，作用域与和链接性</h2><p>C++中的四种存储方案</p>
 <ol>
 <li><strong>自动存储持续性</strong> :在函数定义中声明的变量（包括函数参数）的存储持续性为自动的。它们在程序开始执行其所属的函数或代码块时被创建，在执行完函数或代码块时，它们使用的内存被释放。</li>
-<li><strong>静态存储持续性</strong> :在函数定义外定义的变量和使用关键字static定义的变量的存储持续性都为静态。（请注意）它们在整个运行过程中都存在。</li>
+<li><strong>静态存储持续性</strong> :在函数定义外定义的变量（又称为外部变量）和使用关键字static定义的变量的存储持续性都为静态。（请注意）它们在整个运行过程中都存在。</li>
 <li><strong>线程存储持续性(C++11)</strong> :当前，多核处理器很常见，这些CPU可同时处理多个执行任务。这让程序能够将计算放在可并行处理的不同线程中。如果变量是使用关键字thread_local声明的，则<strong>其生命周期与所属的线程一样长</strong>。</li>
 <li><strong>动态存储持续性</strong> :用new运算符分配的内存将一直存在，直到使用delete运算符将其释放或程序结束为止。这种内存的存储持续性为动态，有时被称为自由存储(free store)或堆(heap)。</li>
 </ol>
@@ -247,7 +247,7 @@
 </ul>
 <ol>
 <li>作用域为<strong>局部</strong>的变量只在定义它的代码块中可用。（代码块：由花括号括起的一系列语句，比如：函数体）</li>
-<li>做英语为全局（也叫<strong>文件作用域</strong>）的变量在定义位置到文件结尾都可以用。</li>
+<li>作用域为全局（也叫<strong>文件作用域</strong>）的变量在定义位置到文件结尾都可以用。</li>
 </ol>
 <ul>
 <li><strong>链接性(linkage)</strong> 描述了名称如何在不同单元间共享。链接性为外部的名称可在文件间共享，链接性为内部的名称只能由一个文件中的函数共享，自动变量的名称没有链接性，因为它们不能共享。</li>
@@ -277,9 +277,9 @@
 <thead>
 <tr>
 <th>存储描述</th>
-<th>持续性</th>
-<th>作用域</th>
-<th>链接性</th>
+<th>持续性（变量寿命）</th>
+<th>作用域（变量可见性）</th>
+<th>链接性（变量名字共享性）</th>
 <th>如何声明</th>
 </tr>
 </thead>
@@ -676,7 +676,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        42
+                        43
                     </p>
                 </div>
             </div>
@@ -686,7 +686,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        28
+                        29
                     </p>
                 </div>
             </div>
@@ -696,7 +696,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        22
+                        23
                     </p>
                 </div>
             </div>
@@ -796,12 +796,20 @@
                 <span class="level-item">CV-Source</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">3</span>
+                <span class="level-item tag">4</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/CV-Source/CV-Source/">
             <span class="level-start">
                 <span class="level-item">CV-Source</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/CV-Source/SFM/">
+            <span class="level-start">
+                <span class="level-item">SFM</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
@@ -994,7 +1002,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/3D-Reconstruction/" style="font-size: 10px;">3D Reconstruction</a> <a href="/tags/3D-scene-Reconstruction/" style="font-size: 10px;">3D scene Reconstruction</a> <a href="/tags/C/" style="font-size: 18.33px;">C++</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CV-Source/" style="font-size: 13.33px;">CV-Source</a> <a href="/tags/Despriptors/" style="font-size: 10px;">Despriptors</a> <a href="/tags/FastICP/" style="font-size: 10px;">FastICP</a> <a href="/tags/Generalized-ICP/" style="font-size: 10px;">Generalized-ICP</a> <a href="/tags/ICP/" style="font-size: 13.33px;">ICP</a> <a href="/tags/LM/" style="font-size: 10px;">LM</a> <a href="/tags/NDT/" style="font-size: 11.67px;">NDT</a> <a href="/tags/ObjectDetection/" style="font-size: 10px;">ObjectDetection</a> <a href="/tags/PCL/" style="font-size: 15px;">PCL</a> <a href="/tags/PoseEstimation/" style="font-size: 13.33px;">PoseEstimation</a> <a href="/tags/RANSAC/" style="font-size: 10px;">RANSAC</a> <a href="/tags/Reconstruction/" style="font-size: 13.33px;">Reconstruction</a> <a href="/tags/Registration/" style="font-size: 16.67px;">Registration</a> <a href="/tags/SAC-IA/" style="font-size: 10px;">SAC-IA</a> <a href="/tags/SVD/" style="font-size: 10px;">SVD</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/keypoints/" style="font-size: 10px;">keypoints</a> <a href="/tags/surface-Reconstruction/" style="font-size: 10px;">surface Reconstruction</a>
+        <a href="/tags/3D-Reconstruction/" style="font-size: 10px;">3D Reconstruction</a> <a href="/tags/3D-scene-Reconstruction/" style="font-size: 10px;">3D scene Reconstruction</a> <a href="/tags/C/" style="font-size: 18.57px;">C++</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CV-Source/" style="font-size: 14.29px;">CV-Source</a> <a href="/tags/Despriptors/" style="font-size: 10px;">Despriptors</a> <a href="/tags/FastICP/" style="font-size: 10px;">FastICP</a> <a href="/tags/Generalized-ICP/" style="font-size: 10px;">Generalized-ICP</a> <a href="/tags/ICP/" style="font-size: 12.86px;">ICP</a> <a href="/tags/LM/" style="font-size: 10px;">LM</a> <a href="/tags/NDT/" style="font-size: 11.43px;">NDT</a> <a href="/tags/ObjectDetection/" style="font-size: 10px;">ObjectDetection</a> <a href="/tags/PCL/" style="font-size: 15.71px;">PCL</a> <a href="/tags/PoseEstimation/" style="font-size: 12.86px;">PoseEstimation</a> <a href="/tags/RANSAC/" style="font-size: 10px;">RANSAC</a> <a href="/tags/Reconstruction/" style="font-size: 12.86px;">Reconstruction</a> <a href="/tags/Registration/" style="font-size: 17.14px;">Registration</a> <a href="/tags/SAC-IA/" style="font-size: 10px;">SAC-IA</a> <a href="/tags/SFM/" style="font-size: 10px;">SFM</a> <a href="/tags/SVD/" style="font-size: 10px;">SVD</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/keypoints/" style="font-size: 10px;">keypoints</a> <a href="/tags/surface-Reconstruction/" style="font-size: 10px;">surface Reconstruction</a>
     </div>
 </div>
 
@@ -1008,6 +1016,25 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2019/07/01/SFM/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="SFM">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-01T13:55:49.000Z">2019-07-01</time></div>
+                    <a href="/2019/07/01/SFM/" class="has-link-black-ter is-size-6">SFM</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/CV-Source/">CV-Source</a> / <a class="has-link-grey -link" href="/categories/CV-Source/SFM/">SFM</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -1085,25 +1112,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/06/28/cuda/CUDAcodeOptimazation/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="CUDA Code Optimization">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-28T11:34:14.000Z">2019-06-28</time></div>
-                    <a href="/2019/06/28/cuda/CUDAcodeOptimazation/" class="has-link-black-ter is-size-6">CUDA Code Optimization</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/learn-CUDA/">learn CUDA</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1122,7 +1130,7 @@
                     <span class="level-item">七月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -1193,7 +1201,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/CV-Source/">
                         <span class="tag">CV-Source</span>
-                        <span class="tag is-grey">3</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
@@ -1284,6 +1292,13 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/SAC-IA/">
                         <span class="tag">SAC-IA</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SFM/">
+                        <span class="tag">SFM</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1341,6 +1356,25 @@
         
         <article class="media">
             
+            <a href="/2019/07/01/SFM/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="SFM">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-01T13:55:49.000Z">2019-07-01</time></div>
+                    <a href="/2019/07/01/SFM/" class="has-link-black-ter is-size-6">SFM</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/CV-Source/">CV-Source</a> / <a class="has-link-grey -link" href="/categories/CV-Source/SFM/">SFM</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/07/01/SLAM/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="SLAM_tutorial">
@@ -1415,25 +1449,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2019/06/28/cuda/CUDAcodeOptimazation/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="CUDA Code Optimization">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-06-28T11:34:14.000Z">2019-06-28</time></div>
-                    <a href="/2019/06/28/cuda/CUDAcodeOptimazation/" class="has-link-black-ter is-size-6">CUDA Code Optimization</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/learn-CUDA/">learn CUDA</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1452,7 +1467,7 @@
                     <span class="level-item">七月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">2</span>
                 </span>
             </a>
         </li>
@@ -1523,7 +1538,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/CV-Source/">
                         <span class="tag">CV-Source</span>
-                        <span class="tag is-grey">3</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
@@ -1614,6 +1629,13 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/SAC-IA/">
                         <span class="tag">SAC-IA</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SFM/">
+                        <span class="tag">SFM</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
