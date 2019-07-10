@@ -8,7 +8,7 @@
 
 
     <meta name="description" content="稀疏ICP方法采用稀疏诱导准则对该问题进行求解，显著提高了配准过程对大量噪声和离群值的恢复能力，但引入了显著的性能退化。 本文首先分析了性能下降的原因，提出了一种结合模拟退火搜索和标准稀疏ICP的混合优化系统，以更有效地解决底层优化问题。">
-<meta name="keywords" content="Efficient Sparse ICP,ICP,Registration">
+<meta name="keywords" content="ICP,Registration,Efficient Sparse ICP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Efficient Sparse ICP">
 <meta property="og:url" content="https://littlebearsama.github.io/2019/07/09/registration/3.Efficient-Sparseicp/index.html">
@@ -16,7 +16,7 @@
 <meta property="og:description" content="稀疏ICP方法采用稀疏诱导准则对该问题进行求解，显著提高了配准过程对大量噪声和离群值的恢复能力，但引入了显著的性能退化。 本文首先分析了性能下降的原因，提出了一种结合模拟退火搜索和标准稀疏ICP的混合优化系统，以更有效地解决底层优化问题。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-07-10T13:20:10.709Z">
+<meta property="og:updated_time" content="2019-07-10T13:32:31.796Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Efficient Sparse ICP">
 <meta name="twitter:description" content="稀疏ICP方法采用稀疏诱导准则对该问题进行求解，显著提高了配准过程对大量噪声和离群值的恢复能力，但引入了显著的性能退化。 本文首先分析了性能下降的原因，提出了一种结合模拟退火搜索和标准稀疏ICP的混合优化系统，以更有效地解决底层优化问题。">
@@ -157,7 +157,7 @@
                 <time class="level-item has-text-grey" datetime="2019-07-09T14:06:32.000Z">2019-07-09</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Registration/">Registration</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Registration/4-Efficient-Sparse-ICP/">4.Efficient Sparse ICP</a>
+                <a class="has-link-grey -link" href="/categories/Registration/">Registration</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Registration/3-Efficient-Sparse-ICP/">3.Efficient Sparse ICP</a>
                 </div>
                 
                 
@@ -548,6 +548,14 @@
                 <span class="level-item tag">11</span>
             </span>
         </a><ul><li>
+        <a class="level is-marginless" href="/categories/Registration/0-SAC-IA/">
+            <span class="level-start">
+                <span class="level-item">0.SAC-IA</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Registration/0-compute-transform/">
             <span class="level-start">
                 <span class="level-item">0.compute transform</span>
@@ -556,33 +564,33 @@
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
-        <a class="level is-marginless" href="/categories/Registration/1-SAC-IA/">
+        <a class="level is-marginless" href="/categories/Registration/1-ICP/">
             <span class="level-start">
-                <span class="level-item">1.SAC-IA</span>
+                <span class="level-item">1.ICP</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
-        <a class="level is-marginless" href="/categories/Registration/2-ICP/">
+        <a class="level is-marginless" href="/categories/Registration/2-FastICP/">
             <span class="level-start">
-                <span class="level-item">2.ICP</span>
+                <span class="level-item">2.FastICP</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
-        <a class="level is-marginless" href="/categories/Registration/3-FastICP/">
+        <a class="level is-marginless" href="/categories/Registration/3-Efficient-Sparse-ICP/">
             <span class="level-start">
-                <span class="level-item">3.FastICP</span>
+                <span class="level-item">3.Efficient Sparse ICP</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
-        <a class="level is-marginless" href="/categories/Registration/4-Efficient-Sparse-ICP/">
+        <a class="level is-marginless" href="/categories/Registration/3-Sparse-ICP/">
             <span class="level-start">
-                <span class="level-item">4.Efficient Sparse ICP</span>
+                <span class="level-item">3.Sparse ICP</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
@@ -591,14 +599,6 @@
         <a class="level is-marginless" href="/categories/Registration/4-Generalized-ICP/">
             <span class="level-start">
                 <span class="level-item">4.Generalized-ICP</span>
-            </span>
-            <span class="level-end">
-                <span class="level-item tag">1</span>
-            </span>
-        </a></li><li>
-        <a class="level is-marginless" href="/categories/Registration/4-Sparse-ICP/">
-            <span class="level-start">
-                <span class="level-item">4.Sparse ICP</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
@@ -715,7 +715,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-10T14:06:32.000Z">2019-07-10</time></div>
                     <a href="/2019/07/10/registration/3.Sparseicp/" class="has-link-black-ter is-size-6">Sparse ICP</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/4-Sparse-ICP/">4.Sparse ICP</a>
+                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/3-Sparse-ICP/">3.Sparse ICP</a>
                     </p>
                 </div>
             </div>
@@ -772,7 +772,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-09T14:06:32.000Z">2019-07-09</time></div>
                     <a href="/2019/07/09/registration/3.Efficient-Sparseicp/" class="has-link-black-ter is-size-6">Efficient Sparse ICP</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/4-Efficient-Sparse-ICP/">4.Efficient Sparse ICP</a>
+                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/3-Efficient-Sparse-ICP/">3.Efficient Sparse ICP</a>
                     </p>
                 </div>
             </div>
@@ -1080,7 +1080,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-10T14:06:32.000Z">2019-07-10</time></div>
                     <a href="/2019/07/10/registration/3.Sparseicp/" class="has-link-black-ter is-size-6">Sparse ICP</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/4-Sparse-ICP/">4.Sparse ICP</a>
+                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/3-Sparse-ICP/">3.Sparse ICP</a>
                     </p>
                 </div>
             </div>
@@ -1137,7 +1137,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-09T14:06:32.000Z">2019-07-09</time></div>
                     <a href="/2019/07/09/registration/3.Efficient-Sparseicp/" class="has-link-black-ter is-size-6">Efficient Sparse ICP</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/4-Efficient-Sparse-ICP/">4.Efficient Sparse ICP</a>
+                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/3-Efficient-Sparse-ICP/">3.Efficient Sparse ICP</a>
                     </p>
                 </div>
             </div>
