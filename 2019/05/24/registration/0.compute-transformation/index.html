@@ -16,7 +16,7 @@
 <meta property="og:description" content="计算刚体变换矩阵 问题：已知有对应点对(correspondence; point pairs)P、Q集合，求解PQ之间的刚体变换矩阵">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-07-09T14:00:17.343Z">
+<meta property="og:updated_time" content="2019-07-12T06:26:08.597Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="compute-transform">
 <meta name="twitter:description" content="计算刚体变换矩阵 问题：已知有对应点对(correspondence; point pairs)P、Q集合，求解PQ之间的刚体变换矩阵">
@@ -216,7 +216,7 @@
 <li>对协方差3X3矩阵用SVD(奇异值分解)来计算旋转矩阵R</li>
 </ul>
 <p>Singular Value Decomposition* </p>
-<p><img src="/2019/05/24/registration/0.compute-transformation/compute-transformation/1.png" alt></p>
+<p><img src="/2019/05/24/registration/0.compute-transformation/1.png" alt></p>
 <p>1.计算两个点集的中心（重心）。将两个点集利用中心（重心），平移到原点处。</p>
 <p>2.利用两个平移后的点集计算协方差矩阵S</p>
 <p>3.用SVD奇异值分解方法对S进行分解获得旋转矩阵S</p>
@@ -270,7 +270,7 @@
 <p>从而得到:</p>
 <p><img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BV%7D%5E%5Ctext%7BT%7D%5Cboldsymbol%7BR%7D%5Cboldsymbol%7BU%7D+%3D+%5Cboldsymbol%7BI%7D~%5CLeftrightarrow~%5Cboldsymbol%7BR%7D%3D%5Cboldsymbol%7BV%7D%5Cboldsymbol%7BU%7D%5E%5Ctext%7BT%7D" alt></p>
 <p>至此可以得到旋转矩阵 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D" alt> , 不难得到平移向量 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7Bt%7D+%3D+%5Cboldsymbol%7Bq%7D_0-%5Cboldsymbol%7BR%7D%5Cboldsymbol%7Bp%7D_0" alt> .</p>
-<h2 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h2><p><img src="/2019/05/24/registration/0.compute-transformation/compute-transformation/2.png" alt="img"></p>
+<h2 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h2><p><img src="/2019/05/24/registration/0.compute-transformation/2.png" alt="img"></p>
 
         </div>
         
@@ -806,7 +806,7 @@
         
         <article class="media">
             
-            <a href="/2019/07/09/registration/6.mvlmicp/" class="media-left">
+            <a href="/2019/07/09/registration/mvlmicp/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Multiview Levenberg-Marquardt ICP">
                 </p>
@@ -815,28 +815,9 @@
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-09T14:16:32.000Z">2019-07-09</time></div>
-                    <a href="/2019/07/09/registration/6.mvlmicp/" class="has-link-black-ter is-size-6">Multiview Levenberg-Marquardt ICP</a>
+                    <a href="/2019/07/09/registration/mvlmicp/" class="has-link-black-ter is-size-6">Multiview Levenberg-Marquardt ICP</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/6-mv-LM-ICP/">6.mv-LM-ICP</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/07/09/registration/5.GOicp/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="GOICP">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-09T14:06:32.000Z">2019-07-09</time></div>
-                    <a href="/2019/07/09/registration/5.GOicp/" class="has-link-black-ter is-size-6">GOICP</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/5-GOICP/">5.GOICP</a>
                     </p>
                 </div>
             </div>
@@ -856,6 +837,25 @@
                     <a href="/2019/07/09/registration/3.Efficient-Sparseicp/" class="has-link-black-ter is-size-6">Efficient Sparse ICP</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/3-Efficient-Sparse-ICP/">3.Efficient Sparse ICP</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/07/09/registration/5.GOicp/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="GOICP">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-09T14:06:32.000Z">2019-07-09</time></div>
+                    <a href="/2019/07/09/registration/5.GOicp/" class="has-link-black-ter is-size-6">GOICP</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/5-GOICP/">5.GOICP</a>
                     </p>
                 </div>
             </div>
@@ -1171,7 +1171,7 @@
         
         <article class="media">
             
-            <a href="/2019/07/09/registration/6.mvlmicp/" class="media-left">
+            <a href="/2019/07/09/registration/mvlmicp/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Multiview Levenberg-Marquardt ICP">
                 </p>
@@ -1180,28 +1180,9 @@
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-09T14:16:32.000Z">2019-07-09</time></div>
-                    <a href="/2019/07/09/registration/6.mvlmicp/" class="has-link-black-ter is-size-6">Multiview Levenberg-Marquardt ICP</a>
+                    <a href="/2019/07/09/registration/mvlmicp/" class="has-link-black-ter is-size-6">Multiview Levenberg-Marquardt ICP</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/6-mv-LM-ICP/">6.mv-LM-ICP</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/07/09/registration/5.GOicp/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="GOICP">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-09T14:06:32.000Z">2019-07-09</time></div>
-                    <a href="/2019/07/09/registration/5.GOicp/" class="has-link-black-ter is-size-6">GOICP</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/5-GOICP/">5.GOICP</a>
                     </p>
                 </div>
             </div>
@@ -1221,6 +1202,25 @@
                     <a href="/2019/07/09/registration/3.Efficient-Sparseicp/" class="has-link-black-ter is-size-6">Efficient Sparse ICP</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/3-Efficient-Sparse-ICP/">3.Efficient Sparse ICP</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/07/09/registration/5.GOicp/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="GOICP">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-09T14:06:32.000Z">2019-07-09</time></div>
+                    <a href="/2019/07/09/registration/5.GOicp/" class="has-link-black-ter is-size-6">GOICP</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/5-GOICP/">5.GOICP</a>
                     </p>
                 </div>
             </div>

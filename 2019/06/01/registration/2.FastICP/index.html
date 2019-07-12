@@ -16,7 +16,7 @@
 <meta property="og:description" content="ICP变种之一 — FastICP 超级详细分析配准步骤与影响ICP的因素，FastICP的由来与论文解读。">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-07-10T13:32:41.619Z">
+<meta property="og:updated_time" content="2019-07-12T06:31:07.814Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="FastICP">
 <meta name="twitter:description" content="ICP变种之一 — FastICP 超级详细分析配准步骤与影响ICP的因素，FastICP的由来与论文解读。">
@@ -182,7 +182,7 @@
 <a id="more"></a>
 
 <p>建议下载下来用Typora软件阅读markdown文件</p>
-<h1 id="点云配准流程"><a href="#点云配准流程" class="headerlink" title="点云配准流程"></a>点云配准流程</h1><p><img src="/2019/06/01/registration/2.FastICP/FastICP/%E4%B8%A4%E4%B8%A4%E9%85%8D%E5%87%86%E6%B5%81%E7%A8%8B.png" alt></p>
+<h1 id="点云配准流程"><a href="#点云配准流程" class="headerlink" title="点云配准流程"></a>点云配准流程</h1><p><img src="/2019/06/01/registration/2.FastICP/%E4%B8%A4%E4%B8%A4%E9%85%8D%E5%87%86%E6%B5%81%E7%A8%8B.png" alt></p>
 <h1 id="对应估计"><a href="#对应估计" class="headerlink" title="对应估计"></a>对应估计</h1><ol>
 <li>穷举配准(brute force matching)</li>
 <li>kd-tree最近邻查询(第三方库FLANN)</li>
@@ -207,7 +207,7 @@
 <li><p>通过上一步骤计算出来的一组对应关系计算<strong>两个对应关系点集</strong>之间的<strong>变换矩阵</strong>；</p>
 <p>计算变换矩阵的方法有<a href="https://littlebearsama.github.io/2019/05/24/registration/compute-transformation/#more">compute-transform</a></p>
 <p>在ICP中采用了SVD来解算变换矩阵。</p>
-<p><img src="/2019/06/01/registration/2.FastICP/FastICP/svd.png" alt="SVD"></p>
+<p><img src="/2019/06/01/registration/2.FastICP/svd.png" alt="SVD"></p>
 <p>a. 计算两个点集（对应点集）的质心</p>
 <p>b. 将两个点集通过刚刚计算出来的中心移动到原点。（计算每个点的去质心坐标）</p>
 <p>c. 将移动了的两个点集计算三乘三协方差矩阵</p>
@@ -233,7 +233,7 @@
 <p>e. 误差度量：基于以上点对，给出每个点对的误差计算方法</p>
 <p>f. 最小化：最小化误差度量</p>
 <p>为测试以上阶段中不同算法的性能和结果，论文提供了三个测试场景，并在这些点集（曲面）上加上噪声：</p>
-<p><img src="/2019/06/01/registration/2.FastICP/FastICP/1.JPG" alt></p>
+<p><img src="/2019/06/01/registration/2.FastICP/1.JPG" alt></p>
 <p>比较平滑的波纹： 比较简单的场景，几何尺度变换不是很大</p>
 <p>较复杂的不规则的草原地形： 相对复杂的，包含不同尺度的细节</p>
 <p>仅含有突出一个十字形雕刻面的平面： 对匹配而言，最困难的场景，因为特征太少</p>
@@ -248,7 +248,7 @@
 <li><strong>(本文提出(normal-space-sampling))</strong>:法线在所选点之间的分布尽可能地大,(筛选哪些能使点的向量的分布尽量大的点 )这样的目的是突出 特征很少的 点集的特征。</li>
 </ul>
 <p>如下图 a  随机采用法“random sampling”，  图b是”normal-space sampling”策略  </p>
-<p><img src="/2019/06/01/registration/2.FastICP/FastICP/2.JPG" alt></p>
+<p><img src="/2019/06/01/registration/2.FastICP/2.JPG" alt></p>
 <h4 id="分析："><a href="#分析：" class="headerlink" title="分析："></a>分析：</h4><ol>
 <li><p>对一个点集进行筛选，或者两个点集都进行筛选：对于一般的点集，<strong>两种方法收敛率和结果基本相同</strong>，但仅对一个点集筛选的算法，<strong>数据运算量相对比较大。</strong></p>
 </li>
@@ -257,14 +257,14 @@
 <li><p>由图ab可以明显看出，normal-space sampling策略对点集的较少的特征有着比较好的提取能力。随机采样会对稀疏的特征造成覆盖，导致ICP算法不会收敛到一个正确值。而normal-space sampling策略确保了在特征中放置足够的样本点以使表面对齐</p>
 </li>
 <li><p>三种采样方法对于在<strong>wave数据</strong>中的比较，uniform、random、normal-space sampling，表现相似。</p>
-<p><img src="/2019/06/01/registration/2.FastICP/FastICP/3.JPG" alt></p>
+<p><img src="/2019/06/01/registration/2.FastICP/3.JPG" alt></p>
 </li>
 <li><p>三种采样方法对于在<strong>incised plane数据</strong>中的比较，uniform、random、normal-space sampling。</p>
 <ul>
 <li>对于incised plane数据只有normal-space sampling收敛，其他方法不收敛。</li>
 <li>在低曲率数据中，误差又短暂的迭代增加。这说明实际误差（ground truth error）和算法中用于估计的误差（algorithm‘s estimate of its own error）是有区别的。</li>
 </ul>
-<p><img src="/2019/06/01/registration/2.FastICP/FastICP/4.JPG" alt></p>
+<p><img src="/2019/06/01/registration/2.FastICP/4.JPG" alt></p>
 </li>
 </ol>
 <h4 id="Sampling-Direction："><a href="#Sampling-Direction：" class="headerlink" title="Sampling Direction："></a>Sampling Direction：</h4><p>对于数据wave：由于使用了下面提出的匹配方法（对称的symmetric）<strong>（the closest compatible point matching algorithm）</strong>，采样方法对收敛速率没什么大影响。如果我们使用更“非对称”的匹配算法，如projection或Normal shooting(参见3.2节)，对两个mesh下采样会给出稍微更好的结果。</p>
@@ -292,9 +292,9 @@
 <p>我们假设这是因为最接近点算法对噪声更敏感，并且比其他算法更容易产生大量不正确的配对(下图)。</p>
 </li>
 </ol>
-<p><img src="/2019/06/01/registration/2.FastICP/FastICP/7.JPG" alt="图7"></p>
+<p><img src="/2019/06/01/registration/2.FastICP/7.JPG" alt="图7"></p>
 <p>在存在噪声和异常值（图ab中的凸起为干扰）的情况下，当网格距离较远时，最接近点匹配算法可能会产生大量不正确的配对，从而减缓收敛速度。(b)“投影”匹配策略对噪音较不敏感。</p>
-<p><img src="/2019/06/01/registration/2.FastICP/FastICP/5.JPG" alt="投影法（b）与最近邻法（a）的示意图："></p>
+<p><img src="/2019/06/01/registration/2.FastICP/5.JPG" alt="投影法（b）与最近邻法（a）的示意图："></p>
 <p>从图上看，可以看出<strong>最邻近点法容易受到噪声的干扰，而投影法不受噪声的干扰。</strong></p>
 <ol start="2">
 <li><p><strong>收敛速度和时间</strong>，场景：fractal</p>
@@ -314,12 +314,12 @@
 <li>project</li>
 <li>project and walk</li>
 </ul>
-<p><img src="/2019/06/01/registration/2.FastICP/FastICP/8.JPG" alt></p>
+<p><img src="/2019/06/01/registration/2.FastICP/8.JPG" alt></p>
 <p><strong>从上图来看（没有包含kdtree计算时间，如果包含了对比起来投影算法更加有利），投影法的计算速度非常快，这是因为不仅投影法的收敛速度快，而且其算法复杂度为O(1),而其他的算法复杂度为O(logN)。</strong></p>
 <ol start="2">
 <li>在雕刻十字面的场景下：（closest-point algorithms是唯一收敛的方法）</li>
 </ol>
-<p><img src="/2019/06/01/registration/2.FastICP/FastICP/6.JPG" alt></p>
+<p><img src="/2019/06/01/registration/2.FastICP/6.JPG" alt></p>
 <p>(上图)在这里，最接近点算法是唯一收敛到正确解的算法。因此，我们的结论是，尽管对于“简单”场景，最接近点算法可能没有最快的收敛速度，<strong>但对于“简单”场景，它们是最健壮的</strong>。</p>
 <h4 id="匹配方法选择："><a href="#匹配方法选择：" class="headerlink" title="匹配方法选择："></a>匹配方法选择：</h4><ol>
 <li>对于非常简单的场景使用：closest-point algorithms</li>
@@ -329,7 +329,7 @@
 <ul>
 <li><p><strong>Constant weight</strong>：均匀分配，即常数加权。</p>
 </li>
-<li><p>根据点对距离加权，点对间距大，权重就小，反之，权重就大。<img src="/2019/06/01/registration/2.FastICP/FastICP/gongshi.png" alt></p>
+<li><p>根据点对距离加权，点对间距大，权重就小，反之，权重就大。<img src="/2019/06/01/registration/2.FastICP/gongshi.png" alt></p>
 </li>
 <li><p>根据向量的一致性（compability）进行加权，weight = n1 * n2</p>
 </li>
@@ -342,10 +342,10 @@
 <p>下图，比较wave meshes的收敛速率，为几种加权函数的选择。为了增加变量之间的差异，我们在网格中增加了一倍的噪声和异常值。</p>
 </li>
 </ol>
-<p><img src="/2019/06/01/registration/2.FastICP/FastICP/11.png" alt="figure11"><br>        我们发现，即使添加额外的噪声，所有的加权策略都具有相似的性能，</p>
+<p><img src="/2019/06/01/registration/2.FastICP/11.png" alt="figure11"><br>        我们发现，即使添加额外的噪声，所有的加权策略都具有相似的性能，</p>
 <p> uncertainty 和 compatibility of normals  性能稍好</p>
 <ol start="2">
-<li>对于场景 incised plane scene<br><img src="/2019/06/01/registration/2.FastICP/FastICP/12.png" alt="figure12"></li>
+<li>对于场景 incised plane scene<br><img src="/2019/06/01/registration/2.FastICP/12.png" alt="figure12"></li>
 </ol>
 <p>结果是与wave相似的，尽管在性能上有较大的差异。然而，我们在解释这个结果时必须谨慎，因为基于uncertainty 的权重会给模型中法线指向距离扫描器以外的点分配更高的权重。因此，对于这一场景，uncertainty 权重给切口内的点赋予了更高的权重，提高了收敛速度。</p>
 <h4 id="结论："><a href="#结论：" class="headerlink" title="结论："></a>结论：</h4><p><strong>我们的结论是，加权对收敛速度的影响一般较小，且高度依赖于数据，加权函数的选择应基于其他因素，如最终结果的准确性;</strong></p>
@@ -361,9 +361,9 @@
 <li><p>去除曲面边界的点对，如下图，曲面边界点的点对是不合理的，在两个点集做部分匹配的时候。</p>
 </li>
 </ul>
-<p><img src="/2019/06/01/registration/2.FastICP/FastICP/9.JPG" alt></p>
+<p><img src="/2019/06/01/registration/2.FastICP/9.JPG" alt></p>
 <p>这几种方法的收敛速度差别不大，而且收敛效果也差别不大。<strong>但是去除outlier点对这个步骤 对收敛结果 的作用还是明显的。</strong></p>
-<p><img src="/2019/06/01/registration/2.FastICP/FastICP/10.JPG" alt></p>
+<p><img src="/2019/06/01/registration/2.FastICP/10.JPG" alt></p>
 <h3 id="ef-误差度量和最小化：基于以上点对，给出每个点对的误差计算方法"><a href="#ef-误差度量和最小化：基于以上点对，给出每个点对的误差计算方法" class="headerlink" title="ef. 误差度量和最小化：基于以上点对，给出每个点对的误差计算方法"></a>ef. 误差度量和最小化：基于以上点对，给出每个点对的误差计算方法</h3><h4 id="误差度量的策略："><a href="#误差度量的策略：" class="headerlink" title="误差度量的策略："></a>误差度量的策略：</h4><ol>
 <li><p>对应点之间距离的平方之和</p>
 <p>最小化：</p>
@@ -390,7 +390,7 @@
 <li><p><strong>我们将外推量乘以一个阻尼因子，在实现中任意设置为/2。我们发现，虽然这偶尔会降低外推的好处，但它也增加了稳定性，消除了许多超调的问题。</strong></p>
 </li>
 </ol>
-<p>  <img src="/2019/06/01/registration/2.FastICP/FastICP/11.JPG" alt><img src="/2019/06/01/registration/2.FastICP/FastICP/12.JPG" alt></p>
+<p>  <img src="/2019/06/01/registration/2.FastICP/11.JPG" alt><img src="/2019/06/01/registration/2.FastICP/12.JPG" alt></p>
 <p>比较其收敛速率和效果：</p>
 <ol>
 <li><p>在fractal scene中，我们可以看到<strong>点对面误差度量的性能明显优于点对点度量</strong>，即使添加了外推</p>
@@ -970,7 +970,7 @@
         
         <article class="media">
             
-            <a href="/2019/07/09/registration/6.mvlmicp/" class="media-left">
+            <a href="/2019/07/09/registration/mvlmicp/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Multiview Levenberg-Marquardt ICP">
                 </p>
@@ -979,28 +979,9 @@
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-09T14:16:32.000Z">2019-07-09</time></div>
-                    <a href="/2019/07/09/registration/6.mvlmicp/" class="has-link-black-ter is-size-6">Multiview Levenberg-Marquardt ICP</a>
+                    <a href="/2019/07/09/registration/mvlmicp/" class="has-link-black-ter is-size-6">Multiview Levenberg-Marquardt ICP</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/6-mv-LM-ICP/">6.mv-LM-ICP</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/07/09/registration/5.GOicp/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="GOICP">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-09T14:06:32.000Z">2019-07-09</time></div>
-                    <a href="/2019/07/09/registration/5.GOicp/" class="has-link-black-ter is-size-6">GOICP</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/5-GOICP/">5.GOICP</a>
                     </p>
                 </div>
             </div>
@@ -1020,6 +1001,25 @@
                     <a href="/2019/07/09/registration/3.Efficient-Sparseicp/" class="has-link-black-ter is-size-6">Efficient Sparse ICP</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/3-Efficient-Sparse-ICP/">3.Efficient Sparse ICP</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/07/09/registration/5.GOicp/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="GOICP">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-09T14:06:32.000Z">2019-07-09</time></div>
+                    <a href="/2019/07/09/registration/5.GOicp/" class="has-link-black-ter is-size-6">GOICP</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/5-GOICP/">5.GOICP</a>
                     </p>
                 </div>
             </div>
@@ -1335,7 +1335,7 @@
         
         <article class="media">
             
-            <a href="/2019/07/09/registration/6.mvlmicp/" class="media-left">
+            <a href="/2019/07/09/registration/mvlmicp/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Multiview Levenberg-Marquardt ICP">
                 </p>
@@ -1344,28 +1344,9 @@
             <div class="media-content">
                 <div class="content">
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-09T14:16:32.000Z">2019-07-09</time></div>
-                    <a href="/2019/07/09/registration/6.mvlmicp/" class="has-link-black-ter is-size-6">Multiview Levenberg-Marquardt ICP</a>
+                    <a href="/2019/07/09/registration/mvlmicp/" class="has-link-black-ter is-size-6">Multiview Levenberg-Marquardt ICP</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/6-mv-LM-ICP/">6.mv-LM-ICP</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/07/09/registration/5.GOicp/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="GOICP">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-09T14:06:32.000Z">2019-07-09</time></div>
-                    <a href="/2019/07/09/registration/5.GOicp/" class="has-link-black-ter is-size-6">GOICP</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/5-GOICP/">5.GOICP</a>
                     </p>
                 </div>
             </div>
@@ -1385,6 +1366,25 @@
                     <a href="/2019/07/09/registration/3.Efficient-Sparseicp/" class="has-link-black-ter is-size-6">Efficient Sparse ICP</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/3-Efficient-Sparse-ICP/">3.Efficient Sparse ICP</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/07/09/registration/5.GOicp/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="GOICP">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-09T14:06:32.000Z">2019-07-09</time></div>
+                    <a href="/2019/07/09/registration/5.GOicp/" class="has-link-black-ter is-size-6">GOICP</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/5-GOICP/">5.GOICP</a>
                     </p>
                 </div>
             </div>
