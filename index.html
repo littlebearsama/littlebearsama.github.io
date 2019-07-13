@@ -154,6 +154,215 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-07-13T07:13:44.115Z">2019-07-13</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    10 分钟 读完 (大约 1498 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/07/13/pcl_tutorial/readme/"></a>
+            
+        </h1>
+        <div class="content">
+            <p><img src="https://mmbiz.qpic.cn/mmbiz_png/1CVbd614QrGVI6H82VicDkMLxakr2MQVK17bVjJaEibic8BfOsgKlIYFfdJS8LaYEDTraia7ghD0ptaibcakUMJicxPw/640?wx_fmt=png" alt="img"></p>
+<p>图：使用手持式扫描仪收集的数据，利用采样点与其FPFH特征描述的SAC-IA配准（粗配准）</p>
+<p><strong>介绍：</strong></p>
+<p>在三维物体识别（3D object recognition），三维形状检测（3D shape retrieval），三维曲面配准（3D surface registration）的过程中局部特征作可以作为两个三维物体（曲面）共同部分的桥梁，将两个不完全相同的点云（曲面）通过共同部分连接在一起。</p>
+<p>基于<strong>局部特征</strong>的算法通常涉及两个主要阶段:</p>
+<p><strong>关键点检测</strong>和<strong>特征描述</strong>。
+1.在关键点检测阶段，首先识别具有丰富信息内容的关键点及其相关尺度的确定</p>
+<p>2.而在特征描述阶段，提取关键点（一般是关键点，有的情况采样点作为关键点也适用）周围的几何信息存储在高维向量，即为<strong><em>feature descriptor</em></strong>。</p>
+<p>之后的工作：像曲面配准的一种方法就是利用descriptors进行粗配准，通过特征描述符来计算对应源曲面的关键点与感兴趣曲面关键点之间的对应关系来获得位姿变换<strong>T</strong>。</p>
+<p><strong>下面介绍特征描述符</strong></p>
+<p>​    我们构造了大量的三维局部特征描述符来编码局部曲面的信息。在这些方法中，许多算法使用直方图来表示局部表面的不同特征。具体地说，它们通过将几何或拓扑测量值(如点编号)按照特定领域(如点坐标、几何属性)累积成直方图来描述局部表面。我们将这些算法分为基于描述符的“空间分布直方图”和“几何属性直方图”。</p>
+<p>1.Spatial Distribution Histogram based Descriptors</p>
+<ol>
+<li><p>Spin Image (SI)</p>
+</li>
+<li><p>3D Shape Context (3DSC)</p>
+</li>
+<li><p>Unique Shape Context (USC)</p>
+</li>
+<li><p>Rotational Projection Statistics (RoPS)</p>
+</li>
+<li><p>Tri-Spin-Image (TriSI)</p>
+</li>
+</ol>
+<p>2.Geometric Attribute Histogram based Descriptors</p>
+<ol>
+<li>Local Surface Patch (LSP)</li>
+<li>THRIFT</li>
+<li>Point Feature Histogram (PFH)</li>
+<li>Fast Point Feature Histogram (FPFH) </li>
+<li>Signature of Histogram of Orientations (SHOT)</li>
+</ol>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/1CVbd614QrGVI6H82VicDkMLxakr2MQVKReic4NHfiaxtXEFpEtlkoTn2MD8rztVWXds44aPmzpic81rp2V4hPMQ6Q/640?wx_fmt=png" alt="img"></p>
+<p><strong>A.*</strong>“<strong>A Comprehensive Performance Evaluation of 3D Local Feature*</strong></p>
+<p><strong>Descriptors</strong> <em>”</em></p>
+<p>论文中比较了10种常用的局部特征描述符在三维物体中的应用。</p>
+<p>对这几种局部特征描述子进行了全面的性能评估。</p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_png/1CVbd614QrGVI6H82VicDkMLxakr2MQVKIRVcaQV0RrxSr37swbxSjP4W88dxUsc3TAUw54CricrNqUTich7W77oQ/640?wx_fmt=png" alt="img"></p>
+<p>文章中</p>
+<ol>
+<li>使用了Precision-recall curve来评估descriptors的描述性（Descriptiveness）。</li>
+<li>使用添加三种不同noise，gaussian noise，shot noise和decimation；使用多种的网格分辨率；对Keypoint Localization Error；添加Occlusion and Clutter等来检测descriptors的鲁棒性（Rubustness）。</li>
+<li>通过多源收集的数据来测试descriptors的Scalability。</li>
+<li>Combination with 3D Keypoint Detectors。</li>
+<li>通过计算每个场景中生成1000个descriptors（每个descriptors考虑102～105个点）所用的时间。评估Efficiency。</li>
+</ol>
+<p>由于组合实在太多了，如果想改进描述子，了解各个因素对descriptors的性能影响的话，查看详细结果请看论文。如果只是用的话，可以只了解下列结果就可以了。</p>
+<p>论文总结：</p>
+<ul>
+<li>对于对时间条件苛刻且点的数据量少的应用程序(例如实时系统)，<strong>FPFH</strong>是最佳选择。这是因为<strong>FPFH</strong>描述符具有合理的描述性、计算效率(对于特性生成和匹配)和轻量级(对于特性存储)。它在特征匹配精度和计算效率之间提供了良好的平衡。</li>
+<li>对于对时间条件苛刻且点的数据量大多的应用程序，<strong>SHOT</strong>在描述性和计算效率方面都有很好的表现。</li>
+<li>对于存储空间苛刻的应用程序（例如嵌入式设备），<strong>FPFH</strong>是最好的选择。这是因为它对特征存储的内存要求很低。<strong>Rops</strong>也可以被考虑，因为它以稍高的存储需求为代价实现了更好的描述性能。对于需要高配准准确率(或识别率)的场景，与其他描述符相比，<strong>RoPS</strong>具有更高的鉴别能力，因此强烈推荐使用。</li>
+<li>如果数据集的特征(如噪声水平、分辨率)未知，则<strong>RoPS</strong>是最佳选择，因为它在所有类型的数据集上都能持续产生良好的结果。<strong>RoPS</strong>描述符在不同数据集之间实现了非常稳定的性能。</li>
+<li>结合三维关键点检测方法(相对于<strong>均匀采样</strong>或<strong>随机选取关键点</strong>)，可以显著提高所选描述符的特征匹配性能。当<strong>ISS-BR（关键点）</strong>与这些选择的描述符组合时，始终获得最佳性能。</li>
+<li>由于scalability和descriptiveness综合，<strong>TriSI</strong>是大型数据集上应用程序的最佳选择。</li>
+<li><strong>请注意，尽管这些描述符在高分辨率数据集(使用昂贵的扫描仪收集)中表现良好，但在低成本低分辨率传感器(如Kinect和Dense Stereo)的数据下，**</strong>它们的性能都相当弱<strong><strong>。因此，研究方向应是设计适合低分辨率和高噪声数据的描述符，或设计高分辨率和低成本RGBD相机。</strong></strong>哈哈。。。**</li>
+</ul>
+<p><strong>B.**</strong>PCL中的PFH和FPFH**</p>
+<p><strong>C.直方图可视化</strong></p>
+<p><strong>一个直方图可视化模块（pclhistogramvisualizer）的二维图；</strong></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_jpg/1CVbd614QrGVI6H82VicDkMLxakr2MQVKrHjAFGwCxtoLlF6XKiba79oicUW7hwKpUfNvAsVFDLpS7mrnFJLiaY7Dw/640?wx_fmt=jpeg" alt="img"></p>
+<p><img src="https://mmbiz.qpic.cn/mmbiz_gif/1CVbd614QrE1zI4T5QbxzicccibMUaY0kRHnK0KS6tVseqFEnicSCsMzSf8Dt5x0qp7ZwKkmCBbC6ljfiapNgEogRg/640?wx_fmt=gif" alt="img"></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-07-13T07:02:07.000Z">2019-07-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/PCL/">PCL</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/PCL/descriptors/">descriptors</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    9 分钟 读完 (大约 1403 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/07/13/pcl_tutorial/about-Descriptors/">about-Descriptors</a>
+            
+        </h1>
+        <div class="content">
+            <a id="more"></a>
+
+<p><img src="/2019/07/13/pcl_tutorial/about-Descriptors/1.png" alt="img"></p>
+<p>图：使用手持式扫描仪收集的数据，利用采样点与其FPFH特征描述的SAC-IA配准（粗配准）</p>
+<p><strong>介绍：</strong></p>
+<p>在三维物体识别（3D object recognition），三维形状检测（3D shape retrieval），三维曲面配准（3D surface registration）的过程中局部特征作可以作为两个三维物体（曲面）共同部分的桥梁，将两个不完全相同的点云（曲面）通过共同部分连接在一起。</p>
+<p>基于<strong>局部特征</strong>的算法通常涉及两个主要阶段:</p>
+<p><strong>关键点检测</strong>和<strong>特征描述</strong>。
+1.在关键点检测阶段，首先识别具有丰富信息内容的关键点及其相关尺度的确定</p>
+<p>2.而在特征描述阶段，提取关键点（一般是关键点，有的情况采样点作为关键点也适用）周围的几何信息存储在高维向量，即为<strong><em>feature descriptor</em></strong>。</p>
+<p>之后的工作：像曲面配准的一种方法就是利用descriptors进行粗配准，通过特征描述符来计算对应源曲面的关键点与感兴趣曲面关键点之间的对应关系来获得位姿变换<strong>T</strong>。</p>
+<p><strong>下面介绍特征描述符</strong></p>
+<p>​    我们构造了大量的三维局部特征描述符来编码局部曲面的信息。在这些方法中，许多算法使用直方图来表示局部表面的不同特征。具体地说，它们通过将几何或拓扑测量值(如点编号)按照特定领域(如点坐标、几何属性)累积成直方图来描述局部表面。我们将这些算法分为基于描述符的“空间分布直方图”和“几何属性直方图”。</p>
+<p>1.Spatial Distribution Histogram based Descriptors</p>
+<ol>
+<li><p>Spin Image (SI)</p>
+</li>
+<li><p>3D Shape Context (3DSC)</p>
+</li>
+<li><p>Unique Shape Context (USC)</p>
+</li>
+<li><p>Rotational Projection Statistics (RoPS)</p>
+</li>
+<li><p>Tri-Spin-Image (TriSI)</p>
+</li>
+</ol>
+<p>2.Geometric Attribute Histogram based Descriptors</p>
+<ol>
+<li>Local Surface Patch (LSP)</li>
+<li>THRIFT</li>
+<li>Point Feature Histogram (PFH)</li>
+<li>Fast Point Feature Histogram (FPFH) </li>
+<li>Signature of Histogram of Orientations (SHOT)</li>
+</ol>
+<p><img src="/2019/07/13/pcl_tutorial/about-Descriptors/2.png" alt></p>
+<p><strong>A.*</strong>“<strong>A Comprehensive Performance Evaluation of 3D Local Feature*</strong></p>
+<p><strong>Descriptors</strong> <em>”</em></p>
+<p>论文中比较了10种常用的局部特征描述符在三维物体中的应用。</p>
+<p>对这几种局部特征描述子进行了全面的性能评估。</p>
+<p><img src="/2019/07/13/pcl_tutorial/about-Descriptors/3.png" alt></p>
+<p>文章中</p>
+<ol>
+<li>使用了Precision-recall curve来评估descriptors的描述性（Descriptiveness）。</li>
+<li>使用添加三种不同noise，gaussian noise，shot noise和decimation；使用多种的网格分辨率；对Keypoint Localization Error；添加Occlusion and Clutter等来检测descriptors的鲁棒性（Rubustness）。</li>
+<li>通过多源收集的数据来测试descriptors的Scalability。</li>
+<li>Combination with 3D Keypoint Detectors。</li>
+<li>通过计算每个场景中生成1000个descriptors（每个descriptors考虑102～105个点）所用的时间。评估Efficiency。</li>
+</ol>
+<p>由于组合实在太多了，如果想改进描述子，了解各个因素对descriptors的性能影响的话，查看详细结果请看论文。如果只是用的话，可以只了解下列结果就可以了。</p>
+<p>论文总结：</p>
+<ul>
+<li>对于对时间条件苛刻且点的数据量少的应用程序(例如实时系统)，<strong>FPFH</strong>是最佳选择。这是因为<strong>FPFH</strong>描述符具有合理的描述性、计算效率(对于特性生成和匹配)和轻量级(对于特性存储)。它在特征匹配精度和计算效率之间提供了良好的平衡。</li>
+<li>对于对时间条件苛刻且点的数据量大多的应用程序，<strong>SHOT</strong>在描述性和计算效率方面都有很好的表现。</li>
+<li>对于存储空间苛刻的应用程序（例如嵌入式设备），<strong>FPFH</strong>是最好的选择。这是因为它对特征存储的内存要求很低。<strong>Rops</strong>也可以被考虑，因为它以稍高的存储需求为代价实现了更好的描述性能。对于需要高配准准确率(或识别率)的场景，与其他描述符相比，<strong>RoPS</strong>具有更高的鉴别能力，因此强烈推荐使用。</li>
+<li>如果数据集的特征(如噪声水平、分辨率)未知，则<strong>RoPS</strong>是最佳选择，因为它在所有类型的数据集上都能持续产生良好的结果。<strong>RoPS</strong>描述符在不同数据集之间实现了非常稳定的性能。</li>
+<li>结合三维关键点检测方法(相对于<strong>均匀采样</strong>或<strong>随机选取关键点</strong>)，可以显著提高所选描述符的特征匹配性能。当<strong>ISS-BR（关键点）</strong>与这些选择的描述符组合时，始终获得最佳性能。</li>
+<li>由于scalability和descriptiveness综合，<strong>TriSI</strong>是大型数据集上应用程序的最佳选择。</li>
+<li><strong>请注意，尽管这些描述符在高分辨率数据集(使用昂贵的扫描仪收集)中表现良好，但在低成本低分辨率传感器(如Kinect和Dense Stereo)的数据下，**</strong>它们的性能都相当弱<strong><strong>。因此，研究方向应是设计适合低分辨率和高噪声数据的描述符，或设计高分辨率和低成本RGBD相机。</strong></strong>哈哈。。。**</li>
+</ul>
+<p><strong>B.**</strong>PCL中的PFH和FPFH**</p>
+<p><strong>C.直方图可视化</strong></p>
+<p><strong>一个直方图可视化模块（pclhistogramvisualizer）的二维图；</strong></p>
+<p><img src="/2019/07/13/pcl_tutorial/about-Descriptors/4.png" alt></p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2019-07-10T14:06:32.000Z">2019-07-10</time>
                 
                 <div class="level-item">
@@ -261,6 +470,58 @@
                 <time class="level-item has-text-grey" datetime="2019-07-09T14:06:32.000Z">2019-07-09</time>
                 
                 <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Registration/">Registration</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Registration/5-GOICP/">5.GOICP</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    几秒 读完 (大约 35 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2019/07/09/registration/5.GOicp/">GOICP</a>
+            
+        </h1>
+        <div class="content">
+            <p>全局优化ICP</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2019/07/09/registration/5.GOicp/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-07-09T14:06:32.000Z">2019-07-09</time>
+                
+                <div class="level-item">
                 <a class="has-link-grey -link" href="/categories/Registration/">Registration</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Registration/3-Efficient-Sparse-ICP/">3.Efficient Sparse ICP</a>
                 </div>
                 
@@ -290,58 +551,6 @@
             <div class="level-start">
                 <div class="level-item">
                 <a class="button is-size-7 is-light" href="/2019/07/09/registration/3.Efficient-Sparseicp/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-07-09T14:06:32.000Z">2019-07-09</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/Registration/">Registration</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Registration/5-GOICP/">5.GOICP</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    几秒 读完 (大约 35 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/07/09/registration/5.GOicp/">GOICP</a>
-            
-        </h1>
-        <div class="content">
-            <p>全局优化ICP</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/07/09/registration/5.GOicp/#more">阅读更多</a>
                 </div>
             </div>
         </div>
@@ -567,113 +776,6 @@
 
 
 
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-06-30T07:42:06.000Z">2019-06-30</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/PCL/">PCL</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/PCL/tutorial/">tutorial</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    10 分钟 读完 (大约 1437 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/06/30/pcl_tutorial/pcl1.8samples/">pcl samples</a>
-            
-        </h1>
-        <div class="content">
-            <p>目的：本文简要介绍pcl源码自带例程里的项目的主要功能。</p>
-<p>编译PCL源码之后，有一些PCL.sln里面包含所有自带的apps、samples和tools，下面来一一介绍，本文使用的是pcl1.8.1版本的pcl源码。</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/06/30/pcl_tutorial/pcl1.8samples/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-06-28T11:34:14.000Z">2019-06-28</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/编程/">编程</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/编程/learn-CUDA/">learn CUDA</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    13 分钟 读完 (大约 1889 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/06/28/cuda/CUDAcodeOptimazation/">CUDA Code Optimization</a>
-            
-        </h1>
-        <div class="content">
-            <p>张也冬视频笔记</p>
-<p>内存上的优化</p>
-<p>计算上的优化</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/06/28/cuda/CUDAcodeOptimazation/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
 
     
 <div class="card card-transparent">
@@ -740,7 +842,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        47
+                        48
                     </p>
                 </div>
             </div>
@@ -1115,6 +1217,44 @@
         
         <article class="media">
             
+            <a href="/2019/07/13/pcl_tutorial/readme/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt>
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-13T07:13:44.115Z">2019-07-13</time></div>
+                    <a href="/2019/07/13/pcl_tutorial/readme/" class="has-link-black-ter is-size-6"></a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/07/13/pcl_tutorial/about-Descriptors/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="about-Descriptors">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-13T07:02:07.000Z">2019-07-13</time></div>
+                    <a href="/2019/07/13/pcl_tutorial/about-Descriptors/" class="has-link-black-ter is-size-6">about-Descriptors</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/PCL/">PCL</a> / <a class="has-link-grey -link" href="/categories/PCL/descriptors/">descriptors</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/07/10/registration/3.Sparseicp/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Sparse ICP">
@@ -1153,25 +1293,6 @@
         
         <article class="media">
             
-            <a href="/2019/07/09/registration/3.Efficient-Sparseicp/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Efficient Sparse ICP">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-09T14:06:32.000Z">2019-07-09</time></div>
-                    <a href="/2019/07/09/registration/3.Efficient-Sparseicp/" class="has-link-black-ter is-size-6">Efficient Sparse ICP</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/3-Efficient-Sparse-ICP/">3.Efficient Sparse ICP</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
             <a href="/2019/07/09/registration/5.GOicp/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="GOICP">
@@ -1184,25 +1305,6 @@
                     <a href="/2019/07/09/registration/5.GOicp/" class="has-link-black-ter is-size-6">GOICP</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/5-GOICP/">5.GOICP</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/07/01/SFM/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="SFM">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-01T13:55:49.000Z">2019-07-01</time></div>
-                    <a href="/2019/07/01/SFM/" class="has-link-black-ter is-size-6">SFM</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/CV-Source/">CV-Source</a> / <a class="has-link-grey -link" href="/categories/CV-Source/SFM/">SFM</a>
                     </p>
                 </div>
             </div>
@@ -1226,7 +1328,7 @@
                     <span class="level-item">七月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">6</span>
+                    <span class="level-item tag">8</span>
                 </span>
             </a>
         </li>
@@ -1248,7 +1350,7 @@
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">29</span>
+                    <span class="level-item tag">28</span>
                 </span>
             </a>
         </li>
@@ -1480,6 +1582,44 @@
         
         <article class="media">
             
+            <a href="/2019/07/13/pcl_tutorial/readme/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt>
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-13T07:13:44.115Z">2019-07-13</time></div>
+                    <a href="/2019/07/13/pcl_tutorial/readme/" class="has-link-black-ter is-size-6"></a>
+                    <p class="is-size-7 is-uppercase">
+                        
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/07/13/pcl_tutorial/about-Descriptors/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="about-Descriptors">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-13T07:02:07.000Z">2019-07-13</time></div>
+                    <a href="/2019/07/13/pcl_tutorial/about-Descriptors/" class="has-link-black-ter is-size-6">about-Descriptors</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/PCL/">PCL</a> / <a class="has-link-grey -link" href="/categories/PCL/descriptors/">descriptors</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2019/07/10/registration/3.Sparseicp/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="Sparse ICP">
@@ -1518,25 +1658,6 @@
         
         <article class="media">
             
-            <a href="/2019/07/09/registration/3.Efficient-Sparseicp/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Efficient Sparse ICP">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-09T14:06:32.000Z">2019-07-09</time></div>
-                    <a href="/2019/07/09/registration/3.Efficient-Sparseicp/" class="has-link-black-ter is-size-6">Efficient Sparse ICP</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/3-Efficient-Sparse-ICP/">3.Efficient Sparse ICP</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
             <a href="/2019/07/09/registration/5.GOicp/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="GOICP">
@@ -1549,25 +1670,6 @@
                     <a href="/2019/07/09/registration/5.GOicp/" class="has-link-black-ter is-size-6">GOICP</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/5-GOICP/">5.GOICP</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2019/07/01/SFM/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="SFM">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-07-01T13:55:49.000Z">2019-07-01</time></div>
-                    <a href="/2019/07/01/SFM/" class="has-link-black-ter is-size-6">SFM</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/CV-Source/">CV-Source</a> / <a class="has-link-grey -link" href="/categories/CV-Source/SFM/">SFM</a>
                     </p>
                 </div>
             </div>
@@ -1591,7 +1693,7 @@
                     <span class="level-item">七月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">6</span>
+                    <span class="level-item tag">8</span>
                 </span>
             </a>
         </li>
@@ -1613,7 +1715,7 @@
                     <span class="level-item">五月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">29</span>
+                    <span class="level-item tag">28</span>
                 </span>
             </a>
         </li>
