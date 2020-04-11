@@ -1,0 +1,1980 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>cudanote2 - LittleBear！！！</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="第四章 CUDA C 并行编程、第五章线程协作 CUDA C并行编程、线程协作、GPU逻辑结构、配置线程、共享内存与同步、二维线程块实现波纹、共享内存实现点积 GitHub 建议下载下来用Typora软件阅读markdown文件">
+<meta name="keywords" content="CUDA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="cudanote2">
+<meta property="og:url" content="https://littlebearsama.github.io/2019/05/24/cuda/cudanote2/index.html">
+<meta property="og:site_name" content="LittleBear！！！">
+<meta property="og:description" content="第四章 CUDA C 并行编程、第五章线程协作 CUDA C并行编程、线程协作、GPU逻辑结构、配置线程、共享内存与同步、二维线程块实现波纹、共享内存实现点积 GitHub 建议下载下来用Typora软件阅读markdown文件">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2019-06-12T15:31:02.116Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="cudanote2">
+<meta name="twitter:description" content="第四章 CUDA C 并行编程、第五章线程协作 CUDA C并行编程、线程协作、GPU逻辑结构、配置线程、共享内存与同步、二维线程块实现波纹、共享内存实现点积 GitHub 建议下载下来用Typora软件阅读markdown文件">
+<meta name="twitter:image" content="https://littlebearsama.github.io/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/pig.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140787042-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-140787042-1');
+</script>
+
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/pig.png" alt="cudanote2" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">Home</a>
+                
+                <a class="navbar-item" href="/archives">文章</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about/">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/littlebearsama">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-24T02:36:15.000Z">2019-05-24</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/编程/">编程</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/编程/CUDA/">CUDA</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    13 分钟 读完 (大约 1983 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                cudanote2
+            
+        </h1>
+        <div class="content">
+            <p><strong>第四章 CUDA C 并行编程、第五章线程协作</strong></p>
+<p>CUDA C并行编程、线程协作、GPU逻辑结构、配置线程、共享内存与同步、二维线程块实现波纹、共享内存实现点积</p>
+<p><a href="https://github.com/littlebearsama/CUDA-notes" target="_blank" rel="noopener">GitHub</a></p>
+<p>建议下载下来用Typora软件阅读markdown文件</p>
+<a id="more"></a>
+
+<p>作者github:littlebearsama <a href="https://github.com/littlebearsama/CUDA-notes/tree/master/1.CUDA_by-example" target="_blank" rel="noopener">原文链接</a></p>
+<p><strong>(建议下载Typora来浏览markdown文件)</strong></p>
+<h1 id="第四章-CUDA-C-并行编程"><a href="#第四章-CUDA-C-并行编程" class="headerlink" title="第四章 CUDA C 并行编程"></a>第四章 CUDA C 并行编程</h1><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> N   10</span></span><br><span class="line"></span><br><span class="line">__<span class="hljs-function">global__ <span class="hljs-keyword">void</span> <span class="hljs-title">add</span><span class="hljs-params">( <span class="hljs-keyword">int</span> *a, <span class="hljs-keyword">int</span> *b, <span class="hljs-keyword">int</span> *c )</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">int</span> tid = blockIdx.x;    <span class="hljs-comment">// this thread handles the data at its thread id</span></span><br><span class="line">    <span class="hljs-keyword">if</span> (tid &lt; N)</span><br><span class="line">        c[tid] = a[tid] + b[tid];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">( <span class="hljs-keyword">void</span> )</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">int</span> a[N], b[N], c[N];</span><br><span class="line">    <span class="hljs-keyword">int</span> *dev_a, *dev_b, *dev_c;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// allocate the memory on the GPU</span></span><br><span class="line">    cudaMalloc( (<span class="hljs-keyword">void</span>**)&amp;dev_a, N * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>) );</span><br><span class="line">    cudaMalloc( (<span class="hljs-keyword">void</span>**)&amp;dev_b, N * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>) );</span><br><span class="line">    cudaMalloc( (<span class="hljs-keyword">void</span>**)&amp;dev_c, N * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>) );</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// fill the arrays 'a' and 'b' on the CPU</span></span><br><span class="line">    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;N; i++) &#123;</span><br><span class="line">        a[i] = -i;</span><br><span class="line">        b[i] = i * i;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// copy the arrays 'a' and 'b' to the GPU</span></span><br><span class="line">    cudaMemcpy( dev_a, a, N * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>),</span><br><span class="line">                              cudaMemcpyHostToDevice );</span><br><span class="line">    cudaMemcpy( dev_b, b, N * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>),</span><br><span class="line">                              cudaMemcpyHostToDevice );</span><br><span class="line"></span><br><span class="line">    add&lt;&lt;&lt;N,<span class="hljs-number">1</span>&gt;&gt;&gt;( dev_a, dev_b, dev_c );</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// copy the array 'c' back from the GPU to the CPU</span></span><br><span class="line">    cudaMemcpy( c, dev_c, N * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>),</span><br><span class="line">                              cudaMemcpyDeviceToHost );</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// display the results</span></span><br><span class="line">    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i=<span class="hljs-number">0</span>; i&lt;N; i++) &#123;</span><br><span class="line">        <span class="hljs-built_in">printf</span>( <span class="hljs-string">"%d + %d = %d\n"</span>, a[i], b[i], c[i] );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// free the memory allocated on the GPU</span></span><br><span class="line">    cudaFree( dev_a );</span><br><span class="line">    cudaFree( dev_b );</span><br><span class="line">    cudaFree( dev_c );</span><br><span class="line">    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>调用cudaMalloc()在<strong>设备上</strong>为三个数组分配内存。</li>
+<li>使用完GPU后调用cudaFree()来释放他们。</li>
+<li>通过cudaMemcpy()进行主机与设备之间复制数据。</li>
+</ul>
+<h1 id="第五章-线程协作"><a href="#第五章-线程协作" class="headerlink" title="第五章 线程协作"></a>第五章 线程协作</h1><h2 id="1-GPU逻辑结构"><a href="#1-GPU逻辑结构" class="headerlink" title="1.GPU逻辑结构"></a>1.GPU逻辑结构</h2><ul>
+<li><p>CUDA的<strong>软件架构</strong>由网格（Grid）、线程块（Block）和线程（Thread）组成，</p>
+<p>相当于把GPU上的计算单元分为若干（2~3）个网格，</p>
+<p>每个网格内包含若干（65535）个线程块，</p>
+<p>每个线程块包含若干（512）个线程，</p>
+<p>三者的关系如下图：</p>
+<p><img src="/2019/05/24/cuda/cudanote2/1.png" alt="img1"></p>
+</li>
+</ul>
+<h2 id="2-线程索引（ID）定位"><a href="#2-线程索引（ID）定位" class="headerlink" title="2.线程索引（ID）定位"></a>2.线程索引（ID）定位</h2><p><strong>作用：</strong></p>
+<p>线程ID用来定位线程，根据线程ID来给各个线程分配数据以及其他操作。</p>
+<p>计算线程ID需要通过本线程的各个内建变量来计算被调用核函数所进入的线程ID.</p>
+<p><strong>内建变量：</strong></p>
+<ol>
+<li><p><strong>threadIdx(.x/.y/.z代表几维索引)</strong>：线程所在block中各个维度上的线程号</p>
+</li>
+<li><p><strong>lockIdx(.x/.y/.z代表几维索引)</strong>：块所在grid中各个维度上的块号</p>
+</li>
+<li><p><strong>blockDim(.x/.y/.z代表各维度上block的大小)</strong>：</p>
+<p>block的大小即block中线程的数量，</p>
+<p>blockDim.x代表块中x轴上的线程数量，</p>
+<p>blockDim.y代表块中y轴上的线程数量，</p>
+<p>blockDim.z代表块中z轴上的线程数量</p>
+</li>
+<li><p><strong>gridDim(.x/.y/.z代表个维度上grid的大小)</strong>：</p>
+<p>grid的大小即grid中block的数量，</p>
+<p>gridDim.x代表grid中x轴上块的数量，</p>
+<p>gridDim.y代表grid中y轴上块的数量，</p>
+<p>gridDim.z代表grid中z轴上块的数量</p>
+<p><strong>定义grid、block大小：</strong><br>dim3 numBlock(m,n)<br>dim3 threadPerBlock(i,j)<br>则blockDim.x=i; blockDim.y=j; gridDim.x=m; gridDim.y=n</p>
+<p><strong>kernel调用：</strong><br>kernel&lt;&lt;&lt;numBlock,threadPerBlock&gt;&gt;&gt;(a,b)<br>这是调用kernel时的参数，尖括号&lt;&lt;&lt;&gt;&gt;&gt;中第一个参数代表启动的线程块的数量，第二个参数代表每个线程块中线程的数量。</p>
+<p><strong>总的线程号：</strong><br>设线程号为tid,以下讨论几种调用情况下的tid的值，这里只讨论一维／二维的情况</p>
+<p><strong>一维：</strong><br>１．kernel&lt;&lt;&lt;1,N&gt;&gt;&gt;()<br>block和thread都是一维的，启动一个block，里面有N个thread，１维的。<strong>tid=threadIdx.x</strong></p>
+<p>２．kernel&lt;&lt;&lt;N,1&gt;&gt;&gt;()<br>启动N个一维的block，每个block里面１个thread。<strong>tid=blockIdx.x</strong></p>
+<p>３．kernel&lt;&lt;&lt;M,N&gt;&gt;&gt;()<br>启动Ｍ个一维的block，每个block里面N个一维的thread。<strong>tid=threadIdx.x+blockIdx.x * blockDim.x</strong></p>
+</li>
+</ol>
+<h3 id="一般如何配置线程？"><a href="#一般如何配置线程？" class="headerlink" title="一般如何配置线程？"></a>一般如何配置线程？</h3><ol>
+<li><p>kernel&lt;&lt;&lt;M,N&gt;&gt;&gt;() M，N为1维度</p>
+<p>输入数据numbers，设定每个线程块有N=128或256或512个线程，一般设为128。</p>
+<p>计算应该设置的线程块M=（numbers+N-1）/N，向上取整；线程块是数量不能超过65535，这是一种硬件限制，如果启动的线程块数量超过了这一限值，那么程序将运行失败。</p>
+<p><strong>二维：</strong><br>４．dim grid(m,n)<br>kernel&lt;&lt;&lt;grid,1&gt;&gt;&gt;()<br>启动一个二维的m<em>n个block，每个block里面一个thread。*</em>tid=blockIdx.x+blockIdx.y * gridDimx.x**</p>
+<p>５．dim grid(m,n)<br>kernel&lt;&lt;&lt;grid,N&gt;&gt;&gt;()<br>启动一个二维的m<em>n大小的block，每个block里面Ｎ个thread。*</em>tid=**</p>
+<p>６．dim block(m,n)<br>kernel&lt;&lt;&lt;1,block&gt;&gt;&gt;()<br><strong>tid=</strong></p>
+<p>７．dim block(m,n)<br>kernel&lt;&lt;&lt;N,block&gt;&gt;&gt;()<br><strong>tid=</strong></p>
+<p>８．dim　grid(m,n)<br>dim block(i,j)<br>kernel&lt;&lt;&lt;grid,block&gt;&gt;&gt;()<br><strong>tid=</strong></p>
+</li>
+</ol>
+<h3 id="tid-lt-N"><a href="#tid-lt-N" class="headerlink" title="tid&lt;N"></a>tid&lt;N</h3><p>公式M=（numbers+N-1）/N保证了启动了足够多的线程,当输入数据numbers不是线程块里面线程数N的整数倍时,将启动过多线程。</p>
+<p>为了防止启动过多线程：<strong>在核函数中，在访问输入数组和输出数组之前，必须检查线程的偏移（索引）tid是否位于0到N之间</strong></p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">if</span>(tid&lt;N)</span><br><span class="line">	c[tid]=a[tid]+b[tid];</span><br></pre></td></tr></table></figure>
+
+<p><strong>因此，当索引越过数组边界时</strong>，例如当启动并行线程数量不是线程块中线程的数目N（128）就会出现这种情况，那么核函数将自动停止执行计算。<strong>更重要的是，核函数不会对越过数组边界的内存进行读取或写入。</strong></p>
+<ul>
+<li>简单来说就是启动了充足的线程，而有的线程不用工作，为了防止核函数不会出现越界读取等错误，我们使用了条件判断if（tid&lt;N）。</li>
+</ul>
+<h3 id="当数据大于运行线程时"><a href="#当数据大于运行线程时" class="headerlink" title="当数据大于运行线程时"></a>当数据大于运行线程时</h3><p>因为数据数目大于线程数目，所以正在运行的所有线程都可能会再被执行，直到所有数据处理完毕。所以<code>while(tid&lt;N)</code>不仅仅用于判断线程ID tid，是否执行线程。也用于循环。</p>
+<p>添加语句<code>tid+=blockDim.x*gridDim.x;</code>增加的值等于<strong>每个线程块中的线程数量乘以线程网格中线程块的数量</strong>，在上面的线程分配(一维的线程格，一维的线程块)中为<code>blockDim.x*gridDim.x</code></p>
+<p>故核函数被改写为</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">__<span class="hljs-function">global__ <span class="hljs-keyword">void</span> <span class="hljs-title">add</span><span class="hljs-params">( <span class="hljs-keyword">int</span> *a, <span class="hljs-keyword">int</span> *b, <span class="hljs-keyword">int</span> *c )</span> </span>&#123;</span><br><span class="line">    <span class="hljs-keyword">int</span> tid = threadIdx.x+blockIdx.x*blockDim.x;    <span class="hljs-comment">// this thread handles the data at its thread id</span></span><br><span class="line">    <span class="hljs-keyword">while</span> (tid &lt; N)</span><br><span class="line">        c[tid] = a[tid] + b[tid];</span><br><span class="line">    	tid+=blockDim.x*gridDim.x;<span class="hljs-comment">//新增的</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-二维的线程格，二维的线程块（实现波纹效果）"><a href="#3-二维的线程格，二维的线程块（实现波纹效果）" class="headerlink" title="3.二维的线程格，二维的线程块（实现波纹效果）"></a>3.二维的线程格，二维的线程块（实现波纹效果）</h2><p><img src="/2019/05/24/cuda/cudanote2/2.png" alt></p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">__<span class="hljs-function">global__ <span class="hljs-keyword">void</span> <span class="hljs-title">kernel</span><span class="hljs-params">( <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> *ptr, <span class="hljs-keyword">int</span> ticks )</span> </span>&#123;</span><br><span class="line">    <span class="hljs-comment">// map from threadIdx/BlockIdx to pixel position</span></span><br><span class="line">    <span class="hljs-keyword">int</span> x = threadIdx.x + blockIdx.x * blockDim.x;</span><br><span class="line">    <span class="hljs-keyword">int</span> y = threadIdx.y + blockIdx.y * blockDim.y;</span><br><span class="line">    <span class="hljs-keyword">int</span> offset = x + y * blockDim.x * gridDim.x;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-comment">// now calculate the value at that position</span></span><br><span class="line">    <span class="hljs-keyword">float</span> fx = x - DIM/<span class="hljs-number">2</span>;</span><br><span class="line">    <span class="hljs-keyword">float</span> fy = y - DIM/<span class="hljs-number">2</span>;</span><br><span class="line">    <span class="hljs-keyword">float</span> d = sqrtf( fx * fx + fy * fy );</span><br><span class="line">    <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> grey = (<span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span>)(<span class="hljs-number">128.0f</span> + <span class="hljs-number">127.0f</span> *</span><br><span class="line">                                         <span class="hljs-built_in">cos</span>(d/<span class="hljs-number">10.0f</span> - ticks/<span class="hljs-number">7.0f</span>) /</span><br><span class="line">                                         (d/<span class="hljs-number">10.0f</span> + <span class="hljs-number">1.0f</span>));    </span><br><span class="line">    ptr[offset*<span class="hljs-number">4</span> + <span class="hljs-number">0</span>] = grey;</span><br><span class="line">    ptr[offset*<span class="hljs-number">4</span> + <span class="hljs-number">1</span>] = grey;</span><br><span class="line">    ptr[offset*<span class="hljs-number">4</span> + <span class="hljs-number">2</span>] = grey;</span><br><span class="line">    ptr[offset*<span class="hljs-number">4</span> + <span class="hljs-number">3</span>] = <span class="hljs-number">255</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="hljs-function">dim3    <span class="hljs-title">blocks</span><span class="hljs-params">(DIM/<span class="hljs-number">16</span>,DIM/<span class="hljs-number">16</span>)</span></span>;</span><br><span class="line"><span class="hljs-function">dim3    <span class="hljs-title">threads</span><span class="hljs-params">(<span class="hljs-number">16</span>,<span class="hljs-number">16</span>)</span></span>;</span><br><span class="line">kernel&lt;&lt;&lt;blocks,threads&gt;&gt;&gt;( data.dev_bitmap, ticks );</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>blocks和threads是两个二维变量</li>
+<li>由于生成的是一幅图像，因此使用二维索引，并且每个线程都有唯一的索引<code>(x,y)</code>，这样可以很容易与输出图像中的像素一一对应起来。就是输出图像的像素索引<code>(x,y)</code></li>
+<li>offset是数据的线程索引（被称为全局偏置）,该线程对应图像像素索引(x,y)也对应数据索引offset</li>
+<li><code>(fx,fy)</code>=像素点<code>(x,y)</code>相对于图像中心点（DIM/2，DIM/2）位置，即把图像原点移到图像中心</li>
+<li>加入线程块是一个16X16的线程数组，图像有DIMXDIM个像素，那么就需要启动DIM/16 x DIM/16个线程块，从而使每一个像素对应一个线程。</li>
+<li>GPU优势在于处理图像时比如1920X1080需要创建200万个线程，CPU无法完成这样的工作。</li>
+</ul>
+<h2 id="4-共享内存和同步"><a href="#4-共享内存和同步" class="headerlink" title="4.共享内存和同步"></a>4.共享内存和同步</h2><ul>
+<li>共享内存术语Shared Memory，是位于SM（流多处理器）中的特殊存储器。还记得SM吗，就是流多处理器，大核是也。</li>
+<li>将关键字<strong><code>__share__</code></strong>添加到变量声明中，这将是这个变量<strong>驻留</strong>在<strong>共享内存</strong>中。</li>
+<li>block与block的线程无法通信</li>
+<li>共享内存缓存区驻留在物理GPU上，而不是驻留在GPU以外的系统内存中。因此，<strong>在访问共享内存时的延迟要远远低于访问普通缓存区的延迟</strong>，使得共享内存像<strong>每个线程块的高速缓存</strong>或中间结果暂存器那样高效。</li>
+<li><strong>想要在线程之间通信，那么还需要一种机制来实现线程之间的同步</strong>，例如，如果<strong>线程A</strong>将一个值写入到共享内存，并且我们希望<strong>线程B</strong>对这个值进行一些操作，那么只有当线程A写入操作完成后，线程B才能开始执行它的操作。<strong>如果没有同步，那么将发生竞态条件</strong>。</li>
+</ul>
+<p>这里的例子是点积的例子，就是：<br><img src="/2019/05/24/cuda/cudanote2/0.png" alt></p>
+<p>代码：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">__<span class="hljs-function">global__ <span class="hljs-keyword">void</span> <span class="hljs-title">dot</span><span class="hljs-params">(<span class="hljs-keyword">float</span> *a, <span class="hljs-keyword">float</span> *b, <span class="hljs-keyword">float</span> *c)</span> </span>&#123;</span><br><span class="line">    __shared__ <span class="hljs-keyword">float</span> cache[threadsPerBlock];</span><br><span class="line">    <span class="hljs-keyword">int</span> tid = threadIdx.x + blockIdx.x * blockDim.x;<span class="hljs-comment">//全局偏移用来索引数据</span></span><br><span class="line">    <span class="hljs-keyword">int</span> cacheIndex = threadIdx.x;                   <span class="hljs-comment">//共享内存缓存中的偏移就等于线程索引</span></span><br><span class="line">    <span class="hljs-keyword">float</span> temp = <span class="hljs-number">0</span>;</span><br><span class="line">    <span class="hljs-keyword">while</span> (tid &lt; N) &#123;</span><br><span class="line">        temp += a[tid] * b[tid];                    <span class="hljs-comment">//线程被执行的次数是未知的，数据最终被保存成temp并                                         </span></span><br><span class="line">        tid += blockDim.x * gridDim.x;              <span class="hljs-comment">//存入到threadsPerBlock维的cache中</span></span><br><span class="line">    &#125;</span><br><span class="line">    cache[cacheIndex] = temp;</span><br><span class="line">    __syncthreads();</span><br><span class="line">    <span class="hljs-comment">//归约运算</span></span><br><span class="line">    <span class="hljs-keyword">int</span> i = blockDim.x / <span class="hljs-number">2</span>;<span class="hljs-comment">//取threadsPerBlock的一半作为i值</span></span><br><span class="line">    <span class="hljs-keyword">while</span> (i != <span class="hljs-number">0</span>) &#123;</span><br><span class="line">        <span class="hljs-keyword">if</span> (cacheIndex &lt; i)</span><br><span class="line">            cache[cacheIndex] += cache[cacheIndex + i];</span><br><span class="line">        </span><br><span class="line">        __syncthreads();</span><br><span class="line">        i /= <span class="hljs-number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="hljs-comment">//结束while()循环后，每个线程块都得到一个值。这个值位于cache[]的第一个元素中，并且就等于该线程中两两元素乘积的加和。然后，我们将这个值保存到全局内存并结束核函数。</span></span><br><span class="line">    <span class="hljs-keyword">if</span> (cacheIndex == <span class="hljs-number">0</span>)</span><br><span class="line">        c[blockIdx.x] = cache[<span class="hljs-number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><code>__shared__</code> float cache[threadsPerBlock];在共享内存中申请浮点数组，数组大小和线程块中线程数目相同<strong>每个线程块都拥有该共享内存的私有副本。</strong></li>
+<li>共享内存缓存区cache将保存该block内每个线程计算的加和值。</li>
+<li><strong><code>__syncthreads();</code></strong>等待线程块里面的所有线程执行完毕，简称线程同步。确保线程块中的每个线程都执行完<strong><code>__syncthreads();</code></strong>前面的语句后才会执行下一语句。</li>
+<li>用规约运算，我们取threadsPerBlock的一半作为i值，只有索引小于这个值的线程才会执行。只有当线程索引小于i时，才可以把cache[]的两个数据项相加起来。<strong><code>__syncthreads()</code></strong>作用如下图（下图中是等待4个线程中的相加操作完成）。</li>
+</ol>
+<p>​                            <strong>假设cache[]中有8个元素，因此i的值为4。规约运算的其中一个步骤如下图所示</strong></p>
+<p><img src="/2019/05/24/cuda/cudanote2/3.png" alt="加法"></p>
+<ol start="5">
+<li><strong>由于线程块之间无法通信</strong>。只能将每个线程块算出来的值存出来,存到数组c中，最后会返回block数量个c，然后由cpu执行最后的加法。</li>
+</ol>
+<ul>
+<li>当某些线程需要执行一条指令，而其他线程不需要执行时，<strong>这种情况就称为线程发散（Thread Divergence）</strong>。在正常环境中，发散的分支只会使得某些线程处于空闲状态，而其他线程将执行分支中的代码。但是在<strong><code>__syncthreads()</code></strong>情况中，线程发散造成的结果有些糟糕。CUDA架构将确保，除非线程块中的每个线程都执行了<strong><code>__syncthreads()</code></strong>，否则没有任何线程能执行<strong><code>__syncthreads()</code></strong>之后的指令。如果<strong><code>__syncthreads()</code></strong>位于发散分支中，一些线程将永远无法执行<strong><code>__syncthreads()</code></strong>。硬件将一直保持等待。</li>
+<li>下面代码将使处理器挂起，因为GPU在等待某个永远无法发生的事件。</li>
+</ul>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">if</span> (cacheIndex &lt; i)&#123;</span><br><span class="line">    cache[cacheIndex] += cache[cacheIndex + i];</span><br><span class="line">  __syncthreads();</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>例子2（二维线程布置）基于共享内存的位图（略）                            </li>
+</ul>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/CUDA/">CUDA</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ce8d814d9c29712"></script>
+
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="/images/alqrcode.png" alt="支付宝"></div>
+</a>
+
+                
+                
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>微信</span>
+    <div class="qrcode"><img src="/images/wxqrcode.png" alt="微信"></div>
+</a>
+
+                
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/05/24/cuda/cudanote3/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">cudanote3</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/05/24/cuda/cudanote1/">
+                <span class="level-item">cudanote1</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: '8eoAgWMqJvxDePfBogu64i1m-gzGzoHsz',
+        app_key: 'wooEMXdlCj5x9utpB1UhAobQ',
+        placeholder: '( *・ω・)✄╰ひ╯   快来评论鸭！！！ 记得填上昵称～ 邮箱（仅博主可见）～ 还有主页地址～'
+    });
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/touxiang.jpg" alt="xiaoxiong">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        xiaoxiong
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        ROBOT and CV
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>GuangZhou</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        58
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        47
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        32
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/littlebearsama" target="_blank">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/littlebearsama">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://github.com/RobotWithCV" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">RobotWithCV</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">github.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/CV-Source/">
+            <span class="level-start">
+                <span class="level-item">CV-Source</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/CV-Source/0-CV-Source/">
+            <span class="level-start">
+                <span class="level-item">0.CV-Source</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/CV-Source/1-books/">
+            <span class="level-start">
+                <span class="level-item">1.books</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/CV-Source/2-SLAM/">
+            <span class="level-start">
+                <span class="level-item">2.SLAM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/CV-Source/3-SFM/">
+            <span class="level-start">
+                <span class="level-item">3.SFM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/ObjectDetection-and-PoseEstimation/">
+            <span class="level-start">
+                <span class="level-item">ObjectDetection and PoseEstimation</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/ObjectDetection-and-PoseEstimation/0-tutorial/">
+            <span class="level-start">
+                <span class="level-item">0.tutorial</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/ObjectDetection-and-PoseEstimation/1-localDescriptors-Hough/">
+            <span class="level-start">
+                <span class="level-item">1.localDescriptors+Hough</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/ObjectDetection-and-PoseEstimation/2-2010HoughvotePPF/">
+            <span class="level-start">
+                <span class="level-item">2.2010HoughvotePPF</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/ObjectDetection-and-PoseEstimation/3-2016HinterstoisserPPF/">
+            <span class="level-start">
+                <span class="level-item">3.2016HinterstoisserPPF</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/ObjectDetection-and-PoseEstimation/5-2018PPF-MEAM/">
+            <span class="level-start">
+                <span class="level-item">5.2018PPF-MEAM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/PCL/">
+            <span class="level-start">
+                <span class="level-item">PCL</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/PCL/0-tutorial/">
+            <span class="level-start">
+                <span class="level-item">0.tutorial</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/PCL/1-configuration/">
+            <span class="level-start">
+                <span class="level-item">1.configuration</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/PCL/2-pcl-samples/">
+            <span class="level-start">
+                <span class="level-item">2.pcl samples</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/PCL/3-keypoints/">
+            <span class="level-start">
+                <span class="level-item">3.keypoints</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/PCL/4-descriptors/">
+            <span class="level-start">
+                <span class="level-item">4.descriptors</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/PCL/4-normal-estimation/">
+            <span class="level-start">
+                <span class="level-item">4.normal estimation</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/PCL/5-Region-Growing-Segmentation/">
+            <span class="level-start">
+                <span class="level-item">5.Region Growing Segmentation</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Reconstruction/">
+            <span class="level-start">
+                <span class="level-item">Reconstruction</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Reconstruction/1-3D-Reconstruction/">
+            <span class="level-start">
+                <span class="level-item">1.3D Reconstruction</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Reconstruction/2-surface-Reconstruction/">
+            <span class="level-start">
+                <span class="level-item">2.surface Reconstruction</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Reconstruction/3-3D-scene-Reconstruction/">
+            <span class="level-start">
+                <span class="level-item">3.3D scene Reconstruction</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Registration/">
+            <span class="level-start">
+                <span class="level-item">Registration</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Registration/0-SAC-IA/">
+            <span class="level-start">
+                <span class="level-item">0.SAC-IA</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/0-compute-transform/">
+            <span class="level-start">
+                <span class="level-item">0.compute transform</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/1-ICP/">
+            <span class="level-start">
+                <span class="level-item">1.ICP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/2-FastICP/">
+            <span class="level-start">
+                <span class="level-item">2.FastICP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/3-Efficient-Sparse-ICP/">
+            <span class="level-start">
+                <span class="level-item">3.Efficient Sparse ICP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/3-Sparse-ICP/">
+            <span class="level-start">
+                <span class="level-item">3.Sparse ICP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/4-Generalized-ICP/">
+            <span class="level-start">
+                <span class="level-item">4.Generalized-ICP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/5-GOICP/">
+            <span class="level-start">
+                <span class="level-item">5.GOICP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/6-mv-LM-ICP/">
+            <span class="level-start">
+                <span class="level-item">6.mv-LM-ICP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/NDT/">
+            <span class="level-start">
+                <span class="level-item">NDT</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/其他/">
+            <span class="level-start">
+                <span class="level-item">其他</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/其他/好用的工具/">
+            <span class="level-start">
+                <span class="level-item">好用的工具</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/图像/">
+            <span class="level-start">
+                <span class="level-item">图像</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/图像/2Dimage知识/">
+            <span class="level-start">
+                <span class="level-item">2Dimage知识</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/机器学习与深度学习/">
+            <span class="level-start">
+                <span class="level-item">机器学习与深度学习</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/机器学习与深度学习/Deep-Learning-Notes/">
+            <span class="level-start">
+                <span class="level-item">Deep Learning Notes</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/编程/">
+            <span class="level-start">
+                <span class="level-item">编程</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">24</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/编程/C/">
+            <span class="level-start">
+                <span class="level-item">C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/编程/C-FQA/">
+            <span class="level-start">
+                <span class="level-item">C++ FQA</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/编程/CUDA/">
+            <span class="level-start">
+                <span class="level-item">CUDA</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/编程/cuda-FQA/">
+            <span class="level-start">
+                <span class="level-item">cuda FQA</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/编程/learn-CUDA/">
+            <span class="level-start">
+                <span class="level-item">learn CUDA</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/编程/算法与数据结构/">
+            <span class="level-start">
+                <span class="level-item">算法与数据结构</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/3D-Reconstruction/" style="font-size: 10px;">3D Reconstruction</a> <a href="/tags/3D-scene-Reconstruction/" style="font-size: 10px;">3D scene Reconstruction</a> <a href="/tags/C/" style="font-size: 18.75px;">C++</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CV-Source/" style="font-size: 13.75px;">CV-Source</a> <a href="/tags/Deep-Learning/" style="font-size: 11.25px;">Deep Learning</a> <a href="/tags/Despriptors/" style="font-size: 10px;">Despriptors</a> <a href="/tags/Efficient-Sparse-ICP/" style="font-size: 10px;">Efficient Sparse ICP</a> <a href="/tags/FastICP/" style="font-size: 10px;">FastICP</a> <a href="/tags/GOICP/" style="font-size: 10px;">GOICP</a> <a href="/tags/Generalized-ICP/" style="font-size: 11.25px;">Generalized-ICP</a> <a href="/tags/ICP/" style="font-size: 16.25px;">ICP</a> <a href="/tags/LM/" style="font-size: 10px;">LM</a> <a href="/tags/NDT/" style="font-size: 11.25px;">NDT</a> <a href="/tags/ObjectDetection/" style="font-size: 15px;">ObjectDetection</a> <a href="/tags/PCL/" style="font-size: 16.25px;">PCL</a> <a href="/tags/PoseEstimation/" style="font-size: 16.25px;">PoseEstimation</a> <a href="/tags/RANSAC/" style="font-size: 10px;">RANSAC</a> <a href="/tags/Reconstruction/" style="font-size: 12.5px;">Reconstruction</a> <a href="/tags/Registration/" style="font-size: 17.5px;">Registration</a> <a href="/tags/SAC-IA/" style="font-size: 10px;">SAC-IA</a> <a href="/tags/SFM/" style="font-size: 10px;">SFM</a> <a href="/tags/STL/" style="font-size: 10px;">STL</a> <a href="/tags/SVD/" style="font-size: 10px;">SVD</a> <a href="/tags/Sparse-ICP/" style="font-size: 10px;">Sparse ICP</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/keypoints/" style="font-size: 10px;">keypoints</a> <a href="/tags/mv-LM-ICP/" style="font-size: 10px;">mv-LM-ICP</a> <a href="/tags/std/" style="font-size: 10px;">std</a> <a href="/tags/surface-Reconstruction/" style="font-size: 10px;">surface Reconstruction</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/图像/" style="font-size: 10px;">图像</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/04/11/MAD_Learning/DNote1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Deeplearning Note1">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-11T06:16:49.000Z">2020-04-11</time></div>
+                    <a href="/2020/04/11/MAD_Learning/DNote1/" class="has-link-black-ter is-size-6">Deeplearning Note1</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/机器学习与深度学习/">机器学习与深度学习</a> / <a class="has-link-grey -link" href="/categories/机器学习与深度学习/Deep-Learning-Notes/">Deep Learning Notes</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/04/11/Registration/0.SAC-IA/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="SAC-IA">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-11T03:27:52.225Z">2020-04-11</time></div>
+                    <a href="/2020/04/11/Registration/0.SAC-IA/" class="has-link-black-ter is-size-6">SAC-IA</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/0-SAC-IA/">0.SAC-IA</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/12/16/DaNAlgorithm/Generate_Random_NUM/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="生成随机数">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-16T14:05:33.000Z">2019-12-16</time></div>
+                    <a href="/2019/12/16/DaNAlgorithm/Generate_Random_NUM/" class="has-link-black-ter is-size-6">生成随机数</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/算法与数据结构/">算法与数据结构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/08/15/6DPose/PPF/2018PPF-MEAM/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="2018PPF-MEAM">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-15T10:09:49.000Z">2019-08-15</time></div>
+                    <a href="/2019/08/15/6DPose/PPF/2018PPF-MEAM/" class="has-link-black-ter is-size-6">2018PPF-MEAM</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/">ObjectDetection and PoseEstimation</a> / <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/5-2018PPF-MEAM/">5.2018PPF-MEAM</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/08/11/6DPose/localFeaturesHough/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="三维局部特征+hough投票">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-11T08:05:49.000Z">2019-08-11</time></div>
+                    <a href="/2019/08/11/6DPose/localFeaturesHough/" class="has-link-black-ter is-size-6">三维局部特征+hough投票</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/">ObjectDetection and PoseEstimation</a> / <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/1-localDescriptors-Hough/">1.localDescriptors+Hough</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">六月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">27</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/3D-Reconstruction/">
+                        <span class="tag">3D Reconstruction</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/3D-scene-Reconstruction/">
+                        <span class="tag">3D scene Reconstruction</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/C/">
+                        <span class="tag">C++</span>
+                        <span class="tag is-grey">12</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/CUDA/">
+                        <span class="tag">CUDA</span>
+                        <span class="tag is-grey">13</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/CV-Source/">
+                        <span class="tag">CV-Source</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Deep-Learning/">
+                        <span class="tag">Deep Learning</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Despriptors/">
+                        <span class="tag">Despriptors</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Efficient-Sparse-ICP/">
+                        <span class="tag">Efficient Sparse ICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/FastICP/">
+                        <span class="tag">FastICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/GOICP/">
+                        <span class="tag">GOICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Generalized-ICP/">
+                        <span class="tag">Generalized-ICP</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ICP/">
+                        <span class="tag">ICP</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/LM/">
+                        <span class="tag">LM</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/NDT/">
+                        <span class="tag">NDT</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ObjectDetection/">
+                        <span class="tag">ObjectDetection</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/PCL/">
+                        <span class="tag">PCL</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/PoseEstimation/">
+                        <span class="tag">PoseEstimation</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/RANSAC/">
+                        <span class="tag">RANSAC</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Reconstruction/">
+                        <span class="tag">Reconstruction</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Registration/">
+                        <span class="tag">Registration</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SAC-IA/">
+                        <span class="tag">SAC-IA</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SFM/">
+                        <span class="tag">SFM</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/STL/">
+                        <span class="tag">STL</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SVD/">
+                        <span class="tag">SVD</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Sparse-ICP/">
+                        <span class="tag">Sparse ICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/books/">
+                        <span class="tag">books</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/keypoints/">
+                        <span class="tag">keypoints</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/mv-LM-ICP/">
+                        <span class="tag">mv-LM-ICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/std/">
+                        <span class="tag">std</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/surface-Reconstruction/">
+                        <span class="tag">surface Reconstruction</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/tools/">
+                        <span class="tag">tools</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/图像/">
+                        <span class="tag">图像</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/04/11/MAD_Learning/DNote1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Deeplearning Note1">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-11T06:16:49.000Z">2020-04-11</time></div>
+                    <a href="/2020/04/11/MAD_Learning/DNote1/" class="has-link-black-ter is-size-6">Deeplearning Note1</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/机器学习与深度学习/">机器学习与深度学习</a> / <a class="has-link-grey -link" href="/categories/机器学习与深度学习/Deep-Learning-Notes/">Deep Learning Notes</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/04/11/Registration/0.SAC-IA/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="SAC-IA">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-11T03:27:52.225Z">2020-04-11</time></div>
+                    <a href="/2020/04/11/Registration/0.SAC-IA/" class="has-link-black-ter is-size-6">SAC-IA</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/0-SAC-IA/">0.SAC-IA</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/12/16/DaNAlgorithm/Generate_Random_NUM/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="生成随机数">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-16T14:05:33.000Z">2019-12-16</time></div>
+                    <a href="/2019/12/16/DaNAlgorithm/Generate_Random_NUM/" class="has-link-black-ter is-size-6">生成随机数</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/算法与数据结构/">算法与数据结构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/08/15/6DPose/PPF/2018PPF-MEAM/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="2018PPF-MEAM">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-15T10:09:49.000Z">2019-08-15</time></div>
+                    <a href="/2019/08/15/6DPose/PPF/2018PPF-MEAM/" class="has-link-black-ter is-size-6">2018PPF-MEAM</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/">ObjectDetection and PoseEstimation</a> / <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/5-2018PPF-MEAM/">5.2018PPF-MEAM</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/08/11/6DPose/localFeaturesHough/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="三维局部特征+hough投票">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-11T08:05:49.000Z">2019-08-11</time></div>
+                    <a href="/2019/08/11/6DPose/localFeaturesHough/" class="has-link-black-ter is-size-6">三维局部特征+hough投票</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/">ObjectDetection and PoseEstimation</a> / <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/1-localDescriptors-Hough/">1.localDescriptors+Hough</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">六月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">27</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/3D-Reconstruction/">
+                        <span class="tag">3D Reconstruction</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/3D-scene-Reconstruction/">
+                        <span class="tag">3D scene Reconstruction</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/C/">
+                        <span class="tag">C++</span>
+                        <span class="tag is-grey">12</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/CUDA/">
+                        <span class="tag">CUDA</span>
+                        <span class="tag is-grey">13</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/CV-Source/">
+                        <span class="tag">CV-Source</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Deep-Learning/">
+                        <span class="tag">Deep Learning</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Despriptors/">
+                        <span class="tag">Despriptors</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Efficient-Sparse-ICP/">
+                        <span class="tag">Efficient Sparse ICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/FastICP/">
+                        <span class="tag">FastICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/GOICP/">
+                        <span class="tag">GOICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Generalized-ICP/">
+                        <span class="tag">Generalized-ICP</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ICP/">
+                        <span class="tag">ICP</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/LM/">
+                        <span class="tag">LM</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/NDT/">
+                        <span class="tag">NDT</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ObjectDetection/">
+                        <span class="tag">ObjectDetection</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/PCL/">
+                        <span class="tag">PCL</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/PoseEstimation/">
+                        <span class="tag">PoseEstimation</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/RANSAC/">
+                        <span class="tag">RANSAC</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Reconstruction/">
+                        <span class="tag">Reconstruction</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Registration/">
+                        <span class="tag">Registration</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SAC-IA/">
+                        <span class="tag">SAC-IA</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SFM/">
+                        <span class="tag">SFM</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/STL/">
+                        <span class="tag">STL</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SVD/">
+                        <span class="tag">SVD</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Sparse-ICP/">
+                        <span class="tag">Sparse ICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/books/">
+                        <span class="tag">books</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/keypoints/">
+                        <span class="tag">keypoints</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/mv-LM-ICP/">
+                        <span class="tag">mv-LM-ICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/std/">
+                        <span class="tag">std</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/surface-Reconstruction/">
+                        <span class="tag">surface Reconstruction</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/tools/">
+                        <span class="tag">tools</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/图像/">
+                        <span class="tag">图像</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/pig.png" alt="cudanote2" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 小熊&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>

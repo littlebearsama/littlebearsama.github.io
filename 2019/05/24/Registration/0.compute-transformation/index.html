@@ -1,0 +1,1956 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>compute-transform - LittleBear！！！</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="计算刚体变换矩阵 问题：已知有对应点对(correspondence; point pairs)P、Q集合，求解PQ之间的刚体变换矩阵">
+<meta name="keywords" content="Registration,SVD,LM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="compute-transform">
+<meta property="og:url" content="https://littlebearsama.github.io/2019/05/24/Registration/0.compute-transformation/index.html">
+<meta property="og:site_name" content="LittleBear！！！">
+<meta property="og:description" content="计算刚体变换矩阵 问题：已知有对应点对(correspondence; point pairs)P、Q集合，求解PQ之间的刚体变换矩阵">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2019-07-12T06:26:08.597Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="compute-transform">
+<meta name="twitter:description" content="计算刚体变换矩阵 问题：已知有对应点对(correspondence; point pairs)P、Q集合，求解PQ之间的刚体变换矩阵">
+<meta name="twitter:image" content="https://littlebearsama.github.io/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/pig.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140787042-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-140787042-1');
+</script>
+
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/pig.png" alt="compute-transform" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">Home</a>
+                
+                <a class="navbar-item" href="/archives">文章</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about/">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/littlebearsama">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-24T01:52:32.000Z">2019-05-24</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/Registration/">Registration</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Registration/0-compute-transform/">0.compute transform</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    25 分钟 读完 (大约 3717 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                compute-transform
+            
+        </h1>
+        <div class="content">
+            <p><strong>计算刚体变换矩阵</strong></p>
+<p>问题：已知有对应点对(correspondence; point pairs)P、Q集合，求解PQ之间的刚体变换矩阵</p>
+<a id="more"></a>
+
+<p>参考1: <a href="https://zhuanlan.zhihu.com/p/35901184" target="_blank" rel="noopener">求解刚体旋转平移关系–配准</a></p>
+<p>参考2: <a href="https://blog.csdn.net/icameling/article/details/84103891" target="_blank" rel="noopener">SVD Least-Squares Rigid Motion Using SVD 3D3D算变换矩阵</a></p>
+<h2 id="1-待定系数法"><a href="#1-待定系数法" class="headerlink" title="1.待定系数法"></a>1.待定系数法</h2><ul>
+<li>容易得到超定方程组，利用最小二乘法求解超定方程组</li>
+<li>由于输入数据的误差，导致算出来不是一个正交的旋转矩阵</li>
+</ul>
+<p>每一个一一对应点满足：</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cleft%28+%5Cbegin%7Barray%7D%7Bc%7D+%5Cbar%7Bq%7D_x+%5C%5C+%5Cbar%7Bq%7D_y+%5C%5C+%5Cbar%7Bq%7D_z+%5C%5C+%5Cend%7Barray%7D+%5Cright%29_i%3D%5Cleft%28+%5Cbegin%7Barray%7D%7Bcccc%7D+r_%7B11%7D+%26+r_%7B12%7D+%26+r_%7B13%7D+%5C%5C+r_%7B21%7D+%26+r_%7B22%7D+%26+r_%7B23%7D+%5C%5C+r_%7B31%7D+%26+r_%7B32%7D+%26+r_%7B33%7D+%5C%5C+%5Cend%7Barray%7D+%5Cright%29%5Cleft%28+%5Cbegin%7Barray%7D%7Bc%7D+%5Cbar%7Bp%7D_x+%5C%5C+%5Cbar%7Bp%7D_y+%5C%5C+%5Cbar%7Bp%7D_z+%5C%5C+%5Cend%7Barray%7D+%5Cright%29_i" alt></p>
+<p><strong>对于第 <img src="https://www.zhihu.com/equation?tex=i" alt="i"> 个一一对应点得到方程组:</strong></p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cleft%28+%5Cbegin%7Barray%7D%7Bcccccccc%7D+%5Cbar%7Bp%7D_x%5Ei+%26+%5Cbar%7Bp%7D_y%5Ei+%26%5Cbar%7Bp%7D_z%5Ei%260%260%260%260%260%260+%5C%5C+0%260%260%26%5Cbar%7Bp%7D_x%5Ei+%26+%5Cbar%7Bp%7D_y%5Ei+%26%5Cbar%7Bp%7D_z%5Ei%260%260%260+%5C%5C+0%260%260%260%260%260%26%5Cbar%7Bp%7D_x%5Ei+%26+%5Cbar%7Bp%7D_y%5Ei+%26%5Cbar%7Bp%7D_z%5Ei+%5C%5C+%5Cend%7Barray%7D+%5Cright%29%5Cleft%28+%5Cbegin%7Barray%7D%7Bc%7D+r_%7B11%7D+%5C%5C+r_%7B12%7D+%5C%5C+r_%7B13%7D+%5C%5C+r_%7B21%7D+%5C%5C+r_%7B22%7D+%5C%5C+r_%7B23%7D+%5C%5C+r_%7B31%7D+%5C%5C+r_%7B32%7D+%5C%5C+r_%7B33%7D+%5C%5C+%5Cend%7Barray%7D+%5Cright%29%3D%5Cleft%28+%5Cbegin%7Barray%7D%7Bc%7D+%5Cbar%7Bq%7D_x%5Ei+%5C%5C+%5Cbar%7Bq%7D_y%5Ei+%5C%5C+%5Cbar%7Bq%7D_z%5Ei+%5C%5C+%5Cend%7Barray%7D+%5Cright%29" alt></p>
+<p>同理将所有一一对应点的方程组合并, 得到超定方程：</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BA%7D_%7B3N%5Ctimes9%7D%5Cboldsymbol%7Br%7D_%7B9%5Ctimes1%7D%3D%5Cboldsymbol%7Bb%7D_%7B3N%5Ctimes1%7D" alt></p>
+<p>利用最小二乘法求解</p>
+<p><img src="https://www.zhihu.com/equation?tex=%28%5Cboldsymbol%7BA%7D_%7B3N%5Ctimes9%7D%5E%5Ctext%7BT%7D%5Cboldsymbol%7BA%7D_%7B3N%5Ctimes9%7D%29%5Cboldsymbol%7Br%7D_%7B9%5Ctimes1%7D%3D%5Cboldsymbol%7BA%7D_%7B3N%5Ctimes9%7D%5E%5Ctext%7BT%7D%5Cboldsymbol%7Bb%7D_%7B3N%5Ctimes1%7D" alt></p>
+<p>得到向量<img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7Br%7D" alt>  , 写为矩阵形式即  <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D" alt> .</p>
+<p><strong>缺点: 在有原始数据误差或者计算累积误差情况下, 得到的矩阵 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D" alt> 不一定严格满足正交矩阵.</strong></p>
+<h2 id="2-Levenberg-Marquardt方法求解（非线性）"><a href="#2-Levenberg-Marquardt方法求解（非线性）" class="headerlink" title="2.Levenberg-Marquardt方法求解（非线性）"></a>2.<em>Levenberg-Marquardt</em>方法求解（非线性）</h2><ul>
+<li>输入变量从旋转矩阵R转为欧拉角R( , , )。</li>
+<li>将非线性问题转化为线性优化。</li>
+<li>使用信赖域法求极值。</li>
+</ul>
+<p>旋转矩阵<img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D" alt>具有3个自由度, 可以理解为3个Euler角可确定一个旋转状态, 或一个四元数(范数为1, 自由度为4-1=3)可确定一个旋转状态. 可利用 <img src="https://www.zhihu.com/equation?tex=%5Calpha~%5Cbeta~%5Cgamma~" alt> 作为非线性拟合的参数, 旋转矩阵  <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D" alt> 由 <img src="https://www.zhihu.com/equation?tex=%5Calpha~%5Cbeta~%5Cgamma~" alt>唯一确定, 并使得在该参数下误差最小, 即:</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Calpha%2C~%5Cbeta%2C~%5Cgamma~+%3D+arg%5Cmin_%7B%5Calpha~%5Cbeta~%5Cgamma%7D+%5Csum_%7Bi%3D1%7D%5E%7BN%7D%5C%7C%7B%5Cbar%7B%5Cboldsymbol%7Bq%7D%7D_i-%5Cboldsymbol%7BR%7D%28%5Calpha%2C%5Cbeta%2C%5Cgamma%29%7D%5Cbar%7B%5Cboldsymbol%7Bp%7D%7D_i%5C%7C_2" alt></p>
+<p>得到<img src="https://www.zhihu.com/equation?tex=%5Calpha~%5Cbeta~%5Cgamma~" alt>即得到旋转矩阵 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D" alt> ,  , 该方法可保证该矩阵严格为正交矩阵.</p>
+<p><strong>缺点: Levenberg-Marquardt方法一方面对该优化问题的初值有一定要求, 另一方面非线性算法的效率较低.</strong></p>
+<h3 id="LM算法原理"><a href="#LM算法原理" class="headerlink" title="LM算法原理"></a>LM算法原理</h3><p>LM算法，全称为Levenberg-Marquard算法，它可用于解决非线性最小二乘问题，多用于曲线拟合等场合。</p>
+<ul>
+<li>它的关键是用模型函数  对待估参数向量  在其邻域内做线性近似，忽略掉二阶以上的导数项，从而转化为线性最小二乘问题.</li>
+<li>它具有收敛速度快等优点。</li>
+<li>LM算法属于一种“<a href="http://www.codelast.com/?p=7488" target="_blank" rel="noopener">信赖域法</a>”——所谓的信赖域法，此处稍微解释一下：在最优化算法中，都是要求一个函数的极小值，每一步迭代中，都要求目标函数值是下降的，而信赖域法，顾名思义，就是从初始点开始，先假设一个可以信赖的最大位移  ，然后在以当前点为中心，以  为半径的区域内，通过寻找目标函数的一个近似函数（二次的）的最优点，来求解得到真正的位移。在得到了位移之后，再计算目标函数值，如果其使目标函数值的下降满足了一定条件，那么就说明这个位移是可靠的，则继续按此规则迭代计算下去；如果其不能使目标函数值的下降满足一定的条件，则应减小信赖域的范围，再重新求解。</li>
+</ul>
+<h2 id="3-SVD奇异值分解方法（线性）"><a href="#3-SVD奇异值分解方法（线性）" class="headerlink" title="3.SVD奇异值分解方法（线性）"></a>3.SVD奇异值分解方法（线性）</h2><ul>
+<li>对协方差3X3矩阵用SVD(奇异值分解)来计算旋转矩阵R</li>
+</ul>
+<p>Singular Value Decomposition* </p>
+<p><img src="/2019/05/24/Registration/0.compute-transformation/1.png" alt></p>
+<p>1.计算两个点集的中心（重心）。将两个点集利用中心（重心），平移到原点处。</p>
+<p>2.利用两个平移后的点集计算协方差矩阵S</p>
+<p>3.用SVD奇异值分解方法对S进行分解获得旋转矩阵S</p>
+<p>4.通过两个点集的中心和旋转矩阵S获得平移向量t</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>方法一(待定系数求解方程组)和方法二(LM优化方法求解)并不是求解刚体旋转矩阵 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D" alt>和平移矩阵  <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7Bt%7D" alt> 的最佳方法. 方法三中只需利用SVD分解( ( <img src="https://www.zhihu.com/equation?tex=3%5Ctimes3" alt> 规模数据矩阵)即可得到所需结果, 不仅过程简单而且求解精度很高.</p>
+<p>经过一些列推导后, 我们得到最终的结果, 是不是很晕….如果对推导的过程不感兴趣的话, 可以直接看下面的计算步骤:</p>
+<p><strong>STEP0:</strong> 已知刚性运动前后的对应点分别为 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7Bp%7D_i" alt> 和 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7Bq%7D_i" alt> <img src="https://www.zhihu.com/equation?tex=i%3D1%2C2%2C%5Ccdots+N" alt> ), 均为 <img src="https://www.zhihu.com/equation?tex=3%5Ctimes1" alt> 向量</p>
+<p><strong>STEP1:</strong> 分别计算 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7Bp%7D_i" alt> 和 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7Bq%7D_i" alt> 的重心(求和平均)得到 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7Bp%7D_0" alt> 和 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7Bq%7D_0" alt></p>
+<p><strong>STEP2:</strong> 计算重心平移到原点的数据 <img src="https://www.zhihu.com/equation?tex=%5Cbar%7B%5Cboldsymbol%7Bp%7D%7D_i+%3D+%5Cboldsymbol%7Bp%7D_i-%5Cboldsymbol%7Bp%7D_0~%2C~~~%5Cbar%7B%5Cboldsymbol%7Bq%7D%7D_i+%3D+%5Cboldsymbol%7Bq%7D_i-%5Cboldsymbol%7Bq%7D_0" alt></p>
+<p><strong>STEP3</strong>: 矩阵形式描述 <img src="https://www.zhihu.com/equation?tex=%5B~%5Cbar%7B%5Cboldsymbol%7Bp%7D%7D_1~%5Cbar%7B%5Cboldsymbol%7Bp%7D%7D_2~%5Ccdots~%5Cbar%7B%5Cboldsymbol%7Bp%7D%7D_N~%5D" alt="[~\bar{\boldsymbol{p}}_1~\bar{\boldsymbol{p}}_2~\cdots~\bar{\boldsymbol{p}}_N~]"> 记为 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BX%7D_0" alt> , <img src="https://www.zhihu.com/equation?tex=%5B~%5Cbar%7B%5Cboldsymbol%7Bq%7D%7D_1~%5Cbar%7B%5Cboldsymbol%7Bq%7D%7D_2~%5Ccdots~%5Cbar%7B%5Cboldsymbol%7Bq%7D%7D_N~%5D" alt="[~\bar{\boldsymbol{q}}_1~\bar{\boldsymbol{q}}_2~\cdots~\bar{\boldsymbol{q}}_N~]"> 记为 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BY%7D_0" alt></p>
+<p><strong>STEP4:</strong> 计算数据矩阵 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BX%7D_0%5Cboldsymbol%7BY%7D_0%5E%5Ctext%7BT%7D" alt> 并作SVD分解 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BX%7D_0%5Cboldsymbol%7BY%7D_0%5E%5Ctext%7BT%7D%3D%5Cboldsymbol%7BU%7D%5Cboldsymbol%7B%5CvarLambda%7D%5Cboldsymbol%7BV%7D%5E%5Ctext%7BT%7D" alt></p>
+<p><strong>STEP5:</strong> 得到旋转矩阵 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D%3D%5Cboldsymbol%7BV%7D%5Cboldsymbol%7BU%7D%5E%5Ctext%7BT%7D" alt></p>
+<p><strong>STEP6:</strong> 得到平移向量 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7Bt%7D+%3D+%5Cboldsymbol%7Bq%7D_0-%5Cboldsymbol%7BR%7D%5Cboldsymbol%7Bp%7D_0" alt></p>
+<h1 id="SVD原理"><a href="#SVD原理" class="headerlink" title="SVD原理"></a>SVD原理</h1><h2 id="1"><a href="#1" class="headerlink" title="1."></a>1.</h2><p>旋转矩阵 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D" alt> 具有3个自由度, 可以理解为3个Euler角可确定一个旋转状态, 或一个四元数(范数为1, 自由度为4-1=3)可确定一个旋转状态. 可利用 <img src="https://www.zhihu.com/equation?tex=%5Calpha~%5Cbeta~%5Cgamma~" alt> 作为非线性拟合的参数, 旋转矩阵 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D" alt> 由 <img src="https://www.zhihu.com/equation?tex=%5Calpha~%5Cbeta~%5Cgamma~" alt>唯一确定, 并使得在该参数下误差最小, 即:</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Calpha%2C~%5Cbeta%2C~%5Cgamma~+%3D+arg%5Cmin_%7B%5Calpha~%5Cbeta~%5Cgamma%7D+%5Csum_%7Bi%3D1%7D%5E%7BN%7D%5C%7C%7B%5Cbar%7B%5Cboldsymbol%7Bq%7D%7D_i-%5Cboldsymbol%7BR%7D%28%5Calpha%2C%5Cbeta%2C%5Cgamma%29%7D%5Cbar%7B%5Cboldsymbol%7Bp%7D%7D_i%5C%7C_2" alt></p>
+<p>得到 <img src="https://www.zhihu.com/equation?tex=%5Calpha~%5Cbeta~%5Cgamma~" alt>即得到旋转矩阵 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D" alt> , 该方法可保证该矩阵严格为正交矩阵.</p>
+<p><strong>缺点: Levenberg-Marquardt方法一方面对该优化问题的初值有一定要求, 另一方面非线性算法的效率较低.</strong></p>
+<p><strong>方法三:</strong> <em>Singular Value Decomposition</em> 奇异值分解方法</p>
+<p>通过对应点求解旋转矩阵 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D" alt> 可写为优化问题:</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D+%3D+arg%5Cmin_%7B%5Cboldsymbol%7BR%7D%7D+%5Csum_%7Bi%3D1%7D%5E%7BN%7D%5C%7C%7B%5Cbar%7B%5Cboldsymbol%7Bq%7D%7D_i-%5Cboldsymbol%7BR%7D%7D%5Cbar%7B%5Cboldsymbol%7Bp%7D%7D_i%5C%7C_2%5E2" alt></p>
+<p>可以将对应点列写为矩阵形式</p>
+<p><img src="https://pic3.zhimg.com/80/v2-37a0573071717d5be6c41837fa2b66e2_hd.jpg" alt>3行N列</p>
+<p>矩阵 <img src="https://www.zhihu.com/equation?tex=%5B~%5Cbar%7B%5Cboldsymbol%7Bp%7D%7D_1~%5Cbar%7B%5Cboldsymbol%7Bp%7D%7D_2~%5Ccdots~%5Cbar%7B%5Cboldsymbol%7Bp%7D%7D_N~%5D" alt="[~\bar{\boldsymbol{p}}_1~\bar{\boldsymbol{p}}_2~\cdots~\bar{\boldsymbol{p}}_N~]"> 记为 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BX%7D_0" alt> , <img src="https://www.zhihu.com/equation?tex=%5B~%5Cbar%7B%5Cboldsymbol%7Bq%7D%7D_1~%5Cbar%7B%5Cboldsymbol%7Bq%7D%7D_2~%5Ccdots~%5Cbar%7B%5Cboldsymbol%7Bq%7D%7D_N~%5D" alt="[~\bar{\boldsymbol{q}}_1~\bar{\boldsymbol{q}}_2~\cdots~\bar{\boldsymbol{q}}_N~]"> 记为 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BY%7D_0" alt> , 则优化问题简化为:</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D+%3D+arg%5Cmin_%5Cboldsymbol%7BR%7D+%5C%7C%5Cboldsymbol%7BY%7D_0-%5Cboldsymbol%7BRX%7D_0%5C%7C_F%5E2+" alt></p>
+<p>在求解上面优化问题之前, 先回顾几个线性代数里的基本知识:</p>
+<ul>
+<li>旋转(正交)矩阵的性质 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D%5E%5Ctext%7BT%7D%5Cboldsymbol%7BR%7D%3D%5Cboldsymbol%7BR%7D%5Cboldsymbol%7BR%7D%5E%5Ctext%7BT%7D%3D%5Cboldsymbol%7BI%7D" alt> ;</li>
+<li><img src="https://www.zhihu.com/equation?tex=%5C%7C%5Ccdot%5C%7C_%5Ctext%7BF%7D" alt> 为 <em>Frobenius</em> 范数, 即矩阵所有值的平方和之方根;</li>
+<li><img src="https://www.zhihu.com/equation?tex=%5C%7C%5Cboldsymbol%7BA%7D%5C%7C_%5Ctext%7BF%7D%5E2%3D%5Ctext%7Btrace%7D%28%5Cboldsymbol%7BA%7D%5E%5Ctext%7BT%7D%5Cboldsymbol%7BA%7D%29" alt> 其中 <img src="https://www.zhihu.com/equation?tex=%5Ctext%7Btrace%7D" alt> 为矩阵的迹;</li>
+<li>矩阵 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BA%7D" alt> 和 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BB%7D" alt> 均为<img src="https://www.zhihu.com/equation?tex=n%5Ctimes+m" alt>阶, 则<img src="https://www.zhihu.com/equation?tex=%5Ctext%7Btrace%7D%28%5Cboldsymbol%7BA%7D%5E%5Ctext%7BT%7D%5Cboldsymbol%7BB%7D%29%3D%5Csum_%7Bj%3D1%7D%5E%7Bm%7D%5Csum_%7Bi%3D1%7D%5E%7Bn%7D%7Ba_%7Bij%7Db_%7Bij%7D%7D+%3D+%5Csum_%7Bi%3D1%7D%5E%7Bn%7D%5Csum_%7Bj%3D1%7D%5E%7Bm%7D%7Ba_%7Bij%7Db_%7Bij%7D%7D%3D%5Ctext%7Btrace%7D%28%5Cboldsymbol%7BB%7D%5Cboldsymbol%7BA%7D%5E%5Ctext%7BT%7D%29" alt> ;</li>
+<li><em>Singular Value Decomposition</em> (SVD)分解, 矩阵 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BA%7D_%7Bn%5Ctimes+m%7D%3D%5Cboldsymbol%7BU%7D_%7Bn%5Ctimes+n%7D%5Cboldsymbol%7B%5CvarLambda%7D_%7Bn%5Ctimes+m%7D%5Cboldsymbol%7BV%7D_%7Bm%5Ctimes+m%7D%5E%5Ctext%7BT%7D" alt>,其中 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BU%7D" alt>和 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BV%7D" alt> 为正交矩阵, <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7B%5CvarLambda%7D" alt> 为对角矩阵;</li>
+</ul>
+<p>于是优化问题可等价为:</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cmin_%5Cboldsymbol%7BR%7D+%5C%7C%5Cboldsymbol%7BY%7D_0-%5Cboldsymbol%7BRX%7D_0%5C%7C_F%5E2+~~%5CLeftrightarrow~~%5Cmin_%5Cboldsymbol%7BR%7D+%5Ctext%7Btrace%7D%5Cbig%28%28%5Cboldsymbol%7BY%7D_0-%5Cboldsymbol%7BRX%7D_0%29%5E%5Ctext%7BT%7D%28%5Cboldsymbol%7BY%7D_0-%5Cboldsymbol%7BRX%7D_0%29%5Cbig%29" alt></p>
+<p><img src="https://www.zhihu.com/equation?tex=~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%5CLeftrightarrow%5Cmin_%5Cboldsymbol%7BR%7D+%5Ctext%7Btrace%7D%28%5Cboldsymbol%7BY%7D_0%5E%5Ctext%7BT%7D%5Cboldsymbol%7BY%7D_0%2B%5Cboldsymbol%7BX%7D_0%5E%5Ctext%7BT%7D%5Cboldsymbol%7BX%7D_0-2%5Cboldsymbol%7BY%7D_0%5E%5Ctext%7BT%7D%5Cboldsymbol%7BRX%7D_0%29" alt></p>
+<p>其中矩阵 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BY%7D_0%5E%5Ctext%7BT%7D%5Cboldsymbol%7BY%7D_0" alt> 和 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BX%7D_0%5E%5Ctext%7BT%7D%5Cboldsymbol%7BX%7D_0" alt> 由原始数据得到的矩阵, 与旋转矩阵<img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D+" alt> 无关, 于是</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cmin_%5Cboldsymbol%7BR%7D+%5C%7C%5Cboldsymbol%7BY%7D_0-%5Cboldsymbol%7BRX%7D_0%5C%7C_F%5E2+~~%5CLeftrightarrow~~+%5Cmax_%5Cboldsymbol%7BR%7D+%5Ctext%7Btrace%7D%28%5Cboldsymbol%7BY%7D_0%5E%5Ctext%7BT%7D%5Cboldsymbol%7BRX%7D_0%29" alt></p>
+<p>进一步, 利用矩阵迹的性质(基本知识第4点)</p>
+<p><img src="https://www.zhihu.com/equation?tex=+%5Cmax_%5Cboldsymbol%7BR%7D+%5Ctext%7Btrace%7D%28%5Cboldsymbol%7BY%7D_0%5E%5Ctext%7BT%7D%5Cboldsymbol%7BRX%7D_0%29~%5CLeftrightarrow~+%5Cmax_%5Cboldsymbol%7BR%7D+%5Ctext%7Btrace%7D%28%5Cboldsymbol%7BRX%7D_0%5Cboldsymbol%7BY%7D_0%5E%5Ctext%7BT%7D%29" alt=" "></p>
+<p>使用SVD分解数据矩阵 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BX%7D_0%5Cboldsymbol%7BY%7D_0%5E%5Ctext%7BT%7D%3D%5Cboldsymbol%7BU%7D%5Cboldsymbol%7B%5CvarLambda%7D%5Cboldsymbol%7BV%7D%5E%5Ctext%7BT%7D" alt> , 其中 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BU%7D" alt> 和 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BV%7D" alt> 为正交矩阵, 于是</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cmax_%5Cboldsymbol%7BR%7D+%5Ctext%7Btrace%7D%28%5Cboldsymbol%7BRX%7D_0%5Cboldsymbol%7BY%7D_0%5E%5Ctext%7BT%7D%29~%5CLeftrightarrow~%5Cmax_%5Cboldsymbol%7BR%7D+%5Ctext%7Btrace%7D%28%5Cboldsymbol%7BR%7D%5Cboldsymbol%7BU%7D%5Cboldsymbol%7B%5CvarLambda%7D%5Cboldsymbol%7BV%7D%5E%5Ctext%7BT%7D%29" alt></p>
+<p>再一次使用矩阵迹的性质(基本知识第4点)</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cmax_%5Cboldsymbol%7BR%7D+%5Ctext%7Btrace%7D%28%5Cboldsymbol%7BR%7D%5Cboldsymbol%7BU%7D%5Cboldsymbol%7B%5CvarLambda%7D%5Cboldsymbol%7BV%7D%5E%5Ctext%7BT%7D%29~%5CLeftrightarrow~%5Cmax_%5Cboldsymbol%7BR%7D+%5Ctext%7Btrace%7D%28%5Cboldsymbol%7B%5CvarLambda%7D%5Cboldsymbol%7BV%7D%5E%5Ctext%7BT%7D%5Cboldsymbol%7BR%7D%5Cboldsymbol%7BU%7D%29" alt></p>
+<p>记其中的矩阵 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BV%7D%5E%5Ctext%7BT%7D%5Cboldsymbol%7BR%7D%5Cboldsymbol%7BU%7D%3A%3D%5Cboldsymbol%7BZ%7D" alt> , 不难得知<strong><img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BZ%7D" alt="\boldsymbol{Z}"> 也为正交矩阵</strong>, 综上:</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cmin_%5Cboldsymbol%7BR%7D+%5C%7C%5Cboldsymbol%7BY%7D_0-%5Cboldsymbol%7BRX%7D_0%5C%7C_F%5E2+~%5CLeftrightarrow~%5Cmax_%5Cboldsymbol%7BR%7D+%5Ctext%7Btrace%7D%28%5Cboldsymbol%7B%5CvarLambda%7D%5Cboldsymbol%7BZ%7D%29" alt></p>
+<p>由于 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7B%5CvarLambda%7D" alt> 为对角矩阵</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cmin_%5Cboldsymbol%7BR%7D+%5C%7C%5Cboldsymbol%7BY%7D_0-%5Cboldsymbol%7BRX%7D_0%5C%7C_F%5E2+~%5CLeftrightarrow~%5Cmax_%5Cboldsymbol%7BR%7D+%5Ctext%7Btrace%7D%5Cleft%28%5Cleft%28+%5Cbegin%7Barray%7D%7Bcccc%7D+z_%7B11%7D+%26+z_%7B12%7D+%26+z_%7B13%7D+%5C%5C+z_%7B21%7D+%26+z_%7B22%7D+%26+z_%7B23%7D+%5C%5C+z_%7B31%7D%26+z_%7B31%7D%26+z_%7B33%7D+%5C%5C+%5Cend%7Barray%7D+%5Cright%29%5Cleft%28+%5Cbegin%7Barray%7D%7Bcccc%7D+%5Csigma_1+%26+0+%26+0+%5C%5C+0+%26+%5Csigma_2+%26+0+%5C%5C+0%26+0%26+%5Csigma_3+%5C%5C+%5Cend%7Barray%7D+%5Cright%29%5Cright%29" alt></p>
+<p><img src="https://www.zhihu.com/equation?tex=~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~%5CLeftrightarrow~%5Cmax_%5Cboldsymbol%7BR%7D+%28%5Csigma_1z_%7B11%7D%2B%5Csigma_1z_%7B22%7D%2B%5Csigma_1z_%7B33%7D%29" alt></p>
+<p>由于 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BZ%7D" alt>矩阵为正交矩阵, 而且正常数据下对角阵 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7B%5CvarLambda%7D" alt> 对角元素为数据矩阵的奇异值均大于0; 而且 <img src="https://www.zhihu.com/equation?tex=z_%7B11%7D~z_%7B22%7D~z_%7B33%7D" alt> 均小于等于1, 不难得知当 <img src="https://www.zhihu.com/equation?tex=z_%7B11%7D%3Dz_%7B22%7D%3Dz_%7B33%7D%3D1" alt> 时取最大值, 即:</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BZ%7D+%3D+%5Cboldsymbol%7BI%7D" alt></p>
+<p>从而得到:</p>
+<p><img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BV%7D%5E%5Ctext%7BT%7D%5Cboldsymbol%7BR%7D%5Cboldsymbol%7BU%7D+%3D+%5Cboldsymbol%7BI%7D~%5CLeftrightarrow~%5Cboldsymbol%7BR%7D%3D%5Cboldsymbol%7BV%7D%5Cboldsymbol%7BU%7D%5E%5Ctext%7BT%7D" alt></p>
+<p>至此可以得到旋转矩阵 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7BR%7D" alt> , 不难得到平移向量 <img src="https://www.zhihu.com/equation?tex=%5Cboldsymbol%7Bt%7D+%3D+%5Cboldsymbol%7Bq%7D_0-%5Cboldsymbol%7BR%7D%5Cboldsymbol%7Bp%7D_0" alt> .</p>
+<h2 id="2"><a href="#2" class="headerlink" title="2."></a>2.</h2><p><img src="/2019/05/24/Registration/0.compute-transformation/2.png" alt="img"></p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/LM/">LM</a>, <a class="has-link-grey -link" href="/tags/Registration/">Registration</a>, <a class="has-link-grey -link" href="/tags/SVD/">SVD</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ce8d814d9c29712"></script>
+
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="/images/alqrcode.png" alt="支付宝"></div>
+</a>
+
+                
+                
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>微信</span>
+    <div class="qrcode"><img src="/images/wxqrcode.png" alt="微信"></div>
+</a>
+
+                
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/05/24/cuda/cudanote1/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">cudanote1</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/05/24/C++/C++笔记9/">
+                <span class="level-item">C++ 笔记9</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: '8eoAgWMqJvxDePfBogu64i1m-gzGzoHsz',
+        app_key: 'wooEMXdlCj5x9utpB1UhAobQ',
+        placeholder: '( *・ω・)✄╰ひ╯   快来评论鸭！！！ 记得填上昵称～ 邮箱（仅博主可见）～ 还有主页地址～'
+    });
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/touxiang.jpg" alt="xiaoxiong">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        xiaoxiong
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        ROBOT and CV
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>GuangZhou</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        58
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        47
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        32
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/littlebearsama" target="_blank">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/littlebearsama">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://github.com/RobotWithCV" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">RobotWithCV</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">github.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/CV-Source/">
+            <span class="level-start">
+                <span class="level-item">CV-Source</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/CV-Source/0-CV-Source/">
+            <span class="level-start">
+                <span class="level-item">0.CV-Source</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/CV-Source/1-books/">
+            <span class="level-start">
+                <span class="level-item">1.books</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/CV-Source/2-SLAM/">
+            <span class="level-start">
+                <span class="level-item">2.SLAM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/CV-Source/3-SFM/">
+            <span class="level-start">
+                <span class="level-item">3.SFM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/ObjectDetection-and-PoseEstimation/">
+            <span class="level-start">
+                <span class="level-item">ObjectDetection and PoseEstimation</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/ObjectDetection-and-PoseEstimation/0-tutorial/">
+            <span class="level-start">
+                <span class="level-item">0.tutorial</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/ObjectDetection-and-PoseEstimation/1-localDescriptors-Hough/">
+            <span class="level-start">
+                <span class="level-item">1.localDescriptors+Hough</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/ObjectDetection-and-PoseEstimation/2-2010HoughvotePPF/">
+            <span class="level-start">
+                <span class="level-item">2.2010HoughvotePPF</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/ObjectDetection-and-PoseEstimation/3-2016HinterstoisserPPF/">
+            <span class="level-start">
+                <span class="level-item">3.2016HinterstoisserPPF</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/ObjectDetection-and-PoseEstimation/5-2018PPF-MEAM/">
+            <span class="level-start">
+                <span class="level-item">5.2018PPF-MEAM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/PCL/">
+            <span class="level-start">
+                <span class="level-item">PCL</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/PCL/0-tutorial/">
+            <span class="level-start">
+                <span class="level-item">0.tutorial</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/PCL/1-configuration/">
+            <span class="level-start">
+                <span class="level-item">1.configuration</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/PCL/2-pcl-samples/">
+            <span class="level-start">
+                <span class="level-item">2.pcl samples</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/PCL/3-keypoints/">
+            <span class="level-start">
+                <span class="level-item">3.keypoints</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/PCL/4-descriptors/">
+            <span class="level-start">
+                <span class="level-item">4.descriptors</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/PCL/4-normal-estimation/">
+            <span class="level-start">
+                <span class="level-item">4.normal estimation</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/PCL/5-Region-Growing-Segmentation/">
+            <span class="level-start">
+                <span class="level-item">5.Region Growing Segmentation</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Reconstruction/">
+            <span class="level-start">
+                <span class="level-item">Reconstruction</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Reconstruction/1-3D-Reconstruction/">
+            <span class="level-start">
+                <span class="level-item">1.3D Reconstruction</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Reconstruction/2-surface-Reconstruction/">
+            <span class="level-start">
+                <span class="level-item">2.surface Reconstruction</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Reconstruction/3-3D-scene-Reconstruction/">
+            <span class="level-start">
+                <span class="level-item">3.3D scene Reconstruction</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Registration/">
+            <span class="level-start">
+                <span class="level-item">Registration</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Registration/0-SAC-IA/">
+            <span class="level-start">
+                <span class="level-item">0.SAC-IA</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/0-compute-transform/">
+            <span class="level-start">
+                <span class="level-item">0.compute transform</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/1-ICP/">
+            <span class="level-start">
+                <span class="level-item">1.ICP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/2-FastICP/">
+            <span class="level-start">
+                <span class="level-item">2.FastICP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/3-Efficient-Sparse-ICP/">
+            <span class="level-start">
+                <span class="level-item">3.Efficient Sparse ICP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/3-Sparse-ICP/">
+            <span class="level-start">
+                <span class="level-item">3.Sparse ICP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/4-Generalized-ICP/">
+            <span class="level-start">
+                <span class="level-item">4.Generalized-ICP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/5-GOICP/">
+            <span class="level-start">
+                <span class="level-item">5.GOICP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/6-mv-LM-ICP/">
+            <span class="level-start">
+                <span class="level-item">6.mv-LM-ICP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/NDT/">
+            <span class="level-start">
+                <span class="level-item">NDT</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/其他/">
+            <span class="level-start">
+                <span class="level-item">其他</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/其他/好用的工具/">
+            <span class="level-start">
+                <span class="level-item">好用的工具</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/图像/">
+            <span class="level-start">
+                <span class="level-item">图像</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/图像/2Dimage知识/">
+            <span class="level-start">
+                <span class="level-item">2Dimage知识</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/机器学习与深度学习/">
+            <span class="level-start">
+                <span class="level-item">机器学习与深度学习</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/机器学习与深度学习/Deep-Learning-Notes/">
+            <span class="level-start">
+                <span class="level-item">Deep Learning Notes</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/编程/">
+            <span class="level-start">
+                <span class="level-item">编程</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">24</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/编程/C/">
+            <span class="level-start">
+                <span class="level-item">C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">10</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/编程/C-FQA/">
+            <span class="level-start">
+                <span class="level-item">C++ FQA</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/编程/CUDA/">
+            <span class="level-start">
+                <span class="level-item">CUDA</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/编程/cuda-FQA/">
+            <span class="level-start">
+                <span class="level-item">cuda FQA</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/编程/learn-CUDA/">
+            <span class="level-start">
+                <span class="level-item">learn CUDA</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/编程/算法与数据结构/">
+            <span class="level-start">
+                <span class="level-item">算法与数据结构</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/3D-Reconstruction/" style="font-size: 10px;">3D Reconstruction</a> <a href="/tags/3D-scene-Reconstruction/" style="font-size: 10px;">3D scene Reconstruction</a> <a href="/tags/C/" style="font-size: 18.75px;">C++</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CV-Source/" style="font-size: 13.75px;">CV-Source</a> <a href="/tags/Deep-Learning/" style="font-size: 11.25px;">Deep Learning</a> <a href="/tags/Despriptors/" style="font-size: 10px;">Despriptors</a> <a href="/tags/Efficient-Sparse-ICP/" style="font-size: 10px;">Efficient Sparse ICP</a> <a href="/tags/FastICP/" style="font-size: 10px;">FastICP</a> <a href="/tags/GOICP/" style="font-size: 10px;">GOICP</a> <a href="/tags/Generalized-ICP/" style="font-size: 11.25px;">Generalized-ICP</a> <a href="/tags/ICP/" style="font-size: 16.25px;">ICP</a> <a href="/tags/LM/" style="font-size: 10px;">LM</a> <a href="/tags/NDT/" style="font-size: 11.25px;">NDT</a> <a href="/tags/ObjectDetection/" style="font-size: 15px;">ObjectDetection</a> <a href="/tags/PCL/" style="font-size: 16.25px;">PCL</a> <a href="/tags/PoseEstimation/" style="font-size: 16.25px;">PoseEstimation</a> <a href="/tags/RANSAC/" style="font-size: 10px;">RANSAC</a> <a href="/tags/Reconstruction/" style="font-size: 12.5px;">Reconstruction</a> <a href="/tags/Registration/" style="font-size: 17.5px;">Registration</a> <a href="/tags/SAC-IA/" style="font-size: 10px;">SAC-IA</a> <a href="/tags/SFM/" style="font-size: 10px;">SFM</a> <a href="/tags/STL/" style="font-size: 10px;">STL</a> <a href="/tags/SVD/" style="font-size: 10px;">SVD</a> <a href="/tags/Sparse-ICP/" style="font-size: 10px;">Sparse ICP</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/keypoints/" style="font-size: 10px;">keypoints</a> <a href="/tags/mv-LM-ICP/" style="font-size: 10px;">mv-LM-ICP</a> <a href="/tags/std/" style="font-size: 10px;">std</a> <a href="/tags/surface-Reconstruction/" style="font-size: 10px;">surface Reconstruction</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/图像/" style="font-size: 10px;">图像</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/04/11/MAD_Learning/DNote1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Deeplearning Note1">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-11T06:16:49.000Z">2020-04-11</time></div>
+                    <a href="/2020/04/11/MAD_Learning/DNote1/" class="has-link-black-ter is-size-6">Deeplearning Note1</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/机器学习与深度学习/">机器学习与深度学习</a> / <a class="has-link-grey -link" href="/categories/机器学习与深度学习/Deep-Learning-Notes/">Deep Learning Notes</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/04/11/Registration/0.SAC-IA/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="SAC-IA">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-11T03:27:52.225Z">2020-04-11</time></div>
+                    <a href="/2020/04/11/Registration/0.SAC-IA/" class="has-link-black-ter is-size-6">SAC-IA</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/0-SAC-IA/">0.SAC-IA</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/12/16/DaNAlgorithm/Generate_Random_NUM/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="生成随机数">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-16T14:05:33.000Z">2019-12-16</time></div>
+                    <a href="/2019/12/16/DaNAlgorithm/Generate_Random_NUM/" class="has-link-black-ter is-size-6">生成随机数</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/算法与数据结构/">算法与数据结构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/08/15/6DPose/PPF/2018PPF-MEAM/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="2018PPF-MEAM">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-15T10:09:49.000Z">2019-08-15</time></div>
+                    <a href="/2019/08/15/6DPose/PPF/2018PPF-MEAM/" class="has-link-black-ter is-size-6">2018PPF-MEAM</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/">ObjectDetection and PoseEstimation</a> / <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/5-2018PPF-MEAM/">5.2018PPF-MEAM</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/08/11/6DPose/localFeaturesHough/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="三维局部特征+hough投票">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-11T08:05:49.000Z">2019-08-11</time></div>
+                    <a href="/2019/08/11/6DPose/localFeaturesHough/" class="has-link-black-ter is-size-6">三维局部特征+hough投票</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/">ObjectDetection and PoseEstimation</a> / <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/1-localDescriptors-Hough/">1.localDescriptors+Hough</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">六月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">27</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/3D-Reconstruction/">
+                        <span class="tag">3D Reconstruction</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/3D-scene-Reconstruction/">
+                        <span class="tag">3D scene Reconstruction</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/C/">
+                        <span class="tag">C++</span>
+                        <span class="tag is-grey">12</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/CUDA/">
+                        <span class="tag">CUDA</span>
+                        <span class="tag is-grey">13</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/CV-Source/">
+                        <span class="tag">CV-Source</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Deep-Learning/">
+                        <span class="tag">Deep Learning</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Despriptors/">
+                        <span class="tag">Despriptors</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Efficient-Sparse-ICP/">
+                        <span class="tag">Efficient Sparse ICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/FastICP/">
+                        <span class="tag">FastICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/GOICP/">
+                        <span class="tag">GOICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Generalized-ICP/">
+                        <span class="tag">Generalized-ICP</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ICP/">
+                        <span class="tag">ICP</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/LM/">
+                        <span class="tag">LM</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/NDT/">
+                        <span class="tag">NDT</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ObjectDetection/">
+                        <span class="tag">ObjectDetection</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/PCL/">
+                        <span class="tag">PCL</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/PoseEstimation/">
+                        <span class="tag">PoseEstimation</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/RANSAC/">
+                        <span class="tag">RANSAC</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Reconstruction/">
+                        <span class="tag">Reconstruction</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Registration/">
+                        <span class="tag">Registration</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SAC-IA/">
+                        <span class="tag">SAC-IA</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SFM/">
+                        <span class="tag">SFM</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/STL/">
+                        <span class="tag">STL</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SVD/">
+                        <span class="tag">SVD</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Sparse-ICP/">
+                        <span class="tag">Sparse ICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/books/">
+                        <span class="tag">books</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/keypoints/">
+                        <span class="tag">keypoints</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/mv-LM-ICP/">
+                        <span class="tag">mv-LM-ICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/std/">
+                        <span class="tag">std</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/surface-Reconstruction/">
+                        <span class="tag">surface Reconstruction</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/tools/">
+                        <span class="tag">tools</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/图像/">
+                        <span class="tag">图像</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/04/11/MAD_Learning/DNote1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Deeplearning Note1">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-11T06:16:49.000Z">2020-04-11</time></div>
+                    <a href="/2020/04/11/MAD_Learning/DNote1/" class="has-link-black-ter is-size-6">Deeplearning Note1</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/机器学习与深度学习/">机器学习与深度学习</a> / <a class="has-link-grey -link" href="/categories/机器学习与深度学习/Deep-Learning-Notes/">Deep Learning Notes</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/04/11/Registration/0.SAC-IA/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="SAC-IA">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-11T03:27:52.225Z">2020-04-11</time></div>
+                    <a href="/2020/04/11/Registration/0.SAC-IA/" class="has-link-black-ter is-size-6">SAC-IA</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/0-SAC-IA/">0.SAC-IA</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/12/16/DaNAlgorithm/Generate_Random_NUM/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="生成随机数">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-16T14:05:33.000Z">2019-12-16</time></div>
+                    <a href="/2019/12/16/DaNAlgorithm/Generate_Random_NUM/" class="has-link-black-ter is-size-6">生成随机数</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/算法与数据结构/">算法与数据结构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/08/15/6DPose/PPF/2018PPF-MEAM/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="2018PPF-MEAM">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-15T10:09:49.000Z">2019-08-15</time></div>
+                    <a href="/2019/08/15/6DPose/PPF/2018PPF-MEAM/" class="has-link-black-ter is-size-6">2018PPF-MEAM</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/">ObjectDetection and PoseEstimation</a> / <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/5-2018PPF-MEAM/">5.2018PPF-MEAM</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/08/11/6DPose/localFeaturesHough/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="三维局部特征+hough投票">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-08-11T08:05:49.000Z">2019-08-11</time></div>
+                    <a href="/2019/08/11/6DPose/localFeaturesHough/" class="has-link-black-ter is-size-6">三维局部特征+hough投票</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/">ObjectDetection and PoseEstimation</a> / <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/1-localDescriptors-Hough/">1.localDescriptors+Hough</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">7</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">六月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">27</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/3D-Reconstruction/">
+                        <span class="tag">3D Reconstruction</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/3D-scene-Reconstruction/">
+                        <span class="tag">3D scene Reconstruction</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/C/">
+                        <span class="tag">C++</span>
+                        <span class="tag is-grey">12</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/CUDA/">
+                        <span class="tag">CUDA</span>
+                        <span class="tag is-grey">13</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/CV-Source/">
+                        <span class="tag">CV-Source</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Deep-Learning/">
+                        <span class="tag">Deep Learning</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Despriptors/">
+                        <span class="tag">Despriptors</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Efficient-Sparse-ICP/">
+                        <span class="tag">Efficient Sparse ICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/FastICP/">
+                        <span class="tag">FastICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/GOICP/">
+                        <span class="tag">GOICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Generalized-ICP/">
+                        <span class="tag">Generalized-ICP</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ICP/">
+                        <span class="tag">ICP</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/LM/">
+                        <span class="tag">LM</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/NDT/">
+                        <span class="tag">NDT</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ObjectDetection/">
+                        <span class="tag">ObjectDetection</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/PCL/">
+                        <span class="tag">PCL</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/PoseEstimation/">
+                        <span class="tag">PoseEstimation</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/RANSAC/">
+                        <span class="tag">RANSAC</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Reconstruction/">
+                        <span class="tag">Reconstruction</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Registration/">
+                        <span class="tag">Registration</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SAC-IA/">
+                        <span class="tag">SAC-IA</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SFM/">
+                        <span class="tag">SFM</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/STL/">
+                        <span class="tag">STL</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SVD/">
+                        <span class="tag">SVD</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Sparse-ICP/">
+                        <span class="tag">Sparse ICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/books/">
+                        <span class="tag">books</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/keypoints/">
+                        <span class="tag">keypoints</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/mv-LM-ICP/">
+                        <span class="tag">mv-LM-ICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/std/">
+                        <span class="tag">std</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/surface-Reconstruction/">
+                        <span class="tag">surface Reconstruction</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/tools/">
+                        <span class="tag">tools</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/图像/">
+                        <span class="tag">图像</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/pig.png" alt="compute-transform" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 小熊&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
