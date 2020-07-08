@@ -1,0 +1,1981 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+<title>GIT教程 - LittleBear！！！</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+    <meta name="description" content="[TOC]">
+<meta name="keywords" content="C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GIT教程">
+<meta property="og:url" content="https://littlebearsama.github.io/2020/07/05/other/git/index.html">
+<meta property="og:site_name" content="LittleBear！！！">
+<meta property="og:description" content="[TOC]">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2020-07-08T14:10:22.441Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GIT教程">
+<meta name="twitter:description" content="[TOC]">
+<meta name="twitter:image" content="https://littlebearsama.github.io/images/og_image.png">
+
+
+
+
+
+
+
+<link rel="icon" href="/images/pig.png">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.7.2/css/bulma.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:400,600|Source+Code+Pro">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@9.12.0/styles/atom-one-light.css">
+
+
+    
+    
+    
+    <style>body>.footer,body>.navbar,body>.section{opacity:0}</style>
+    
+
+    
+    
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/css/lightgallery.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/css/justifiedGallery.min.css">
+    
+
+    
+    
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.css">
+
+
+    
+    
+    
+    
+
+<link rel="stylesheet" href="/css/back-to-top.css">
+
+
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140787042-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-140787042-1');
+</script>
+
+
+    
+    
+    
+    
+
+    
+    
+<link rel="stylesheet" href="/css/progressbar.css">
+<script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+
+    
+    
+    
+
+    
+    
+    
+
+
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="is-3-column">
+    <nav class="navbar navbar-main">
+    <div class="container">
+        <div class="navbar-brand is-flex-center">
+            <a class="navbar-item navbar-logo" href="/">
+            
+                <img src="/images/pig.png" alt="GIT教程" height="28">
+            
+            </a>
+        </div>
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                
+                <a class="navbar-item" href="/">Home</a>
+                
+                <a class="navbar-item" href="/archives">文章</a>
+                
+                <a class="navbar-item" href="/categories">分类</a>
+                
+                <a class="navbar-item" href="/tags">标签</a>
+                
+                <a class="navbar-item" href="/about/">About</a>
+                
+            </div>
+            
+            <div class="navbar-end">
+                
+                    
+                    
+                    <a class="navbar-item" target="_blank" title="Download on GitHub" href="https://github.com/littlebearsama">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                    
+                
+                
+                
+                <a class="navbar-item search" title="搜索" href="javascript:;">
+                    <i class="fas fa-search"></i>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+</nav>
+    
+    <section class="section">
+        <div class="container">
+            <div class="columns">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-07-04T16:10:21.000Z">2020-07-05</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/编程/">编程</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    8 分钟 读完 (大约 1268 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                GIT教程
+            
+        </h1>
+        <div class="content">
+            <p>[TOC]</p>
+<a id="more"></a>
+
+<h1 id="GIT—版本管理器"><a href="#GIT—版本管理器" class="headerlink" title="GIT—版本管理器"></a>GIT—版本管理器</h1><p><a href="https://www.bilibili.com/video/BV1fK4y1b7XL?from=search&seid=12481552048146612510" target="_blank" rel="noopener">参考</a></p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>git—饭桶</p>
+<p>git和svn同为版本管理工具，区别是什么</p>
+<blockquote>
+<p>svn是集中式版本管理工具，必须装一个svn服务器，通过svn服务器集中管理代码。每个客户端通过svn服务器来提交，下载代码，每个客户端都是和服务器直接进行交互的。缺点是服务器单点故障（也不算缺点），容错性差。</p>
+<p>git是分布式版本控制系统，那么它就没有中央服务器的，每个人的电脑就是一个完整的版本库，这样，工作的时候就不需要联网了，因为版本都是在自己的电脑上。既然每个人的电脑都有一个完整的版本库，那多个人如何协作呢？比如说自己在电脑上改了文件A，其他人也在电脑上改了文件A，这时，你们两之间只需把各自的修改推送给对方，就可以互相看到对方的修改了。</p>
+</blockquote>
+<h2 id="Git工作流程"><a href="#Git工作流程" class="headerlink" title="Git工作流程"></a>Git工作流程</h2><p>一般工作流程如下：</p>
+<p>1．从远程仓库中克隆 Git 资源作为本地仓库。</p>
+<p>2．从本地仓库中checkout代码然后进行代码修改</p>
+<p>3．在提交前先将代码提交到暂存区。</p>
+<p>4．提交修改。提交到本地仓库。本地仓库中保存修改的各个历史版本。<strong>git和svn最大的区别是，Git有一个本地仓库的概念</strong>。</p>
+<p>5．在修改完成后，需要和团队成员共享代码时，可以将代码push到远程仓库。</p>
+<p>下图展示了 Git 的工作流程：</p>
+<p><img src="/2020/07/05/other/git/thewayof_v_mangament.png" alt></p>
+<p><img src="/2020/07/05/other/git/gitcommandflow.png" alt></p>
+<h2 id="创建本地版本库"><a href="#创建本地版本库" class="headerlink" title="创建本地版本库"></a>创建本地版本库</h2><p><a href="https://git-scm.com/download" target="_blank" rel="noopener">下载git</a>，安装</p>
+<p>安装tortoisegit（GUI），勾选使用OpenSS，Git default Client。指定git.exe所在的目录。</p>
+<hr>
+<p>创建本地仓库：git init</p>
+<p>向本地版本库添加文件，在git文件夹同等级上面添加文件。</p>
+<blockquote>
+<p>本地仓库目录（包含git文件夹的目录）：D:\codes\repositories\repo1</p>
+<p>工作目录（仓库目上一级）：D:\codes\repositories</p>
+</blockquote>
+<p>新建一个文件，然后用乌龟<strong>添加</strong>，相当于将这个文件加入到<strong>暂存区</strong>了。</p>
+<p>创建了一个本地仓库一定会有一个主分支master，向本地仓库提交，一定要写日志。</p>
+<h2 id="修改文件内容并提交"><a href="#修改文件内容并提交" class="headerlink" title="修改文件内容并提交"></a>修改文件内容并提交</h2><p>可以显示日志与比较差异</p>
+<h2 id="删除本地仓库中的文件"><a href="#删除本地仓库中的文件" class="headerlink" title="删除本地仓库中的文件"></a>删除本地仓库中的文件</h2><p>添加一个新的文件</p>
+<p>通过版本库浏览器可以知道本地仓库有什么</p>
+<p>可以将删除的文件通过对比版本库还原回来</p>
+<p>删除并保留本地副本，然后提交：从本地版本库删除文件，但是本地还将文件保留下来了。—-用于提交工程的时候不提交无关的文件。</p>
+<h2 id="将工程添加到本地版本库"><a href="#将工程添加到本地版本库" class="headerlink" title="将工程添加到本地版本库"></a>将工程添加到本地版本库</h2><p>通过add添加整个工程的文件夹</p>
+<p>通过忽略，防止提交，也要把.gitignore填在到暂存区</p>
+<p>然后提交</p>
+<h2 id="github-码云创建远程仓库"><a href="#github-码云创建远程仓库" class="headerlink" title="github/码云创建远程仓库"></a>github/码云创建远程仓库</h2><p>SSH <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:littlebearsama/TestTool.git</p>
+<p>HTTPS <a href="https://github.com/littlebearsama/TestTool.git" target="_blank" rel="noopener">https://github.com/littlebearsama/TestTool.git</a></p>
+<p>然后把本地仓库推送到远程：</p>
+<p>先生成密钥对</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa</span><br></pre></td></tr></table></figure>
+
+<p>没有后缀的是私钥，不要告诉任何人</p>
+<p>有后缀的是公钥，可以告诉其他人（github服务器）</p>
+<p>在服务器中添加公钥。</p>
+<p>将本地仓库与远程仓库建立联系，并将本地仓库代码推送到远程仓库。</p>
+<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">jhluo@laptop-xiaoxiong MINGW64 /d/codes/repositories/repo1 (master)</span><br><span class="line">$ git remote add origin git@github.com:littlebearsama/repo1.git</span><br><span class="line"></span><br><span class="line">jhluo@laptop-xiaoxiong MINGW64 /d/codes/repositories/repo1 (master)</span><br><span class="line">$ git push -u origin master</span><br></pre></td></tr></table></figure>
+
+<h2 id="推送修改的文件及冲突解决"><a href="#推送修改的文件及冲突解决" class="headerlink" title="推送修改的文件及冲突解决"></a>推送修改的文件及冲突解决</h2><ol>
+<li>修改了哪个文件就推送哪个文件</li>
+<li>哪个文件有变化就把哪个文件拉到本地</li>
+</ol>
+<p>先pull（会合并你的代码）再push</p>
+<h2 id="搭建私有git服务器"><a href="#搭建私有git服务器" class="headerlink" title="搭建私有git服务器"></a>搭建私有git服务器</h2><h2 id="分支管理"><a href="#分支管理" class="headerlink" title="分支管理"></a>分支管理</h2><p>在我们每次的提交，Git都把它们串成一条时间线，这条时间线就是一个分支。截止到目前，只有一条时间线，在Git里，这个分支叫主分支，即master分支。HEAD指针严格来说不是指向提交，而是指向master，master才是指向提交的，所以，HEAD指向的就是当前分支。</p>
+<p>一开始的时候，master分支是一条线，Git用master指向最新的提交，再用HEAD指向master，就能确定当前分支，以及当前分支的提交点：</p>
+<p><img src="/2020/07/05/other/git/fenzhi.png" alt></p>
+<h2 id="命令与基本操作流程"><a href="#命令与基本操作流程" class="headerlink" title="命令与基本操作流程"></a>命令与基本操作流程</h2><ol>
+<li>git add </li>
+<li>git commit</li>
+<li>git checkout</li>
+<li>git pull</li>
+<li>git merge </li>
+<li>git push</li>
+</ol>
+<p>远端：本地：暂存</p>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/C/">C++</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ce8d814d9c29712"></script>
+
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
+                
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="/images/alqrcode.png" alt="支付宝"></div>
+</a>
+
+                
+                
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>微信</span>
+    <div class="qrcode"><img src="/images/wxqrcode.png" alt="微信"></div>
+</a>
+
+                
+        </div>
+    </div>
+</div>
+
+
+
+<div class="card card-transparent">
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/07/05/Coding/编程知识与VS错误/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">编程知识与VS错误</span>
+            </a>
+        </div>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2020/04/11/MAD_Learning/DNote1/">
+                <span class="level-item">Deeplearning Note1</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
+        </div>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: '8eoAgWMqJvxDePfBogu64i1m-gzGzoHsz',
+        app_key: 'wooEMXdlCj5x9utpB1UhAobQ',
+        placeholder: '( *・ω・)✄╰ひ╯   快来评论鸭！！！ 记得填上昵称～ 邮箱（仅博主可见）～ 还有主页地址～'
+    });
+</script>
+
+    </div>
+</div>
+</div>
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen  has-order-1 column-left ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                    
+                        <img class="image is-128x128 has-mb-6" src="/images/touxiang.jpg" alt="xiaoxiong">
+                    
+                    
+                    <p class="is-size-4 is-block">
+                        xiaoxiong
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-block">
+                        ROBOT and CV
+                    </p>
+                    
+                    
+                    <p class="is-size-6 is-flex is-flex-center has-text-grey">
+                        <i class="fas fa-map-marker-alt has-mr-7"></i>
+                        <span>GuangZhou</span>
+                    </p>
+                    
+                </div>
+            </div>
+        </nav>
+        <nav class="level is-mobile">
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        文章
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        61
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        分类
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        49
+                    </p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered is-marginless">
+                <div>
+                    <p class="heading">
+                        标签
+                    </p>
+                    <p class="title has-text-weight-normal">
+                        33
+                    </p>
+                </div>
+            </div>
+        </nav>
+        <div class="level">
+            <a class="level-item button is-link is-rounded" href="https://github.com/littlebearsama" target="_blank">
+                关注我</a>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            
+            <a class="level-item button is-white is-marginless" target="_blank" title="Github" href="https://github.com/littlebearsama">
+                
+                <i class="fab fa-github"></i>
+                
+            </a>
+            
+        </div>
+        
+    </div>
+</div>
+    
+        
+    
+        
+
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            链接
+        </h3>
+        <ul class="menu-list">
+        
+            <li>
+                <a class="level is-mobile" href="https://github.com/RobotWithCV" target="_blank">
+                    <span class="level-left">
+                        <span class="level-item">RobotWithCV</span>
+                    </span>
+                    <span class="level-right">
+                        <span class="level-item tag">github.com</span>
+                    </span>
+                </a>
+            </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+
+
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                分类
+            </h3>
+            <ul class="menu-list">
+            <li>
+        <a class="level is-marginless" href="/categories/CV-Source/">
+            <span class="level-start">
+                <span class="level-item">CV-Source</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">4</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/CV-Source/0-CV-Source/">
+            <span class="level-start">
+                <span class="level-item">0.CV-Source</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/CV-Source/1-books/">
+            <span class="level-start">
+                <span class="level-item">1.books</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/CV-Source/2-SLAM/">
+            <span class="level-start">
+                <span class="level-item">2.SLAM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/CV-Source/3-SFM/">
+            <span class="level-start">
+                <span class="level-item">3.SFM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/ObjectDetection-and-PoseEstimation/">
+            <span class="level-start">
+                <span class="level-item">ObjectDetection and PoseEstimation</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">5</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/ObjectDetection-and-PoseEstimation/0-tutorial/">
+            <span class="level-start">
+                <span class="level-item">0.tutorial</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/ObjectDetection-and-PoseEstimation/1-localDescriptors-Hough/">
+            <span class="level-start">
+                <span class="level-item">1.localDescriptors+Hough</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/ObjectDetection-and-PoseEstimation/2-2010HoughvotePPF/">
+            <span class="level-start">
+                <span class="level-item">2.2010HoughvotePPF</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/ObjectDetection-and-PoseEstimation/3-2016HinterstoisserPPF/">
+            <span class="level-start">
+                <span class="level-item">3.2016HinterstoisserPPF</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/ObjectDetection-and-PoseEstimation/5-2018PPF-MEAM/">
+            <span class="level-start">
+                <span class="level-item">5.2018PPF-MEAM</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/PCL/">
+            <span class="level-start">
+                <span class="level-item">PCL</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">7</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/PCL/0-tutorial/">
+            <span class="level-start">
+                <span class="level-item">0.tutorial</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/PCL/1-configuration/">
+            <span class="level-start">
+                <span class="level-item">1.configuration</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/PCL/2-pcl-samples/">
+            <span class="level-start">
+                <span class="level-item">2.pcl samples</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/PCL/3-keypoints/">
+            <span class="level-start">
+                <span class="level-item">3.keypoints</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/PCL/4-descriptors/">
+            <span class="level-start">
+                <span class="level-item">4.descriptors</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/PCL/4-normal-estimation/">
+            <span class="level-start">
+                <span class="level-item">4.normal estimation</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/PCL/5-Region-Growing-Segmentation/">
+            <span class="level-start">
+                <span class="level-item">5.Region Growing Segmentation</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Reconstruction/">
+            <span class="level-start">
+                <span class="level-item">Reconstruction</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Reconstruction/1-3D-Reconstruction/">
+            <span class="level-start">
+                <span class="level-item">1.3D Reconstruction</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Reconstruction/2-surface-Reconstruction/">
+            <span class="level-start">
+                <span class="level-item">2.surface Reconstruction</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Reconstruction/3-3D-scene-Reconstruction/">
+            <span class="level-start">
+                <span class="level-item">3.3D scene Reconstruction</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Registration/">
+            <span class="level-start">
+                <span class="level-item">Registration</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Registration/0-SAC-IA/">
+            <span class="level-start">
+                <span class="level-item">0.SAC-IA</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/0-compute-transform/">
+            <span class="level-start">
+                <span class="level-item">0.compute transform</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/1-ICP/">
+            <span class="level-start">
+                <span class="level-item">1.ICP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/2-FastICP/">
+            <span class="level-start">
+                <span class="level-item">2.FastICP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/3-Efficient-Sparse-ICP/">
+            <span class="level-start">
+                <span class="level-item">3.Efficient Sparse ICP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/3-Sparse-ICP/">
+            <span class="level-start">
+                <span class="level-item">3.Sparse ICP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/4-Generalized-ICP/">
+            <span class="level-start">
+                <span class="level-item">4.Generalized-ICP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/5-GOICP/">
+            <span class="level-start">
+                <span class="level-item">5.GOICP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/6-mv-LM-ICP/">
+            <span class="level-start">
+                <span class="level-item">6.mv-LM-ICP</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/NDT/">
+            <span class="level-start">
+                <span class="level-item">NDT</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/其他/">
+            <span class="level-start">
+                <span class="level-item">其他</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/其他/好用的工具/">
+            <span class="level-start">
+                <span class="level-item">好用的工具</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/图像/">
+            <span class="level-start">
+                <span class="level-item">图像</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/图像/2Dimage知识/">
+            <span class="level-start">
+                <span class="level-item">2Dimage知识</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/图像/用到的opencv接口记录/">
+            <span class="level-start">
+                <span class="level-item">用到的opencv接口记录</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/机器学习与深度学习/">
+            <span class="level-start">
+                <span class="level-item">机器学习与深度学习</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/机器学习与深度学习/Deep-Learning-Notes/">
+            <span class="level-start">
+                <span class="level-item">Deep Learning Notes</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/编程/">
+            <span class="level-start">
+                <span class="level-item">编程</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">26</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/编程/C/">
+            <span class="level-start">
+                <span class="level-item">C++</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">11</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/编程/C-FQA/">
+            <span class="level-start">
+                <span class="level-item">C++ FQA</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/编程/CUDA/">
+            <span class="level-start">
+                <span class="level-item">CUDA</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/编程/cuda-FQA/">
+            <span class="level-start">
+                <span class="level-item">cuda FQA</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/编程/learn-CUDA/">
+            <span class="level-start">
+                <span class="level-item">learn CUDA</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">2</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/编程/算法与数据结构/">
+            <span class="level-start">
+                <span class="level-item">算法与数据结构</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/编程/编程知识与VS错误/">
+            <span class="level-start">
+                <span class="level-item">编程知识与VS错误</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li>
+            </ul>
+        </div>
+    </div>
+</div>
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            标签云
+        </h3>
+        <a href="/tags/3D-Reconstruction/" style="font-size: 10px;">3D Reconstruction</a> <a href="/tags/3D-scene-Reconstruction/" style="font-size: 10px;">3D scene Reconstruction</a> <a href="/tags/C/" style="font-size: 20px;">C++</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CV-Source/" style="font-size: 14.29px;">CV-Source</a> <a href="/tags/Deep-Learning/" style="font-size: 11.43px;">Deep Learning</a> <a href="/tags/Despriptors/" style="font-size: 10px;">Despriptors</a> <a href="/tags/Efficient-Sparse-ICP/" style="font-size: 10px;">Efficient Sparse ICP</a> <a href="/tags/FastICP/" style="font-size: 10px;">FastICP</a> <a href="/tags/GOICP/" style="font-size: 10px;">GOICP</a> <a href="/tags/Generalized-ICP/" style="font-size: 11.43px;">Generalized-ICP</a> <a href="/tags/ICP/" style="font-size: 17.14px;">ICP</a> <a href="/tags/LM/" style="font-size: 10px;">LM</a> <a href="/tags/NDT/" style="font-size: 11.43px;">NDT</a> <a href="/tags/ObjectDetection/" style="font-size: 15.71px;">ObjectDetection</a> <a href="/tags/PCL/" style="font-size: 17.14px;">PCL</a> <a href="/tags/PoseEstimation/" style="font-size: 17.14px;">PoseEstimation</a> <a href="/tags/RANSAC/" style="font-size: 10px;">RANSAC</a> <a href="/tags/Reconstruction/" style="font-size: 12.86px;">Reconstruction</a> <a href="/tags/Registration/" style="font-size: 18.57px;">Registration</a> <a href="/tags/SAC-IA/" style="font-size: 10px;">SAC-IA</a> <a href="/tags/SFM/" style="font-size: 10px;">SFM</a> <a href="/tags/STL/" style="font-size: 10px;">STL</a> <a href="/tags/SVD/" style="font-size: 10px;">SVD</a> <a href="/tags/Sparse-ICP/" style="font-size: 10px;">Sparse ICP</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/keypoints/" style="font-size: 10px;">keypoints</a> <a href="/tags/mv-LM-ICP/" style="font-size: 10px;">mv-LM-ICP</a> <a href="/tags/std/" style="font-size: 10px;">std</a> <a href="/tags/surface-Reconstruction/" style="font-size: 10px;">surface Reconstruction</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/图像/" style="font-size: 11.43px;">图像</a> <a href="/tags/编程知识与VS错误/" style="font-size: 10px;">编程知识与VS错误</a>
+    </div>
+</div>
+
+    
+    
+        <div class="column-right-shadow is-hidden-widescreen ">
+        
+            
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/05/Coding/编程知识与VS错误/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="编程知识与VS错误">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-04T16:10:22.000Z">2020-07-05</time></div>
+                    <a href="/2020/07/05/Coding/编程知识与VS错误/" class="has-link-black-ter is-size-6">编程知识与VS错误</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/编程知识与VS错误/">编程知识与VS错误</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/05/other/git/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="GIT教程">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-04T16:10:21.000Z">2020-07-05</time></div>
+                    <a href="/2020/07/05/other/git/" class="has-link-black-ter is-size-6">GIT教程</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/04/11/MAD_Learning/DNote1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Deeplearning Note1">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-11T06:16:49.000Z">2020-04-11</time></div>
+                    <a href="/2020/04/11/MAD_Learning/DNote1/" class="has-link-black-ter is-size-6">Deeplearning Note1</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/机器学习与深度学习/">机器学习与深度学习</a> / <a class="has-link-grey -link" href="/categories/机器学习与深度学习/Deep-Learning-Notes/">Deep Learning Notes</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/04/11/Registration/0.SAC-IA/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="SAC-IA">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-11T03:27:52.225Z">2020-04-11</time></div>
+                    <a href="/2020/04/11/Registration/0.SAC-IA/" class="has-link-black-ter is-size-6">SAC-IA</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/0-SAC-IA/">0.SAC-IA</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/12/16/DaNAlgorithm/Generate_Random_NUM/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="生成随机数">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-16T14:05:33.000Z">2019-12-16</time></div>
+                    <a href="/2019/12/16/DaNAlgorithm/Generate_Random_NUM/" class="has-link-black-ter is-size-6">生成随机数</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/算法与数据结构/">算法与数据结构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">六月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">27</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+        
+            <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/3D-Reconstruction/">
+                        <span class="tag">3D Reconstruction</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/3D-scene-Reconstruction/">
+                        <span class="tag">3D scene Reconstruction</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/C/">
+                        <span class="tag">C++</span>
+                        <span class="tag is-grey">13</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/CUDA/">
+                        <span class="tag">CUDA</span>
+                        <span class="tag is-grey">13</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/CV-Source/">
+                        <span class="tag">CV-Source</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Deep-Learning/">
+                        <span class="tag">Deep Learning</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Despriptors/">
+                        <span class="tag">Despriptors</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Efficient-Sparse-ICP/">
+                        <span class="tag">Efficient Sparse ICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/FastICP/">
+                        <span class="tag">FastICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/GOICP/">
+                        <span class="tag">GOICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Generalized-ICP/">
+                        <span class="tag">Generalized-ICP</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ICP/">
+                        <span class="tag">ICP</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/LM/">
+                        <span class="tag">LM</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/NDT/">
+                        <span class="tag">NDT</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ObjectDetection/">
+                        <span class="tag">ObjectDetection</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/PCL/">
+                        <span class="tag">PCL</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/PoseEstimation/">
+                        <span class="tag">PoseEstimation</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/RANSAC/">
+                        <span class="tag">RANSAC</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Reconstruction/">
+                        <span class="tag">Reconstruction</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Registration/">
+                        <span class="tag">Registration</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SAC-IA/">
+                        <span class="tag">SAC-IA</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SFM/">
+                        <span class="tag">SFM</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/STL/">
+                        <span class="tag">STL</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SVD/">
+                        <span class="tag">SVD</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Sparse-ICP/">
+                        <span class="tag">Sparse ICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/books/">
+                        <span class="tag">books</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/keypoints/">
+                        <span class="tag">keypoints</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/mv-LM-ICP/">
+                        <span class="tag">mv-LM-ICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/std/">
+                        <span class="tag">std</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/surface-Reconstruction/">
+                        <span class="tag">surface Reconstruction</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/tools/">
+                        <span class="tag">tools</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/图像/">
+                        <span class="tag">图像</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/编程知识与VS错误/">
+                        <span class="tag">编程知识与VS错误</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+        
+        </div>
+    
+</div>
+
+                
+
+
+
+
+<div class="column is-4-tablet is-4-desktop is-3-widescreen is-hidden-touch is-hidden-desktop-only has-order-3 column-right ">
+    
+        
+<div class="card widget">
+    <div class="card-content">
+        <h3 class="menu-label">
+            最新文章
+        </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/05/Coding/编程知识与VS错误/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="编程知识与VS错误">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-04T16:10:22.000Z">2020-07-05</time></div>
+                    <a href="/2020/07/05/Coding/编程知识与VS错误/" class="has-link-black-ter is-size-6">编程知识与VS错误</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/编程知识与VS错误/">编程知识与VS错误</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/05/other/git/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="GIT教程">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-04T16:10:21.000Z">2020-07-05</time></div>
+                    <a href="/2020/07/05/other/git/" class="has-link-black-ter is-size-6">GIT教程</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/04/11/MAD_Learning/DNote1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Deeplearning Note1">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-11T06:16:49.000Z">2020-04-11</time></div>
+                    <a href="/2020/04/11/MAD_Learning/DNote1/" class="has-link-black-ter is-size-6">Deeplearning Note1</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/机器学习与深度学习/">机器学习与深度学习</a> / <a class="has-link-grey -link" href="/categories/机器学习与深度学习/Deep-Learning-Notes/">Deep Learning Notes</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/04/11/Registration/0.SAC-IA/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="SAC-IA">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-11T03:27:52.225Z">2020-04-11</time></div>
+                    <a href="/2020/04/11/Registration/0.SAC-IA/" class="has-link-black-ter is-size-6">SAC-IA</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/0-SAC-IA/">0.SAC-IA</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2019/12/16/DaNAlgorithm/Generate_Random_NUM/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="生成随机数">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2019-12-16T14:05:33.000Z">2019-12-16</time></div>
+                    <a href="/2019/12/16/DaNAlgorithm/Generate_Random_NUM/" class="has-link-black-ter is-size-6">生成随机数</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/算法与数据结构/">算法与数据结构</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+    </div>
+</div>
+
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+        <h3 class="menu-label">
+            归档
+        </h3>
+        <ul class="menu-list">
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2020/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2020</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">2</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/12/">
+                <span class="level-start">
+                    <span class="level-item">十二月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/08/">
+                <span class="level-start">
+                    <span class="level-item">八月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/07/">
+                <span class="level-start">
+                    <span class="level-item">七月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">8</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/06/">
+                <span class="level-start">
+                    <span class="level-item">六月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">14</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">27</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2019/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2019</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">4</span>
+                </span>
+            </a>
+        </li>
+        
+        </ul>
+        </div>
+    </div>
+</div>
+    
+        <div class="card widget">
+    <div class="card-content">
+        <div class="menu">
+            <h3 class="menu-label">
+                标签
+            </h3>
+            <div class="field is-grouped is-grouped-multiline">
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/3D-Reconstruction/">
+                        <span class="tag">3D Reconstruction</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/3D-scene-Reconstruction/">
+                        <span class="tag">3D scene Reconstruction</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/C/">
+                        <span class="tag">C++</span>
+                        <span class="tag is-grey">13</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/CUDA/">
+                        <span class="tag">CUDA</span>
+                        <span class="tag is-grey">13</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/CV-Source/">
+                        <span class="tag">CV-Source</span>
+                        <span class="tag is-grey">4</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Deep-Learning/">
+                        <span class="tag">Deep Learning</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Despriptors/">
+                        <span class="tag">Despriptors</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Efficient-Sparse-ICP/">
+                        <span class="tag">Efficient Sparse ICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/FastICP/">
+                        <span class="tag">FastICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/GOICP/">
+                        <span class="tag">GOICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Generalized-ICP/">
+                        <span class="tag">Generalized-ICP</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ICP/">
+                        <span class="tag">ICP</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/LM/">
+                        <span class="tag">LM</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/NDT/">
+                        <span class="tag">NDT</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/ObjectDetection/">
+                        <span class="tag">ObjectDetection</span>
+                        <span class="tag is-grey">5</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/PCL/">
+                        <span class="tag">PCL</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/PoseEstimation/">
+                        <span class="tag">PoseEstimation</span>
+                        <span class="tag is-grey">7</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/RANSAC/">
+                        <span class="tag">RANSAC</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Reconstruction/">
+                        <span class="tag">Reconstruction</span>
+                        <span class="tag is-grey">3</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Registration/">
+                        <span class="tag">Registration</span>
+                        <span class="tag is-grey">10</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SAC-IA/">
+                        <span class="tag">SAC-IA</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SFM/">
+                        <span class="tag">SFM</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/STL/">
+                        <span class="tag">STL</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SVD/">
+                        <span class="tag">SVD</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Sparse-ICP/">
+                        <span class="tag">Sparse ICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/books/">
+                        <span class="tag">books</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/keypoints/">
+                        <span class="tag">keypoints</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/mv-LM-ICP/">
+                        <span class="tag">mv-LM-ICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/std/">
+                        <span class="tag">std</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/surface-Reconstruction/">
+                        <span class="tag">surface Reconstruction</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/tools/">
+                        <span class="tag">tools</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/图像/">
+                        <span class="tag">图像</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/编程知识与VS错误/">
+                        <span class="tag">编程知识与VS错误</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+    
+    
+</div>
+
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-start has-text-centered-mobile">
+                <a class="footer-logo is-block has-mb-6" href="/">
+                
+                    <img src="/images/pig.png" alt="GIT教程" height="28">
+                
+                </a>
+                <p class="is-size-7">
+                &copy; 2020 小熊&nbsp;
+                Powered by <a href="https://hexo.io/" target="_blank">Hexo</a> & <a href="https://github.com/ppoffice/hexo-theme-icarus" target="_blank">Icarus</a>
+                
+                </p>
+            </div>
+            <div class="level-end">
+            
+                <div class="field has-addons is-flex-center-mobile has-mt-5-mobile is-flex-wrap is-flex-middle">
+                
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Creative Commons" href="https://creativecommons.org/">
+                        
+                        <i class="fab fa-creative-commons"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Attribution 4.0 International" href="https://creativecommons.org/licenses/by/4.0/">
+                        
+                        <i class="fab fa-creative-commons-by"></i>
+                        
+                    </a>
+                </p>
+                
+                <p class="control">
+                    <a class="button is-white is-large" target="_blank" title="Download on GitHub" href="https://github.com/ppoffice/hexo-theme-icarus">
+                        
+                        <i class="fab fa-github"></i>
+                        
+                    </a>
+                </p>
+                
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/min/moment-with-locales.min.js"></script>
+<script>moment.locale("zh-CN");</script>
+
+
+    
+    
+    
+    <script src="/js/animation.js"></script>
+    
+
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/lightgallery@1.6.8/dist/js/lightgallery.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js" defer></script>
+    <script src="/js/gallery.js" defer></script>
+    
+
+    
+    
+
+<div id="outdated">
+    <h6>Your browser is out-of-date!</h6>
+    <p>Update your browser to view this website correctly. <a id="btnUpdateBrowser" href="http://outdatedbrowser.com/">Update
+            my browser now </a></p>
+    <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/outdatedbrowser@1.1.5/outdatedbrowser/outdatedbrowser.min.js" defer></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        outdatedBrowser({
+            bgColor: '#f25648',
+            color: '#ffffff',
+            lowerThan: 'flex'
+        });
+    });
+</script>
+
+
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/unpacked/MathJax.js?config=TeX-MML-AM_CHTML" defer></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    MathJax.Hub.Config({
+        'HTML-CSS': {
+            matchFontHeight: false
+        },
+        SVG: {
+            matchFontHeight: false
+        },
+        CommonHTML: {
+            matchFontHeight: false
+        },
+        tex2jax: {
+            inlineMath: [
+                ['$','$'],
+                ['\\(','\\)']
+            ]
+        }
+    });
+});
+</script>
+
+    
+    
+
+<a id="back-to-top" title="回到顶端" href="javascript:;">
+    <i class="fas fa-chevron-up"></i>
+</a>
+<script src="/js/back-to-top.js" defer></script>
+
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.4/dist/clipboard.min.js" defer></script>
+    <script src="/js/clipboard.js" defer></script>
+    
+
+    
+    
+    
+
+
+<script src="/js/main.js" defer></script>
+
+    
+    <div class="searchbox ins-search">
+    <div class="searchbox-container ins-search-container">
+        <div class="searchbox-input-wrapper">
+            <input type="text" class="searchbox-input ins-search-input" placeholder="想要查找什么...">
+            <span class="searchbox-close ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="searchbox-result-wrapper ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    (function (window) {
+        var INSIGHT_CONFIG = {
+            TRANSLATION: {
+                POSTS: '文章',
+                PAGES: '页面',
+                CATEGORIES: '分类',
+                TAGS: '标签',
+                UNTITLED: '(无标题)',
+            },
+            CONTENT_URL: '/content.json',
+        };
+        window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+    })(window);
+</script>
+<script src="/js/insight.js" defer></script>
+<link rel="stylesheet" href="/css/search.css">
+<link rel="stylesheet" href="/css/insight.css">
+    
+</body>
+</html>
