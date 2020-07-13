@@ -2,23 +2,24 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>归档 - LittleBear！！！</title>
+<title>C++ 笔记2 - LittleBear！！！</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta name="description" content="Robot With CV">
-<meta name="keywords" content="CUDA PCL OpenCV">
-<meta property="og:type" content="website">
-<meta property="og:title" content="LittleBear！！！">
-<meta property="og:url" content="https://littlebearsama.github.io/archives/page/3/index.html">
+    <meta name="description" content="第5～8章 函数 GitHub 建议下载下来用Typora软件阅读markdown文件">
+<meta name="keywords" content="C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ 笔记2">
+<meta property="og:url" content="https://littlebearsama.github.io/2019/05/23/C++/C++11/C++笔记2/index.html">
 <meta property="og:site_name" content="LittleBear！！！">
-<meta property="og:description" content="Robot With CV">
+<meta property="og:description" content="第5～8章 函数 GitHub 建议下载下来用Typora软件阅读markdown文件">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2019-06-06T13:00:27.460Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LittleBear！！！">
-<meta name="twitter:description" content="Robot With CV">
+<meta name="twitter:title" content="C++ 笔记2">
+<meta name="twitter:description" content="第5～8章 函数 GitHub 建议下载下来用Typora软件阅读markdown文件">
 <meta name="twitter:image" content="https://littlebearsama.github.io/images/og_image.png">
 
 
@@ -102,7 +103,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/pig.png" alt="LittleBear！！！" height="28">
+                <img src="/images/pig.png" alt="C++ 笔记2" height="28">
             
             </a>
         </div>
@@ -147,236 +148,502 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
         
-<div class="card widget">
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-23T14:12:33.000Z">2019-05-23</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/编程/">编程</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    38 分钟 读完 (大约 5750 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                C++ 笔记2
+            
+        </h1>
+        <div class="content">
+            <p><strong>第5～8章 函数</strong></p>
+<p><a href="https://github.com/littlebearsama/C-plusplus-notes-chinese-/tree/master/2.函数" target="_blank" rel="noopener">GitHub</a></p>
+<p>建议下载下来用Typora软件阅读markdown文件</p>
+<a id="more"></a>
+
+<h1 id="一、函数"><a href="#一、函数" class="headerlink" title="一、函数"></a>一、函数</h1><p>函数—C++的编程模块（<strong>要提高编程效率，可更深入地学习STL和BOOST C++提供的功能</strong>）</p>
+<blockquote>
+<ul>
+<li>1.提供函数定义 function definition</li>
+<li>2.提供函数原型 function prototype</li>
+<li>3.调用函数 function call</li>
+</ul>
+</blockquote>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function">Void <span class="hljs-title">functionName</span><span class="hljs-params">(parameterlist)</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line">statement(s)</span><br><span class="line">teturn;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>parameterlist:指定了传递给函数的参数类型和数量</li>
+<li>void:没有返回值，对于有返回值的函数，必须有返回语句return</li>
+<li>1.返回值类型有一定的限制：<strong>不能是数组</strong>，但可以是其他任何类型—整数，浮点数，指针，甚至可以是结构和对象。</li>
+<li>2.函数通过将返回值复制到指定的<strong>CPU寄存器</strong>或<strong>内存单元</strong>中来将其返回。</li>
+</ul>
+<h2 id="1-为什么需要原型"><a href="#1-为什么需要原型" class="headerlink" title="1.为什么需要原型"></a>1.为什么需要原型</h2><p><strong>原型描述了函数到编译器的接口</strong>:</p>
+<p>它将1.函数返回值类型（如果有的话）</p>
+<p>以及2.参数的类型</p>
+<p>和3.数量告诉编译器。（在原型的参数列表中，可以包含变量名，也可以不包含。原型中的变量名相当于占位符，因此不必与函数中的变量名相同）</p>
+<ul>
+<li>确保：编译器正确处理1，编译器检查2，3</li>
+</ul>
+<h2 id="2-函数参数传递和按值传递"><a href="#2-函数参数传递和按值传递" class="headerlink" title="2.函数参数传递和按值传递"></a>2.函数参数传递和按值传递</h2><ul>
+<li>用于接收传递值的变量被称为形参（parameter），传递给函数的值被称为实参（argument）。</li>
+<li>值传递：调用函数时，使用的是实参的副本，而不是原来的数据。</li>
+<li>在函数中声明的变量（<strong>局部变量（自动变量）</strong>）（包括参数）是该函数<strong>私有的</strong>，函数调用时：计算机将为这些变量分配内存；函数结束时：计算机将释放这些变量使用的内存。</li>
+</ul>
+<h2 id="3-函数和数组"><a href="#3-函数和数组" class="headerlink" title="3.函数和数组"></a>3.函数和数组</h2><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sum_arr</span><span class="hljs-params">(<span class="hljs-keyword">int</span> arr[],<span class="hljs-keyword">int</span> n)</span></span>;<span class="hljs-comment">//arr=arrayname.n=size</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sum_arr</span><span class="hljs-params">(<span class="hljs-keyword">int</span> * arr,<span class="hljs-keyword">int</span> n)</span></span>;<span class="hljs-comment">//arr=arrayname.n=size</span></span><br><span class="line"><span class="hljs-comment">//两者是等价的</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="a-数组与指针"><a href="#a-数组与指针" class="headerlink" title="a.数组与指针"></a>a.数组与指针</h3><ul>
+<li>在C++中，当且仅当用于函数头或者函数原型中，<code>int * arr</code>和<code>int arr[]</code>的含义才是相同的。它们意味着arr是一个int指针。</li>
+<li>然而，数组表示法(int arr[])提醒用户，arr不仅指向int，还指向int数组的第一个int。</li>
+</ul>
+<h3 id="b-const保护数组（输入数组原数据不能改变）"><a href="#b-const保护数组（输入数组原数据不能改变）" class="headerlink" title="b.const保护数组（输入数组原数据不能改变）"></a>b.const保护数组（输入数组原数据不能改变）</h3><p>  <code>void show_array(const double ar[],int n);</code>//声明形参时使用const关键字</p>
+<ul>
+<li>该声明表明，指针or指向的是常量数据。这意味着不能使用or修改数据。<strong>这并不意味着原始数据必须是常量</strong>，只意味着不能使用该指针来修改原始数据。</li>
+<li>如果该函数要修改数组的值，声明ar时不能使用const</li>
+</ul>
+<hr>
+<h3 id="c-如何使用数组作为参数传递给函数"><a href="#c-如何使用数组作为参数传递给函数" class="headerlink" title="c.如何使用数组作为参数传递给函数"></a>c.如何使用数组作为参数传递给函数</h3><p>对于处理数组的C++函数，必须将数组中的</p>
+<blockquote>
+<p>1.数据类型</p>
+</blockquote>
+<blockquote>
+<p>2.数组的起始位置</p>
+</blockquote>
+<blockquote>
+<p>3.和数组元素中的数量<strong>提交给他</strong></p>
+<ol>
+<li>传统的C/C++方法是，将<strong>指向数组起始处的指针</strong>作为一个参数，将<strong>数组长度</strong>作为第二个参数（指针指出数组位置和数据类型）</li>
+</ol>
+</blockquote>
+<ol start="2">
+<li>第二种方法：指定元素区间（range）<br>通过<strong>传递两个指针来完成</strong>：一个指针表示数组的<strong>开头</strong>，另外一个指针表示数组的<strong>尾部</strong>。例子：</li>
+</ol>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">sum_arr</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> *begun,<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> *end)</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line"><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> *pt;</span><br><span class="line"><span class="hljs-keyword">int</span> total=<span class="hljs-number">0</span>;</span><br><span class="line"><span class="hljs-keyword">for</span>(pt=begin;pt!=end;pt++)</span><br><span class="line">total=toatl+*pt;</span><br><span class="line"><span class="hljs-keyword">return</span> total;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">int</span> cookies[ArSize]= &#123;<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">4</span>,<span class="hljs-number">8</span>,<span class="hljs-number">16</span>,<span class="hljs-number">32</span>,<span class="hljs-number">64</span>,<span class="hljs-number">128</span>&#125;;</span><br><span class="line"><span class="hljs-keyword">int</span> sum=sum_arr(cookies,cookies+ArSize);</span><br></pre></td></tr></table></figure>
+
+<h2 id="4-函数与C风格字符串"><a href="#4-函数与C风格字符串" class="headerlink" title="4.函数与C风格字符串"></a>4.函数与C风格字符串</h2><p>假设要将字符串（实际传递的是字符串第一字符的地址）作为参数传递给函数，则表示字符串的方式有三种：</p>
+<blockquote>
+<ul>
+<li>1.char数组T</li>
+<li>2.用引号的字符串常量</li>
+<li>3.被设置为字符串的地址的char指针。</li>
+</ul>
+</blockquote>
+<h2 id="5-函数和结构"><a href="#5-函数和结构" class="headerlink" title="5.函数和结构"></a>5.函数和结构</h2><p>涉及函数时，结构变量的行为更接近基于基本的<strong>单值变量</strong></p>
+<blockquote>
+<ul>
+<li>1.按值传递–&gt;如果结构非常大，则复制结构将增加内存要求，且<code>使用的是原始变量的副本</code></li>
+<li>2.传递结构的地址，然后使用指针来访问结构的内容</li>
+</ul>
+</blockquote>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">rect rplace;</span><br><span class="line">polar pplace;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">rect_to_polar</span><span class="hljs-params">(<span class="hljs-keyword">const</span> rect*pxy,polar*pda)</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br><span class="line">rect_to_polar(&amp;rplace,&amp;pplace);</span><br></pre></td></tr></table></figure>
+
+<p>调用函数时，将结构的地址（&amp;pplace）而不是结构本身（pplace）传递给它；将形参声明为指向polar的指针，即<code>polar*</code>类型。由于函数不应该修改结构，因此使用了const修饰符，由于形参是指针不是结构，因此应使用间接成员运算符(<strong>-&gt;</strong>)，而不是成员运算符（.）。</p>
+<blockquote>
+<ul>
+<li>3.按引传递用，传指针和传引用效率都高，一般主张是引用传递代码逻辑更加紧凑清晰。</li>
+</ul>
+</blockquote>
+<h2 id="递归—C-函数有一种有趣的特点–可以调用自己（除了main-）"><a href="#递归—C-函数有一种有趣的特点–可以调用自己（除了main-）" class="headerlink" title="递归—C++函数有一种有趣的特点–可以调用自己（除了main()）"></a>递归—C++函数有一种有趣的特点–可以调用自己（除了main()）</h2><p>1.包含一个递归调用的递归</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">recurs</span><span class="hljs-params">(argumentlist)</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line">statement1</span><br><span class="line"><span class="hljs-keyword">if</span>(test)</span><br><span class="line">recurs(arguments)</span><br><span class="line">statement2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果调用5次recurs就会运行5次statement1，运行1次statement2.</p>
+<p>2.包含多个递归调用的递归</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">recurs</span><span class="hljs-params">(argumentlist)</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line"><span class="hljs-keyword">if</span>(test)</span><br><span class="line"><span class="hljs-keyword">return</span>;</span><br><span class="line">statement;</span><br><span class="line">recurs(argumentlist1);</span><br><span class="line">recurs(argumentlist2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3.从1加到n</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span></span></span><br><span class="line"><span class="hljs-class">&#123;</span></span><br><span class="line"><span class="hljs-keyword">public</span>:</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">Sum_Solution</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span></span>&#123;</span><br><span class="line"><span class="hljs-keyword">int</span> ans=n;</span><br><span class="line">ans&amp;&amp;(ans+=Sum_Solution(n<span class="hljs-number">-1</span>));</span><br><span class="line"><span class="hljs-keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-comment">//&amp;&amp;就是逻辑与，逻辑与有个短路特点，前面为假，后面不计算。</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="6-函数指针"><a href="#6-函数指针" class="headerlink" title="6.函数指针"></a>6.函数指针</h2><p>函数也有地址—存储其机器语言代码的内存的开始地址</p>
+<ul>
+<li><ol>
+<li>获取函数的地址，只要使用函数名（后面不跟参数）即可。<blockquote>
+<p>例如think()是个函数</p>
+</blockquote>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">process(think);<span class="hljs-comment">//传递的是地址</span></span><br><span class="line">thought(think());<span class="hljs-comment">//传递的是函数返回值</span></span><br><span class="line"><span class="hljs-comment">//使用</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">double</span> <span class="hljs-title">pam</span><span class="hljs-params">(<span class="hljs-keyword">int</span>)</span></span>;<span class="hljs-comment">//原始函数声明</span></span><br><span class="line"><span class="hljs-keyword">double</span> (*pf)(<span class="hljs-keyword">int</span>);<span class="hljs-comment">//函数指针声明</span></span><br><span class="line">pf=pam;<span class="hljs-comment">//使用指针指向pam函数</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">double</span> x=pam(<span class="hljs-number">4</span>);<span class="hljs-comment">//使用函数名调用pam()</span></span><br><span class="line"><span class="hljs-keyword">double</span> y=(*pf)(<span class="hljs-number">5</span>);<span class="hljs-comment">//使用指针调用pam()</span></span><br><span class="line"><span class="hljs-comment">//也可以这样使用函数指针</span></span><br><span class="line"><span class="hljs-keyword">double</span> y=pf(<span class="hljs-number">5</span>);</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>进阶<br>下面函数原型的特征表和返回类型相同<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *<span class="hljs-title">f1</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> ar[],<span class="hljs-keyword">int</span> n)</span></span>;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *<span class="hljs-title">f2</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> [],<span class="hljs-keyword">int</span> )</span></span>;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *<span class="hljs-title">f3</span><span class="hljs-params">(<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *,<span class="hljs-keyword">int</span> )</span></span>;</span><br><span class="line"><span class="hljs-comment">//声明一个指针可以指向f1，f2，f3</span></span><br><span class="line"><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> * (*p1)(<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *,<span class="hljs-keyword">int</span> );<span class="hljs-comment">//返回类型相同，函数的特征标相同</span></span><br><span class="line"><span class="hljs-comment">//声明并初始化</span></span><br><span class="line"><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> * (*p1)(<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *,<span class="hljs-keyword">int</span> )=f1;</span><br><span class="line"><span class="hljs-comment">//也可以使用自动类型推断</span></span><br><span class="line"><span class="hljs-keyword">auto</span> p2=f2;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>使用for循环通过指针依次条用每个函数<blockquote>
+<p>例子：声明包含三个函数指针的数组，并初始化</p>
+</blockquote>
+</li>
+</ol>
+</li>
+</ul>
+<p><code>const double * (*pa[3])(const double *,int)={f1,f2,f3};</code></p>
+<p>问：为什么不使用自动类型推断？auto</p>
+<p>答：因为自动类型推断只能用于<strong>单值初始化</strong>，而不能用初始化列表。</p>
+<p>但可以声明相同类型的数组 auto pb=pa;</p>
+<p>使用：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *px=pa[<span class="hljs-number">0</span>](av<span class="hljs-number">.3</span>);<span class="hljs-comment">//两种表示法都可以</span></span><br><span class="line"><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *py=pb[<span class="hljs-number">1</span>](av<span class="hljs-number">.3</span>);</span><br><span class="line"><span class="hljs-comment">//创建指向整个数组的指针。由于数组名pa是指向函数指针的指针</span></span><br><span class="line"><span class="hljs-keyword">auto</span> pc=&amp;pa;<span class="hljs-comment">//c++11</span></span><br><span class="line"><span class="hljs-comment">//等价于</span></span><br><span class="line"><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> * (*(*pd[<span class="hljs-number">3</span>]))(<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *,<span class="hljs-keyword">int</span>)=&amp;pa;<span class="hljs-comment">//C++98</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>除了auto外，其他简化声明的工具，typedef进行简化</strong><br>点云库里常常用到,如:<code>typedef pcl::PointNormal PointNT</code></li>
+</ul>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">typedef</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> * (*p_fun)(<span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> *,<span class="hljs-keyword">int</span> );</span><br><span class="line">p_fun p1=f1;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h1 id="二、函数探幽"><a href="#二、函数探幽" class="headerlink" title="二、函数探幽"></a>二、函数探幽</h1><p>C++11新特性</p>
+<ol>
+<li>函数内联</li>
+<li>按引用传递变量</li>
+<li>默认参数值</li>
+<li>函数重载（多态）</li>
+<li>模板函数</li>
+</ol>
+<h2 id="1-内联函数"><a href="#1-内联函数" class="headerlink" title="1.内联函数"></a>1.内联函数</h2><p>c++内联函数–&gt;提高程序运行速度：常规函数与内联函数的区别在于,<strong>C++编译器如何将它们组合到程序中</strong></p>
+<ul>
+<li>常规函数调用过程：</li>
+</ul>
+<ol>
+<li>执行到<strong>函数调用指令</strong>程序在函数调用后立即<strong>存储该指令地址</strong>，并将<strong>函数参数</strong>复制到<strong>堆栈中</strong>(为此保留的代码)，</li>
+<li>跳到标记起点内存单元，</li>
+<li>执行函数代码（也许将返回值放入寄存器中），</li>
+<li>然后跳回地址被保存的指令处。</li>
+</ol>
+<p>来回跳跃并记录跳跃位置意味着以前使用函数时，需要一定的开销。</p>
+<ul>
+<li>情况：函数代码执行时间很短—内联调用就可以节省非内联调用的大部分时间（节省时间绝对值并不大）</li>
+<li>代价：需要占用更多的内存：如果程序在是个不同地方调用一个内联函数，则该函数将包含该函数代码的10个副本</li>
+<li>使用：</li>
+</ul>
+<p>在函数声明前加上关键字inline；</p>
+<p>在函数定义前加上关键字inline；</p>
+<p>通常的做法是省略原型，将整个定义（即函数头和所有代码），放在本应提供原型的地方。</p>
+<ul>
+<li><strong>内联函数不能递归</strong></li>
+<li>如果函数占用多行（假设没有冗长的标识符），将其作为内联函数不太合适.</li>
+</ul>
+<h3 id="内联与宏"><a href="#内联与宏" class="headerlink" title="内联与宏"></a>内联与宏</h3><p>C语言使用预处理语句<code>#define</code>来提供宏—内联代码的原始实现</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta"># <span class="hljs-meta-keyword">define</span> SQUARE(X) X*X</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>这不是通过<strong>传递参数实现的</strong>,而是通过<strong>文本替换</strong>实现的—X是”参数”的符号标记。<strong>所以宏不能按值传递</strong></li>
+</ul>
+<p>故有时候会出现错误</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">c=<span class="hljs-number">10</span>;</span><br><span class="line">d=SQUARE(C++);is replaced by d=C++*c++=<span class="hljs-number">11</span>X12=<span class="hljs-number">122</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-按引用传递变量"><a href="#2-按引用传递变量" class="headerlink" title="2.按引用传递变量"></a>2.按引用传递变量</h2><p><strong>引用变量</strong>–&gt;是复合类型<br><code>int &amp; rodents =rats;</code>其中int &amp;是类型，该声明允许将rats和rodent互换—他们指向相同的值和内存单元。</p>
+<ul>
+<li>必须在声明引用变量时进行初始化</li>
+<li>引用更接近const指针(指向const数据的指针)，必须在创建时进行初始化，一旦与某个变量关联起来就一直效忠于它。<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">int</span> &amp; rodents=rats;</span><br><span class="line"><span class="hljs-comment">//实际上是下述代码的伪装表示</span></span><br><span class="line"><span class="hljs-keyword">int</span> * <span class="hljs-keyword">const</span> pr=&amp;rats;</span><br><span class="line"><span class="hljs-comment">//引用rodents扮演的角色与*pr相同。</span></span><br><span class="line"><span class="hljs-comment">//*pr值是个地址，且该地址恒等于&amp;rat--&gt;rats的地址</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="引用的属性与特别之处"><a href="#引用的属性与特别之处" class="headerlink" title="引用的属性与特别之处"></a>引用的属性与特别之处</h3><h3 id="应该尽可能使用const"><a href="#应该尽可能使用const" class="headerlink" title="应该尽可能使用const"></a>应该尽可能使用const</h3><h3 id="C-11新增了另外一种引用—右值引用。这种引用可指向右值，是使用-amp-amp-声明的："><a href="#C-11新增了另外一种引用—右值引用。这种引用可指向右值，是使用-amp-amp-声明的：" class="headerlink" title="C++11新增了另外一种引用—右值引用。这种引用可指向右值，是使用&amp;&amp;声明的："></a>C++11新增了另外一种引用—右值引用。这种引用可指向右值，是使用&amp;&amp;声明的：</h3><p>第十八章将讨论如何使用右值引用来实现<strong>移动语义（move semantics）</strong>,以前的引用（使用&amp;声明的引用）现在称为<strong>左值引用</strong></p>
+<ul>
+<li><ol>
+<li>右值引用是对<strong>临时对象</strong>的一种引用，它是在初始化时完成的，<strong>但右值引用不代表引用临时对象后，就不能改变右值引用所引用对象的值，仍然可以初始化后改变临时对象的值</strong></li>
+</ol>
+</li>
+<li><ol start="2">
+<li>右值短暂，<strong>右值只能绑定到临时对象</strong>。所引用对象将要销毁或没有其他用户</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>初始化右值引用一定要<strong>用一个右值表达式绑定。</strong></li>
+</ol>
+</li>
+</ul>
+<p>例子：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">double</span> &amp;&amp;rref=<span class="hljs-built_in">std</span>::<span class="hljs-built_in">sqrt</span>(<span class="hljs-number">36.00</span>);<span class="hljs-comment">//在左值引用中不成立，即使用&amp;来实现也是不允许的</span></span><br><span class="line"><span class="hljs-keyword">double</span> j=<span class="hljs-number">15.0</span>;</span><br><span class="line"><span class="hljs-keyword">double</span>&amp;&amp; jref=<span class="hljs-number">2.0</span>*j+<span class="hljs-number">18.5</span>;<span class="hljs-comment">//同样使用左值引用是不能实现的。</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="将引用用于结构"><a href="#将引用用于结构" class="headerlink" title="将引用用于结构"></a>将引用用于结构</h3><p>引用非常适合用于结构和类(C++用户定义类型)而不是基本的内置类型。</p>
+<ul>
+<li><p>声明函数原型，在函数中将指向该结构的引用作为参数：<code>void set_pc(free_throws &amp; tf);</code>如果不希望函数修改传入的结构。可使用const；<code>void display(free_throws &amp; tf);</code></p>
+</li>
+<li><p>返回引用：free_throws &amp;accumlate(free_throws&amp; traget,free_throws&amp; source);为何要返回引用？如果accumlate()返回一个结构，如：dup=accumlate(team,five) 而不是指向结构的引用。这将把整个结构复制到一个临时位置，再将这个拷贝复制给dup。<strong>但在返回值为引用时，直接把team复制到dup，其效率更高</strong>，复制两次和复制一次的区别。</p>
+</li>
+<li><p>应避免返回函数终止时，不在存在的内存单元引用。为避免这种问题，最简单的方法是，<strong>返回一个作为参数传递给函数的引用</strong>。作为参数的引用指向调用函数使用的数据，因此返回引用也将指向这些数据。</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function">free_throws&amp; <span class="hljs-title">accumlate</span><span class="hljs-params">(free_throws&amp; traget,free_throws&amp; source)</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line">traget.attempts+=source.attempts;</span><br><span class="line">traget.mode+=source.mode;</span><br><span class="line">set_pc(target);</span><br><span class="line"><span class="hljs-keyword">return</span> target;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>另一种方法是用new来分配新的存储空间</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">const</span> free_throws&amp; <span class="hljs-title">clone</span><span class="hljs-params">(&amp;three)</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line">free_throws * pt;<span class="hljs-comment">//创建无名的free_throws结构，并让指针pt指向该结构，因此*pt就是该结构，在不需要new分配的内存时，应使用delete来释放它们。</span></span><br><span class="line">                 <span class="hljs-comment">//auto_ptr模板以及unique_ptr可帮助程序员自动完成释放</span></span><br><span class="line">* pt=ft；</span><br><span class="line"><span class="hljs-keyword">return</span> *pt;<span class="hljs-comment">//实际上返回的是该结构的引用</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="将引用用于对象"><a href="#将引用用于对象" class="headerlink" title="将引用用于对象"></a>将引用用于对象</h3><p>和结构同理</p>
+<h3 id="对象继承和引用"><a href="#对象继承和引用" class="headerlink" title="对象继承和引用"></a>对象继承和引用</h3><p>使得能够将特性从一个类传递给另外一个类的语言被称为继承</p>
+<p>ostream–&gt;基类 ofstream–&gt;派生类</p>
+<p>基类引用可以指向派生类对象，而无需强制类型转换</p>
+<h3 id="时使用引用参数"><a href="#时使用引用参数" class="headerlink" title="时使用引用参数"></a>时使用引用参数</h3><p>使用引用参数到主要原因有两个：</p>
+<p>（1）程序员能够修改调用函数中的数据对象。</p>
+<p>（2）通过传递引用而不是整个数据对象，可以提高程序的运行速度。</p>
+<p>　　当数据对象较大时（如结构和类对象），第二个原因最重要。这些也是使用指针参数的原因。这是有道理的，因为引用参数实际上是基于指针的代码的另一个接口。那么什么时候应该使用引用，什么时候应该使用指针呢？什么时候应该按值传递呢？下面是一些指导原则：</p>
+<p>对于使用传递到值而不做修改到函数：</p>
+<p>（1）如果数据对象很小，如内置数据类型或小型结构，则按值传递。</p>
+<p>（2）如果数据对象是数组，则使用指针，因为这是唯一的选择，并将指针声明为指向const的指针。</p>
+<p>（3）如果数据对象是较大的结构，则使用const指针或const引用，以提高程序的效率。这样可以节省复制结构所需要的时间和空间。</p>
+<p>（4）如果数据对象是类对象，则使用const引用。类设计的语义常常要求使用引用，这是C++新增这项特性的主要原因。因此，传递类对象参数的标准方式是按引用传递。</p>
+<p>对于修改调用函数中数据的函数：</p>
+<p>（1）如果数据对象是内置数据类型，则使用指针。如果看到诸如fixit(&amp;x)这样的代码（其中x是int），则很明显，该函数将修改x。</p>
+<p>（2）如果数据对象是数组，则只能使用指针。</p>
+<p>（3）如果数据对象是结构，则使用引用或指针。</p>
+<p>（4）如果数据对象是类对象，则使用引用。</p>
+<p>　　当然，这只是一些指导原则，很可能有充分到理由做出其他的选择。例如，对于基本类型，cin使用引用，因此可以使用cin&gt;&gt;n，而不是cin&gt;&gt;&amp;n。</p>
+<h2 id="3-默认参数值—当函数调用中省略了实参时自动使用的一个值"><a href="#3-默认参数值—当函数调用中省略了实参时自动使用的一个值" class="headerlink" title="3.默认参数值—当函数调用中省略了实参时自动使用的一个值"></a>3.默认参数值—当函数调用中省略了实参时自动使用的一个值</h2><p>如何设置默认值？**必须通过函数原型</p>
+<p><code>char* left(const char* str,int n=1);</code>原型声明</p>
+<p>定义长这样 char * left(const char* str,int n){…}</p>
+<p>对于带参数列表的函数，必须从左向右添加默认值：下面代码错误，int j应该也设默认值</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">chico</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n,<span class="hljs-keyword">int</span> m=<span class="hljs-number">6</span>,<span class="hljs-keyword">int</span> j)</span></span>;<span class="hljs-comment">//fault</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>通过默认参数，可以减少要定义的<strong>析构函数</strong>，<strong>方法</strong>以及<strong>方法重载</strong>的数量</li>
+</ul>
+<h2 id="4-函数重载"><a href="#4-函数重载" class="headerlink" title="4.函数重载"></a>4.函数重载</h2><ul>
+<li><ol>
+<li>默认参数让你能够使用不同数目的参数调用的同一个函数。</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>而函数<strong>多态</strong>（函数<strong>重载</strong>）让你能够使用多个同名函数。</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>仅当函数基本上执行相同的任务，但使用不同形式的数据时，才应用函数重载</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>C++使用名称修饰（名称矫正）来跟踪每一个重载函数</li>
+</ol>
+</li>
+</ul>
+<p>未经过修饰：<code>long MyFunction(int,float);</code></p>
+<p>名称修饰（内部转换）：<code>?MyFunctionFoo@@YAXH</code>—&gt;将对参数数目和类型进行编码</p>
+<h3 id="重载与多态的区别"><a href="#重载与多态的区别" class="headerlink" title="重载与多态的区别"></a>重载与多态的区别</h3><ul>
+<li><ol>
+<li>重载：是指允许存在多个同名方法，而这些方法的参数不同(<strong>特征标不同</strong>)。重载的实现是：编译器根据方法不同的参数表，对同名方法的名称做修饰，对于编译器而言，这些同名方法就成了不同的方法。他们的调用地址在编译器就绑定了。<strong>重载</strong>，是在编译阶段便已确定具体的代码，对同名不同参数的方法调用（静态联编）</li>
+</ol>
+</li>
+<li>C++中，子类中若有同名函数则隐藏父类的同名函数，即子类如果有永明函数则不能继承父类的重载。</li>
+<li><ol start="2">
+<li>多态：是指子类重新定义父类的虚方法（virtual,abstract）。当子类<strong>重新定义</strong>了父类的虚方法后，父类根据赋给它的不同的子类，动态调用属于子类的方法，这样的方法调用在编译期间是无法确定的。<strong>（动态联编）</strong>。对于多态，只有等到方法调用的那一刻，编译器才会确定所要调用的具体方法。</li>
+</ol>
+</li>
+</ul>
+<h3 id="重载与覆盖的区别"><a href="#重载与覆盖的区别" class="headerlink" title="重载与覆盖的区别"></a>重载与覆盖的区别</h3><ol>
+<li>重载要求函数名相同，但是参数列列表必须不不同，返回值可以相同也可以不不同。<br>覆盖要求函数名、参数列列表、返回值必须相同。</li>
+<li>在类中重载是同一个类中不同成员函数之间的关系<br>在类中覆盖则是⼦子类和基类之间不同成员函数之间的关系</li>
+<li>重载函数的调用是根据参数列表来决定调用哪一个函数 覆盖函数的调用是根据对象类型的不不同决定调用哪一个</li>
+<li>在类中对成员函数重载是不不能够实现多态 在子类中对基类虚函数的覆盖可以实现多态</li>
+</ol>
+<h2 id="5-模板函数—通用的函数描述"><a href="#5-模板函数—通用的函数描述" class="headerlink" title="5.模板函数—通用的函数描述"></a>5.模板函数—通用的函数描述</h2><ul>
+<li><p>用于函数参数个数相同的<strong>类型不同</strong>的情况，如果参数个数不同，则不能那个使用函数模板</p>
+</li>
+<li><p>函数模板自动完成重载函数的过程。只需要使用泛型和具体算法来定义函数，编译器将为程序使用特定的参数类型生成正确的函数定义</p>
+</li>
+<li><p>函数模板允许以任意类型的方式来定义函数。例如，可以这样建立一个交换模板</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> AnyType&gt;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Swap</span><span class="hljs-params">(AnyType &amp;a,AnyType &amp;a)</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line">AnyType temp;</span><br><span class="line">temp=a;</span><br><span class="line">a=b;</span><br><span class="line">b=temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>模板不会创建任何函数，而只是告诉编译器如何定义函数</p>
+</li>
+<li><p>C++98没有关键字typename，使用的是<code>template&lt;class AnyType&gt;void Swap(AnyType &amp;a,AnyType &amp;a){...}</code></p>
+</li>
+<li><p>函数模板不能缩短可执行程序，最终仍将由两个独立的函数定义，就像以手工方式定义了这些函数一样。<strong>最终的代码不包含任何模板，只包含了为程序生成的实际函。使用模板的寒除湿，它使生成多个函数定义更简单，更可靠</strong>更常见的情形是将模板放在头文件中，并在<strong>需要使用模板的文件中包含头文件</strong></p>
+</li>
+</ul>
+<h3 id="重载的模板"><a href="#重载的模板" class="headerlink" title="重载的模板"></a>重载的模板</h3><p>对多个不同类型使用同一种算法（和常规重载一样，被重载的模板的函数特征标必须不同）。</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Swap</span><span class="hljs-params">(T&amp; a,T&amp; b)</span></span>;</span><br><span class="line"><span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> T&gt;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">Swap</span><span class="hljs-params">(T* a,T* b,<span class="hljs-keyword">int</span> n)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>模板的局限性：编写的模板很可能无法处理某些类型</p>
+<blockquote>
+<p>如1.T为数组时，a=b不成立；T为结构时a&gt;b不成立</p>
+</blockquote>
+</li>
+<li><p>解决方案：</p>
+</li>
+</ul>
+<ol>
+<li>C++允许重载运算符，以便能够将其用于特定的结构或类</li>
+<li>为特定类型提供具体化的模板定义</li>
+</ol>
+<h4 id="显式具体化（explicit-specialization）"><a href="#显式具体化（explicit-specialization）" class="headerlink" title="显式具体化（explicit specialization）"></a>显式具体化（explicit specialization）</h4><p>提供一个具体化函数定义，其中包含所需的代码，当编译器找到与函数调用匹配的具体化定义时，将使用该定义，不再寻找模板。</p>
+<ul>
+<li>该内容在代码重用中有不再重复。</li>
+</ul>
+<h3 id="重载解析-overloading-resolution-—编译器选择哪个版本的函数"><a href="#重载解析-overloading-resolution-—编译器选择哪个版本的函数" class="headerlink" title="重载解析(overloading resolution)—编译器选择哪个版本的函数"></a>重载解析(overloading resolution)—编译器选择哪个版本的函数</h3><p>对于函数重载，函数模板和函数模板重载，C++需要一个定义良好的策略，来决定为函数调用哪一个函数定义，尤其是有多个参数时</p>
+<p>过程：</p>
+<ol>
+<li>创建候选函数列表。其中包含与被调用函数的<strong>名称相同</strong>的函数和模板函数。 </li>
+<li>使用<strong>候选函数列表</strong>创建可行函数列表。这些都是参数数目正确的函数，为此有一个隐式的转换序列，其中包括实参类型与相应的形参类型完全匹配的情况。例如，使用float参数的函数调用可以将该参数转换为double，从而与double形参匹配，而模板可以为float生成一个实例。</li>
+<li>确定是否有最佳的可行函数。如果有，则使用它，否则该函数调用出错。</li>
+</ol>
+<p>最佳到最差的顺序：</p>
+<ol>
+<li>完全匹配，但常规函数优先于模板</li>
+<li>提升转换（例如，char和shorts自动转换为int ,float自动转换为double）。</li>
+<li>标准转换（例如，int转换为char,long转换为double）。</li>
+<li>用户定义的转换，如类声明中定义的转换。</li>
+</ol>
+<p>完全匹配：完全匹配允许的无关紧要转换</p>
+<table>
+<thead>
+<tr>
+<th>从实参到形参</th>
+<th>到实参</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Type</td>
+<td>Type &amp;</td>
+</tr>
+<tr>
+<td>Type &amp;</td>
+<td>Type</td>
+</tr>
+<tr>
+<td>Type[]</td>
+<td>* Type</td>
+</tr>
+<tr>
+<td>Type(argument-list)</td>
+<td>Type( * )(argument-list)</td>
+</tr>
+<tr>
+<td>Type</td>
+<td>const Type</td>
+</tr>
+<tr>
+<td>Type</td>
+<td>volatile Type</td>
+</tr>
+<tr>
+<td>Type*</td>
+<td>const Type</td>
+</tr>
+<tr>
+<td>Type*</td>
+<td>volatile Type</td>
+</tr>
+<tr>
+<td>***</td>
+<td></td>
+</tr>
+</tbody></table>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/C/">C++</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ce8d814d9c29712"></script>
+
+        
+    </div>
+</div>
+
+
+
+<div class="card">
     <div class="card-content">
-        <h3 class="tag is-link">
-        2019
-        </h3>
-        <div class="timeline">
-        
-            <article class="media">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
                 
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-06-16T07:17:57.000Z">2019-06-16</time>
-                        <a href="/2019/06/16/2DImage/2DImage/" class="has-link-black-ter is-size-6">2DImage</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/图像/">图像</a> / <a class="has-link-grey -link" href="/categories/图像/2Dimage知识/">2Dimage知识</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="/images/alqrcode.png" alt="支付宝"></div>
+</a>
+
                 
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-06-15T07:24:49.000Z">2019-06-15</time>
-                        <a href="/2019/06/15/CV-Source/books/" class="has-link-black-ter is-size-6">books/videos/blogs/acticles</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/CV-Source/">CV-Source</a> / <a class="has-link-grey -link" href="/categories/CV-Source/1-books/">1.books</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
                 
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-06-14T03:03:14.000Z">2019-06-14</time>
-                        <a href="/2019/06/14/cuda/cuda FQA/" class="has-link-black-ter is-size-6">CUDA笔记补充</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/cuda-FQA/">cuda FQA</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>微信</span>
+    <div class="qrcode"><img src="/images/wxqrcode.png" alt="微信"></div>
+</a>
+
                 
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-06-13T09:03:14.000Z">2019-06-13</time>
-                        <a href="/2019/06/13/cuda/howtowriteaCUDAprogram/" class="has-link-black-ter is-size-6">howtowriteaCUDAprogram</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/learn-CUDA/">learn CUDA</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-06-13T02:07:49.000Z">2019-06-13</time>
-                        <a href="/2019/06/13/Reconstruction/3d_reconstruction/" class="has-link-black-ter is-size-6">3D reconstruction</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/Reconstruction/">Reconstruction</a> / <a class="has-link-grey -link" href="/categories/Reconstruction/1-3D-Reconstruction/">1.3D Reconstruction</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-06-12T02:42:49.000Z">2019-06-12</time>
-                        <a href="/2019/06/12/other/nicetools/" class="has-link-black-ter is-size-6">好用的工具</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/其他/">其他</a> / <a class="has-link-grey -link" href="/categories/其他/好用的工具/">好用的工具</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-06-09T16:23:32.000Z">2019-06-10</time>
-                        <a href="/2019/06/10/Registration/GeneralizedICP/" class="has-link-black-ter is-size-6">Generalized-ICP</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/4-Generalized-ICP/">4.Generalized-ICP</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-06-05T01:41:07.000Z">2019-06-05</time>
-                        <a href="/2019/06/05/C++/C++11/cppFAQ/" class="has-link-black-ter is-size-6">C++常见问题</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/C-FQA/">C++ FQA</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-06-04T09:50:56.000Z">2019-06-04</time>
-                        <a href="/2019/06/04/Registration/Detailed_Notes_to_NDT/" class="has-link-black-ter is-size-6">Detailed Notes to NDT</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/NDT/">NDT</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-05-31T16:23:32.000Z">2019-06-01</time>
-                        <a href="/2019/06/01/Registration/2.FastICP/" class="has-link-black-ter is-size-6">FastICP</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/2-FastICP/">2.FastICP</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
         </div>
     </div>
 </div>
 
-    
 
-    
+
 <div class="card card-transparent">
-    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-        <div class="pagination-previous">
-            <a class="is-flex-grow has-text-black-ter" href="/archives/page/2/">上一页</a>
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/05/23/C++/C++11/Cppnote3/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">C++ 笔记3</span>
+            </a>
         </div>
-        <div class="pagination-next">
-            <a class="is-flex-grow has-text-black-ter" href="/archives/page/4/">下一页</a>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/05/23/C++/C++11/C++笔记1/">
+                <span class="level-item">C++ 笔记1</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
         </div>
-        <ul class="pagination-list is-hidden-mobile">
-            
-            <li><a class="pagination-link has-text-black-ter" href="/archives/">1</a></li>
-            
-            <li><a class="pagination-link has-text-black-ter" href="/archives/page/2/">2</a></li>
-            
-            <li><a class="pagination-link is-current" href="/archives/page/3/">3</a></li>
-            
-            <li><a class="pagination-link has-text-black-ter" href="/archives/page/4/">4</a></li>
-            
-            <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
-            
-            <li><a class="pagination-link has-text-black-ter" href="/archives/page/7/">7</a></li>
-            
-        </ul>
-    </nav>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: '8eoAgWMqJvxDePfBogu64i1m-gzGzoHsz',
+        app_key: 'wooEMXdlCj5x9utpB1UhAobQ',
+        placeholder: '( *・ω・)✄╰ひ╯   快来评论鸭！！！ 记得填上昵称～ 邮箱（仅博主可见）～ 还有主页地址～'
+    });
+</script>
+
+    </div>
 </div>
 </div>
                 
@@ -1840,7 +2107,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/pig.png" alt="LittleBear！！！" height="28">
+                    <img src="/images/pig.png" alt="C++ 笔记2" height="28">
                 
                 </a>
                 <p class="is-size-7">

@@ -2,23 +2,24 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>归档 - LittleBear！！！</title>
+<title>C++ 笔记3 - LittleBear！！！</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta name="description" content="Robot With CV">
-<meta name="keywords" content="CUDA PCL OpenCV">
-<meta property="og:type" content="website">
-<meta property="og:title" content="LittleBear！！！">
-<meta property="og:url" content="https://littlebearsama.github.io/archives/page/3/index.html">
+    <meta name="description" content="第9章 内存模型和名称空间 GitHub 建议下载下来用Typora软件阅读markdown文件">
+<meta name="keywords" content="C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ 笔记3">
+<meta property="og:url" content="https://littlebearsama.github.io/2019/05/23/C++/C++11/Cppnote3/index.html">
 <meta property="og:site_name" content="LittleBear！！！">
-<meta property="og:description" content="Robot With CV">
+<meta property="og:description" content="第9章 内存模型和名称空间 GitHub 建议下载下来用Typora软件阅读markdown文件">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2019-07-01T13:32:40.486Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LittleBear！！！">
-<meta name="twitter:description" content="Robot With CV">
+<meta name="twitter:title" content="C++ 笔记3">
+<meta name="twitter:description" content="第9章 内存模型和名称空间 GitHub 建议下载下来用Typora软件阅读markdown文件">
 <meta name="twitter:image" content="https://littlebearsama.github.io/images/og_image.png">
 
 
@@ -102,7 +103,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/pig.png" alt="LittleBear！！！" height="28">
+                <img src="/images/pig.png" alt="C++ 笔记3" height="28">
             
             </a>
         </div>
@@ -147,236 +148,490 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
         
-<div class="card widget">
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-23T14:14:33.000Z">2019-05-23</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/编程/">编程</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    1 小时 读完 (大约 8371 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                C++ 笔记3
+            
+        </h1>
+        <div class="content">
+            <p><strong>第9章 内存模型和名称空间</strong></p>
+<p><a href="https://github.com/littlebearsama/C-plusplus-notes-chinese-/tree/master/3.内存模型和名称空间" target="_blank" rel="noopener">GitHub</a></p>
+<p>建议下载下来用Typora软件阅读markdown文件</p>
+<a id="more"></a>
+
+<h1 id="9内存模型和名称空间（4）"><a href="#9内存模型和名称空间（4）" class="headerlink" title="9内存模型和名称空间（4）"></a>9内存模型和名称空间（4）</h1><p><strong>原来的</strong>程序分为三个部分</p>
+<ol>
+<li>头文件：包含结构声明和使用这些结构的函数的原型//结构声明与函数原型</li>
+<li>源代码文件：包含与结构有关的函数代码         //函数</li>
+<li>源代码文件：包含调用与结构相关的函数的代码   //调用函数</li>
+</ol>
+<p>这种组织方式也与oop方式一致。</p>
+<ol>
+<li>一个文件（头文件）包含用户定义类型的定义；</li>
+<li>另外一个文件包含操纵用户定义类型的函数代码；</li>
+</ol>
+<blockquote>
+<p>这两个文件组成了一个软件包，可用于各种程序中。</p>
+</blockquote>
+<ul>
+<li>请不要将<strong>函数定义</strong>或<strong>变量声明</strong>放在头文件中，如果其他文件都包含这个头文件，那么同一个函数就会有多次定义，变量也同理，会出错。</li>
+</ul>
+<h2 id="头文件中常包含的内容："><a href="#头文件中常包含的内容：" class="headerlink" title="头文件中常包含的内容："></a>头文件中常包含的内容：</h2><ul>
+<li>函数原型。</li>
+<li>使用#define或const定义的符号常量（头文件中不可以创建变量）</li>
+<li>结构声明=&gt;因为它们不创建变量</li>
+<li>模板声明=&gt;模板声明不是将被编译的代码，他们指示编译器如何生成源代码中的函数调用相匹配的函数定义。</li>
+<li>内联函数–&gt;只有<strong>它</strong>可以在头文件定义函数。</li>
+</ul>
+<p>被声明为<strong>const的数据</strong>和<strong>内联函数</strong>有特殊的链接属性</p>
+<p>注意：在IDE中</p>
+<ol>
+<li>不要将头文件加入到项目列表中</li>
+<li>也不要在源代码文件中使用#include来包含其他源代码文件</li>
+</ol>
+<p>在同一文件中只能将同一个头文件包含一次。–&gt;<strong>使用预编译指令</strong></p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">ifndef</span> COORDIN_H_</span></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>但是</strong>这种方法并不能防止编译器将头文件包含两次，而只是让它忽略第一次包含之外的所有内容。大多数标注C和C++头文件都是用各种防护(guarding)方案。否则，可能在一个文件中定义同一个结构两次，这将导致编译错误。</li>
+</ul>
+<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><h3 id="在UNIX系统中编译由多个文件组成的C-程序"><a href="#在UNIX系统中编译由多个文件组成的C-程序" class="headerlink" title="在UNIX系统中编译由多个文件组成的C++程序"></a>在UNIX系统中编译由多个文件组成的C++程序</h3><ol>
+<li>编译两个源代码文件的UNIX命令： CC file1.cpp file2.cpp</li>
+<li>预处理将包含的文件与源代码文件合并：</li>
+</ol>
+<p>临时文件： temp1.cpp temp2.cpp</p>
+<ol start="3">
+<li>编译器创建每个源代码文件的目标代码文件：file1.o file2.o</li>
+<li>链接程序将目标代码文件(file1.o file2.o)、库代码(Library code)和启动代码(startup code)合并，生成可执行文件：a.out</li>
+</ol>
+<h3 id="多个库的链接"><a href="#多个库的链接" class="headerlink" title="多个库的链接"></a>多个库的链接</h3><ul>
+<li>由不同编译器创建的二进制模块（对象代码文件）很可能无法正确地链接。</li>
+<li>原因：两个编译器为同一个函数生成不同的<strong>名称修饰</strong></li>
+<li>名称的不同将使链接器无法将一个编译器生成的函数调用与另外一个编译器生成的函数定义匹配。在链接编译模块时，请确保<strong>所有对象文件</strong>或<strong>库</strong>都是由同一编译器生成的。</li>
+<li>链接错误解决的方法：如果有源代码，通常可以用自己的编译器重新编译来消除错误。</li>
+</ul>
+<h2 id="存储持续性，作用域与和链接性"><a href="#存储持续性，作用域与和链接性" class="headerlink" title="存储持续性，作用域与和链接性"></a>存储持续性，作用域与和链接性</h2><p>C++中的四种存储方案</p>
+<ol>
+<li><strong>自动存储持续性</strong> :在函数定义中声明的变量（包括函数参数）的存储持续性为自动的。它们在程序开始执行其所属的函数或代码块时被创建，在执行完函数或代码块时，它们使用的内存被释放。</li>
+<li><strong>静态存储持续性</strong> :在函数定义外定义的变量（又称为外部变量）和使用关键字static定义的变量的存储持续性都为静态。（请注意）它们在整个运行过程中都存在。</li>
+<li><strong>线程存储持续性(C++11)</strong> :当前，多核处理器很常见，这些CPU可同时处理多个执行任务。这让程序能够将计算放在可并行处理的不同线程中。如果变量是使用关键字thread_local声明的，则<strong>其生命周期与所属的线程一样长</strong>。</li>
+<li><strong>动态存储持续性</strong> :用new运算符分配的内存将一直存在，直到使用delete运算符将其释放或程序结束为止。这种内存的存储持续性为动态，有时被称为自由存储(free store)或堆(heap)。</li>
+</ol>
+<p>作用域和链接性</p>
+<ul>
+<li><strong>作用域(scope)</strong> 描述了名称在文件的多大范围内可见。例如，函数中定义的变量可在该函数中使用，但不能在其他函数中使用；而在文件中的函数定义之前定义的变量则可在所有函数中使用。</li>
+<li>作用域：<strong>局部与全局</strong>–&gt;(代码块/文件)</li>
+</ul>
+<ol>
+<li>作用域为<strong>局部</strong>的变量只在定义它的代码块中可用。（代码块：由花括号括起的一系列语句，比如：函数体）</li>
+<li>作用域为全局（也叫<strong>文件作用域</strong>）的变量在定义位置到文件结尾都可以用。</li>
+</ol>
+<ul>
+<li><strong>链接性(linkage)</strong> 描述了名称如何在不同单元间共享。链接性为外部的名称可在文件间共享，链接性为内部的名称只能由一个文件中的函数共享，自动变量的名称没有链接性，因为它们不能共享。</li>
+</ul>
+<h3 id="C-内存空间分布"><a href="#C-内存空间分布" class="headerlink" title="C++内存空间分布"></a>C++内存空间分布</h3><p><img src="/2019/05/23/C++/C++11/Cppnote3/1.png" alt><br><img src="/2019/05/23/C++/C++11/Cppnote3/2.png" alt><br>1.命令行参数和环境变量</p>
+<p>shell在执行程序的时候调用exec函数将命令行参数传递给要执行的程序。</p>
+<p>使程序了解进程环境，在执行时分配空间。</p>
+<p>2.bss段（Block Start by Symbol）</p>
+<p>存放未初始化的全局变量或者静态变量。</p>
+<p>3.data段</p>
+<p>存放具有明确初始值的全局变量或者静态变量。</p>
+<p>存在于程序镜像文件中，由 exec 函数从程序镜像文件中读入内存。</p>
+<p>4.text段</p>
+<p>CPU执行的机器指令。</p>
+<p>堆栈简要概述<br>栈：系统自动开辟空间，自动分配自动回收，在作用域运行完成后（函数返回时）就会被回收。</p>
+<p>堆：由程序员自己申请空间，释放空间，不释放会出现内存泄漏。</p>
+<p>栈</p>
+<p>1.栈是连续的向下扩展的数据结构，总共只有1M或者2M的空间。空间不足就会异常提示栈溢出。</p>
+<p>2.存储自动变量, 函数调用者信息, 包括函数参数(可变参数列表的压栈方向是从右向左), 函数内局部变量, 函数返回值, 函数调用时的返回地址。</p>
+<p>堆</p>
+<p>1.堆是不连续的向上扩展的数据结构，大小受限于计算机系统虚拟内存的大小。</p>
+<p>2.操作系统有一个记录空闲内存地址的链表，当系统收到程序的申请时，会遍历该链表，寻找第一个空间大于所申请空间的堆结点，然后将该结点从空闲结点链表中删除，并将该结点的空间分配给程序。</p>
+<p>对于大多数系统，会在这块内存空间中的首地址处（一般为一个字节的大小）记录本次分配的大小，这样，代码中的 delete语句才能正确的释放本内存空间。</p>
+<p>由于找到的堆结点的空间大小可能大于申请的大小，系统会自动的将多余的那部分（即内存碎片）重新放入空闲链表中。这就涉及到申请效率的问题。</p>
+<h2 id="引入名称空间之前"><a href="#引入名称空间之前" class="headerlink" title="引入名称空间之前"></a>引入名称空间之前</h2><p><strong>下面列出5种变量存储方式（引用名称空间之前）</strong></p>
+<table>
+<thead>
+<tr>
+<th>存储描述</th>
+<th>持续性（变量寿命）</th>
+<th>作用域（变量可见性）</th>
+<th>链接性（变量名字共享性）</th>
+<th>如何声明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>自动</td>
+<td>自动</td>
+<td>代码块</td>
+<td>无</td>
+<td>在代码块中</td>
+</tr>
+<tr>
+<td>寄存器</td>
+<td>自动</td>
+<td>代码块</td>
+<td>无</td>
+<td>在代码块中，使用关键字register</td>
+</tr>
+<tr>
+<td>静态,无链接性</td>
+<td>静态</td>
+<td>代码块</td>
+<td>无</td>
+<td>在代码块中，使用关键字static</td>
+</tr>
+<tr>
+<td>静态,外部链接性</td>
+<td>静态</td>
+<td>文件</td>
+<td>外部</td>
+<td>不在任何函数内</td>
+</tr>
+<tr>
+<td>静态,内部链接性</td>
+<td>静态</td>
+<td>文件</td>
+<td>内部</td>
+<td>不在任何函数内，使用关键字static</td>
+</tr>
+</tbody></table>
+<ol>
+<li>自动存储持续性</li>
+</ol>
+<p>在默认情况下，在函数中声明的函数参数和变量的存储持续性为自动，作用域为局部，没有链接性（自动变量不能共享）。</p>
+<ul>
+<li>自动变量的初始化：可以使用任何声明时其值已知的表达式来初始化自动变量<code>int x=5;int y=2*x;</code></li>
+<li>自动变量和栈：自动变量的数目随函数的开始和结束而增减，因此程序必须在运行是对自动变量进行管理。常用方法是流出一段内存，并将其视为栈。程序使用两个指针来跟踪栈，一个指向<strong>栈底</strong>，栈的开始位置。另外一个指针指向栈顶，下一个可用内存单元。栈是LIFO（后进先出）的，即最后加入到栈中的变量首先被弹出。</li>
+</ul>
+<ol start="2">
+<li>寄存器变量–&gt;旨在提高访问变量的速度</li>
+</ol>
+<p>关键字<strong>register</strong>最初由C语言引入的，它建议编译器使用CPU寄存器来存储自动变量</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">register</span> <span class="hljs-keyword">int</span> count_fast;<span class="hljs-comment">//request for a register variable</span></span><br></pre></td></tr></table></figure>
+
+<p>鉴于关键字register只能用于原来就是自动的变量，使用它的唯一原因是，<strong>指出程序员想使用一个自动变量，这个变量名可能与外部变量相同</strong></p>
+<ol start="3">
+<li>静态持续变量</li>
+</ol>
+<p>C++也为静态存储持续性提供了<strong>三种链接性</strong></p>
+<ul>
+<li>1.外部链接性（可在其他文件中访问）</li>
+<li>2.内部链接性（只能在当前文件中访问）</li>
+<li>3.无链接性（只能在当前函数或代码块中访问）</li>
+</ul>
+<p>这三种链接性都在整个程序执行期间一直存在，与自动变量相比，他们的寿命更长。<strong>由于静态变量的数目在程序运行期间是不变的，因此程序不需要使用特殊的装置（如栈）来管理它们，编译器将分配固定的内存块来存储所有的静态变量，这些变量在整个程序执行期间一直存在。另外，如果没有显示地初始化静态变量，编译器将把它设置为0。在默认情况下，静态数组和结构将每个元素或成员的所有位都设置为0。</strong>被称为0初始化</p>
+<ul>
+<li>例子：</li>
+</ul>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">int</span>  NUM_ZDS_GLOBAL = <span class="hljs-number">80</span>;                              <span class="hljs-comment">//#1</span></span><br><span class="line"><span class="hljs-keyword">static</span>  <span class="hljs-keyword">int</span> NUM_ZDS_ONEFILE = <span class="hljs-number">50</span>;                      <span class="hljs-comment">//#2</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span>  <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">…</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span>  <span class="hljs-title">fun1</span><span class="hljs-params">(<span class="hljs-keyword">int</span> n)</span></span>&#123;</span><br><span class="line"><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span>  nCount = <span class="hljs-number">0</span>;                                   <span class="hljs-comment">//#3</span></span><br><span class="line"><span class="hljs-keyword">int</span>  nNum = <span class="hljs-number">0</span>;                                             <span class="hljs-comment">//#4</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span>  <span class="hljs-title">fun2</span><span class="hljs-params">(<span class="hljs-keyword">int</span> q)</span></span>&#123;</span><br><span class="line">         …</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>#1、#2、#3在整个程序运行期间都存在。在fun1中声明的#3的作用域为局部，没有链接性，这意味着只能在fun1函数中使用它，就像自动变量#4一样。但是，与#4不同的是，即使在fun1没有被执行的时候，#3也保留在内存中。</p>
+<p>静态变量初始化</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;cmath&gt;</span></span></span><br><span class="line"><span class="hljs-keyword">int</span> x;                <span class="hljs-comment">//零初始化 </span></span><br><span class="line"><span class="hljs-keyword">int</span> y=<span class="hljs-number">5</span>;              <span class="hljs-comment">//常量表达式初始化</span></span><br><span class="line"><span class="hljs-keyword">long</span> z=<span class="hljs-number">13</span>*<span class="hljs-number">13</span>;         <span class="hljs-comment">//常量表达式初始化</span></span><br><span class="line"><span class="hljs-keyword">const</span> <span class="hljs-keyword">double</span> pi=<span class="hljs-number">4.0</span>*<span class="hljs-built_in">atan</span>(<span class="hljs-number">1.0</span>);<span class="hljs-comment">//动态初始化，要初始化pi，必须调用函数atan()，这需要等到函数被链接上且程序执行时。（这也是常量表达式初始化）</span></span><br><span class="line"><span class="hljs-comment">//C++新增关键字constexpr，这增加了创建常量表达是的方式</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="1-静态持续性，外部链接性-gt-普通全局变量"><a href="#1-静态持续性，外部链接性-gt-普通全局变量" class="headerlink" title="1.静态持续性，外部链接性==&gt;普通全局变量"></a>1.静态持续性，外部链接性==&gt;普通全局变量</h2><p>链接性为外部的变量通常称为<strong>外部变量</strong>，它们的<strong>存储持续性为静态</strong>，作用域为整个文件。</p>
+<p><strong>外部变量</strong>是函数外部定义的，因此对所有函数而言都是外部的。</p>
+<p>例如，可以在main()前面或头文件中定义他们。可以在文件中位于外部定义后面的任何函数中使用它。</p>
+<p>因此<strong>外部变量</strong>也称为<strong>全局变量</strong>。</p>
+<p><strong>全局变量</strong>是在所有函数体的外部定义的，程序的所在部分（甚至其它文件中的代码）都可以使用。全局变量不受作用域的影响（也就是说，全局变量的生命期一直到程序的结束）。如果在一个文件中使用extern关键字来声明另一个文件中存在的全局变量，那么这个文件可以使用这个数据。</p>
+<h2 id="单定义规则"><a href="#单定义规则" class="headerlink" title="单定义规则"></a>单定义规则</h2><p>一方面，在每个使用外部变量的文件中，都必须<strong>声明</strong>它；另外一方面，C++有“单定义规则”，该规则指出，变量只有一次定义。</p>
+<blockquote>
+<p>为满足这种需求，C++提供了两种变量声明。</p>
+</blockquote>
+<ul>
+<li><ol>
+<li>一种是定义声明（defining declaration）或简称为定义（definition），它给变量分配存储空间。</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>一种是引用声明（referencing declaration）或简称为声明（declaration），它不给内存变量分配存储空间。</li>
+</ol>
+</li>
+</ul>
+<p><strong>引用声明</strong>使用关键字extern，且不进行初始化；否则，声明未定义，导致分配内存空间：例</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">double</span> up;<span class="hljs-comment">//definition,up is 0 定义</span></span><br><span class="line"><span class="hljs-keyword">extern</span> <span class="hljs-keyword">int</span> bllem;<span class="hljs-comment">//blem defined elsewhere 声明，blem变量在某处定义了</span></span><br><span class="line"><span class="hljs-keyword">extern</span> <span class="hljs-keyword">char</span> gr = <span class="hljs-string">'z'</span>;<span class="hljs-comment">//definition because initialized 定义</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h3><ol>
+<li>单定义规则并非意味着不能有多个变量名称相同</li>
+<li>如果函数中声明了一个与外部变量同名的变量，结果将如何呢？</li>
+</ol>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//external1.cpp 文件1</span></span><br><span class="line"><span class="hljs-keyword">double</span> warning=<span class="hljs-number">0.3</span>;<span class="hljs-comment">//warning defined 定义</span></span><br><span class="line"><span class="hljs-comment">//support.cpp 文件2</span></span><br><span class="line"><span class="hljs-keyword">extern</span> <span class="hljs-keyword">double</span> warning;<span class="hljs-comment">//use warning from another file 使用外部定义的变量warning</span></span><br><span class="line">......</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">update</span><span class="hljs-params">(<span class="hljs-keyword">double</span> dt)</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line"><span class="hljs-keyword">extern</span> <span class="hljs-keyword">double</span> warning;<span class="hljs-comment">//optional redeclaration</span></span><br><span class="line">......</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">local</span><span class="hljs-params">()</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line"><span class="hljs-comment">//定义域全局变量名相同的局部变量都，局部变量将隐藏全局变量</span></span><br><span class="line"><span class="hljs-keyword">double</span> warning=<span class="hljs-number">0.8</span>;<span class="hljs-comment">//new variable hides external one</span></span><br><span class="line">......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通常情况下，应使用局部变量，然而全局变量也有它们的用处。例如，可以让多个函数可以使用同一个数据块（如月份，名数组或原子量数组）。外部存储尤其适用于表示常量数据，因为这样可以使用关键字const来防止数据修改。</p>
+<h2 id="2-静态持续性，内部链接性-gt-Static全局变量"><a href="#2-静态持续性，内部链接性-gt-Static全局变量" class="headerlink" title="2.静态持续性，内部链接性==&gt;Static全局变量"></a>2.静态持续性，内部链接性==&gt;Static全局变量</h2><ul>
+<li>全局变量（外部变量）的说明之前再冠以static就构成了静态的全局变量。全局变量本身就是静态存储方式，静态全局变量当然也是静态存储方式。</li>
+<li>这两者在存储方式上并无不同。这两者的区别在于非静态全局变量的作用域是整个源程序，当一个源程序由多个原文件组成时，非静态的全局变量在各个源文件中都是有效的。<strong>而静态全局变量则限制了其作用域，即只在定义该变量的源文件内有效，在同一源程序的其它源文件中不能使用它。</strong></li>
+<li>由于静态全局变量的作用域限于一个源文件内，只能为该源文件内的函数公用，因此<strong>可以避免在其他源文件中引起错误</strong>。</li>
+<li>static全局变量与普通的全局变量的区别是static全局变量只初始化一次，防止在其他文件单元被引用。</li>
+</ul>
+<h2 id="3-静态持续性，无链接性-gt-静态局部变量"><a href="#3-静态持续性，无链接性-gt-静态局部变量" class="headerlink" title="3.静态持续性，无链接性==&gt;静态局部变量"></a>3.静态持续性，无链接性==&gt;静态局部变量</h2><p>这种变量是这样创建的，将static限定符用于代码块中定义的变量。</p>
+<p>在两次函数调用之间，<strong>静态局部变量</strong>的值将保持不变，它同时拥有静态变量和局部变量的特性，即：</p>
+<ol>
+<li>编译时自动初始化</li>
+<li>会被放到静态内存的静态区</li>
+<li>只能在局部被访问</li>
+</ol>
+<h3 id="作用："><a href="#作用：" class="headerlink" title="作用："></a>作用：</h3><p>有时候我们需要在两次调用之间对变量进行保存，通常的想法是定义一个全局变量来实现。但这样一来变量就不属于函数本身了，而受全局变量的控制。<strong>静态局部变量正好可以解决这个问题，静态局部变量保存在全局数据区，而不是保存在栈中，每次的值保持到下一次调用，直到下一次赋新值</strong></p>
+<h2 id="说明符和限定符"><a href="#说明符和限定符" class="headerlink" title="说明符和限定符"></a>说明符和限定符</h2><h3 id="存储说明符-storage-class-specifier"><a href="#存储说明符-storage-class-specifier" class="headerlink" title="存储说明符(storage class specifier)"></a>存储说明符(storage class specifier)</h3><ul>
+<li>auto(在C++11中不再是说明符)：<strong>在C++11之前，可以在声明中使用关键字auto来指出变量为自动变量</strong>；但在C++11中，auto用于自动类型推断。</li>
+<li>register：用于在声明中指示寄存器存储，在C++11中，它只是显式地指出变量是自动的。</li>
+<li>static:关键字static被用在作用域为整个文件的声明中时，表示内部<strong>链接性</strong>；被用于局部声明中，表示局部变量的<strong>存储持续性</strong>为静态的。</li>
+<li>thread_local(C++11新增)：可以用static或extern结合使用，关键字thread_local指出变量持续性与其所属的持续性相同。thread_local变量之于线程，由于常规静态变量至于整个程序。</li>
+<li>mutable：关键字mutable的含义根据const来解释</li>
+</ul>
+<p>mutable:可以用来指出，即使结构（或类）变量为const，其某个成员也可以被修改。</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">data</span></span></span><br><span class="line"><span class="hljs-class">&#123;</span></span><br><span class="line"><span class="hljs-keyword">char</span> name[<span class="hljs-number">30</span>];</span><br><span class="line"><span class="hljs-keyword">mutable</span> <span class="hljs-keyword">int</span> accesses;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">const</span> data veep=&#123;<span class="hljs-string">"claybourne clodde"</span>,<span class="hljs-number">0</span>,...&#125;;</span><br><span class="line"><span class="hljs-built_in">strcpy</span>(veep.name,<span class="hljs-string">"ytttt"</span>); <span class="hljs-comment">//not allowed</span></span><br><span class="line">veep.accessses++;          <span class="hljs-comment">//allowed</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="CV限定符（cv-qualifier）"><a href="#CV限定符（cv-qualifier）" class="headerlink" title="CV限定符（cv-qualifier）"></a>CV限定符（cv-qualifier）</h3><ul>
+<li>const:它表明，内存被初始化后，程序便不能再对他进行修改。</li>
+<li>volatile: volatile 关键字是一种类型修饰符，用它声明的类型变量表示可以被某些编译器未知的因素更改，比如：操作系统、硬件或者其它线程等遇到这个关键字声明的变量，编译器对访问该变量的代码就不再进行优化，从而可以提供对特殊地址的稳定访问</li>
+</ul>
+<h5 id="再谈const"><a href="#再谈const" class="headerlink" title="再谈const"></a>再谈const</h5><ul>
+<li>const限定对默认存储类型稍有影响。<strong>在默认情况下，全局变量的链接性为外部的，但const全局变量的链接性为内部的</strong></li>
+</ul>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> fingers = <span class="hljs-number">10</span>;<span class="hljs-comment">//same as static const init fingers=10;</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>原因：C++这样子修改了常量类型的规则，让程序员更轻松</li>
+<li>假如，假设将一组常量放在头文件中，并在同一程序的多个文件中使用该头文件。<strong>那么预处理器将头文件中的内容包含到每个源文件后，所有的源文件都将包含类似下面的定义：</strong></li>
+</ul>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> fingers=<span class="hljs-number">10</span>;</span><br><span class="line"><span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* warning =<span class="hljs-string">"wak!"</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>如果全局const声明的链接性像常规变量那样是外部的，则根据单定义规则，这将出错（二义性）。</strong>也就是说只能有一个文件可以包含前面的声明，而其他文件必须使用extern关键字来提供引用声明。另外只有未使用extern关键字的生命才能进行初始化。</li>
+<li>然而，由于外部定义的const数据的链接性为内部的，因此可以在所有文件中使用相同的声明。</li>
+<li><strong>内部链接性意味着每个文件都有自己一组常量，而不是所有文件共享一组常量。每个定义都是其所属文件所私有的，这就是能够将常量定义放在头文件中的原因。</strong></li>
+</ul>
+<h2 id="函数和链接性"><a href="#函数和链接性" class="headerlink" title="函数和链接性"></a>函数和链接性</h2><ul>
+<li>和C语言一样，C++不允许在一个函数中定义另外一个函数=&gt;因此所有函数的存储持续性都自动为<strong>静态的</strong>，即整个程序执行期间都一直存在。</li>
+<li>在默认情况喜爱，函数的链接性为<strong>外部的</strong>，即<strong>可以在文件间共享</strong>。</li>
+</ul>
+<ol>
+<li>实际上可以使用<strong>extern关键字</strong>来指出函数是在另外一个文件中定义的，不过这是可选的。</li>
+<li>使用<strong>关键字static</strong>将函数链接性改为内部链接性，使其只能在本文件中使用，<strong>必须在原型和函数定义中同时使用该关键字</strong>。</li>
+</ol>
+<ul>
+<li><strong>单定义规则</strong>也适用于非内联函数，因此对于每个非内联函数，程序只能包含一个定义。对于链接性味外部的函数来说，这意味着在多文件程序中，只能有一个文件包含该函数的定义，但使用该函数的每个文件都应包含其函数原型。</li>
+<li><strong>内联函数</strong>不受这种规则的约束，这允许程序员能够将内联函数的定义放在头文件中，这样包含了头文件的每个文件都有内联函数的定义。然而，C++要求同一个函数的所有内联定义都必须相同。</li>
+</ul>
+<h2 id="C-在哪里寻找函数？"><a href="#C-在哪里寻找函数？" class="headerlink" title="C++在哪里寻找函数？"></a>C++在哪里寻找函数？</h2><p>假设在程序的某个文件中调用一个函数，C++将到哪里寻找函数定义？</p>
+<ol>
+<li>如果该文件中的函数原型指出该函数是静态的，则编译器将只在该文件中查找函数定义；</li>
+<li>否则，编译器（包括链接程序）将在所有文件中查找。</li>
+<li>如果在程序文件中找不到，编译器将在库中搜索。这意味着，如果定义了一个与库函数同名的函数，编译器将使用程序员定义的版本，而不是库函数。</li>
+</ol>
+<h2 id="语言链接性"><a href="#语言链接性" class="headerlink" title="语言链接性"></a>语言链接性</h2><p>链接程序要求每个不同的函数都有不同的符号名。在C语言中，一个名词只对应一个函数，因此这很容易实现。为满足内部需要，C语言编译器可能将spiff这样的函数名翻译为_spiff。这种方法称为C语言链接性（C language linkage）。但在C++中，同一个名称可能对应多个函数，必须将这些函数翻译为不同的符号名称。因此，C++编译器执行名称纠正或名称修饰，为重载函数生成不同的符号名称。例如，spiff（int）转换为<code>—_spiff_i</code>，而将spiff(double, double)转换为_spiff_d_d。这种方法称为C++语言的链接性（C++ language linkage）。</p>
+<p>如果要在C++程序中使用C语言预编译的函数，将出现什么情况呢？例如，假设有如下代码：spiff(22);它在C库文件中的符号名称为_spiff,但对于我们的C++链接程序来说，C++查询约定是查找符号民称_spiff_i。为解决这样的问题，可以用函数原型来指出要使用何种约定：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">extern</span> “C” <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">spiff</span><span class="hljs-params">(<span class="hljs-keyword">int</span>)</span></span>;<span class="hljs-comment">//使用C语言链接性</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">extern</span> <span class="hljs-keyword">void</span> <span class="hljs-title">spoff</span><span class="hljs-params">(<span class="hljs-keyword">int</span>)</span></span>;<span class="hljs-comment">//使用C++语言的链接性(通过默认方式指出)</span></span><br><span class="line"><span class="hljs-keyword">extern</span> “C++” <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">spaff</span><span class="hljs-params">(<span class="hljs-keyword">int</span>)</span></span>;<span class="hljs-comment">//使用C++语言的链接性（通过显式指出）</span></span><br></pre></td></tr></table></figure>
+
+<p>C和C++链接性是C++标准制定的说明符，但实现可以提供其他语言链接性说明符。</p>
+<h2 id="存储方案和动态分配"><a href="#存储方案和动态分配" class="headerlink" title="存储方案和动态分配"></a>存储方案和动态分配</h2><p>使用C++运算符new（或C函数malloc()）分配的内存，这种内存被称为<strong>动态内存</strong>，<strong>动态内存由运算符new和delete控制，而不是由作用域和链接性规则控制。因此，可以在一个函数中分配动态内存，而在另外一个函数中将其释放。</strong>其分配方式要取决于new和delete在何时以何种方式被使用。通常编译器使用三块独立的内存：</p>
+<ol>
+<li>一块用于静态变量（可能再细分）</li>
+<li>一块用于自动变量</li>
+<li>另外一块用于动态存储</li>
+</ol>
+<ul>
+<li>虽然存储方案概念不是用于动态内存，但适用于用来跟踪动态内存的自动和静态<strong>指针变量</strong>（自动指针变量，静态指针变量），<strong>指针变量还是有作用域和链接性的</strong></li>
+</ul>
+<h3 id="new运算符"><a href="#new运算符" class="headerlink" title="new运算符"></a>new运算符</h3><p>如果要为内置的标量类型（int、double）分配存储空间并初始化，可在类型名后面加上初始值，并将其用括号括起。</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">int</span> *pi = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>(<span class="hljs-number">6</span>);</span><br></pre></td></tr></table></figure>
+
+<p>要初始化常规结构或数组，需要使用大括号的列表初始化，这要求编译器支持C++11。</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">where</span>&#123;</span><span class="hljs-keyword">double</span> x, <span class="hljs-keyword">double</span> y, <span class="hljs-keyword">double</span> z&#125;;</span><br><span class="line">where *one = <span class="hljs-keyword">new</span> where&#123;<span class="hljs-number">2.5</span>, <span class="hljs-number">5.3</span>, <span class="hljs-number">7.2</span>&#125;;</span><br><span class="line"><span class="hljs-keyword">int</span> *ar = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[<span class="hljs-number">4</span>] &#123;<span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">7</span>, <span class="hljs-number">6</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>在C++11中，还可将初始化列表用于单值变量：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">int</span> *pin = <span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span> &#123;<span class="hljs-number">6</span>&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="new失败时"><a href="#new失败时" class="headerlink" title="new失败时"></a>new失败时</h4><ul>
+<li>在最初的10年中，C++让new失败时返回空指针，但现在将引发std::bad_alloc异常。</li>
+</ul>
+<h4 id="new：运算符、函数和替换函数"><a href="#new：运算符、函数和替换函数" class="headerlink" title="new：运算符、函数和替换函数"></a>new：运算符、函数和替换函数</h4><p>运算符与函数：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//分配函数（allcation function）；</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> *<span class="hljs-keyword">operator</span> <span class="hljs-title">new</span><span class="hljs-params">(<span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span>)</span></span>;<span class="hljs-comment">//函数</span></span><br><span class="line"><span class="hljs-keyword">void</span> *<span class="hljs-keyword">operator</span> <span class="hljs-keyword">new</span>[](<span class="hljs-built_in">std</span>::<span class="hljs-keyword">size_t</span>);<span class="hljs-comment">//函数</span></span><br><span class="line"><span class="hljs-comment">//释放函数（deallocation function）；</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> *<span class="hljs-keyword">operator</span> <span class="hljs-title">delete</span><span class="hljs-params">(<span class="hljs-keyword">void</span> *)</span></span>;<span class="hljs-comment">//函数</span></span><br><span class="line"><span class="hljs-keyword">void</span> *<span class="hljs-keyword">operator</span> <span class="hljs-keyword">delete</span>[](<span class="hljs-keyword">void</span> *);<span class="hljs-comment">//函数</span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">int</span> *pi=<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>;<span class="hljs-comment">//运算符</span></span><br><span class="line"><span class="hljs-keyword">int</span> *pi=<span class="hljs-keyword">new</span>(<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>));<span class="hljs-comment">//函数</span></span><br><span class="line"><span class="hljs-keyword">int</span> *pi=<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[<span class="hljs-number">40</span>];<span class="hljs-comment">//运算符</span></span><br><span class="line"><span class="hljs-keyword">int</span> *pi=<span class="hljs-keyword">new</span>(<span class="hljs-number">40</span>*<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>));<span class="hljs-comment">//函数</span></span><br></pre></td></tr></table></figure>
+
+<p>替换函数：</p>
+<ul>
+<li>有趣的是，C++<strong>将这些函数（分配函数，释放函数）</strong>称为可替换的（replaceable）。这意味着如果您有足够的知识和意愿，可为new和delete提供替换函数，并根据需要对其进行定制。例如，可定义作用域为类的替换函数，并对其进行定制，以满足该类的内存分配需求。在代码中，仍将使用new运算符，但它将调用您定义的new()函数。</li>
+</ul>
+<h3 id="定位new运算符"><a href="#定位new运算符" class="headerlink" title="定位new运算符"></a>定位new运算符</h3><p><strong>通常，new负责在堆（heap）中找到一个足以能够满足要求的内存块</strong>。new运算符还有另一种变体，被称为<strong>定位（placement）new运算符，它让您能够指定要使用的位置</strong>。程序员可能使用这种特性来设置其内存管理规程、处理需要通过特定地址进行访问的硬件或在特定位置创建对象。</p>
+<p>要使用定位new特性，首先需要<strong>包含头文件new</strong>，它提供了这种版本的new运算符的原型；然后将new运算符用于提供了所需地址的参数。除需要指定参数外，句法与常规new运算符相同。具体地说，使用定位new运算符时，变量后面可以有方括号，也可以没有。下面的代码段演示了new运算符的4种用法：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;new&gt;</span></span></span><br><span class="line"><span class="hljs-keyword">char</span> buffer1[<span class="hljs-number">50</span>];<span class="hljs-comment">//静态数组</span></span><br><span class="line"><span class="hljs-keyword">char</span> buffer2[<span class="hljs-number">500</span>];</span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">chaff</span></span></span><br><span class="line"><span class="hljs-class">&#123;</span></span><br><span class="line"><span class="hljs-keyword">char</span> dross[<span class="hljs-number">20</span>];</span><br><span class="line"><span class="hljs-keyword">int</span> slag;</span><br><span class="line">&#125;;</span><br><span class="line">chaff *p1, *p2;</span><br><span class="line"><span class="hljs-keyword">int</span> *p3, *p4;</span><br><span class="line">p1=<span class="hljs-keyword">new</span> chaff;  <span class="hljs-comment">//place structure in heap</span></span><br><span class="line">p3=<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[<span class="hljs-number">20</span>];  <span class="hljs-comment">//place int array in heap</span></span><br><span class="line">p2=<span class="hljs-keyword">new</span> (buffer1) chaff;  <span class="hljs-comment">//place structure in buffer1</span></span><br><span class="line">p4=<span class="hljs-keyword">new</span> (buffer2) <span class="hljs-keyword">int</span>[<span class="hljs-number">20</span>];  <span class="hljs-comment">//place int array in buffer2</span></span><br></pre></td></tr></table></figure>
+
+<p>上述代码从buffer1中分配空间给结构chaff，从buffer2中分配空间给一个包含20个元素的int数组。</p>
+<ul>
+<li>定位new运算符的其他形式<br>就像常规new调用一个接受一个参数的new函数一样，<strong>标准定位new调用一个接收两个参数的new函数。</strong></li>
+</ul>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">int</span> * p1=<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>;<span class="hljs-comment">//调用 new(sizeof(int))</span></span><br><span class="line"><span class="hljs-keyword">int</span> * p2=<span class="hljs-keyword">new</span>(buffer) <span class="hljs-keyword">int</span>;<span class="hljs-comment">//调用 new(sizeof(int),buffer)</span></span><br><span class="line"><span class="hljs-keyword">int</span> * p3=<span class="hljs-keyword">new</span>(buffer) <span class="hljs-keyword">int</span>[<span class="hljs-number">40</span>];<span class="hljs-comment">//调用new(40*sizeof(int),buffer)</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>定位new运算符不可替换，但可重载。至少需要接收两个参数，其中第一个总是std::size_t，指定了请求的字节数。这样的重载函数都被定义为new。</li>
+</ul>
+<h2 id="名称空间"><a href="#名称空间" class="headerlink" title="名称空间"></a>名称空间</h2><p>在C++中，名称可以是变量，函数，结构，枚举，类以及类的结构成员</p>
+<h3 id="两个概念：声明区域、潜在作用域"><a href="#两个概念：声明区域、潜在作用域" class="headerlink" title="两个概念：声明区域、潜在作用域"></a>两个概念：声明区域、潜在作用域</h3><p><strong>声明区域(declaration region)</strong></p>
+<p>可以在其中进行声明的区域</p>
+<ul>
+<li>在函数外面声明全局变量=&gt;对这种变量，其声明区域为<strong>其声明所在的文件</strong>。对于在函数声明的变量=&gt;其声明区域为其声明所在的<strong>代码块</strong>。</li>
+</ul>
+<p><strong>潜在作用域（potential scope）</strong></p>
+<p>变量潜在作用域从声明点开始，到其声明区域的结尾。因此潜在作用域比声明区域小，<strong>这是由于变量必须定义后才能使用</strong>。</p>
+<ul>
+<li>变量并非在其潜在作用域的任何位置都是可见的。</li>
+</ul>
+<ol>
+<li>例如，它可能被另外一个嵌套声明区域中声明的同名变量隐藏</li>
+<li>例如，在函数声明的局部变量（对于这种变量，声明区域为整个函数）将隐藏在同一文件中声明的全局变量（对于这种变量，声明区域为整个文件）。</li>
+</ol>
+<ul>
+<li>变量对程序而言可见的范围被称为作用域（scope）。</li>
+</ul>
+<h3 id="新的名称空间-命名的名称空间"><a href="#新的名称空间-命名的名称空间" class="headerlink" title="新的名称空间(命名的名称空间)"></a>新的名称空间(命名的名称空间)</h3><p>即通过<strong>定义一种新的声明区域来创建命名的名称空间</strong>，这样做的目的之一是提供一个声明名称的区域。一个名称空间中的名称不会和另一个名称空间中的名称发生冲突，同时允许程序的其他部分使用该名称空间中声明的东西。</p>
+<ul>
+<li>关键字<strong>namespace</strong></li>
+<li>名称空间可以是全局的，也可以位于另一个名称空间中，但是不能位于代码块中。因此在默认情况下，<strong>在名称空间中声明的名称的链接性为外部的（除非它引用了常量）。</strong></li>
+<li>除用户定义的名称空间，还存在另外一个名称空间<strong>全局名称空间(global namespace)</strong>。它对应文件级声明区域，因此前面所说的全局变量现在被描述为位于全局名称空间中</li>
+</ul>
+<h3 id="using-声明和using编译指令"><a href="#using-声明和using编译指令" class="headerlink" title="using 声明和using编译指令"></a>using 声明和using编译指令</h3><ul>
+<li>using声明使特定的标识符可用:</li>
+</ul>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">  <span class="hljs-keyword">using</span> <span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span>;<span class="hljs-comment">//将cout添加到它所属的声明区域中，即使得cout能够在main函数中直接使用</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>using编译指令使整个名称空间可用：</li>
+</ul>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">  <span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;<span class="hljs-comment">//使得std空间中所有的名称都可以直接使用</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="using编译指令和using声明之比较"><a href="#using编译指令和using声明之比较" class="headerlink" title="using编译指令和using声明之比较"></a>using编译指令和using声明之比较</h3><ul>
+<li>使用using声明时，就好像声明了相应的名称一样，如果某个名称已经在函数中声明了，则不能用using声明导入相同的名称。</li>
+<li>然而，使用using编译指令时，将进行名称解析，就像在包含using声明和名称空间本身的最小声明区域中声明了名称一样。如果使用using编译指令倒入一个已经在函数中声明的名称，则局部名称将隐藏名称空间名，就像隐藏同名的全局变量一样。</li>
+</ul>
+<blockquote>
+<p>一般来说，使用using声明要比使用using编译指令更加安全，这是由于它只能导入指定的名称，如果该名称与局部名称发生冲突，编译器将发出指示。</p>
+</blockquote>
+<blockquote>
+<p>using编译指令导入所有的名称，包括可能并不需要的名称，如果与局部名称发生冲突，则局部名称将覆盖名称空间版本而编译器不发出警告！  另外，名称空间的开放性意味着名称空间的名称可能分散在多个地方，这使得难以准确知道添加了哪些名称。所以我们平时自己写程序时先怼一个using namespace std;上去可能并不是一个很好的决定。</p>
+</blockquote>
+<hr>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/C/">C++</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ce8d814d9c29712"></script>
+
+        
+    </div>
+</div>
+
+
+
+<div class="card">
     <div class="card-content">
-        <h3 class="tag is-link">
-        2019
-        </h3>
-        <div class="timeline">
-        
-            <article class="media">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
                 
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-06-16T07:17:57.000Z">2019-06-16</time>
-                        <a href="/2019/06/16/2DImage/2DImage/" class="has-link-black-ter is-size-6">2DImage</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/图像/">图像</a> / <a class="has-link-grey -link" href="/categories/图像/2Dimage知识/">2Dimage知识</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="/images/alqrcode.png" alt="支付宝"></div>
+</a>
+
                 
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-06-15T07:24:49.000Z">2019-06-15</time>
-                        <a href="/2019/06/15/CV-Source/books/" class="has-link-black-ter is-size-6">books/videos/blogs/acticles</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/CV-Source/">CV-Source</a> / <a class="has-link-grey -link" href="/categories/CV-Source/1-books/">1.books</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
                 
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-06-14T03:03:14.000Z">2019-06-14</time>
-                        <a href="/2019/06/14/cuda/cuda FQA/" class="has-link-black-ter is-size-6">CUDA笔记补充</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/cuda-FQA/">cuda FQA</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>微信</span>
+    <div class="qrcode"><img src="/images/wxqrcode.png" alt="微信"></div>
+</a>
+
                 
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-06-13T09:03:14.000Z">2019-06-13</time>
-                        <a href="/2019/06/13/cuda/howtowriteaCUDAprogram/" class="has-link-black-ter is-size-6">howtowriteaCUDAprogram</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/learn-CUDA/">learn CUDA</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-06-13T02:07:49.000Z">2019-06-13</time>
-                        <a href="/2019/06/13/Reconstruction/3d_reconstruction/" class="has-link-black-ter is-size-6">3D reconstruction</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/Reconstruction/">Reconstruction</a> / <a class="has-link-grey -link" href="/categories/Reconstruction/1-3D-Reconstruction/">1.3D Reconstruction</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-06-12T02:42:49.000Z">2019-06-12</time>
-                        <a href="/2019/06/12/other/nicetools/" class="has-link-black-ter is-size-6">好用的工具</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/其他/">其他</a> / <a class="has-link-grey -link" href="/categories/其他/好用的工具/">好用的工具</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-06-09T16:23:32.000Z">2019-06-10</time>
-                        <a href="/2019/06/10/Registration/GeneralizedICP/" class="has-link-black-ter is-size-6">Generalized-ICP</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/4-Generalized-ICP/">4.Generalized-ICP</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-06-05T01:41:07.000Z">2019-06-05</time>
-                        <a href="/2019/06/05/C++/C++11/cppFAQ/" class="has-link-black-ter is-size-6">C++常见问题</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/C-FQA/">C++ FQA</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-06-04T09:50:56.000Z">2019-06-04</time>
-                        <a href="/2019/06/04/Registration/Detailed_Notes_to_NDT/" class="has-link-black-ter is-size-6">Detailed Notes to NDT</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/NDT/">NDT</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-05-31T16:23:32.000Z">2019-06-01</time>
-                        <a href="/2019/06/01/Registration/2.FastICP/" class="has-link-black-ter is-size-6">FastICP</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/2-FastICP/">2.FastICP</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
         </div>
     </div>
 </div>
 
-    
 
-    
+
 <div class="card card-transparent">
-    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-        <div class="pagination-previous">
-            <a class="is-flex-grow has-text-black-ter" href="/archives/page/2/">上一页</a>
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/05/24/C++/C++11/C++笔记4/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">C++ 笔记4</span>
+            </a>
         </div>
-        <div class="pagination-next">
-            <a class="is-flex-grow has-text-black-ter" href="/archives/page/4/">下一页</a>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/05/23/C++/C++11/C++笔记2/">
+                <span class="level-item">C++ 笔记2</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
         </div>
-        <ul class="pagination-list is-hidden-mobile">
-            
-            <li><a class="pagination-link has-text-black-ter" href="/archives/">1</a></li>
-            
-            <li><a class="pagination-link has-text-black-ter" href="/archives/page/2/">2</a></li>
-            
-            <li><a class="pagination-link is-current" href="/archives/page/3/">3</a></li>
-            
-            <li><a class="pagination-link has-text-black-ter" href="/archives/page/4/">4</a></li>
-            
-            <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
-            
-            <li><a class="pagination-link has-text-black-ter" href="/archives/page/7/">7</a></li>
-            
-        </ul>
-    </nav>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: '8eoAgWMqJvxDePfBogu64i1m-gzGzoHsz',
+        app_key: 'wooEMXdlCj5x9utpB1UhAobQ',
+        placeholder: '( *・ω・)✄╰ひ╯   快来评论鸭！！！ 记得填上昵称～ 邮箱（仅博主可见）～ 还有主页地址～'
+    });
+</script>
+
+    </div>
 </div>
 </div>
                 
@@ -1840,7 +2095,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/pig.png" alt="LittleBear！！！" height="28">
+                    <img src="/images/pig.png" alt="C++ 笔记3" height="28">
                 
                 </a>
                 <p class="is-size-7">

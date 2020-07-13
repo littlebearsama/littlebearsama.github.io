@@ -2,23 +2,24 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>归档 - LittleBear！！！</title>
+<title>C++ 笔记4 - LittleBear！！！</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta name="description" content="Robot With CV">
-<meta name="keywords" content="CUDA PCL OpenCV">
-<meta property="og:type" content="website">
-<meta property="og:title" content="LittleBear！！！">
-<meta property="og:url" content="https://littlebearsama.github.io/archives/page/3/index.html">
+    <meta name="description" content="第10章 对象和类 GitHub 建议下载下来用Typora软件阅读markdown文件">
+<meta name="keywords" content="C++">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ 笔记4">
+<meta property="og:url" content="https://littlebearsama.github.io/2019/05/24/C++/C++11/C++笔记4/index.html">
 <meta property="og:site_name" content="LittleBear！！！">
-<meta property="og:description" content="Robot With CV">
+<meta property="og:description" content="第10章 对象和类 GitHub 建议下载下来用Typora软件阅读markdown文件">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
+<meta property="og:updated_time" content="2019-05-31T05:44:13.122Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="LittleBear！！！">
-<meta name="twitter:description" content="Robot With CV">
+<meta name="twitter:title" content="C++ 笔记4">
+<meta name="twitter:description" content="第10章 对象和类 GitHub 建议下载下来用Typora软件阅读markdown文件">
 <meta name="twitter:image" content="https://littlebearsama.github.io/images/og_image.png">
 
 
@@ -102,7 +103,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/pig.png" alt="LittleBear！！！" height="28">
+                <img src="/images/pig.png" alt="C++ 笔记4" height="28">
             
             </a>
         </div>
@@ -147,236 +148,333 @@
     <section class="section">
         <div class="container">
             <div class="columns">
-                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main">
+                <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    
+    <div class="card-content article ">
         
-<div class="card widget">
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2019-05-23T16:12:00.000Z">2019-05-24</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/编程/">编程</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    22 分钟 读完 (大约 3274 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                C++ 笔记4
+            
+        </h1>
+        <div class="content">
+            <p><strong>第10章 对象和类</strong></p>
+<p><a href="https://github.com/littlebearsama/C-plusplus-notes-chinese-/tree/master/4.对象和类" target="_blank" rel="noopener">GitHub</a></p>
+<p>建议下载下来用Typora软件阅读markdown文件</p>
+<a id="more"></a>
+
+<h1 id="10对象和类"><a href="#10对象和类" class="headerlink" title="10对象和类"></a>10对象和类</h1><ul>
+<li>类声明：以数据成员的方式描述数据部分，以成员函数（被称为方法）的方式描述公有接口–&gt;C++程序员将接口（类定义）放在头文件中</li>
+<li>类方法定义：描述如何实现成员函数–&gt;并将实现（类方法代码）放在源代码文件中</li>
+</ul>
+<p>细节：</p>
+<ol>
+<li>使用#ifndef等来访问多次包含同一个文件</li>
+<li>将类的首字母大写</li>
+</ol>
+<ul>
+<li>控制访问关键字：private public protected</li>
+<li>C++对结构进行了扩展，使之具有与类相同的特性。他们之间唯一的区别是：<strong>结构的默认访问类型是public，类为private</strong></li>
+<li>通常，数据成员被放在私有部分中=&gt;数据隐藏；成员函数被放在公有部分中=&gt;公有接口<h2 id="实现类成员方法"><a href="#实现类成员方法" class="headerlink" title="实现类成员方法"></a>实现类成员方法</h2>成员函数两个特殊的特征：</li>
+</ul>
+<ol>
+<li>定义类成员函数时。使用作用域解析符（::）来标识函数所属的类；</li>
+<li>类方法可以访问类的private组件。</li>
+</ol>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Stock</span></span></span><br><span class="line"><span class="hljs-class">&#123;</span></span><br><span class="line">      <span class="hljs-keyword">private</span>:</span><br><span class="line">              <span class="hljs-keyword">char</span> company[<span class="hljs-number">30</span>];</span><br><span class="line">              <span class="hljs-keyword">int</span> shares;</span><br><span class="line">              <span class="hljs-keyword">double</span> share_val;</span><br><span class="line">              <span class="hljs-keyword">double</span> total_val;</span><br><span class="line">              <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">set_tot</span><span class="hljs-params">()</span></span>&#123;total_val = shares * share_val;&#125;</span><br><span class="line">      <span class="hljs-keyword">public</span>:</span><br><span class="line">             Stock();              </span><br><span class="line">             Stock(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> * co , <span class="hljs-keyword">int</span> n = <span class="hljs-number">0</span> , <span class="hljs-keyword">double</span> pr = <span class="hljs-number">0.0</span>);</span><br><span class="line">             ~Stock()&#123;&#125;</span><br><span class="line">             <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">buy</span><span class="hljs-params">(<span class="hljs-keyword">int</span> num , <span class="hljs-keyword">double</span> price)</span></span>;</span><br><span class="line">             <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">sell</span><span class="hljs-params">(<span class="hljs-keyword">int</span> num , <span class="hljs-keyword">double</span> price)</span></span>;</span><br><span class="line">             <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">update</span><span class="hljs-params">(<span class="hljs-keyword">double</span> price)</span></span>;</span><br><span class="line">             <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">show</span><span class="hljs-params">()</span> <span class="hljs-keyword">const</span></span>;</span><br><span class="line">             <span class="hljs-function"><span class="hljs-keyword">const</span> Stock &amp; <span class="hljs-title">topval</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Stock &amp; s)</span> <span class="hljs-keyword">const</span></span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>set_tot()只是实现代码的一种方式，而不是公有接口的组成部分，因此这个类将其声明为私有成员函数（即编写这个类的人可以使用它，但编写带来来使用这个类的人不能使用）。</li>
+<li><strong>内联方法</strong>，</li>
+</ol>
+<ul>
+<li><p>其定义位于类声明中的函数都将自动成为内联函数。因此Stock::set_tot()是一个内联函数。</p>
+</li>
+<li><p>在类声明之外定义内联函数</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Stock</span></span></span><br><span class="line"><span class="hljs-class">&#123;</span></span><br><span class="line"><span class="hljs-keyword">private</span>:</span><br><span class="line">...</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">set_tot</span><span class="hljs-params">()</span></span>;</span><br><span class="line"><span class="hljs-keyword">public</span>:</span><br><span class="line">...</span><br><span class="line">&#125;;</span><br><span class="line"><span class="hljs-keyword">inline</span> <span class="hljs-keyword">void</span> Stock::set_tot()&#123;</span><br><span class="line">total_val = shares * share_val;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>内联函数有特殊规则，<strong>要求每个使用它们的文件都对其进行定义</strong>。确保内联定义对多个文件程序中的所有文件都可用的最简便方法是：<strong>将内联定义放在头文件中</strong></p>
+</li>
+</ul>
+<ol start="3">
+<li>如何将类方法应用于对象？（对象，数据和成员函数）<br>所创建的每个新对象都有自己的存储空间，用于存储其<strong>内部变量</strong>和<strong>类成员</strong>。但同一个类的所有对象共享一组类方法，即每种方法只有一个副本。</li>
+</ol>
+<ul>
+<li>要使用类，<strong>要创建类对象</strong>，可以声明类变量，也可以使用new为类对象分配存储空间。</li>
+<li>实现了一个使用stock00接口和实现文件的程序后，<strong>将其与stock00.cpp一起编译，并确保stock00.h位于当前文件夹中</strong></li>
+<li>类成员函数(方法)可通过类对象来调用。为此，需要使用成员运算符句点。</li>
+</ul>
+<h2 id="类的构造函数和析构函数"><a href="#类的构造函数和析构函数" class="headerlink" title="类的构造函数和析构函数"></a>类的构造函数和析构函数</h2><h3 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h3><p>原因：数据部分的访问状态是私有的，这意味着程序不能直接访问数据成员（私有部分数据）。程序只能通过成员函数来访问数据成员，因此需要设计合适的成员函数才能将对象初始化。—<strong>类构造函数</strong></p>
+<ul>
+<li>声明和定义构造函数<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//construtor prototype with some default argument</span></span><br><span class="line">Stock(<span class="hljs-keyword">const</span> <span class="hljs-built_in">string</span> &amp;co,<span class="hljs-keyword">long</span> n=<span class="hljs-number">0</span>,<span class="hljs-keyword">double</span> pr=<span class="hljs-number">0.0</span>);<span class="hljs-comment">//原型</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>原型声明位于类声明的公有部分。</p>
+<p>构造函数可能的一种定义</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Stock::Stock(<span class="hljs-keyword">const</span> <span class="hljs-built_in">string</span> &amp;co,<span class="hljs-keyword">long</span> n,<span class="hljs-keyword">double</span> pr)</span><br><span class="line">&#123;</span><br><span class="line">company = co;</span><br><span class="line"><span class="hljs-keyword">if</span>(n&gt;<span class="hljs-number">0</span>)</span><br><span class="line">&#123;</span><br><span class="line"><span class="hljs-built_in">std</span>::<span class="hljs-built_in">cerr</span>&lt;&lt;<span class="hljs-string">"Number of shares can't be negative;"</span></span><br><span class="line">         &lt;&lt; company &lt;&lt;<span class="hljs-string">" shares set to 0.\n"</span>;</span><br><span class="line">	 shares = <span class="hljs-number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="hljs-keyword">else</span></span><br><span class="line">shares=n;</span><br><span class="line">share_val=pr;</span><br><span class="line">set_tot();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>注意“参数名co，n，pr不能与类成员相同.构造函数的参数表示不是类成员，而是赋给类成员的值。</li>
+<li>区分参数名和类成员：一种常见的做法是在数据成员名中使用m_前缀 string m_company;;另外一种常见的做法是，在成员名中使用后缀_ string company_;<h4 id="使用构造函数"><a href="#使用构造函数" class="headerlink" title="使用构造函数"></a>使用构造函数</h4></li>
+</ul>
+<ol>
+<li><p>显式调用</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stock food = Stock1(<span class="hljs-string">"World cabbage"</span>,<span class="hljs-number">250</span>,<span class="hljs-number">1.25</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>隐式调用</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function">Stock <span class="hljs-title">garment</span><span class="hljs-params">(<span class="hljs-string">"Furry Mason"</span>,<span class="hljs-number">50</span>,<span class="hljs-number">2.5</span>)</span></span>;</span><br><span class="line"><span class="hljs-comment">//等价于</span></span><br><span class="line">Stock garment= Stock(<span class="hljs-string">"Furry Mason"</span>,<span class="hljs-number">50</span>,<span class="hljs-number">2.5</span>);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>每次创建类对象（甚至使用new动态分配内存）时，C++都是用类结构函数。</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stock *pstock= <span class="hljs-keyword">new</span> Stock(<span class="hljs-string">"Electroshock Games"</span>,<span class="hljs-number">18</span>,<span class="hljs-number">19.0</span>);<span class="hljs-comment">//对象没有名称，但可以使用指针来管理对象</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="默认构造函数"><a href="#默认构造函数" class="headerlink" title="默认构造函数"></a>默认构造函数</h3><p>未提供显示初始值是，用来创建对象的构造函数。例:</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stock fluffy_the_cat;<span class="hljs-comment">//use the default constructor</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>当且今当没有定义任何构造函数时，<strong>编译器</strong>才会提供默认构造函数。</li>
+<li>为类定义了构造函数后，<strong>程序员</strong>就必须为它提供默认构造函数</li>
+<li>如果提供了非默认构造函数（如Stock(const string &amp;co,long n,double pr);），但没有提供构造函数，下面声明将出错（<strong>禁止创建未初始化对象</strong>）<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stock stock1;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="如何定义默认构造函数："><a href="#如何定义默认构造函数：" class="headerlink" title="如何定义默认构造函数："></a>如何定义默认构造函数：</h4><p>方法1：给已有构造函数函数的<strong>所有参数提供默认值</strong></p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stock(<span class="hljs-keyword">const</span> <span class="hljs-built_in">string</span> &amp;co=<span class="hljs-string">"Error"</span>,<span class="hljs-keyword">int</span> n=<span class="hljs-number">0</span>,<span class="hljs-keyword">double</span> pr=<span class="hljs-number">0.0</span>);</span><br></pre></td></tr></table></figure>
+
+<p>方法2：通过函数重载来定义另外一个构造函数—一个没有参数的构造函数</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stock();</span><br></pre></td></tr></table></figure>
+
+<p>为Stock类提供一个默认构造函数：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//隐式初始化所有对象，提供初始值</span></span><br><span class="line">Stock::Stock()</span><br><span class="line">&#123;</span><br><span class="line">company = <span class="hljs-string">"no name"</span>;</span><br><span class="line">shares = <span class="hljs-number">0</span>;</span><br><span class="line">share_val = <span class="hljs-number">0.0</span>;</span><br><span class="line">total_val = <span class="hljs-number">0.0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>使用默认构造函数：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Stock first;<span class="hljs-comment">//隐式地调用默认的构造函数</span></span><br><span class="line">Stock first = Stock();<span class="hljs-comment">//显式地</span></span><br><span class="line">Stock * prelief=<span class="hljs-keyword">new</span> Stock;<span class="hljs-comment">//隐式地</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然而不要被废默认构造函数的隐式形式所误导：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function">Stock <span class="hljs-title">first</span><span class="hljs-params">(<span class="hljs-string">"Concrete Conglomerate"</span>)</span></span>;<span class="hljs-comment">//调用构造函数</span></span><br><span class="line"><span class="hljs-function">Stcok <span class="hljs-title">second</span><span class="hljs-params">()</span></span>;                      <span class="hljs-comment">//声明一个函数</span></span><br><span class="line">Stock third；                        <span class="hljs-comment">//调用默认构造函数</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="析构函数"><a href="#析构函数" class="headerlink" title="析构函数"></a>析构函数</h3><ul>
+<li>对象过期是，程序将自动调用该特殊的成员函数。析构函数完成清理工作</li>
+<li><strong>如果构造函数使用new来分配内存，则析构函数将使用delete来释放这些内存。</strong></li>
+</ul>
+<p>什么时候调用析构函数？这由编译器决定，不应在代码中显示地调用析构函数</p>
+<ol>
+<li>如果创建的是<strong>静态存储类对象</strong>，其析构函数将在程序结束时自动被调用。<br>2 .如果创建的是<strong>自动存储类对象</strong>，则其析构函数将在程序执行完代码块时（该对象是在其中定义的）自动被调用。</li>
+<li>如果对象是通过<strong>new创建的</strong>，则它将驻留在栈内存或自由存储区中，<strong>当使用delete来释放内存时，其析构函数将自动被调用。</strong><br>程序可以创建临时变量对象来完成特定操作，在这种情况下，程序将在结束对该对象的使用时自动调用其析构函数。</li>
+<li>总的来说：<strong>类对象过期时（需要被销毁时），析构函数将自动被调用。</strong>因此必须有一个析构函数。如果程序员没有提供析构函数，编译器将隐式地声明一个默认构造函数。</li>
+</ol>
+<h2 id="C-列表初始化"><a href="#C-列表初始化" class="headerlink" title="C++列表初始化"></a>C++列表初始化</h2><p>只要提供与某个构造函数的参数列表匹配的内容，并用大括号将它们括起。</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Stock hot_tip = &#123;<span class="hljs-string">"Derivatives Plus Plus"</span>,<span class="hljs-number">100</span> ,<span class="hljs-number">45.0</span>&#125;;<span class="hljs-comment">//构造函数</span></span><br><span class="line">Stock jock &#123;<span class="hljs-string">"Sport Age Storage,Inc"</span>&#125;;<span class="hljs-comment">//构造函数</span></span><br><span class="line">Stock temp&#123;&#125;;<span class="hljs-comment">//默认构造函数</span></span><br></pre></td></tr></table></figure>
+
+<p>前两个声明中，用大括号括起的列表与下面的构造函数匹配：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stock(<span class="hljs-keyword">const</span> <span class="hljs-built_in">string</span> &amp;co,<span class="hljs-keyword">long</span> n=<span class="hljs-number">0</span>,<span class="hljs-keyword">double</span> pr=<span class="hljs-number">0.0</span>);<span class="hljs-comment">//原型</span></span><br></pre></td></tr></table></figure>
+
+<p>因此，用该构造函数来创建这两个对象。创建对象jock时，第二和第三个参数将默认值为0和0.0。第三个声明与默认构造函数匹配，因此将使用该构造函数创建对象temp。</p>
+<h2 id="const成员函数"><a href="#const成员函数" class="headerlink" title="const成员函数"></a>const成员函数</h2><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">void</span> Stock::show() <span class="hljs-keyword">const</span>;<span class="hljs-comment">//promises not to change invoking object</span></span><br></pre></td></tr></table></figure>
+
+<p>以这种方式声明和定义的类成员函数被称为<strong>const成员函数</strong>。就像应景可能将const引用和指针作函数参数一样，<strong>只要类方法不修改调用对象，就应该将其声明为const</strong></p>
+<h2 id="this指针"><a href="#this指针" class="headerlink" title="this指针"></a>this指针</h2><p>有的方法可能涉及两个对象，在这种情况下需要使用C++的this指针（比如运算符重载）</p>
+<p>提出问题：如何实现：定义一个成员函数，查看两个Stocl对象，并返回股价高的那个对象的引用。</p>
+<ul>
+<li>最直接的方法是，返回一个引用，该引用指向股价总值较高的对象，因此，用于比较的方法原型如下：<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">const</span> Stock &amp; <span class="hljs-title">topval</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Stock &amp; s)</span> <span class="hljs-keyword">const</span></span>;<span class="hljs-comment">//该函数隐式地访问一个对象，并返回其中一个对象</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol>
+<li>第一个const：由于返回函数返回两个const对象之一的引用，因此返回类型也应为const引用</li>
+<li>第二个const：表明该函数不会修改被<strong>显式</strong>访问的对象</li>
+<li>第三个const：表明该函数不会修改被<strong>隐式</strong>访问的对象</li>
+</ol>
+<p>调用：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top = stock1.topval(stock2);<span class="hljs-comment">//隐式访问stock1，显式访问stock2</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>this 指针用来指向调用成员函数的对象（this被作为隐藏参数传递给方法）。</li>
+<li>每个成员函数（包括构造函数和析构函数）都有一个this指针。this指针指向调用对象</li>
+<li>如果方法需要引用整个调用对象，可一个使用表达式<code>*this</code>。</li>
+</ul>
+<p>实现：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">const</span> Stock &amp; <span class="hljs-title">topval</span><span class="hljs-params">(<span class="hljs-keyword">const</span> Stock &amp; s)</span> <span class="hljs-keyword">const</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line"><span class="hljs-keyword">if</span>(s.total_val&gt;total_val)</span><br><span class="line"><span class="hljs-keyword">return</span> s;</span><br><span class="line"><span class="hljs-keyword">else</span></span><br><span class="line"><span class="hljs-keyword">return</span> *<span class="hljs-keyword">this</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建对象数组"><a href="#创建对象数组" class="headerlink" title="创建对象数组"></a>创建对象数组</h2><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Stock stocks[<span class="hljs-number">4</span>]=&#123;</span><br><span class="line">		Stock(<span class="hljs-string">"NanoSmart"</span>,<span class="hljs-number">12</span>,<span class="hljs-number">20.0</span>),</span><br><span class="line">		Stock(<span class="hljs-string">"Boffo Objects"</span>,<span class="hljs-number">200</span>,<span class="hljs-number">2.0</span>),</span><br><span class="line">		Stock(<span class="hljs-string">"Monolothic Obelisks"</span>,<span class="hljs-number">130</span>,<span class="hljs-number">3.25</span>),</span><br><span class="line">		Stock(<span class="hljs-string">"Fleep Enterprises"</span>,<span class="hljs-number">60</span>,<span class="hljs-number">6.5</span>)</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="类作用域"><a href="#类作用域" class="headerlink" title="类作用域"></a>类作用域</h2><p>回顾：</p>
+<ul>
+<li><p>全局（文件）作用域，局部（代码块）作用域</p>
+</li>
+<li><p>可以在全局变量所属的任何地方使用它，而局部变量只能在其所属的代码块中使用。函数名称的作用域也可以是全局的，但不能是局部的。</p>
+<h3 id="类作用域-1"><a href="#类作用域-1" class="headerlink" title="类作用域"></a>类作用域</h3></li>
+<li><p>在类中定义的名称（如类数据成员和类成员函数名）的作用域为整个类。</p>
+</li>
+<li><p>类作用域意味着不能从外部直接访问类成员，公有函数也是如此。也就是说，要用调用公有成员函数，必须通过对象。</p>
+</li>
+<li><p>使用类成员名时，必须根据上下文使用，<strong>直接成员运算符（.），间接成员运算符（-&gt;）或者作用域解析符（::）</strong></p>
+<h3 id="作用域为类的常量"><a href="#作用域为类的常量" class="headerlink" title="作用域为类的常量"></a>作用域为类的常量</h3><p>下面是错误代码</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Bakery</span></span></span><br><span class="line"><span class="hljs-class">&#123;</span></span><br><span class="line"><span class="hljs-keyword">private</span>:</span><br><span class="line"><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> Months=<span class="hljs-number">12</span>;<span class="hljs-comment">//错误代码</span></span><br><span class="line"><span class="hljs-keyword">double</span> cots[Months];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这是行不通的，因为声明类只是描述了对象的形式，并没有创建对象。因此在创建对象之前，并没有用于存储值的空间。</p>
+</li>
+</ul>
+<p>解决：</p>
+<ol>
+<li>方法一：使用枚举<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Bakery</span></span></span><br><span class="line"><span class="hljs-class">&#123;</span></span><br><span class="line"><span class="hljs-keyword">private</span>:</span><br><span class="line"><span class="hljs-keyword">enum</span>&#123;Months=<span class="hljs-number">12</span>&#125;;</span><br><span class="line"><span class="hljs-keyword">double</span> costs[Months];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ul>
+<li>这种方式声明枚举并不会创建类数据成员。也就是说，所有对象都不包含枚举。另外，Months只是一个符号名称，在作用域为整个类的代码中遇到他时，编译器将用12来替换它。</li>
+</ul>
+<ol start="2">
+<li>方法二：使用关键字static<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Bakery</span></span></span><br><span class="line"><span class="hljs-class">&#123;</span></span><br><span class="line"><span class="hljs-keyword">private</span>:</span><br><span class="line"><span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> Months=<span class="hljs-number">12</span>；</span><br><span class="line"><span class="hljs-keyword">double</span> costs[Months];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ul>
+<li>这将创建一个名为Months的常量，<strong>该常量与其他静态变量存储在一起，而不是存储在对象中。</strong>因此，只有一个Months常量，被所有Bakery对象共享。</li>
+</ul>
+<h2 id="作用域内枚举（C-11）"><a href="#作用域内枚举（C-11）" class="headerlink" title="作用域内枚举（C++11）"></a>作用域内枚举（C++11）</h2><p>传统的枚举存在一些问题，其中之一是两个枚举定义的枚举量可能发生冲突。</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">enum</span> egg&#123;Small，Medium,Large，XLarge&#125;;</span><br><span class="line"><span class="hljs-keyword">enum</span> t_shirt&#123;Small,Medium,Large,Xlarge&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>这将无法通过编译因为egg Small和t_shirt Small位于相同的作用域内，他们将发生冲突。</p>
+<h3 id="新枚举"><a href="#新枚举" class="headerlink" title="新枚举"></a>新枚举</h3><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">enum</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">egg</span>&#123;</span>Small，Medium,Large，XLarge&#125;;</span><br><span class="line"><span class="hljs-keyword">enum</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">t_shirt</span>&#123;</span>Small,Medium,Large,Xlarge&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>作用域为类后，不同枚举定义的枚举量就不会发生冲突了。</p>
+</li>
+<li><p>class也可以用关键字struct来代替</p>
+</li>
+</ul>
+<p>使用：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">egg choice = egg::Large;</span><br><span class="line">t_shirt Floyd=t_shirt::Large;</span><br></pre></td></tr></table></figure>
+
+<p>注意：作用域内枚举不能隐式地转换为整型，下面代码错误</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">int</span> ring = Floyd;<span class="hljs-comment">//错误</span></span><br></pre></td></tr></table></figure>
+
+<p>但是必要时可以进行显式转换</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">int</span> Floyd = <span class="hljs-keyword">int</span>(t_shirt::Small);</span><br></pre></td></tr></table></figure>
+
+<h2 id="抽象数据类型ADT-Abstract-Data-Type"><a href="#抽象数据类型ADT-Abstract-Data-Type" class="headerlink" title="抽象数据类型ADT(Abstract Data Type)"></a>抽象数据类型ADT(Abstract Data Type)</h2><ul>
+<li>以抽象的方式描述数据类型，而没有引入语言和细节</li>
+</ul>
+<hr>
+
+        </div>
+        
+        <div class="level is-size-7 is-uppercase">
+            <div class="level-start">
+                <div class="level-item">
+                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
+                    <a class="has-link-grey -link" href="/tags/C/">C++</a>
+                </div>
+            </div>
+        </div>
+        
+        
+        
+        
+<div class="addthis_inline_share_toolbox"></div>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ce8d814d9c29712"></script>
+
+        
+    </div>
+</div>
+
+
+
+<div class="card">
     <div class="card-content">
-        <h3 class="tag is-link">
-        2019
-        </h3>
-        <div class="timeline">
-        
-            <article class="media">
+        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
+        <div class="buttons is-centered">
+            
                 
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-06-16T07:17:57.000Z">2019-06-16</time>
-                        <a href="/2019/06/16/2DImage/2DImage/" class="has-link-black-ter is-size-6">2DImage</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/图像/">图像</a> / <a class="has-link-grey -link" href="/categories/图像/2Dimage知识/">2Dimage知识</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
+<a class="button is-info donate">
+    <span class="icon is-small">
+        <i class="fab fa-alipay"></i>
+    </span>
+    <span>支付宝</span>
+    <div class="qrcode"><img src="/images/alqrcode.png" alt="支付宝"></div>
+</a>
+
                 
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-06-15T07:24:49.000Z">2019-06-15</time>
-                        <a href="/2019/06/15/CV-Source/books/" class="has-link-black-ter is-size-6">books/videos/blogs/acticles</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/CV-Source/">CV-Source</a> / <a class="has-link-grey -link" href="/categories/CV-Source/1-books/">1.books</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
                 
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-06-14T03:03:14.000Z">2019-06-14</time>
-                        <a href="/2019/06/14/cuda/cuda FQA/" class="has-link-black-ter is-size-6">CUDA笔记补充</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/cuda-FQA/">cuda FQA</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
+<a class="button is-success donate">
+    <span class="icon is-small">
+        <i class="fab fa-weixin"></i>
+    </span>
+    <span>微信</span>
+    <div class="qrcode"><img src="/images/wxqrcode.png" alt="微信"></div>
+</a>
+
                 
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-06-13T09:03:14.000Z">2019-06-13</time>
-                        <a href="/2019/06/13/cuda/howtowriteaCUDAprogram/" class="has-link-black-ter is-size-6">howtowriteaCUDAprogram</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/learn-CUDA/">learn CUDA</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-06-13T02:07:49.000Z">2019-06-13</time>
-                        <a href="/2019/06/13/Reconstruction/3d_reconstruction/" class="has-link-black-ter is-size-6">3D reconstruction</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/Reconstruction/">Reconstruction</a> / <a class="has-link-grey -link" href="/categories/Reconstruction/1-3D-Reconstruction/">1.3D Reconstruction</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-06-12T02:42:49.000Z">2019-06-12</time>
-                        <a href="/2019/06/12/other/nicetools/" class="has-link-black-ter is-size-6">好用的工具</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/其他/">其他</a> / <a class="has-link-grey -link" href="/categories/其他/好用的工具/">好用的工具</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-06-09T16:23:32.000Z">2019-06-10</time>
-                        <a href="/2019/06/10/Registration/GeneralizedICP/" class="has-link-black-ter is-size-6">Generalized-ICP</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/4-Generalized-ICP/">4.Generalized-ICP</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-06-05T01:41:07.000Z">2019-06-05</time>
-                        <a href="/2019/06/05/C++/C++11/cppFAQ/" class="has-link-black-ter is-size-6">C++常见问题</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/C-FQA/">C++ FQA</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-06-04T09:50:56.000Z">2019-06-04</time>
-                        <a href="/2019/06/04/Registration/Detailed_Notes_to_NDT/" class="has-link-black-ter is-size-6">Detailed Notes to NDT</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/NDT/">NDT</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
-            <article class="media">
-                
-                <div class="media-content">
-                    <div class="content">
-                        <time class="has-text-grey is-size-7 is-block is-uppercase" datetime="2019-05-31T16:23:32.000Z">2019-06-01</time>
-                        <a href="/2019/06/01/Registration/2.FastICP/" class="has-link-black-ter is-size-6">FastICP</a>
-                        <div class="level article-meta is-mobile">
-                            <div class="level-left">
-                                
-                                <div class="level-item is-size-7 is-uppercase">
-                                <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/2-FastICP/">2.FastICP</a>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </article>
-        
         </div>
     </div>
 </div>
 
-    
 
-    
+
 <div class="card card-transparent">
-    <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-        <div class="pagination-previous">
-            <a class="is-flex-grow has-text-black-ter" href="/archives/page/2/">上一页</a>
+    <div class="level post-navigation is-flex-wrap is-mobile">
+        
+        <div class="level-start">
+            <a class="level level-item has-link-grey  article-nav-prev" href="/2019/05/24/C++/C++11/C++笔记5/">
+                <i class="level-item fas fa-chevron-left"></i>
+                <span class="level-item">C++ 笔记5</span>
+            </a>
         </div>
-        <div class="pagination-next">
-            <a class="is-flex-grow has-text-black-ter" href="/archives/page/4/">下一页</a>
+        
+        
+        <div class="level-end">
+            <a class="level level-item has-link-grey  article-nav-next" href="/2019/05/23/C++/C++11/Cppnote3/">
+                <span class="level-item">C++ 笔记3</span>
+                <i class="level-item fas fa-chevron-right"></i>
+            </a>
         </div>
-        <ul class="pagination-list is-hidden-mobile">
-            
-            <li><a class="pagination-link has-text-black-ter" href="/archives/">1</a></li>
-            
-            <li><a class="pagination-link has-text-black-ter" href="/archives/page/2/">2</a></li>
-            
-            <li><a class="pagination-link is-current" href="/archives/page/3/">3</a></li>
-            
-            <li><a class="pagination-link has-text-black-ter" href="/archives/page/4/">4</a></li>
-            
-            <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
-            
-            <li><a class="pagination-link has-text-black-ter" href="/archives/page/7/">7</a></li>
-            
-        </ul>
-    </nav>
+        
+    </div>
+</div>
+
+
+
+<div class="card">
+    <div class="card-content">
+        <h3 class="title is-5 has-text-weight-normal">评论</h3>
+        
+<div id="valine-thread" class="content"></div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+    new Valine({
+        el: '#valine-thread' ,
+        notify: false,
+        verify: false,
+        app_id: '8eoAgWMqJvxDePfBogu64i1m-gzGzoHsz',
+        app_key: 'wooEMXdlCj5x9utpB1UhAobQ',
+        placeholder: '( *・ω・)✄╰ひ╯   快来评论鸭！！！ 记得填上昵称～ 邮箱（仅博主可见）～ 还有主页地址～'
+    });
+</script>
+
+    </div>
 </div>
 </div>
                 
@@ -1840,7 +1938,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/pig.png" alt="LittleBear！！！" height="28">
+                    <img src="/images/pig.png" alt="C++ 笔记4" height="28">
                 
                 </a>
                 <p class="is-size-7">
