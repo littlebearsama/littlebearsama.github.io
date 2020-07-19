@@ -16,7 +16,7 @@
 <meta property="og:description" content="[TOC]">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2020-07-08T14:10:22.441Z">
+<meta property="og:updated_time" content="2020-07-19T14:10:29.396Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="GIT教程">
 <meta name="twitter:description" content="[TOC]">
@@ -164,7 +164,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    8 分钟 读完 (大约 1268 个字)
+                    27 分钟 读完 (大约 4096 个字)
                 </span>
                 
                 
@@ -181,70 +181,286 @@
 <a id="more"></a>
 
 <h1 id="GIT—版本管理器"><a href="#GIT—版本管理器" class="headerlink" title="GIT—版本管理器"></a>GIT—版本管理器</h1><p><a href="https://www.bilibili.com/video/BV1fK4y1b7XL?from=search&seid=12481552048146612510" target="_blank" rel="noopener">参考</a></p>
-<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>git—饭桶</p>
+<h2 id="一、基本概念"><a href="#一、基本概念" class="headerlink" title="一、基本概念"></a>一、基本概念</h2><p>git—饭桶</p>
 <p>git和svn同为版本管理工具，区别是什么</p>
 <blockquote>
 <p>svn是集中式版本管理工具，必须装一个svn服务器，通过svn服务器集中管理代码。每个客户端通过svn服务器来提交，下载代码，每个客户端都是和服务器直接进行交互的。缺点是服务器单点故障（也不算缺点），容错性差。</p>
 <p>git是分布式版本控制系统，那么它就没有中央服务器的，每个人的电脑就是一个完整的版本库，这样，工作的时候就不需要联网了，因为版本都是在自己的电脑上。既然每个人的电脑都有一个完整的版本库，那多个人如何协作呢？比如说自己在电脑上改了文件A，其他人也在电脑上改了文件A，这时，你们两之间只需把各自的修改推送给对方，就可以互相看到对方的修改了。</p>
 </blockquote>
-<h2 id="Git工作流程"><a href="#Git工作流程" class="headerlink" title="Git工作流程"></a>Git工作流程</h2><p>一般工作流程如下：</p>
-<p>1．从远程仓库中克隆 Git 资源作为本地仓库。</p>
-<p>2．从本地仓库中checkout代码然后进行代码修改</p>
-<p>3．在提交前先将代码提交到暂存区。</p>
-<p>4．提交修改。提交到本地仓库。本地仓库中保存修改的各个历史版本。<strong>git和svn最大的区别是，Git有一个本地仓库的概念</strong>。</p>
-<p>5．在修改完成后，需要和团队成员共享代码时，可以将代码push到远程仓库。</p>
+<h2 id="二、Git工作流程"><a href="#二、Git工作流程" class="headerlink" title="二、Git工作流程"></a>二、Git工作流程</h2><p>一般工作流程如下：</p>
+<p>1．git clone，从远程仓库中克隆 Git 资源作为本地仓库。</p>
+<p>2．git checkout，从本地仓库中checkout代码然后进行代码修改</p>
+<p>3．git add，在提交前先将代码提交到暂存区。</p>
+<p>4．git commit，提交修改。提交到本地仓库。本地仓库中保存修改的各个历史版本。<strong>git和svn最大的区别是，Git有一个本地仓库的概念</strong>。</p>
+<p>5．git push，在修改完成后，需要和团队成员共享代码时，可以将代码push到远程仓库。</p>
 <p>下图展示了 Git 的工作流程：</p>
 <p><img src="/2020/07/05/other/git/thewayof_v_mangament.png" alt></p>
-<p><img src="/2020/07/05/other/git/gitcommandflow.png" alt></p>
-<h2 id="创建本地版本库"><a href="#创建本地版本库" class="headerlink" title="创建本地版本库"></a>创建本地版本库</h2><p><a href="https://git-scm.com/download" target="_blank" rel="noopener">下载git</a>，安装</p>
-<p>安装tortoisegit（GUI），勾选使用OpenSS，Git default Client。指定git.exe所在的目录。</p>
-<hr>
-<p>创建本地仓库：git init</p>
-<p>向本地版本库添加文件，在git文件夹同等级上面添加文件。</p>
+<p><img src="/2020/07/05/other/git/gitcommandflow.png" alt="几个概念之间的关系"></p>
+<h2 id="三、使用Git管理文件版本"><a href="#三、使用Git管理文件版本" class="headerlink" title="三、使用Git管理文件版本"></a>三、使用Git管理文件版本</h2><h3 id="0-安装git"><a href="#0-安装git" class="headerlink" title="0. 安装git"></a>0. 安装git</h3><ul>
+<li><p><a href="https://git-scm.com/download" target="_blank" rel="noopener">下载git</a>，安装</p>
+</li>
+<li><p>安装tortoisegit（GUI），勾选使用OpenSS，Git default Client。指定git.exe所在的目录。</p>
+</li>
+</ul>
+<h3 id="1-创建版本库"><a href="#1-创建版本库" class="headerlink" title="1. 创建版本库"></a>1. 创建版本库</h3><p>有目录D:\codes\repositories，在该路径下创建文件夹repo1</p>
+<p>创建<strong>本地仓库</strong>：git init</p>
+<h3 id="2-添加文件"><a href="#2-添加文件" class="headerlink" title="2. 添加文件"></a>2. 添加文件</h3><ul>
+<li>向本地版本库添加文件，在git文件夹同等级上面添加文件。</li>
+</ul>
 <blockquote>
-<p>本地仓库目录（包含git文件夹的目录）：D:\codes\repositories\repo1</p>
+<p>本地仓库：包含git文件夹的文件夹，即D:\codes\repositories\repo1</p>
+<p>版本库：<strong>.git</strong>隐藏文件夹，将来文件都需要保存到版本库中。Git的版本库里存了很多东西，其中最重要的就是称为stage（或者叫index）的暂存区，还有Git为我们自动创建的第一个分支master，以及指向master的一个指针叫HEAD。</p>
 <p>工作目录（仓库目上一级）：D:\codes\repositories</p>
+<p>工作区：repositories文件夹就是一个工作区。</p>
 </blockquote>
-<p>新建一个文件，然后用乌龟<strong>添加</strong>，相当于将这个文件加入到<strong>暂存区</strong>了。</p>
-<p>创建了一个本地仓库一定会有一个主分支master，向本地仓库提交，一定要写日志。</p>
-<h2 id="修改文件内容并提交"><a href="#修改文件内容并提交" class="headerlink" title="修改文件内容并提交"></a>修改文件内容并提交</h2><p>可以显示日志与比较差异</p>
-<h2 id="删除本地仓库中的文件"><a href="#删除本地仓库中的文件" class="headerlink" title="删除本地仓库中的文件"></a>删除本地仓库中的文件</h2><p>添加一个新的文件</p>
-<p>通过版本库浏览器可以知道本地仓库有什么</p>
-<p>可以将删除的文件通过对比版本库还原回来</p>
-<p>删除并保留本地副本，然后提交：从本地版本库删除文件，但是本地还将文件保留下来了。—-用于提交工程的时候不提交无关的文件。</p>
-<h2 id="将工程添加到本地版本库"><a href="#将工程添加到本地版本库" class="headerlink" title="将工程添加到本地版本库"></a>将工程添加到本地版本库</h2><p>通过add添加整个工程的文件夹</p>
-<p>通过忽略，防止提交，也要把.gitignore填在到暂存区</p>
-<p>然后提交</p>
-<h2 id="github-码云创建远程仓库"><a href="#github-码云创建远程仓库" class="headerlink" title="github/码云创建远程仓库"></a>github/码云创建远程仓库</h2><p>SSH <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:littlebearsama/TestTool.git</p>
-<p>HTTPS <a href="https://github.com/littlebearsama/TestTool.git" target="_blank" rel="noopener">https://github.com/littlebearsama/TestTool.git</a></p>
-<p>然后把本地仓库推送到远程：</p>
-<p>先生成密钥对</p>
+<ul>
+<li><p>然后用乌龟<strong>添加</strong>（相当于git add），相当于将这个文件加入到<strong>暂存区</strong>了。创建了一个本地仓库一定会有一个主分支master，</p>
+</li>
+<li><p>向本地仓库提交（git commit），一定要写日志，实际上就是把暂存区的所有内容提交到当前分支。</p>
+</li>
+</ul>
+<h3 id="3-修改文件"><a href="#3-修改文件" class="headerlink" title="3. 修改文件"></a>3. 修改文件</h3><ol>
+<li>可以通过“显示日志“来查看修改。</li>
+</ol>
+<p><img src="/2020/07/05/other/git/1.png" alt="显示日志"></p>
+<ol start="2">
+<li><p>差异比较</p>
+<p>当文件内容修改后，需要和修改之前对比一下修改了哪些内容此时可以使用“比较差异功能”来确认文件的最终版本。</p>
+</li>
+<li><p>还原修改</p>
+<p>当文件修改后不想把修改的内容提交，还想还原到未修改之前的状态。此时可以使用“还原”功能，<strong>此操作会撤销所有未提交的修改，所以当做还原操作是需要慎重慎重</strong>。</p>
+<p>使用乌龟或者visual stdio右下角的还原都会将选中修改的文件还原成未修改前的样子。</p>
+</li>
+</ol>
+<h3 id="4-删除本地仓库中的文件"><a href="#4-删除本地仓库中的文件" class="headerlink" title="4. 删除本地仓库中的文件"></a>4. 删除本地仓库中的文件</h3><ol>
+<li><p>通过版本库浏览器可以知道本地仓库有什么</p>
+</li>
+<li><p>可以将删除的文件通过对比版本库还原回来</p>
+</li>
+<li><p>删除并保留本地副本，然后提交：从本地版本库删除文件，但是本地还将文件保留下来了。—-用于提交工程的时候不提交无关的文件。</p>
+</li>
+</ol>
+<h3 id="5-忽略提交的文件"><a href="#5-忽略提交的文件" class="headerlink" title="5. 忽略提交的文件"></a>5. 忽略提交的文件</h3><ul>
+<li><p>忽略文件或文件夹</p>
+<p>并不是所有文件都需要保存到版本库中的例如“bin”目录及目录下的文件就可以忽略。好在Git考虑到了大家的感受，这个问题解决起来也很简单，在Git工作区的根目录下创建一个特殊的.gitignore文件，然后把要忽略的文件名填进去，Git就会自动忽略这些文件。</p>
+</li>
+<li><p>忽略文件语法规范</p>
+<blockquote>
+<ol>
+<li><p>空行或是以 # 开头的行即注释行将被忽略。</p>
+</li>
+<li><p>可以在前面添加正斜杠 / 来避免递归,下面的例子中可以很明白的看出来与下一条的区别。</p>
+</li>
+<li><p>可以在后面添加正斜杠 / 来忽略文件夹，例如 build/ 即忽略build文件夹。</p>
+</li>
+<li><p>可以使用 ! 来否定忽略，即比如在前面用了 *.apk ，然后使用 !a.apk ，则这个a.apk不会被忽略。</p>
+</li>
+<li><p>* 用来匹配零个或多个字符，如 *.[oa] 忽略所有以”.o”或”.a”结尾， *~ 忽略所有以 ~ 结尾的文件（这种文件通常被许多编辑器标记为临时文件）； [] 用来匹配括号内的任一字符，如 [abc] ，也可以在括号内加连接符，如 [0-9] 匹配0至9的数； ? 用来匹配单个字符。 </p>
+</li>
+</ol>
+<hr>
+<p>看了这么多，还是应该来个栗子：</p>
+<p># 忽略 .a 文件:  <code>*.a</code></p>
+<p># 但否定忽略 lib.a, 尽管已经在前面忽略了 .a 文件: <code>!lib.a</code></p>
+<p># 仅在当前目录下忽略 TODO 文件， 但不包括子目录下的 subdir/TODO: <code>/TODO</code></p>
+<p># 忽略 build/ 文件夹下的所有文件: <code>build/</code></p>
+<p># 忽略 doc/notes.txt, 不包括 doc/server/arch.txt: <code>doc/*.txt</code></p>
+<p># 忽略所有的 .pdf 文件 在 doc/ directory 下的: <code>doc/**/*.pdf</code></p>
+</blockquote>
+<h3 id="6-提交代码"><a href="#6-提交代码" class="headerlink" title="6. 提交代码"></a>6. 提交代码</h3></li>
+</ul>
+<p>将代码添加到master分支上，其中.gitignore文件也需要添加到暂存区，然后提交到版本库。</p>
+<h2 id="四、远程仓库"><a href="#四、远程仓库" class="headerlink" title="四、远程仓库"></a>四、远程仓库</h2><p>现在我们已经在本地创建了一个Git仓库，又想让其他人来协作开发，此时就可以把本地仓库同步到远程仓库，同时还增加了本地仓库的一个备份。</p>
+<p>常用的远程仓库就是github：<a href="https://github.com/，接下来我们演示如何将本地代码同步到github。" target="_blank" rel="noopener">https://github.com/，接下来我们演示如何将本地代码同步到github。</a></p>
+<h3 id="1-github-码云创建远程仓库"><a href="#1-github-码云创建远程仓库" class="headerlink" title="1. github/码云创建远程仓库"></a>1. github/码云创建远程仓库</h3><ul>
+<li><p>在github上面创建账号并且新建一个仓库</p>
+</li>
+<li><p>github支持两种同步方式“https”“ssh”，https每次提交代码和下载代码都需要输入用户名和密码</p>
+<p>使用ssh只需要在客户端先生成一个密钥对，及一个公钥“id_rsa”和一个私钥”id_rsa.pub”。</p>
+</li>
+</ul>
+<p>先生成密钥对，没有后缀的是私钥，不要告诉任何人，有后缀的是公钥，可以告诉其他人（github服务器），在服务器中添加公钥。</p>
 <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa</span><br></pre></td></tr></table></figure>
 
-<p>没有后缀的是私钥，不要告诉任何人</p>
-<p>有后缀的是公钥，可以告诉其他人（github服务器）</p>
-<p>在服务器中添加公钥。</p>
-<p>将本地仓库与远程仓库建立联系，并将本地仓库代码推送到远程仓库。</p>
+<h3 id="2-同步本地仓库到远程"><a href="#2-同步本地仓库到远程" class="headerlink" title="2. 同步本地仓库到远程"></a>2. 同步本地仓库到远程</h3><p>将本地仓库与远程仓库建立联系，并将本地仓库代码推送到远程仓库。</p>
 <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">jhluo@laptop-xiaoxiong MINGW64 /d/codes/repositories/repo1 (master)</span><br><span class="line">$ git remote add origin git@github.com:littlebearsama/repo1.git</span><br><span class="line"></span><br><span class="line">jhluo@laptop-xiaoxiong MINGW64 /d/codes/repositories/repo1 (master)</span><br><span class="line">$ git push -u origin master</span><br></pre></td></tr></table></figure>
 
-<h2 id="推送修改的文件及冲突解决"><a href="#推送修改的文件及冲突解决" class="headerlink" title="推送修改的文件及冲突解决"></a>推送修改的文件及冲突解决</h2><ol>
-<li>修改了哪个文件就推送哪个文件</li>
-<li>哪个文件有变化就把哪个文件拉到本地</li>
+<ul>
+<li>origin 指的就是远程仓库，非本地仓库，在命令行命令中出现的 origin ，指操作是对远程仓库操作</li>
+<li>origin指向的是repository，master只是这个repository中默认创建的第一个branch。(git push origin master )当你git push的时候因为origin和master都是默认创建的。</li>
+</ul>
+<p>如果出现如下错误：</p>
+<p><img src="/2020/07/05/other/git/2.png" alt="错误"></p>
+<p>可以先执行命令 <code>git remote rm origin</code>，然后再执行上面的命令。</p>
+<h3 id="3-从远程仓库克隆"><a href="#3-从远程仓库克隆" class="headerlink" title="3. 从远程仓库克隆"></a>3. 从远程仓库克隆</h3><p>克隆远程仓库也就是从远程把仓库复制一份到本地，克隆后会创建一个新的本地仓库。选择一个任意部署仓库的目录，然后克隆远程仓库。</p>
+<p><code>git clone git@github.com:littlebearsama/repo1.git</code></p>
+<h3 id="4-从远程仓库取代码"><a href="#4-从远程仓库取代码" class="headerlink" title="4. 从远程仓库取代码"></a>4. 从远程仓库取代码</h3><ol>
+<li>git fetch :获取。相当于是从远程获取最新版本到本地，不会自动merge（合并代码）</li>
+<li>git pull：拉取。相当于是从远程获取最新版本并merge到本地</li>
 </ol>
-<p>先pull（会合并你的代码）再push</p>
-<h2 id="搭建私有git服务器"><a href="#搭建私有git服务器" class="headerlink" title="搭建私有git服务器"></a>搭建私有git服务器</h2><h2 id="分支管理"><a href="#分支管理" class="headerlink" title="分支管理"></a>分支管理</h2><p>在我们每次的提交，Git都把它们串成一条时间线，这条时间线就是一个分支。截止到目前，只有一条时间线，在Git里，这个分支叫主分支，即master分支。HEAD指针严格来说不是指向提交，而是指向master，master才是指向提交的，所以，HEAD指向的就是当前分支。</p>
+<h3 id="5-搭建私有git服务器"><a href="#5-搭建私有git服务器" class="headerlink" title="5. 搭建私有git服务器"></a>5. 搭建私有git服务器</h3><h4 id="5-1-服务器搭建"><a href="#5-1-服务器搭建" class="headerlink" title="5.1  服务器搭建"></a>5.1  服务器搭建</h4><p>远程仓库实际上和本地仓库没啥不同，纯粹为了7x24小时开机并交换大家的修改。GitHub就是一个免费托管开源代码的远程仓库。但是对于某些视源代码如生命的商业公司来说，既不想公开源代码，又舍不得给GitHub交保护费，那就只能自己搭建一台Git服务器作为私有仓库使用。（现在仓库可以免费设为私有了），搭建Git服务器需要准备一台运行Linux的机器，在此我们使用CentOS。以下为安装步骤：</p>
+<p>1、安装git服务环境准备</p>
+<p>yum -y install curl curl-devel zlib-devel openssl-devel perl cpio expat-devel gettext-devel gcc cc</p>
+<p>2、下载git-2.5.0.tar.gz</p>
+<p>1）解压缩</p>
+<p>2）cd git-2.5.0</p>
+<p>3）autoconf</p>
+<p>4）./configure</p>
+<p>5）make</p>
+<p>6）make install</p>
+<p>3、添加用户</p>
+<p>adduser -r -c ‘git version control’ -d /home/git -m git</p>
+<p>此命令执行后会创建/home/git目录作为git用户的主目录。</p>
+<p>5、设置密码</p>
+<p>passwd git</p>
+<p>输入两次密码</p>
+<p>6、切换到git用户</p>
+<p>su git</p>
+<p>7、创建git仓库</p>
+<p>git –bare init /home/git/first</p>
+<p>注意：如果不使用“–bare”参数，初始化仓库后，提交master分支时报错。这是由于git默认拒绝了push操作，需要.git/config添加如下代码：</p>
+<p>[receive]</p>
+<p>   denyCurrentBranch = ignore</p>
+<p>推荐使用：git –bare init初始化仓库。</p>
+<h4 id="5-2-连接服务器"><a href="#5-2-连接服务器" class="headerlink" title="5.2 连接服务器"></a>5.2 连接服务器</h4><p>私有git服务器搭建完成后就可以向连接github一样连接使用了，但是我们的git服务器并没有配置密钥登录，所以每次连接时需要输入密码。</p>
+<p>使用命令连接：</p>
+<p>$ git remote add origin ssh://git@192.168.25.156/home/git/first</p>
+<p>这种形式和刚才使用的形式好像不一样，前面有ssh://前缀，好吧你也可以这样写：</p>
+<p>$ git remote add origin <a href="mailto:git@192.168.25.156" target="_blank" rel="noopener">git@192.168.25.156</a>:first</p>
+<p>使用TortoiseGit同步的话参考上面的使用方法。</p>
+<h2 id="五、分支管理"><a href="#五、分支管理" class="headerlink" title="五、分支管理"></a>五、分支管理</h2><h4 id="1-创建并合并分支"><a href="#1-创建并合并分支" class="headerlink" title="1. 创建并合并分支"></a>1. 创建并合并分支</h4><p>在我们每次的提交，Git都把它们串成一条时间线，这条时间线就是一个分支。截止到目前，只有一条时间线，在Git里，这个分支叫主分支，即master分支。HEAD指针严格来说不是指向提交，而是指向master，master才是指向提交的，所以，HEAD指向的就是当前分支。</p>
 <p>一开始的时候，master分支是一条线，Git用master指向最新的提交，再用HEAD指向master，就能确定当前分支，以及当前分支的提交点：</p>
 <p><img src="/2020/07/05/other/git/fenzhi.png" alt></p>
-<h2 id="命令与基本操作流程"><a href="#命令与基本操作流程" class="headerlink" title="命令与基本操作流程"></a>命令与基本操作流程</h2><ol>
-<li>git add </li>
-<li>git commit</li>
-<li>git checkout</li>
-<li>git pull</li>
-<li>git merge </li>
-<li>git push</li>
+<p>每次提交，master分支都会向前移动一步，这样，随着你不断提交，master分支的线也越来越长。</p>
+<p>当我们创建新的分支，例如dev时，Git新建了一个指针叫dev，指向master相同的提交，再把HEAD指向dev，就表示当前分支在dev上：</p>
+<p><img src="/2020/07/05/other/git/4.png" alt></p>
+<p>你看，Git创建一个分支很快，因为除了增加一个dev指针，改改HEAD的指向，工作区的文件都没有任何变化！不过，从现在开始，对工作区的修改和提交就是针对dev分支了，比如新提交一次后，dev指针往前移动一步，而master指针不变：</p>
+<p><img src="/2020/07/05/other/git/5.png" alt></p>
+<p>假如我们在dev上的工作完成了，就可以把dev合并到master上。Git怎么合并呢？最简单的方法，就是直接把master指向dev的当前提交，就完成了合并：</p>
+<p><img src="/2020/07/05/other/git/6.png" alt></p>
+<p>所以Git合并分支也很快！就改改指针，工作区内容也不变！</p>
+<p>合并完分支后，甚至可以删除dev分支。删除dev分支就是把dev指针给删掉，删掉后，我们就剩下了一条master分支：</p>
+<p><img src="/2020/07/05/other/git/7.png" alt></p>
+<h4 id="2-使用tortoisegit实现分支管理"><a href="#2-使用tortoisegit实现分支管理" class="headerlink" title="2. 使用tortoisegit实现分支管理"></a>2. 使用tortoisegit实现分支管理</h4><ol>
+<li><p>创建分支</p>
+<p>使用TortoiseGit管理分支就很简单了。在本地仓库文件夹中点击右键，然后从菜单中选择“创建分支”：</p>
+</li>
 </ol>
-<p>远端：本地：暂存</p>
-
+<p><img src="/2020/07/05/other/git/8.png" alt></p>
+<p>如果想创建完毕后直接切换到新分支可以勾选“切换到新分支”选项或者从菜单中选择“切换/检出”来切换分支：</p>
+<p><img src="/2020/07/05/other/git/9.png" alt></p>
+<ol start="2">
+<li><p>合并分支</p>
+<p>分支切换到dev后就可以对工作区的文件进行修改，然后提交到dev分支原理的master分支不受影响。例如我们修改mytest.txt中的内容，然后提交到dev分支。</p>
+<p>切换回master分支后，master分支还是原来的内容。</p>
+<p>将dev分支的内容合并到master分支，当前分支为master。从右键菜单中选择“合并”：</p>
+<p><img src="/2020/07/05/other/git/10.png" alt></p>
+<p>相当于<code>git merge xiaoxiong</code></p>
+</li>
+</ol>
+<h4 id="3-解决冲突"><a href="#3-解决冲突" class="headerlink" title="3. 解决冲突"></a>3. 解决冲突</h4><p>两个分支中编辑的内容都是相互独立互不干扰的，那么如果在两个分支中都对同一个文件进行编辑，然后再合并，就有可能会出现冲突。冲突需要手动解决。使用乌龟选择文件冲突部分的要保留的代码。</p>
+<h2 id="六、命令与基本操作流程"><a href="#六、命令与基本操作流程" class="headerlink" title="六、命令与基本操作流程"></a>六、命令与基本操作流程</h2><h3 id="1-命令查表"><a href="#1-命令查表" class="headerlink" title="1. 命令查表"></a>1. 命令查表</h3><ol>
+<li><p>git clone </p>
+<p>克隆整个仓库</p>
+</li>
+<li><p>将本地仓库和远程仓库关联</p>
+<blockquote>
+<p>git remote add origin “ssh:……..git”</p>
+</blockquote>
+</li>
+<li><p>git checkout</p>
+<ul>
+<li><p>建立远端分支</p>
+<blockquote>
+<p>git checkout -b xiaoxiong 在当前分之下（一般是master分支），创建xiaoxiong本地分支</p>
+</blockquote>
+<blockquote>
+<p> git push origin  xiaoxiong::xiaoxiong 将本地分支推送到远程</p>
+</blockquote>
+</li>
+<li><p>创建本地分支AAA并且与远端分支关联起来</p>
+<blockquote>
+<p>git checkout -b xiaoxiongorigin/xiaoxiong</p>
+</blockquote>
+</li>
+<li><p>啊</p>
+</li>
+</ul>
+</li>
+<li><p>git branch</p>
+<ul>
+<li><p>查看所有分支（包括远端分支）</p>
+<blockquote>
+<p>git branch -a</p>
+</blockquote>
+</li>
+<li><p>删除远端分支</p>
+<blockquote>
+<p>git branch -r -d origin/AAA</p>
+</blockquote>
+</li>
+<li><p>删除本地分支</p>
+<blockquote>
+<p>git branch -D AAA</p>
+</blockquote>
+</li>
+<li><p>将本地分支xiaoxiong和远端分支xiaoxiong关联起来</p>
+<blockquote>
+<p>git branch —track xiaoxiong origin/xiaoxiong</p>
+</blockquote>
+</li>
+<li><p>啊啊</p>
+</li>
+</ul>
+</li>
+<li><p>git add </p>
+</li>
+<li><p>git commit</p>
+</li>
+<li><p>git reset</p>
+<ul>
+<li><p>撤销上一步的git add添加的文件filename</p>
+<blockquote>
+<p>git reset HEAD filename</p>
+</blockquote>
+</li>
+<li><p>撤销上一步的git commit</p>
+<blockquote>
+<p>git reset –hard HEAD^</p>
+</blockquote>
+</li>
+<li><p>撤销】】</p>
+</li>
+</ul>
+</li>
+<li><p>git list</p>
+<p>查看当前仓库当前目录下的所有文件</p>
+<blockquote>
+<p>git ls-files</p>
+</blockquote>
+</li>
+<li><p>git pull</p>
+</li>
+<li><p>git merge </p>
+</li>
+<li><p>git push，<a href="https://www.cnblogs.com/qianqiannian/p/6008140.html" target="_blank" rel="noopener">参考</a></p>
+<p> git push的一般形式为 git push &lt;远程主机名&gt; &lt;本地分支名&gt;  &lt;远程分支名&gt; ，例如</p>
+<p><code>git push origin master：refs/for/master</code> ，</p>
+<p>即是将本地的master分支推送到远程主机origin上的对应master分支， origin 是远程主机名， 第一个master是本地分支名，第二个master是远程分支名。</p>
+<ul>
+<li>与远程分支建立连接 <code>git push --set-upstream origin xiaoxiong</code></li>
+<li></li>
+</ul>
+</li>
+<li><p>git remote，<a href="https://www.cnblogs.com/fengff/p/11225711.html" target="_blank" rel="noopener">参考</a></p>
+<ul>
+<li>git remote 不带参数，列出已经存在的远程分支</li>
+<li>git remote -v | –verbose 列出详细信息，在每一个名字后面列出其远程url，此时， -v 选项(译注:此为 –verbose 的简写,取首字母),显示对应的克隆地址。</li>
+<li>git remote add url  添加一个远程仓库</li>
+</ul>
+</li>
+</ol>
+<h3 id="2-基本操作流程"><a href="#2-基本操作流程" class="headerlink" title="2. 基本操作流程"></a>2. 基本操作流程</h3>
         </div>
         
         <div class="level is-size-7 is-uppercase">
@@ -385,7 +601,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        61
+                        64
                     </p>
                 </div>
             </div>
@@ -395,7 +611,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        49
+                        52
                     </p>
                 </div>
             </div>
@@ -405,7 +621,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        33
+                        35
                     </p>
                 </div>
             </div>
@@ -801,7 +1017,7 @@
                 <span class="level-item">编程</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">26</span>
+                <span class="level-item tag">29</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/编程/C/">
@@ -826,6 +1042,30 @@
             </span>
             <span class="level-end">
                 <span class="level-item tag">9</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/编程/Generic-Programming/">
+            <span class="level-start">
+                <span class="level-item">Generic Programming</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/编程/Memory-Management/">
+            <span class="level-start">
+                <span class="level-item">Memory Management</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/编程/STL/">
+            <span class="level-start">
+                <span class="level-item">STL</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/编程/cuda-FQA/">
@@ -871,7 +1111,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/3D-Reconstruction/" style="font-size: 10px;">3D Reconstruction</a> <a href="/tags/3D-scene-Reconstruction/" style="font-size: 10px;">3D scene Reconstruction</a> <a href="/tags/C/" style="font-size: 20px;">C++</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CV-Source/" style="font-size: 14.29px;">CV-Source</a> <a href="/tags/Deep-Learning/" style="font-size: 11.43px;">Deep Learning</a> <a href="/tags/Despriptors/" style="font-size: 10px;">Despriptors</a> <a href="/tags/Efficient-Sparse-ICP/" style="font-size: 10px;">Efficient Sparse ICP</a> <a href="/tags/FastICP/" style="font-size: 10px;">FastICP</a> <a href="/tags/GOICP/" style="font-size: 10px;">GOICP</a> <a href="/tags/Generalized-ICP/" style="font-size: 11.43px;">Generalized-ICP</a> <a href="/tags/ICP/" style="font-size: 17.14px;">ICP</a> <a href="/tags/LM/" style="font-size: 10px;">LM</a> <a href="/tags/NDT/" style="font-size: 11.43px;">NDT</a> <a href="/tags/ObjectDetection/" style="font-size: 15.71px;">ObjectDetection</a> <a href="/tags/PCL/" style="font-size: 17.14px;">PCL</a> <a href="/tags/PoseEstimation/" style="font-size: 17.14px;">PoseEstimation</a> <a href="/tags/RANSAC/" style="font-size: 10px;">RANSAC</a> <a href="/tags/Reconstruction/" style="font-size: 12.86px;">Reconstruction</a> <a href="/tags/Registration/" style="font-size: 18.57px;">Registration</a> <a href="/tags/SAC-IA/" style="font-size: 10px;">SAC-IA</a> <a href="/tags/SFM/" style="font-size: 10px;">SFM</a> <a href="/tags/STL/" style="font-size: 10px;">STL</a> <a href="/tags/SVD/" style="font-size: 10px;">SVD</a> <a href="/tags/Sparse-ICP/" style="font-size: 10px;">Sparse ICP</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/keypoints/" style="font-size: 10px;">keypoints</a> <a href="/tags/mv-LM-ICP/" style="font-size: 10px;">mv-LM-ICP</a> <a href="/tags/std/" style="font-size: 10px;">std</a> <a href="/tags/surface-Reconstruction/" style="font-size: 10px;">surface Reconstruction</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/图像/" style="font-size: 11.43px;">图像</a> <a href="/tags/编程知识与VS错误/" style="font-size: 10px;">编程知识与VS错误</a>
+        <a href="/tags/3D-Reconstruction/" style="font-size: 10px;">3D Reconstruction</a> <a href="/tags/3D-scene-Reconstruction/" style="font-size: 10px;">3D scene Reconstruction</a> <a href="/tags/C/" style="font-size: 20px;">C++</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CV-Source/" style="font-size: 14.29px;">CV-Source</a> <a href="/tags/Deep-Learning/" style="font-size: 11.43px;">Deep Learning</a> <a href="/tags/Despriptors/" style="font-size: 10px;">Despriptors</a> <a href="/tags/Efficient-Sparse-ICP/" style="font-size: 10px;">Efficient Sparse ICP</a> <a href="/tags/FastICP/" style="font-size: 10px;">FastICP</a> <a href="/tags/GOICP/" style="font-size: 10px;">GOICP</a> <a href="/tags/Generalized-ICP/" style="font-size: 11.43px;">Generalized-ICP</a> <a href="/tags/Generic-Programming/" style="font-size: 10px;">Generic Programming</a> <a href="/tags/ICP/" style="font-size: 17.14px;">ICP</a> <a href="/tags/LM/" style="font-size: 10px;">LM</a> <a href="/tags/Memory-Management/" style="font-size: 10px;">Memory Management</a> <a href="/tags/NDT/" style="font-size: 11.43px;">NDT</a> <a href="/tags/ObjectDetection/" style="font-size: 15.71px;">ObjectDetection</a> <a href="/tags/PCL/" style="font-size: 17.14px;">PCL</a> <a href="/tags/PoseEstimation/" style="font-size: 17.14px;">PoseEstimation</a> <a href="/tags/RANSAC/" style="font-size: 10px;">RANSAC</a> <a href="/tags/Reconstruction/" style="font-size: 12.86px;">Reconstruction</a> <a href="/tags/Registration/" style="font-size: 18.57px;">Registration</a> <a href="/tags/SAC-IA/" style="font-size: 10px;">SAC-IA</a> <a href="/tags/SFM/" style="font-size: 10px;">SFM</a> <a href="/tags/STL/" style="font-size: 11.43px;">STL</a> <a href="/tags/SVD/" style="font-size: 10px;">SVD</a> <a href="/tags/Sparse-ICP/" style="font-size: 10px;">Sparse ICP</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/keypoints/" style="font-size: 10px;">keypoints</a> <a href="/tags/mv-LM-ICP/" style="font-size: 10px;">mv-LM-ICP</a> <a href="/tags/std/" style="font-size: 10px;">std</a> <a href="/tags/surface-Reconstruction/" style="font-size: 10px;">surface Reconstruction</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/图像/" style="font-size: 11.43px;">图像</a> <a href="/tags/编程知识与VS错误/" style="font-size: 10px;">编程知识与VS错误</a>
     </div>
 </div>
 
@@ -885,6 +1125,63 @@
         <h3 class="menu-label">
             最新文章
         </h3>
+        
+        <article class="media">
+            
+            <a href="/2020/07/13/C++/GenericProgramming/Generic Programming1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 泛型编程">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-13T15:10:33.000Z">2020-07-13</time></div>
+                    <a href="/2020/07/13/C++/GenericProgramming/Generic Programming1/" class="has-link-black-ter is-size-6">C++ 泛型编程</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/Generic-Programming/">Generic Programming</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/13/C++/STL/STL1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ STL1">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-13T15:10:33.000Z">2020-07-13</time></div>
+                    <a href="/2020/07/13/C++/STL/STL1/" class="has-link-black-ter is-size-6">C++ STL1</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/STL/">STL</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/13/C++/MemoryManagement/MemoryManagement1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 内存管理1">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-13T15:10:33.000Z">2020-07-13</time></div>
+                    <a href="/2020/07/13/C++/MemoryManagement/MemoryManagement1/" class="has-link-black-ter is-size-6">C++ 内存管理1</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/Memory-Management/">Memory Management</a>
+                    </p>
+                </div>
+            </div>
+        </article>
         
         <article class="media">
             
@@ -924,63 +1221,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/07/05/other/git/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="GIT教程">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-04T16:10:21.000Z">2020-07-05</time></div>
-                    <a href="/2020/07/05/other/git/" class="has-link-black-ter is-size-6">GIT教程</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/04/11/MAD_Learning/DNote1/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Deeplearning Note1">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-11T06:16:49.000Z">2020-04-11</time></div>
-                    <a href="/2020/04/11/MAD_Learning/DNote1/" class="has-link-black-ter is-size-6">Deeplearning Note1</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/机器学习与深度学习/">机器学习与深度学习</a> / <a class="has-link-grey -link" href="/categories/机器学习与深度学习/Deep-Learning-Notes/">Deep Learning Notes</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/04/11/Registration/0.SAC-IA/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="SAC-IA">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-11T03:27:52.225Z">2020-04-11</time></div>
-                    <a href="/2020/04/11/Registration/0.SAC-IA/" class="has-link-black-ter is-size-6">SAC-IA</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/0-SAC-IA/">0.SAC-IA</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -999,7 +1239,7 @@
                     <span class="level-item">七月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">6</span>
                 </span>
             </a>
         </li>
@@ -1172,6 +1412,13 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/Generic-Programming/">
+                        <span class="tag">Generic Programming</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/ICP/">
                         <span class="tag">ICP</span>
                         <span class="tag is-grey">7</span>
@@ -1181,6 +1428,13 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/LM/">
                         <span class="tag">LM</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Memory-Management/">
+                        <span class="tag">Memory Management</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1251,7 +1505,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/STL/">
                         <span class="tag">STL</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1350,6 +1604,63 @@
         
         <article class="media">
             
+            <a href="/2020/07/13/C++/GenericProgramming/Generic Programming1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 泛型编程">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-13T15:10:33.000Z">2020-07-13</time></div>
+                    <a href="/2020/07/13/C++/GenericProgramming/Generic Programming1/" class="has-link-black-ter is-size-6">C++ 泛型编程</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/Generic-Programming/">Generic Programming</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/13/C++/STL/STL1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ STL1">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-13T15:10:33.000Z">2020-07-13</time></div>
+                    <a href="/2020/07/13/C++/STL/STL1/" class="has-link-black-ter is-size-6">C++ STL1</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/STL/">STL</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/13/C++/MemoryManagement/MemoryManagement1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 内存管理1">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-13T15:10:33.000Z">2020-07-13</time></div>
+                    <a href="/2020/07/13/C++/MemoryManagement/MemoryManagement1/" class="has-link-black-ter is-size-6">C++ 内存管理1</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/Memory-Management/">Memory Management</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
             <a href="/2020/07/08/2DImage/opencv_interface/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="用到的opencv接口记录">
@@ -1386,63 +1697,6 @@
             </div>
         </article>
         
-        <article class="media">
-            
-            <a href="/2020/07/05/other/git/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="GIT教程">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-04T16:10:21.000Z">2020-07-05</time></div>
-                    <a href="/2020/07/05/other/git/" class="has-link-black-ter is-size-6">GIT教程</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/C/">C++</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/04/11/MAD_Learning/DNote1/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="Deeplearning Note1">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-11T06:16:49.000Z">2020-04-11</time></div>
-                    <a href="/2020/04/11/MAD_Learning/DNote1/" class="has-link-black-ter is-size-6">Deeplearning Note1</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/机器学习与深度学习/">机器学习与深度学习</a> / <a class="has-link-grey -link" href="/categories/机器学习与深度学习/Deep-Learning-Notes/">Deep Learning Notes</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
-            <a href="/2020/04/11/Registration/0.SAC-IA/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="SAC-IA">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-04-11T03:27:52.225Z">2020-04-11</time></div>
-                    <a href="/2020/04/11/Registration/0.SAC-IA/" class="has-link-black-ter is-size-6">SAC-IA</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Registration/">Registration</a> / <a class="has-link-grey -link" href="/categories/Registration/0-SAC-IA/">0.SAC-IA</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
     </div>
 </div>
 
@@ -1461,7 +1715,7 @@
                     <span class="level-item">七月 2020</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">3</span>
+                    <span class="level-item tag">6</span>
                 </span>
             </a>
         </li>
@@ -1634,6 +1888,13 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/Generic-Programming/">
+                        <span class="tag">Generic Programming</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/ICP/">
                         <span class="tag">ICP</span>
                         <span class="tag is-grey">7</span>
@@ -1643,6 +1904,13 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/LM/">
                         <span class="tag">LM</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Memory-Management/">
+                        <span class="tag">Memory Management</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1713,7 +1981,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/STL/">
                         <span class="tag">STL</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
