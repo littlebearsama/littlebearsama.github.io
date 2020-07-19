@@ -2,24 +2,23 @@
 <html lang="zh">
 <head><meta name="generator" content="Hexo 3.8.0">
     <meta charset="utf-8">
-<title>编程知识与VS错误 - LittleBear！！！</title>
+<title>分类: git - LittleBear！！！</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
 
 
-    <meta name="description" content="[TOC]">
-<meta name="keywords" content="编程知识与VS错误">
-<meta property="og:type" content="article">
-<meta property="og:title" content="编程知识与VS错误">
-<meta property="og:url" content="https://littlebearsama.github.io/2020/07/05/Coding/coding1/index.html">
+    <meta name="description" content="Robot With CV">
+<meta name="keywords" content="CUDA PCL OpenCV">
+<meta property="og:type" content="website">
+<meta property="og:title" content="LittleBear！！！">
+<meta property="og:url" content="https://littlebearsama.github.io/categories/git/index.html">
 <meta property="og:site_name" content="LittleBear！！！">
-<meta property="og:description" content="[TOC]">
+<meta property="og:description" content="Robot With CV">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2020-07-13T14:52:12.844Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="编程知识与VS错误">
-<meta name="twitter:description" content="[TOC]">
+<meta name="twitter:title" content="LittleBear！！！">
+<meta name="twitter:description" content="Robot With CV">
 <meta name="twitter:image" content="https://littlebearsama.github.io/images/og_image.png">
 
 
@@ -103,7 +102,7 @@
         <div class="navbar-brand is-flex-center">
             <a class="navbar-item navbar-logo" href="/">
             
-                <img src="/images/pig.png" alt="编程知识与VS错误" height="28">
+                <img src="/images/pig.png" alt="LittleBear！！！" height="28">
             
             </a>
         </div>
@@ -149,22 +148,34 @@
         <div class="container">
             <div class="columns">
                 <div class="column is-8-tablet is-8-desktop is-6-widescreen has-order-2 column-main"><div class="card">
+    <div class="card-content">
+        <nav class="breadcrumb" aria-label="breadcrumbs">
+        <ul>
+            <li><a href="/categories">分类</a></li>
+            
+            <li class="is-active"><a href="#" aria-current="page">git</a></li>
+        </ul>
+        </nav>
+    </div>
+</div>
+
+    <div class="card">
     
     <div class="card-content article ">
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2020-07-04T16:10:22.000Z">2020-07-05</time>
+                <time class="level-item has-text-grey" datetime="2020-07-04T16:10:21.000Z">2020-07-05</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/编程/">编程</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/编程/编程知识与VS错误/">编程知识与VS错误</a>
+                <a class="has-link-grey -link" href="/categories/git/">git</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    14 分钟 读完 (大约 2074 个字)
+                    27 分钟 读完 (大约 4096 个字)
                 </span>
                 
                 
@@ -173,196 +184,33 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                编程知识与VS错误
+                <a class="has-link-black-ter" href="/2020/07/05/other/git/">GIT教程</a>
             
         </h1>
         <div class="content">
             <p>[TOC]</p>
-<a id="more"></a>
-
-<h1 id="1-预编译头（提高编译速度）"><a href="#1-预编译头（提高编译速度）" class="headerlink" title="1. 预编译头（提高编译速度）"></a>1. 预编译头（提高编译速度）</h1><p><a href="https://blog.csdn.net/ly416/article/details/24735441?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.nonecase" target="_blank" rel="noopener">参考</a></p>
-<p>#include “stdafx.h”</p>
-<ol>
-<li>首先#include语句的作用是将对应名称的头文件的所有内容粘贴到include所在的文件中。如果头文件内容很多就会非常耗时。</li>
-<li>所以如果重复include多个头文件，会造成多次代码的粘贴，对于头文件中有类声明等，会造成重定义。</li>
-<li>预编译头就是把一个工程中的那一部分代码预先编译好放在一个文件里(通常是以.pch为扩展名的)，这个文件就称为预编译头文件。</li>
-<li>预先编译好的代码可以是任何的C/C++代码——–甚至是inline的函数，但是必须是稳定的，在工程开发的过程中不会被经常改变。<strong>如果这些代码被修改，则需要重新编译生成预编译头文件。</strong></li>
-<li>Stdafx.h文件需要配合一个StdAfx.cpp文件来使用</li>
-<li>使用了预编译头技术后，编译速度大大提高了。可以到你的工程目录下的Debug 或 Release 目录中看一看，里面有一个体积极为硕大的 .pch 文件，那就是“编译之后的预编译头”。</li>
-<li>如果你使用了预编译头技术，就必须在所有的 cpp 中包含预编译头。MFC 工程中为你建立了一个默认的预编译头 stdafx.h，如果你愿意，也可以在自己的工程中使用其它文件名作为你的预编译头，如果你觉得有必要。</li>
-</ol>
-<h2 id="使用预编译头"><a href="#使用预编译头" class="headerlink" title="使用预编译头"></a>使用预编译头</h2><p><img src="/2020/07/05/Coding/coding1/1.png" alt="文件结构"></p>
-<p><img src="/2020/07/05/Coding/coding1/2.png" alt="项目属性设置"></p>
-<p><img src="/2020/07/05/Coding/coding1/3.png" alt="cpp属性设置"></p>
-<ol>
-<li>在属性表中 设置C/C++—–&gt;预编译头—-&gt;使用（/Yu）—-&gt;预编译头文件stdafx.h</li>
-<li>右键stdafx.cpp文件属性—&gt;预编译头—-&gt;创建（/Yc）</li>
-<li>在每个cpp文件中加入预编译头文件stdafx.h</li>
-</ol>
-<h1 id="2-pragma-once-与-ifndef"><a href="#2-pragma-once-与-ifndef" class="headerlink" title="2. #pragma once 与 ifndef"></a>2. #pragma once 与 ifndef</h1><p><a href="https://blog.csdn.net/jandunlab/article/details/17185253" target="_blank" rel="noopener">参考1</a></p>
-<p><a href="https://blog.csdn.net/songsong2017/article/details/97100325?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.nonecase&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.nonecase" target="_blank" rel="noopener">参考2</a></p>
-<p><strong>目的：</strong>为了避免同一个文件被include多次</p>
-<p><strong>同一个文件被include多次的危害：</strong></p>
-<p>（1）防止重复定义的错误；</p>
-<p>（2）如果这个头文件变化，那么所有include这个文件的源文件都需要重新编译，即使没有去使用里面的任何内容</p>
-<p><strong>避免措施：</strong></p>
-<p>  （1）头文件加#pragma once</p>
-<p>  （2）头文件加#ifndef 宏名  #define 宏名  #endif</p>
-<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">方式一：</span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">ifndef</span> __SOMEFILE_H__</span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> __SOMEFILE_H__</span></span><br><span class="line">... ... <span class="hljs-comment">// 一些声明语句</span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span></span><br><span class="line">方式二：</span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">pragma</span> once</span></span><br><span class="line">... ... <span class="hljs-comment">// 一些声明语句</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>两者区别：</strong></p>
-<ol>
-<li><strong>#ifndef的方式依赖于宏名字不能冲突</strong>，这不光可以保证同一个文件不会被包含多次，也能保证内容完全相同的两个文件不会被不小心同时包含。当然，缺点就是如果不同头文件的宏名不小心“撞车”，可能就会导致头文件明明存在，<strong>不同文件相同宏名会使得编译器出现找不到声明的状况。</strong></li>
-<li>#pragma once则由编译器提供保证：同一个文件不会被包含多次。注意这里所说的“同一个文件”是指<strong>物理上的一个文件</strong>，而不是指内容相同的两个文件。带来的好处是，你不必再费劲想个宏名了，当然也就不会出现宏名碰撞引发的奇怪问题。<strong><em>对应的缺点就是如果某个头文件有多份拷贝，本方法不能保证他们不被重复包含</em></strong>。当然，相比宏名碰撞引发的“找不到声明”的问题，重复包含更容易被发现并修正。</li>
-</ol>
-<h1 id="3-VS由于无法找到-dll，无法继续执行代码"><a href="#3-VS由于无法找到-dll，无法继续执行代码" class="headerlink" title="3. VS由于无法找到 dll，无法继续执行代码"></a>3. VS由于无法找到 dll，无法继续执行代码</h1><p><a href="https://www.cnblogs.com/houkai/archive/2013/06/05/3119513.html" target="_blank" rel="noopener">C++在VS下创建、调用dll</a></p>
-<p><a href="https://www.cnblogs.com/ScarecrowMark/p/11249303.html" target="_blank" rel="noopener">如何在C++程序中调用dll文件</a></p>
-<p><a href="https://blog.csdn.net/yuhai738639/article/details/79023258" target="_blank" rel="noopener">windows下C++项目引用其他项目</a></p>
-<ol>
-<li>显式链接</li>
-</ol>
-<p>显式链接是应用程序在执行过程中随时可以加载DLL文件，也可以随时卸载DLL文件，这是隐式链接所无法作到的，所以显式链接具有更好的灵活性，对于解释性语言更为合适。</p>
-<p>新建项目，不需要特殊配置，添加cpp文件</p>
-<ol start="2">
-<li>隐式链接</li>
-</ol>
-<p>隐式链接采用静态加载的方式，比较简单，需要.h、.lib、.dll三件套。新建“控制台应用程序”或“空项目”。配置如下:</p>
-<p>项目-&gt;属性-&gt;配置属性-&gt;VC++ 目录-&gt; 在“包含目录”里添加头文件testdll.h所在的目录</p>
-<p>项目-&gt;属性-&gt;配置属性-&gt;VC++ 目录-&gt; 在“库目录”里添加头文件testdll.lib所在的目录</p>
-<p>项目-&gt;属性-&gt;配置属性-&gt;链接器-&gt;输入-&gt; 在“附加依赖项”里添加“testdll.lib”（若有多个 lib 则以空格隔开）</p>
-<p>现在可以编译通过了，但是程序运行就报错，还需要将testdll.dll复制到当前项目生成的可执行文件所在的目录。</p>
-<h1 id="4-内联的虚成员函数"><a href="#4-内联的虚成员函数" class="headerlink" title="4. 内联的虚成员函数"></a>4. 内联的虚成员函数</h1><p><a href="https://blog.csdn.net/lonelysky/article/details/52090109" target="_blank" rel="noopener">参考</a></p>
-<p>内联虚成员函数：inline virtual void fun(int a);？</p>
-<p><strong>函数的inline属性是在编译时确定的， 然而，virtual的性质是在运行时确定的，这两个不能同时存在，只能有一个选择，文件中的inline关键字只是对编译器的建议，编译器是否采纳是编译器的事情。</strong></p>
-<h1 id="5-declspec-dllexport-的作用"><a href="#5-declspec-dllexport-的作用" class="headerlink" title="5.__declspec( dllexport )的作用"></a>5.__declspec( dllexport )的作用</h1><p><a href="https://blog.csdn.net/love__live1/article/details/82699479" target="_blank" rel="noopener">参考</a></p>
-<p> 在工程开发中，我们往往需要将某个工程做成dll动态链接库的形式释放出去；但在工程初期，为方便调试，一般生成的是exe文件；在确认功能开发完毕后，再将其封装成dll文件进行释放。那么，当我们想要将原先是生成exe文件的vs工程，转换为生成dll文件的话；需执行的步骤如下（以vs2013为例）：</p>
-<ol>
-<li><p>将工程的配置类型配置为dll</p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">项目-&gt;属性-&gt;配置属性-&gt;常规-&gt;配置类型-&gt;动态库(.dll)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><strong>将要释放的接口函数以如下格式进行声明</strong></p>
-<figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_declspec(dllexport) 函数首;</span><br></pre></td></tr></table></figure>
-
-
-
-
-</li>
-</ol>
-<p>   list.h</p>
-<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">ListNode</span></span></span><br><span class="line"><span class="hljs-class">&#123;</span></span><br><span class="line">    <span class="hljs-keyword">int</span>       m_nValue;</span><br><span class="line">    ListNode* m_pNext;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">__declspec( dllexport ) <span class="hljs-function">ListNode* <span class="hljs-title">CreateListNode</span><span class="hljs-params">(<span class="hljs-keyword">int</span> value)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p>list.cpp</p>
-<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span><span class="hljs-meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">"include/List.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="hljs-comment">// 创建链表节点</span></span><br><span class="line"><span class="hljs-function">ListNode* <span class="hljs-title">CreateListNode</span><span class="hljs-params">(<span class="hljs-keyword">int</span> value)</span> </span>&#123;</span><br><span class="line">    ListNode* pNode = <span class="hljs-keyword">new</span> ListNode();</span><br><span class="line">    pNode-&gt;m_nValue = value;</span><br><span class="line">    pNode-&gt;m_pNext = <span class="hljs-literal">nullptr</span>;</span><br><span class="line"></span><br><span class="line">    <span class="hljs-keyword">return</span> pNode;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>__declspec( dllexport )的作用为不用导入库文件，就可以在外部直接调用其后的函数功能。</strong></p>
-<p>例如：加入建一个test.cpp文件，导入list.h后可以直接调用其函数</p>
-<p>调用如下</p>
-<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;windows.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">typedef</span> <span class="hljs-title">int</span><span class="hljs-params">(*MyFunDll)</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">    HMODULE hdll = LoadLibrary(<span class="hljs-string">"Win32Project1.dll"</span>);   <span class="hljs-comment">//加载dll文件</span></span><br><span class="line">    <span class="hljs-keyword">if</span> (hdll != <span class="hljs-literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        MyFunDll MyFunCall = (MyFunDll)GetProcAddress(hdll, <span class="hljs-string">"main"</span>);<span class="hljs-comment">//检索要调用函数的地址</span></span><br><span class="line">        <span class="hljs-keyword">if</span> (MyFunCall != <span class="hljs-literal">NULL</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            MyFunCall();							    <span class="hljs-comment">//调用接口函数</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    FreeLibrary(hdll);								    <span class="hljs-comment">//释放dll文件</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>通过LoadLibrary()函数对dll文件进行加载；再通过GetProcAddress()函数去获取要调用的接口函数的地址（上例中用MyFunCall去存储接口函数的地址）；再调用该接口函数(MyFunCall)；最后通过FreeLibrary()函数对dll文件进行释放。所以，如果要用于加载其他的dll文件，上例中需改动的地方有：</p>
-<ul>
-<li>加载的dll文件名(上例中的”Win32Project1.dll”)；</li>
-<li>要检索的接口函数名(上例中的”main”)；</li>
-<li>调用的接口函数的格式(如上例中的MyFunCall()，函数的参数信息应保持与要调用的接口函数”main”一致)。</li>
-</ul>
-
         </div>
         
-        <div class="level is-size-7 is-uppercase">
+        
+        <div class="level is-mobile">
             <div class="level-start">
                 <div class="level-item">
-                    <span class="is-size-6 has-text-grey has-mr-7">#</span>
-                    <a class="has-link-grey -link" href="/tags/编程知识与VS错误/">编程知识与VS错误</a>
+                <a class="button is-size-7 is-light" href="/2020/07/05/other/git/#more">阅读更多</a>
                 </div>
             </div>
         </div>
         
         
-        
-        
-<div class="addthis_inline_share_toolbox"></div>
-<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ce8d814d9c29712"></script>
-
-        
     </div>
 </div>
 
 
 
-<div class="card">
-    <div class="card-content">
-        <h3 class="menu-label has-text-centered">喜欢这篇文章？打赏一下作者吧</h3>
-        <div class="buttons is-centered">
-            
-                
-<a class="button is-info donate">
-    <span class="icon is-small">
-        <i class="fab fa-alipay"></i>
-    </span>
-    <span>支付宝</span>
-    <div class="qrcode"><img src="/images/alqrcode.png" alt="支付宝"></div>
-</a>
-
-                
-                
-<a class="button is-success donate">
-    <span class="icon is-small">
-        <i class="fab fa-weixin"></i>
-    </span>
-    <span>微信</span>
-    <div class="qrcode"><img src="/images/wxqrcode.png" alt="微信"></div>
-</a>
-
-                
-        </div>
-    </div>
-</div>
 
 
 
-<div class="card card-transparent">
-    <div class="level post-navigation is-flex-wrap is-mobile">
-        
-        <div class="level-start">
-            <a class="level level-item has-link-grey  article-nav-prev" href="/2020/07/08/2DImage/opencv_interface/">
-                <i class="level-item fas fa-chevron-left"></i>
-                <span class="level-item">用到的opencv接口记录</span>
-            </a>
-        </div>
-        
-        
-        <div class="level-end">
-            <a class="level level-item has-link-grey  article-nav-next" href="/2020/07/05/other/git/">
-                <span class="level-item">GIT教程</span>
-                <i class="level-item fas fa-chevron-right"></i>
-            </a>
-        </div>
-        
-    </div>
-</div>
 
 
-
-<div class="card">
-    <div class="card-content">
-        <h3 class="title is-5 has-text-weight-normal">评论</h3>
-        
-<div id="valine-thread" class="content"></div>
-<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
-<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
-<script>
-    new Valine({
-        el: '#valine-thread' ,
-        notify: false,
-        verify: false,
-        app_id: '8eoAgWMqJvxDePfBogu64i1m-gzGzoHsz',
-        app_key: 'wooEMXdlCj5x9utpB1UhAobQ',
-        placeholder: '( *・ω・)✄╰ひ╯   快来评论鸭！！！ 记得填上昵称～ 邮箱（仅博主可见）～ 还有主页地址～'
-    });
-</script>
-
-    </div>
-</div>
 </div>
                 
 
@@ -1899,7 +1747,7 @@
             <div class="level-start has-text-centered-mobile">
                 <a class="footer-logo is-block has-mb-6" href="/">
                 
-                    <img src="/images/pig.png" alt="编程知识与VS错误" height="28">
+                    <img src="/images/pig.png" alt="LittleBear！！！" height="28">
                 
                 </a>
                 <p class="is-size-7">
