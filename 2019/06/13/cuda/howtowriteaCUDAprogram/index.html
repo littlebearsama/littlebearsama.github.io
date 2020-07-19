@@ -195,12 +195,12 @@
 </li>
 <li><p>CUDA书籍与博客</p>
 <p><a href="https://github.com/littlebearsama/CUDA-notes" target="_blank" rel="noopener">书籍</a></p>
-<p><a href="https://littlebearsama.github.io/tags/CUDA/">博客</a></p>
+<p><a href="https://littlebearsama.github.io/tags/CUDA/" target="_blank" rel="noopener">博客</a></p>
 </li>
 </ol>
 <h2 id="B-CUDA并行计算原理"><a href="#B-CUDA并行计算原理" class="headerlink" title="B.CUDA并行计算原理"></a>B.CUDA并行计算原理</h2><p>CUDA程序运行可以简单理解为：主机代码在CPU中运行，在调用<code>__device__</code>和<code>__global__</code>核函数时，进入GPU运行（此时并不会中断主机代码的运行，除非在等待GPU出结果）。此时在设备中每个线程执行一个核函数。</p>
 <h2 id="C-CUDA程序编写步骤"><a href="#C-CUDA程序编写步骤" class="headerlink" title="C.CUDA程序编写步骤"></a>C.CUDA程序编写步骤</h2><h3 id="一、编写GPU运行的核函数"><a href="#一、编写GPU运行的核函数" class="headerlink" title="一、编写GPU运行的核函数"></a>一、编写GPU运行的核函数</h3><ol>
-<li><p>根据数据的个数与数据形式（二维图像？三维点云？）来<a href="https://littlebearsama.github.io/2019/05/24/cuda/cudanote2/"><strong>考虑线程配置</strong></a>。</p>
+<li><p>根据数据的个数与数据形式（二维图像？三维点云？）来<a href="https://littlebearsama.github.io/2019/05/24/cuda/cudanote2/" target="_blank" rel="noopener"><strong>考虑线程配置</strong></a>。</p>
 <p>在二维中：</p>
 <figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function">dim3    <span class="hljs-title">blocks</span><span class="hljs-params">(DIM/<span class="hljs-number">16</span>,DIM/<span class="hljs-number">16</span>)</span></span>;</span><br><span class="line"><span class="hljs-function">dim3    <span class="hljs-title">threads</span><span class="hljs-params">(<span class="hljs-number">16</span>,<span class="hljs-number">16</span>)</span></span>;</span><br></pre></td></tr></table></figure>
 </li>
@@ -224,7 +224,7 @@
 </li>
 </ol>
 <h3 id="二、给数据在GPU中分配内存"><a href="#二、给数据在GPU中分配内存" class="headerlink" title="二、给数据在GPU中分配内存"></a>二、给数据在GPU中分配内存</h3><h4 id="GPU内存类型："><a href="#GPU内存类型：" class="headerlink" title="GPU内存类型："></a>GPU内存类型：</h4><h5 id="1-全局内存"><a href="#1-全局内存" class="headerlink" title="1.全局内存"></a>1.全局内存</h5><p>GPU中用<code>cudaMalloc()</code>申请的GPU全局内存</p>
-<h5 id="2-共享内存"><a href="#2-共享内存" class="headerlink" title="2.共享内存"></a>2.<a href="https://littlebearsama.github.io/2019/05/24/cuda/cudanote2/">共享内存</a></h5><ol>
+<h5 id="2-共享内存"><a href="#2-共享内存" class="headerlink" title="2.共享内存"></a>2.<a href="https://littlebearsama.github.io/2019/05/24/cuda/cudanote2/" target="_blank" rel="noopener">共享内存</a></h5><ol>
 <li><p>简介</p>
 <p>规约运算是在核函数申请的共享内存。</p>
 <p>通过共享内存实现block内的线程通信，实现通信前要进行线程同步，否则会发生<strong>竞态条件</strong>，但是block和block之间的线程是无法互相通信的。</p>
@@ -242,7 +242,7 @@
 </ul>
 </li>
 </ol>
-<h5 id="3-常量内存-只读内存"><a href="#3-常量内存-只读内存" class="headerlink" title="3.常量内存-只读内存"></a>3.<a href="https://littlebearsama.github.io/2019/05/24/cuda/cudanote3/">常量内存</a>-只读内存</h5><ol>
+<h5 id="3-常量内存-只读内存"><a href="#3-常量内存-只读内存" class="headerlink" title="3.常量内存-只读内存"></a>3.<a href="https://littlebearsama.github.io/2019/05/24/cuda/cudanote3/" target="_blank" rel="noopener">常量内存</a>-只读内存</h5><ol>
 <li><p>简介</p>
 <p>常量内存用于保存在核函数<strong>执行期间不会发生变化的数据</strong>。</p>
 <p>与从全局内存中读取数据相比，从常量内存中读取相同的数据可以节约带宽，原因有二：</p>
@@ -263,7 +263,7 @@
 </ul>
 </li>
 </ol>
-<h5 id="4-纹理内存-只读内存"><a href="#4-纹理内存-只读内存" class="headerlink" title="4.纹理内存-只读内存"></a>4.<a href="https://littlebearsama.github.io/2019/05/24/cuda/cudanote4/">纹理内存</a>-只读内存</h5><ol>
+<h5 id="4-纹理内存-只读内存"><a href="#4-纹理内存-只读内存" class="headerlink" title="4.纹理内存-只读内存"></a>4.<a href="https://littlebearsama.github.io/2019/05/24/cuda/cudanote4/" target="_blank" rel="noopener">纹理内存</a>-只读内存</h5><ol>
 <li><p>简介</p>
 <p><strong>纹理内存(Texture Memory)</strong>和常量内存一样，纹理内存是另外一种类型的<strong>只读内存</strong>，在特定的访问模式中，纹理内存同样能够提升性能并减少内存流量。</p>
 <p><strong>纹理内存同样缓存在芯片上（利用了芯片上的缓存加速）！！！</strong></p>
@@ -998,25 +998,6 @@
         
         <article class="media">
             
-            <a href="/2020/07/13/C++/MemoryManagement/MemoryManagement1/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 内存管理1">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-13T15:10:33.000Z">2020-07-13</time></div>
-                    <a href="/2020/07/13/C++/MemoryManagement/MemoryManagement1/" class="has-link-black-ter is-size-6">C++ 内存管理1</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/Memory-Management/">Memory Management</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
             <a href="/2020/07/13/C++/GenericProgramming/Generic Programming1/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 泛型编程">
@@ -1029,6 +1010,25 @@
                     <a href="/2020/07/13/C++/GenericProgramming/Generic Programming1/" class="has-link-black-ter is-size-6">C++ 泛型编程</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/Generic-Programming/">Generic Programming</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/13/C++/MemoryManagement/MemoryManagement1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 内存管理1">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-13T15:10:33.000Z">2020-07-13</time></div>
+                    <a href="/2020/07/13/C++/MemoryManagement/MemoryManagement1/" class="has-link-black-ter is-size-6">C++ 内存管理1</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/Memory-Management/">Memory Management</a>
                     </p>
                 </div>
             </div>
@@ -1481,25 +1481,6 @@
         
         <article class="media">
             
-            <a href="/2020/07/13/C++/MemoryManagement/MemoryManagement1/" class="media-left">
-                <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 内存管理1">
-                </p>
-            </a>
-            
-            <div class="media-content">
-                <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-13T15:10:33.000Z">2020-07-13</time></div>
-                    <a href="/2020/07/13/C++/MemoryManagement/MemoryManagement1/" class="has-link-black-ter is-size-6">C++ 内存管理1</a>
-                    <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/Memory-Management/">Memory Management</a>
-                    </p>
-                </div>
-            </div>
-        </article>
-        
-        <article class="media">
-            
             <a href="/2020/07/13/C++/GenericProgramming/Generic Programming1/" class="media-left">
                 <p class="image is-64x64">
                     <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 泛型编程">
@@ -1512,6 +1493,25 @@
                     <a href="/2020/07/13/C++/GenericProgramming/Generic Programming1/" class="has-link-black-ter is-size-6">C++ 泛型编程</a>
                     <p class="is-size-7 is-uppercase">
                         <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/Generic-Programming/">Generic Programming</a>
+                    </p>
+                </div>
+            </div>
+        </article>
+        
+        <article class="media">
+            
+            <a href="/2020/07/13/C++/MemoryManagement/MemoryManagement1/" class="media-left">
+                <p class="image is-64x64">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 内存管理1">
+                </p>
+            </a>
+            
+            <div class="media-content">
+                <div class="content">
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-13T15:10:33.000Z">2020-07-13</time></div>
+                    <a href="/2020/07/13/C++/MemoryManagement/MemoryManagement1/" class="has-link-black-ter is-size-6">C++ 内存管理1</a>
+                    <p class="is-size-7 is-uppercase">
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/Memory-Management/">Memory Management</a>
                     </p>
                 </div>
             </div>
