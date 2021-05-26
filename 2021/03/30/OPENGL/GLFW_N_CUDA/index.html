@@ -7,19 +7,19 @@
 
 
 
-    <meta name="description" content="OpenGL与CUDA互操作0. 基本概念：VBO：顶点缓冲对象（Vertex Buffer Objects，VBO）顶点缓冲对象VBO是在显卡存储空间中开辟出的一块内存缓存区，用于存储顶点的各类属性信息，如顶点坐标，顶点法向量，顶点颜色数据等。在渲染时，可以直接从VBO中取出顶点的各类属性数据，由于VBO在显存而不是在内存中，不需要从CPU传输数据，处理效率更高。 所以可以理解为VBO就是显">
+    <meta name="description" content="OpenGL与CUDA互操作">
 <meta name="keywords" content="glfw">
 <meta property="og:type" content="article">
 <meta property="og:title" content="glfw相关知识以及与cuda之间的互操作">
 <meta property="og:url" content="https://littlebearsama.github.io/2021/03/30/OPENGL/GLFW_N_CUDA/index.html">
 <meta property="og:site_name" content="LittleBear！！！">
-<meta property="og:description" content="OpenGL与CUDA互操作0. 基本概念：VBO：顶点缓冲对象（Vertex Buffer Objects，VBO）顶点缓冲对象VBO是在显卡存储空间中开辟出的一块内存缓存区，用于存储顶点的各类属性信息，如顶点坐标，顶点法向量，顶点颜色数据等。在渲染时，可以直接从VBO中取出顶点的各类属性数据，由于VBO在显存而不是在内存中，不需要从CPU传输数据，处理效率更高。 所以可以理解为VBO就是显">
+<meta property="og:description" content="OpenGL与CUDA互操作">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2021-05-26T07:41:47.094Z">
+<meta property="og:updated_time" content="2021-05-26T08:03:23.508Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="glfw相关知识以及与cuda之间的互操作">
-<meta name="twitter:description" content="OpenGL与CUDA互操作0. 基本概念：VBO：顶点缓冲对象（Vertex Buffer Objects，VBO）顶点缓冲对象VBO是在显卡存储空间中开辟出的一块内存缓存区，用于存储顶点的各类属性信息，如顶点坐标，顶点法向量，顶点颜色数据等。在渲染时，可以直接从VBO中取出顶点的各类属性数据，由于VBO在显存而不是在内存中，不需要从CPU传输数据，处理效率更高。 所以可以理解为VBO就是显">
+<meta name="twitter:description" content="OpenGL与CUDA互操作">
 <meta name="twitter:image" content="https://littlebearsama.github.io/images/og_image.png">
 
 
@@ -164,7 +164,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    23 分钟 读完 (大约 3519 个字)
+                    24 分钟 读完 (大约 3525 个字)
                 </span>
                 
                 
@@ -177,7 +177,8 @@
             
         </h1>
         <div class="content">
-            <a id="more"></a>
+            <p>OpenGL与CUDA互操作</p>
+<a id="more"></a>
 
 <h1 id="OpenGL与CUDA互操作"><a href="#OpenGL与CUDA互操作" class="headerlink" title="OpenGL与CUDA互操作"></a>OpenGL与CUDA互操作</h1><h2 id="0-基本概念："><a href="#0-基本概念：" class="headerlink" title="0. 基本概念："></a>0. <a href="https://blog.csdn.net/dcrmg/article/details/53556664" target="_blank" rel="noopener">基本概念：</a></h2><h3 id="VBO：顶点缓冲对象（Vertex-Buffer-Objects，VBO）"><a href="#VBO：顶点缓冲对象（Vertex-Buffer-Objects，VBO）" class="headerlink" title="VBO：顶点缓冲对象（Vertex Buffer Objects，VBO）"></a>VBO：顶点缓冲对象（Vertex Buffer Objects，VBO）</h3><p>顶点缓冲对象VBO是在显卡存储空间中开辟出的一块内存缓存区，用于存储顶点的各类属性信息，如顶点坐标，顶点法向量，顶点颜色数据等。在渲染时，可以直接从VBO中取出顶点的各类属性数据，由于VBO在显存而不是在内存中，不需要从CPU传输数据，处理效率更高。</p>
 <p>所以可以理解为VBO就是显存中的一个存储区域，可以保持大量的顶点属性信息。并且可以开辟很多个VBO，每个VBO在OpenGL中有它的唯一标识ID，这个ID对应着具体的VBO的显存地址，通过这个ID可以对特定的VBO内的数据进行存取操作。</p>
