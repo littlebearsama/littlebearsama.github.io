@@ -167,7 +167,7 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-06-30T08:46:49.000Z">2019-06-30</time>
+                <time class="level-item has-text-grey" datetime="2021-05-11T12:00:00.000Z">2021-05-11</time>
                 
                 <div class="level-item">
                 <a class="has-link-grey -link" href="/categories/Reconstruction/">Reconstruction</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/Reconstruction/2-surface-Reconstruction/">2.surface Reconstruction</a>
@@ -177,7 +177,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    几秒 读完 (大约 14 个字)
+                    5 分钟 读完 (大约 741 个字)
                 </span>
                 
                 
@@ -186,11 +186,82 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/06/30/Reconstruction/surface_reconstruction/">surface reconstruction</a>
+                <a class="has-link-black-ter" href="/2021/05/11/Reconstruction/surface_reconstruction/">surface reconstruction</a>
             
         </h1>
         <div class="content">
-            <p>表面重建（点云到网格）（TODO）</p>
+            <h1 id="表面重建（点云到网格）"><a href="#表面重建（点云到网格）" class="headerlink" title="表面重建（点云到网格）"></a>表面重建（点云到网格）</h1><p><a href="https://mp.weixin.qq.com/s?__biz=MzI0MDYxMDk0Ng==&mid=2247487165&idx=1&sn=9d62faf73d2d5a85777e2e5d14812471&chksm=e9197550de6efc4652a893761a1a4dceb83edb66c7e023cb2cc326d46ca0fcbdb6912ff29e83&scene=21#wechat_redirect" target="_blank" rel="noopener">[线上分享录播]基于点云数据的 Mesh重建与处理</a></p>
+<h2 id="PCL中的表面重建"><a href="#PCL中的表面重建" class="headerlink" title="PCL中的表面重建"></a>PCL中的表面重建</h2><ol>
+<li><p>gp3</p>
+<p>greedy projection—贪婪投影算法</p>
+<p><a href="https://mp.weixin.qq.com/s/FfHkVY-lmlOSf4jKoZqjEA" target="_blank" rel="noopener">参考</a></p>
+<p>贪心投影三角化的大致流程是这样的：</p>
+<p>（1）先将点云通过法线投影到某一二维坐标平面内</p>
+<p>（2）然后对投影得到的点云做平面内的三角化，从而得到各点的拓扑连接关系。平面三角化的过程中用到了基于Delaunay三角剖分 的空间区域增长算法</p>
+<p>（3）最后根据平面内投影点的拓扑连接关系确定各原始三维点间的拓扑连接，所得三角网格即为重建得到的曲面模型</p>
+</li>
+</ol>
+<ol start="2">
+<li><p>grid_projection</p>
+<p>网格投影</p>
+</li>
+<li><p>marching_cubes 移动立方体</p>
+<p>marching_cubes_hoppe</p>
+<p>marching_cubes_rbf</p>
+</li>
+<li><p>mls</p>
+<p>移动最小二乘法</p>
+</li>
+<li><p>organized_fast_mesh</p>
+</li>
+<li><p>poisson</p>
+<p>泊松重建</p>
+</li>
+<li><p>EarClipping</p>
+<p><a href="https://blog.csdn.net/noahzuo/article/details/78478617" target="_blank" rel="noopener">耳切法</a></p>
+<p>将一个普通多边形拆解成多个三角形</p>
+</li>
+<li><p>delaunay2.5D（cloudcompare）</p>
+<p><strong>所有边都是德劳内边的剖分是德劳内三角剖分</strong>。</p>
+<ol>
+<li><p>扫描线法（Sweepline）</p>
+</li>
+<li><p>随机增量法（Incremental）</p>
+<blockquote>
+<p>按照随机的顺序依次插入点集中的点</p>
+<ol>
+<li>首先确定vi落在哪个三角形中（或边上）</li>
+<li>然后将vi与三角形三个顶点连接起来构成三个三角形（或与共边的两个三角形的对顶点连接起来构成四个三角形）</li>
+<li>由于新生成的边以及原来的边可能不是或不再是Delaunay边，故进行边翻转来调整使之都成为Delaunay边，从而得出DT(v1,v2,…,vi)。</li>
+</ol>
+</blockquote>
+</li>
+<li><p>分治法（Divide and Conquer）</p>
+</li>
+</ol>
+<p>三角剖分原理：</p>
+<ol>
+<li><a href="https://en.wikipedia.org/wiki/Bowyer%E2%80%93Watson_algorithm" target="_blank" rel="noopener">德劳内三角剖分</a></li>
+<li><a href="https://www.cnblogs.com/soroman/archive/2007/05/17/750430.html" target="_blank" rel="noopener">三种计算方法</a></li>
+</ol>
+</li>
+</ol>
+<p>   开源：</p>
+<p>   <a href="https://github.com/obviousjim/ofxDelaunay" target="_blank" rel="noopener">ofxDelaunay:</a></p>
+<p>   <a href="https://github.com/bl4ckb0ne/delaunay-triangulation" target="_blank" rel="noopener">delaunay-triangulation:</a></p>
+<p>   Delaunay三角剖分算法是一种常用的算法，<strong>它的特点是剖分结果的每个三角形都尽量接近等边三角形。</strong></p>
+<ol>
+<li><p>平面域三角剖分、平面投影法</p>
+<p>将三维点投影到某个平面，如XY平面，然后对投影点集 作平面域的三角剖分, 最终形成的曲面三角剖<br>分的点间连接关系与相应的投影点间的连接关系相同,</p>
+</li>
+<li><p>最佳平面拟合</p>
+<p>同理，只是投影到最佳拟合的平面上，再对点进行剖分。</p>
+</li>
+</ol>
+<hr>
+<h1 id="直线或线段与mesh网格相交的计算"><a href="#直线或线段与mesh网格相交的计算" class="headerlink" title="直线或线段与mesh网格相交的计算"></a>直线或线段与mesh网格相交的计算</h1><p><a href="https://blog.csdn.net/qq_33263124/article/details/88179289" target="_blank" rel="noopener">https://blog.csdn.net/qq_33263124/article/details/88179289</a></p>
+<h1 id="MLS"><a href="#MLS" class="headerlink" title="MLS"></a>MLS</h1><p><a href="https://github.com/EvangelosKatsavrias/CUDA_MLS" target="_blank" rel="noopener">CUDA-MLS</a></p>
+<h1 id="VOXELIZER"><a href="#VOXELIZER" class="headerlink" title="VOXELIZER"></a>VOXELIZER</h1><p><a href="https://github.com/Forceflow/cuda_voxelizer" target="_blank" rel="noopener">https://github.com/Forceflow/cuda_voxelizer</a></p>
 
         </div>
         
@@ -249,7 +320,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        66
+                        82
                     </p>
                 </div>
             </div>
@@ -259,7 +330,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        54
+                        67
                     </p>
                 </div>
             </div>
@@ -269,7 +340,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        37
+                        44
                     </p>
                 </div>
             </div>
@@ -372,6 +443,22 @@
                 <span class="level-item tag">1</span>
             </span>
         </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Mobile-Robot/">
+            <span class="level-start">
+                <span class="level-item">Mobile Robot</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Mobile-Robot/sparse-pointcloud-segemntation/">
+            <span class="level-start">
+                <span class="level-item">sparse pointcloud segemntation</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
         <a class="level is-marginless" href="/categories/ObjectDetection-and-PoseEstimation/">
             <span class="level-start">
                 <span class="level-item">ObjectDetection and PoseEstimation</span>
@@ -425,7 +512,7 @@
                 <span class="level-item">PCL</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">7</span>
+                <span class="level-item tag">8</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/PCL/0-tutorial/">
@@ -483,13 +570,21 @@
             <span class="level-end">
                 <span class="level-item tag">1</span>
             </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/PCL/6-Algorithm-Time/">
+            <span class="level-start">
+                <span class="level-item">6.Algorithm Time</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
         </a></li></ul></li><li>
         <a class="level is-marginless" href="/categories/Reconstruction/">
             <span class="level-start">
                 <span class="level-item">Reconstruction</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">3</span>
+                <span class="level-item tag">4</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Reconstruction/1-3D-Reconstruction/">
@@ -508,6 +603,14 @@
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Reconstruction/3-3D-Reconstruction/">
+            <span class="level-start">
+                <span class="level-item">3.3D Reconstruction</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Reconstruction/3-3D-scene-Reconstruction/">
             <span class="level-start">
                 <span class="level-item">3.3D scene Reconstruction</span>
@@ -521,7 +624,7 @@
                 <span class="level-item">Registration</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">11</span>
+                <span class="level-item tag">12</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Registration/0-SAC-IA/">
@@ -588,6 +691,14 @@
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/6-Super4PCS/">
+            <span class="level-start">
+                <span class="level-item">6.Super4PCS</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Registration/6-mv-LM-ICP/">
             <span class="level-start">
                 <span class="level-item">6.mv-LM-ICP</span>
@@ -631,6 +742,38 @@
         <a class="level is-marginless" href="/categories/其他/好用的工具/">
             <span class="level-start">
                 <span class="level-item">好用的工具</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/可视化/">
+            <span class="level-start">
+                <span class="level-item">可视化</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/可视化/glfw和cuda/">
+            <span class="level-start">
+                <span class="level-item">glfw和cuda</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/可视化/glfw学习文档/">
+            <span class="level-start">
+                <span class="level-item">glfw学习文档</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/可视化/learn-OpenGL/">
+            <span class="level-start">
+                <span class="level-item">learn OpenGL</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
@@ -681,7 +824,7 @@
                 <span class="level-item">编程</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">28</span>
+                <span class="level-item tag">33</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/编程/C/">
@@ -705,12 +848,20 @@
                 <span class="level-item">CUDA</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">9</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/编程/Generic-Programming/">
             <span class="level-start">
                 <span class="level-item">Generic Programming</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/编程/Hash-Map/">
+            <span class="level-start">
+                <span class="level-item">Hash Map</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
@@ -724,9 +875,25 @@
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/编程/SSE/">
+            <span class="level-start">
+                <span class="level-item">SSE</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/编程/STL/">
             <span class="level-start">
                 <span class="level-item">STL</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/编程/cuda/">
+            <span class="level-start">
+                <span class="level-item">cuda</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
@@ -775,7 +942,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/3D-Reconstruction/" style="font-size: 10px;">3D Reconstruction</a> <a href="/tags/3D-scene-Reconstruction/" style="font-size: 10px;">3D scene Reconstruction</a> <a href="/tags/C/" style="font-size: 18.75px;">C++</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CV-Source/" style="font-size: 13.75px;">CV-Source</a> <a href="/tags/Deep-Learning/" style="font-size: 11.25px;">Deep Learning</a> <a href="/tags/Despriptors/" style="font-size: 10px;">Despriptors</a> <a href="/tags/Efficient-Sparse-ICP/" style="font-size: 10px;">Efficient Sparse ICP</a> <a href="/tags/FastICP/" style="font-size: 10px;">FastICP</a> <a href="/tags/GOICP/" style="font-size: 10px;">GOICP</a> <a href="/tags/Generalized-ICP/" style="font-size: 11.25px;">Generalized-ICP</a> <a href="/tags/Generic-Programming/" style="font-size: 10px;">Generic Programming</a> <a href="/tags/ICP/" style="font-size: 16.25px;">ICP</a> <a href="/tags/LM/" style="font-size: 10px;">LM</a> <a href="/tags/Memory-Management/" style="font-size: 10px;">Memory Management</a> <a href="/tags/NDT/" style="font-size: 11.25px;">NDT</a> <a href="/tags/ObjectDetection/" style="font-size: 15px;">ObjectDetection</a> <a href="/tags/PCL/" style="font-size: 16.25px;">PCL</a> <a href="/tags/PoseEstimation/" style="font-size: 16.25px;">PoseEstimation</a> <a href="/tags/RANSAC/" style="font-size: 10px;">RANSAC</a> <a href="/tags/Reconstruction/" style="font-size: 12.5px;">Reconstruction</a> <a href="/tags/Registration/" style="font-size: 17.5px;">Registration</a> <a href="/tags/SAC-IA/" style="font-size: 10px;">SAC-IA</a> <a href="/tags/SFM/" style="font-size: 10px;">SFM</a> <a href="/tags/STL/" style="font-size: 11.25px;">STL</a> <a href="/tags/SVD/" style="font-size: 10px;">SVD</a> <a href="/tags/Sparse-ICP/" style="font-size: 10px;">Sparse ICP</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/git/" style="font-size: 11.25px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/keypoints/" style="font-size: 10px;">keypoints</a> <a href="/tags/mv-LM-ICP/" style="font-size: 10px;">mv-LM-ICP</a> <a href="/tags/std/" style="font-size: 10px;">std</a> <a href="/tags/surface-Reconstruction/" style="font-size: 10px;">surface Reconstruction</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/图像/" style="font-size: 11.25px;">图像</a> <a href="/tags/编程知识与VS错误/" style="font-size: 10px;">编程知识与VS错误</a>
+        <a href="/tags/3D-Reconstruction/" style="font-size: 11.25px;">3D Reconstruction</a> <a href="/tags/3D-scene-Reconstruction/" style="font-size: 10px;">3D scene Reconstruction</a> <a href="/tags/4PCS/" style="font-size: 10px;">4PCS</a> <a href="/tags/C/" style="font-size: 18.75px;">C++</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CV-Source/" style="font-size: 12.5px;">CV-Source</a> <a href="/tags/Deep-Learning/" style="font-size: 11.25px;">Deep Learning</a> <a href="/tags/Despriptors/" style="font-size: 10px;">Despriptors</a> <a href="/tags/Efficient-Sparse-ICP/" style="font-size: 10px;">Efficient Sparse ICP</a> <a href="/tags/FastICP/" style="font-size: 10px;">FastICP</a> <a href="/tags/GOICP/" style="font-size: 10px;">GOICP</a> <a href="/tags/Generalized-ICP/" style="font-size: 11.25px;">Generalized-ICP</a> <a href="/tags/Generic-Programming/" style="font-size: 10px;">Generic Programming</a> <a href="/tags/Hash-Map/" style="font-size: 10px;">Hash Map</a> <a href="/tags/ICP/" style="font-size: 15px;">ICP</a> <a href="/tags/LM/" style="font-size: 10px;">LM</a> <a href="/tags/Memory-Management/" style="font-size: 10px;">Memory Management</a> <a href="/tags/NDT/" style="font-size: 11.25px;">NDT</a> <a href="/tags/ObjectDetection/" style="font-size: 13.75px;">ObjectDetection</a> <a href="/tags/OpenGL/" style="font-size: 10px;">OpenGL</a> <a href="/tags/PCL/" style="font-size: 16.25px;">PCL</a> <a href="/tags/PoseEstimation/" style="font-size: 15px;">PoseEstimation</a> <a href="/tags/RANSAC/" style="font-size: 10px;">RANSAC</a> <a href="/tags/Reconstruction/" style="font-size: 12.5px;">Reconstruction</a> <a href="/tags/Registration/" style="font-size: 17.5px;">Registration</a> <a href="/tags/SAC-IA/" style="font-size: 10px;">SAC-IA</a> <a href="/tags/SFM/" style="font-size: 10px;">SFM</a> <a href="/tags/SSE/" style="font-size: 10px;">SSE</a> <a href="/tags/STL/" style="font-size: 11.25px;">STL</a> <a href="/tags/SVD/" style="font-size: 10px;">SVD</a> <a href="/tags/Segmentation/" style="font-size: 10px;">Segmentation</a> <a href="/tags/Sparse-ICP/" style="font-size: 10px;">Sparse ICP</a> <a href="/tags/Super4PCS/" style="font-size: 10px;">Super4PCS</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/git/" style="font-size: 11.25px;">git</a> <a href="/tags/glfw/" style="font-size: 11.25px;">glfw</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/keypoints/" style="font-size: 10px;">keypoints</a> <a href="/tags/mv-LM-ICP/" style="font-size: 10px;">mv-LM-ICP</a> <a href="/tags/std/" style="font-size: 10px;">std</a> <a href="/tags/surface-Reconstruction/" style="font-size: 10px;">surface Reconstruction</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/图像/" style="font-size: 11.25px;">图像</a> <a href="/tags/编程知识与VS错误/" style="font-size: 10px;">编程知识与VS错误</a>
     </div>
 </div>
 
@@ -792,18 +959,18 @@
         
         <article class="media">
             
-            <a href="/2021/01/16/other/git2/" class="media-left">
+            <a href="/2021/05/26/MobileRobot/segmentation/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="GIT教程2">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="PointCloud Segmentation">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-16T11:45:21.000Z">2021-01-16</time></div>
-                    <a href="/2021/01/16/other/git2/" class="has-link-black-ter is-size-6">GIT教程2</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-05-26T03:06:49.000Z">2021-05-26</time></div>
+                    <a href="/2021/05/26/MobileRobot/segmentation/" class="has-link-black-ter is-size-6">PointCloud Segmentation</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/git/">git</a>
+                        <a class="has-link-grey -link" href="/categories/Mobile-Robot/">Mobile Robot</a> / <a class="has-link-grey -link" href="/categories/Mobile-Robot/sparse-pointcloud-segemntation/">sparse pointcloud segemntation</a>
                     </p>
                 </div>
             </div>
@@ -811,18 +978,18 @@
         
         <article class="media">
             
-            <a href="/2020/07/19/other/hexo2/" class="media-left">
+            <a href="/2021/05/26/Reconstruction/3d_reconstruction3/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="hexo教程2">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="无标定立体视觉计算深度">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-18T16:23:46.000Z">2020-07-19</time></div>
-                    <a href="/2020/07/19/other/hexo2/" class="has-link-black-ter is-size-6">hexo教程2</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-05-26T02:39:49.000Z">2021-05-26</time></div>
+                    <a href="/2021/05/26/Reconstruction/3d_reconstruction3/" class="has-link-black-ter is-size-6">无标定立体视觉计算深度</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/hexo/">hexo</a>
+                        <a class="has-link-grey -link" href="/categories/Reconstruction/">Reconstruction</a> / <a class="has-link-grey -link" href="/categories/Reconstruction/3-3D-Reconstruction/">3.3D Reconstruction</a>
                     </p>
                 </div>
             </div>
@@ -830,18 +997,18 @@
         
         <article class="media">
             
-            <a href="/2020/07/13/C++/MemoryManagement/MemoryManagement1/" class="media-left">
+            <a href="/2021/05/17/SSE/SSE/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 内存管理1">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="SSE coding">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-13T15:10:33.000Z">2020-07-13</time></div>
-                    <a href="/2020/07/13/C++/MemoryManagement/MemoryManagement1/" class="has-link-black-ter is-size-6">C++ 内存管理1</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-05-17T12:00:00.000Z">2021-05-17</time></div>
+                    <a href="/2021/05/17/SSE/SSE/" class="has-link-black-ter is-size-6">SSE coding</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/Memory-Management/">Memory Management</a>
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/SSE/">SSE</a>
                     </p>
                 </div>
             </div>
@@ -849,18 +1016,18 @@
         
         <article class="media">
             
-            <a href="/2020/07/13/C++/STL/STL1/" class="media-left">
+            <a href="/2021/05/11/Reconstruction/surface_reconstruction/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ STL1">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="surface reconstruction">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-13T15:10:33.000Z">2020-07-13</time></div>
-                    <a href="/2020/07/13/C++/STL/STL1/" class="has-link-black-ter is-size-6">C++ STL1</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-05-11T12:00:00.000Z">2021-05-11</time></div>
+                    <a href="/2021/05/11/Reconstruction/surface_reconstruction/" class="has-link-black-ter is-size-6">surface reconstruction</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/STL/">STL</a>
+                        <a class="has-link-grey -link" href="/categories/Reconstruction/">Reconstruction</a> / <a class="has-link-grey -link" href="/categories/Reconstruction/2-surface-Reconstruction/">2.surface Reconstruction</a>
                     </p>
                 </div>
             </div>
@@ -868,18 +1035,18 @@
         
         <article class="media">
             
-            <a href="/2020/07/13/C++/GenericProgramming/Generic Programming1/" class="media-left">
+            <a href="/2021/05/06/cuda/CUDA_baseKnowledge/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 泛型编程">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="CUDA basic knowledge">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-13T15:10:33.000Z">2020-07-13</time></div>
-                    <a href="/2020/07/13/C++/GenericProgramming/Generic Programming1/" class="has-link-black-ter is-size-6">C++ 泛型编程</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-05-06T12:00:00.000Z">2021-05-06</time></div>
+                    <a href="/2021/05/06/cuda/CUDA_baseKnowledge/" class="has-link-black-ter is-size-6">CUDA basic knowledge</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/Generic-Programming/">Generic Programming</a>
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/CUDA/">CUDA</a>
                     </p>
                 </div>
             </div>
@@ -898,12 +1065,45 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2021/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2021/01/">
                 <span class="level-start">
                     <span class="level-item">一月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -969,7 +1169,7 @@
                     <span class="level-item">六月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">14</span>
+                    <span class="level-item tag">13</span>
                 </span>
             </a>
         </li>
@@ -1012,7 +1212,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/3D-Reconstruction/">
                         <span class="tag">3D Reconstruction</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1024,16 +1224,23 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/4PCS/">
+                        <span class="tag">4PCS</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/C/">
                         <span class="tag">C++</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">13</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/CUDA/">
                         <span class="tag">CUDA</span>
-                        <span class="tag is-grey">13</span>
+                        <span class="tag is-grey">16</span>
                     </a>
                 </div>
                 
@@ -1094,6 +1301,13 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/Hash-Map/">
+                        <span class="tag">Hash Map</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/ICP/">
                         <span class="tag">ICP</span>
                         <span class="tag is-grey">7</span>
@@ -1129,9 +1343,16 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/OpenGL/">
+                        <span class="tag">OpenGL</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/PCL/">
                         <span class="tag">PCL</span>
-                        <span class="tag is-grey">7</span>
+                        <span class="tag is-grey">8</span>
                     </a>
                 </div>
                 
@@ -1152,14 +1373,14 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Reconstruction/">
                         <span class="tag">Reconstruction</span>
-                        <span class="tag is-grey">3</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Registration/">
                         <span class="tag">Registration</span>
-                        <span class="tag is-grey">10</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 
@@ -1173,6 +1394,13 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/SFM/">
                         <span class="tag">SFM</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SSE/">
+                        <span class="tag">SSE</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1192,8 +1420,22 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/Segmentation/">
+                        <span class="tag">Segmentation</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/Sparse-ICP/">
                         <span class="tag">Sparse ICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Super4PCS/">
+                        <span class="tag">Super4PCS</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1208,6 +1450,13 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/git/">
                         <span class="tag">git</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/glfw/">
+                        <span class="tag">glfw</span>
                         <span class="tag is-grey">2</span>
                     </a>
                 </div>
@@ -1293,18 +1542,18 @@
         
         <article class="media">
             
-            <a href="/2021/01/16/other/git2/" class="media-left">
+            <a href="/2021/05/26/MobileRobot/segmentation/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="GIT教程2">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="PointCloud Segmentation">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-16T11:45:21.000Z">2021-01-16</time></div>
-                    <a href="/2021/01/16/other/git2/" class="has-link-black-ter is-size-6">GIT教程2</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-05-26T03:06:49.000Z">2021-05-26</time></div>
+                    <a href="/2021/05/26/MobileRobot/segmentation/" class="has-link-black-ter is-size-6">PointCloud Segmentation</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/git/">git</a>
+                        <a class="has-link-grey -link" href="/categories/Mobile-Robot/">Mobile Robot</a> / <a class="has-link-grey -link" href="/categories/Mobile-Robot/sparse-pointcloud-segemntation/">sparse pointcloud segemntation</a>
                     </p>
                 </div>
             </div>
@@ -1312,18 +1561,18 @@
         
         <article class="media">
             
-            <a href="/2020/07/19/other/hexo2/" class="media-left">
+            <a href="/2021/05/26/Reconstruction/3d_reconstruction3/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="hexo教程2">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="无标定立体视觉计算深度">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-18T16:23:46.000Z">2020-07-19</time></div>
-                    <a href="/2020/07/19/other/hexo2/" class="has-link-black-ter is-size-6">hexo教程2</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-05-26T02:39:49.000Z">2021-05-26</time></div>
+                    <a href="/2021/05/26/Reconstruction/3d_reconstruction3/" class="has-link-black-ter is-size-6">无标定立体视觉计算深度</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/hexo/">hexo</a>
+                        <a class="has-link-grey -link" href="/categories/Reconstruction/">Reconstruction</a> / <a class="has-link-grey -link" href="/categories/Reconstruction/3-3D-Reconstruction/">3.3D Reconstruction</a>
                     </p>
                 </div>
             </div>
@@ -1331,18 +1580,18 @@
         
         <article class="media">
             
-            <a href="/2020/07/13/C++/MemoryManagement/MemoryManagement1/" class="media-left">
+            <a href="/2021/05/17/SSE/SSE/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 内存管理1">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="SSE coding">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-13T15:10:33.000Z">2020-07-13</time></div>
-                    <a href="/2020/07/13/C++/MemoryManagement/MemoryManagement1/" class="has-link-black-ter is-size-6">C++ 内存管理1</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-05-17T12:00:00.000Z">2021-05-17</time></div>
+                    <a href="/2021/05/17/SSE/SSE/" class="has-link-black-ter is-size-6">SSE coding</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/Memory-Management/">Memory Management</a>
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/SSE/">SSE</a>
                     </p>
                 </div>
             </div>
@@ -1350,18 +1599,18 @@
         
         <article class="media">
             
-            <a href="/2020/07/13/C++/STL/STL1/" class="media-left">
+            <a href="/2021/05/11/Reconstruction/surface_reconstruction/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ STL1">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="surface reconstruction">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-13T15:10:33.000Z">2020-07-13</time></div>
-                    <a href="/2020/07/13/C++/STL/STL1/" class="has-link-black-ter is-size-6">C++ STL1</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-05-11T12:00:00.000Z">2021-05-11</time></div>
+                    <a href="/2021/05/11/Reconstruction/surface_reconstruction/" class="has-link-black-ter is-size-6">surface reconstruction</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/STL/">STL</a>
+                        <a class="has-link-grey -link" href="/categories/Reconstruction/">Reconstruction</a> / <a class="has-link-grey -link" href="/categories/Reconstruction/2-surface-Reconstruction/">2.surface Reconstruction</a>
                     </p>
                 </div>
             </div>
@@ -1369,18 +1618,18 @@
         
         <article class="media">
             
-            <a href="/2020/07/13/C++/GenericProgramming/Generic Programming1/" class="media-left">
+            <a href="/2021/05/06/cuda/CUDA_baseKnowledge/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 泛型编程">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="CUDA basic knowledge">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-13T15:10:33.000Z">2020-07-13</time></div>
-                    <a href="/2020/07/13/C++/GenericProgramming/Generic Programming1/" class="has-link-black-ter is-size-6">C++ 泛型编程</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-05-06T12:00:00.000Z">2021-05-06</time></div>
+                    <a href="/2021/05/06/cuda/CUDA_baseKnowledge/" class="has-link-black-ter is-size-6">CUDA basic knowledge</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/Generic-Programming/">Generic Programming</a>
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/CUDA/">CUDA</a>
                     </p>
                 </div>
             </div>
@@ -1399,12 +1648,45 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2021/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2021/01/">
                 <span class="level-start">
                     <span class="level-item">一月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1470,7 +1752,7 @@
                     <span class="level-item">六月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">14</span>
+                    <span class="level-item tag">13</span>
                 </span>
             </a>
         </li>
@@ -1513,7 +1795,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/3D-Reconstruction/">
                         <span class="tag">3D Reconstruction</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1525,16 +1807,23 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/4PCS/">
+                        <span class="tag">4PCS</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/C/">
                         <span class="tag">C++</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">13</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/CUDA/">
                         <span class="tag">CUDA</span>
-                        <span class="tag is-grey">13</span>
+                        <span class="tag is-grey">16</span>
                     </a>
                 </div>
                 
@@ -1595,6 +1884,13 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/Hash-Map/">
+                        <span class="tag">Hash Map</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/ICP/">
                         <span class="tag">ICP</span>
                         <span class="tag is-grey">7</span>
@@ -1630,9 +1926,16 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/OpenGL/">
+                        <span class="tag">OpenGL</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/PCL/">
                         <span class="tag">PCL</span>
-                        <span class="tag is-grey">7</span>
+                        <span class="tag is-grey">8</span>
                     </a>
                 </div>
                 
@@ -1653,14 +1956,14 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Reconstruction/">
                         <span class="tag">Reconstruction</span>
-                        <span class="tag is-grey">3</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Registration/">
                         <span class="tag">Registration</span>
-                        <span class="tag is-grey">10</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 
@@ -1674,6 +1977,13 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/SFM/">
                         <span class="tag">SFM</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SSE/">
+                        <span class="tag">SSE</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1693,8 +2003,22 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/Segmentation/">
+                        <span class="tag">Segmentation</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/Sparse-ICP/">
                         <span class="tag">Sparse ICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Super4PCS/">
+                        <span class="tag">Super4PCS</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1709,6 +2033,13 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/git/">
                         <span class="tag">git</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/glfw/">
+                        <span class="tag">glfw</span>
                         <span class="tag is-grey">2</span>
                     </a>
                 </div>

@@ -154,17 +154,13 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-12-16T14:05:33.000Z">2019-12-16</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/编程/">编程</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/编程/算法与数据结构/">算法与数据结构</a>
-                </div>
+                <time class="level-item has-text-grey" datetime="2021-04-01T02:22:00.833Z">2021-04-01</time>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    5 分钟 读完 (大约 775 个字)
+                    4 分钟 读完 (大约 627 个字)
                 </span>
                 
                 
@@ -173,65 +169,37 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/12/16/DaNAlgorithm/Generate_Random_NUM/">生成随机数</a>
+                <a class="has-link-black-ter" href="/2021/04/01/OPENGL/OpenGLFQA/"></a>
             
         </h1>
         <div class="content">
-            <p><strong>打乱数组中的内容</strong></p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/12/16/DaNAlgorithm/Generate_Random_NUM/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
+            <h1 id="一、显示问题"><a href="#一、显示问题" class="headerlink" title="一、显示问题"></a>一、显示问题</h1><h2 id="1-OpenGL画点，为什么点的坐标值超出-1-1-范围就显示不了？？？"><a href="#1-OpenGL画点，为什么点的坐标值超出-1-1-范围就显示不了？？？" class="headerlink" title="1. OpenGL画点，为什么点的坐标值超出[-1,1]范围就显示不了？？？"></a>1. OpenGL画点，为什么点的坐标值超出[-1,1]范围就显示不了？？？</h2><p><a href="https://ask.csdn.net/questions/259655" target="_blank" rel="noopener">https://ask.csdn.net/questions/259655</a></p>
+<blockquote>
+<p>1.OpenGL工作在一个叫做NDC（Normalized Device Coordinates）的坐标系统下，在这个坐标系统中，x、y和z的值全部都坐落在[-1, +1]范围内，超出这个范围的点会被OpenGL忽略。因为我们直接使用OpenGL的NDC坐标系统，所以顶点坐标的值在-1到+1之间。</p>
+</blockquote>
+<blockquote>
+<p>2.设置投影模式，这样坐标就可以是超过-1到1了。Opengl的坐标是可以无限大的，通过设定视场大小来确定显示的范围，只有在视场范围内的坐标才能被看见，在视场之外的看不到。视场是可以用函数设定的。具体你要看看投影模式怎么回事。我很久没弄opengl了，具体也不太了解。</p>
+</blockquote>
+<h2 id="2-如何使用GLSL"><a href="#2-如何使用GLSL" class="headerlink" title="2. 如何使用GLSL"></a>2. 如何使用GLSL</h2><p>三大着色器：顶点、几何、片段</p>
+<p><a href="https://blog.csdn.net/baidu_28949227/article/details/91990567" target="_blank" rel="noopener">OpenGL顶点着色器、编译着色器、片段着色器</a></p>
+<p>boid.vert.glsl</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#version 330</span></span><br><span class="line"></span><br><span class="line">in vec4 Position;</span><br><span class="line">in vec4 Velocity;</span><br><span class="line">out vec4 vFragColorVs;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    vFragColorVs = Velocity;</span><br><span class="line">    gl_Position = Position;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>使用in 关键字，在顶点着色器中声明所有的输入顶点属性。GLSL有一个向量数据类型，包含1到4个float分量。由于每个顶点都有一个3D坐标，我们就创建一个vec3输入变量aPos。<br>为了设置顶点着色器的输出，我们必须把位置数据赋值给<strong>预定义的gl_Position</strong>，它在幕后的vec4.<br>在main函数最后，我们将gl_Position设置的值会成为该顶点着色器的输出</p>
+<p>boid.geom.glsl</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#version 330</span></span><br><span class="line"></span><br><span class="line">in vec4 vFragColor;</span><br><span class="line">out vec4 fragColor;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    fragColor.r = <span class="hljs-built_in">abs</span>(vFragColor.r);</span><br><span class="line">    fragColor.g = <span class="hljs-built_in">abs</span>(vFragColor.g);</span><br><span class="line">    fragColor.b = <span class="hljs-built_in">abs</span>(vFragColor.b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>boid.frag.glsl</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#version 330</span></span><br><span class="line"></span><br><span class="line">uniform mat4 u_projMatrix;</span><br><span class="line"></span><br><span class="line">layout(points) in;</span><br><span class="line">layout(points) out;</span><br><span class="line">layout(max_vertices = <span class="hljs-number">1</span>) out;</span><br><span class="line"></span><br><span class="line">in vec4 vFragColorVs[];</span><br><span class="line">out vec4 vFragColor;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    vec3 Position = gl_in[<span class="hljs-number">0</span>].gl_Position.xyz;</span><br><span class="line">    vFragColor = vFragColorVs[<span class="hljs-number">0</span>];</span><br><span class="line">    gl_Position = u_projMatrix * vec4(Position, <span class="hljs-number">1.0</span>);</span><br><span class="line">    EmitVertex();</span><br><span class="line">    EndPrimitive();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h2 id="3-其他显示问题"><a href="#3-其他显示问题" class="headerlink" title="3.其他显示问题"></a>3.其他显示问题</h2><p>glDrawElements</p>
+<p>原型：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">glDrawElements</span><span class="hljs-params">(GLenum mode,GLsizei count,GLenum type,<span class="hljs-keyword">const</span> GLvoid *indices)</span></span>;</span><br></pre></td></tr></table></figure>
 
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-08-15T10:09:49.000Z">2019-08-15</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/">ObjectDetection and PoseEstimation</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/5-2018PPF-MEAM/">5.2018PPF-MEAM</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    几秒 读完 (大约 42 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/08/15/6DPose/PPF/2018PPF-MEAM/">2018PPF-MEAM</a>
-            
-        </h1>
-        <div class="content">
-            <p>出自于论文“Point Pair Feature-Based Pose Estimation with Multiple Edge Appearance Models (PPF-MEAM) for Robotic Bin Picking”</p>
-<p><strong>针对多边的树脂工件的改进PPF</strong></p>
-<p><img src="/2019/08/15/6DPose/PPF/2018PPF-MEAM/result.png" alt="result"></p>
+<p>mode:接受的值和在glBegin()中接受的值一样，可以是GL_POLYGON、GL_TRIANGLES、GL_TRIANGLE_STRIP、GL_LINE_STRIP等。</p>
+<p>count：组合几何图形的元素的个数，一般是点的个数。</p>
+<p>type:indeices数组的数据类型，既然是索引，一般是整型的。</p>
+<p>indices:索引数组</p>
 
         </div>
         
@@ -253,17 +221,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-08-11T08:05:49.000Z">2019-08-11</time>
+                <time class="level-item has-text-grey" datetime="2021-03-30T16:20:00.000Z">2021-03-31</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/">ObjectDetection and PoseEstimation</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/1-localDescriptors-Hough/">1.localDescriptors+Hough</a>
+                <a class="has-link-grey -link" href="/categories/可视化/">可视化</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/可视化/glfw学习文档/">glfw学习文档</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    6 分钟 读完 (大约 920 个字)
+                    3 分钟 读完 (大约 461 个字)
                 </span>
                 
                 
@@ -272,22 +240,15 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/08/11/6DPose/localFeaturesHough/">三维局部特征+hough投票</a>
+                <a class="has-link-black-ter" href="/2021/03/31/OPENGL/LearnGLFW/">从官网学习GLFW</a>
             
         </h1>
         <div class="content">
-            <p>本文是柯师兄的论文“基于双目视觉的散乱堆放工件拾取系统”</p>
-<h2 id="流程："><a href="#流程：" class="headerlink" title="流程："></a>流程：</h2><p><img src="/2019/08/11/6DPose/localFeaturesHough/flow.png" alt="flow"></p>
+            <h1 id="Getting-Start"><a href="#Getting-Start" class="headerlink" title="Getting Start"></a><a href="https://www.glfw.org/docs/latest/quick_guide.html" target="_blank" rel="noopener">Getting Start</a></h1><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;glad/gl.h&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> GLFW_INCLUDE_NONE</span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;GLFW/glfw3.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">"linmath.h"</span></span></span><br><span class="line"> </span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-class"><span class="hljs-keyword">struct</span></span></span><br><span class="line"><span class="hljs-class">&#123;</span></span><br><span class="line">    <span class="hljs-keyword">float</span> x, y;</span><br><span class="line">    <span class="hljs-keyword">float</span> r, g, b;</span><br><span class="line">&#125; vertices[<span class="hljs-number">3</span>] =</span><br><span class="line">&#123;</span><br><span class="line">    &#123; <span class="hljs-number">-0.6f</span>, <span class="hljs-number">-0.4f</span>, <span class="hljs-number">1.f</span>, <span class="hljs-number">0.f</span>, <span class="hljs-number">0.f</span> &#125;,</span><br><span class="line">    &#123;  <span class="hljs-number">0.6f</span>, <span class="hljs-number">-0.4f</span>, <span class="hljs-number">0.f</span>, <span class="hljs-number">1.f</span>, <span class="hljs-number">0.f</span> &#125;,</span><br><span class="line">    &#123;   <span class="hljs-number">0.f</span>,  <span class="hljs-number">0.6f</span>, <span class="hljs-number">0.f</span>, <span class="hljs-number">0.f</span>, <span class="hljs-number">1.f</span> &#125;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* vertex_shader_text =</span><br><span class="line"><span class="hljs-string">"#version 110\n"</span></span><br><span class="line"><span class="hljs-string">"uniform mat4 MVP;\n"</span></span><br><span class="line"><span class="hljs-string">"attribute vec3 vCol;\n"</span></span><br><span class="line"><span class="hljs-string">"attribute vec2 vPos;\n"</span></span><br><span class="line"><span class="hljs-string">"varying vec3 color;\n"</span></span><br><span class="line"><span class="hljs-string">"void main()\n"</span></span><br><span class="line"><span class="hljs-string">"&#123;\n"</span></span><br><span class="line"><span class="hljs-string">"    gl_Position = MVP * vec4(vPos, 0.0, 1.0);\n"</span></span><br><span class="line"><span class="hljs-string">"    color = vCol;\n"</span></span><br><span class="line"><span class="hljs-string">"&#125;\n"</span>;</span><br><span class="line"> </span><br><span class="line"><span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* fragment_shader_text =</span><br><span class="line"><span class="hljs-string">"#version 110\n"</span></span><br><span class="line"><span class="hljs-string">"varying vec3 color;\n"</span></span><br><span class="line"><span class="hljs-string">"void main()\n"</span></span><br><span class="line"><span class="hljs-string">"&#123;\n"</span></span><br><span class="line"><span class="hljs-string">"    gl_FragColor = vec4(color, 1.0);\n"</span></span><br><span class="line"><span class="hljs-string">"&#125;\n"</span>;</span><br><span class="line"> </span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">error_callback</span><span class="hljs-params">(<span class="hljs-keyword">int</span> error, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* description)</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line">    <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">"Error: %s\n"</span>, description);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">key_callback</span><span class="hljs-params">(GLFWwindow* window, <span class="hljs-keyword">int</span> key, <span class="hljs-keyword">int</span> scancode, <span class="hljs-keyword">int</span> action, <span class="hljs-keyword">int</span> mods)</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line">    <span class="hljs-keyword">if</span> (key == GLFW_KEY_ESCAPE &amp;&amp; action == GLFW_PRESS)</span><br><span class="line">        glfwSetWindowShouldClose(window, GLFW_TRUE);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line">    GLFWwindow* window;</span><br><span class="line">    GLuint vertex_buffer, vertex_shader, fragment_shader, program;</span><br><span class="line">    GLint mvp_location, vpos_location, vcol_location;</span><br><span class="line"> </span><br><span class="line">    glfwSetErrorCallback(error_callback);</span><br><span class="line"> </span><br><span class="line">    <span class="hljs-keyword">if</span> (!glfwInit())</span><br><span class="line">        <span class="hljs-built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line"> </span><br><span class="line">    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, <span class="hljs-number">2</span>);</span><br><span class="line">    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, <span class="hljs-number">0</span>);</span><br><span class="line"> </span><br><span class="line">    window = glfwCreateWindow(<span class="hljs-number">640</span>, <span class="hljs-number">480</span>, <span class="hljs-string">"Simple example"</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);</span><br><span class="line">    <span class="hljs-keyword">if</span> (!window)</span><br><span class="line">    &#123;</span><br><span class="line">        glfwTerminate();</span><br><span class="line">        <span class="hljs-built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    glfwSetKeyCallback(window, key_callback);</span><br><span class="line"> </span><br><span class="line">    glfwMakeContextCurrent(window);</span><br><span class="line">    gladLoadGL(glfwGetProcAddress);</span><br><span class="line">    glfwSwapInterval(<span class="hljs-number">1</span>);</span><br><span class="line"> </span><br><span class="line">    <span class="hljs-comment">// <span class="hljs-doctag">NOTE:</span> OpenGL error checks have been omitted for brevity</span></span><br><span class="line"> </span><br><span class="line">    glGenBuffers(<span class="hljs-number">1</span>, &amp;vertex_buffer);</span><br><span class="line">    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);</span><br><span class="line">    glBufferData(GL_ARRAY_BUFFER, <span class="hljs-keyword">sizeof</span>(vertices), vertices, GL_STATIC_DRAW);</span><br><span class="line"> </span><br><span class="line">    vertex_shader = glCreateShader(GL_VERTEX_SHADER);</span><br><span class="line">    glShaderSource(vertex_shader, <span class="hljs-number">1</span>, &amp;vertex_shader_text, <span class="hljs-literal">NULL</span>);</span><br><span class="line">    glCompileShader(vertex_shader);</span><br><span class="line"> </span><br><span class="line">    fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);</span><br><span class="line">    glShaderSource(fragment_shader, <span class="hljs-number">1</span>, &amp;fragment_shader_text, <span class="hljs-literal">NULL</span>);</span><br><span class="line">    glCompileShader(fragment_shader);</span><br><span class="line"> </span><br><span class="line">    program = glCreateProgram();</span><br><span class="line">    glAttachShader(program, vertex_shader);</span><br><span class="line">    glAttachShader(program, fragment_shader);</span><br><span class="line">    glLinkProgram(program);</span><br><span class="line"> </span><br><span class="line">    mvp_location = glGetUniformLocation(program, <span class="hljs-string">"MVP"</span>);</span><br><span class="line">    vpos_location = glGetAttribLocation(program, <span class="hljs-string">"vPos"</span>);</span><br><span class="line">    vcol_location = glGetAttribLocation(program, <span class="hljs-string">"vCol"</span>);</span><br><span class="line"> </span><br><span class="line">    glEnableVertexAttribArray(vpos_location);</span><br><span class="line">    glVertexAttribPointer(vpos_location, <span class="hljs-number">2</span>, GL_FLOAT, GL_FALSE,</span><br><span class="line">                          <span class="hljs-keyword">sizeof</span>(vertices[<span class="hljs-number">0</span>]), (<span class="hljs-keyword">void</span>*) <span class="hljs-number">0</span>);</span><br><span class="line">    glEnableVertexAttribArray(vcol_location);</span><br><span class="line">    glVertexAttribPointer(vcol_location, <span class="hljs-number">3</span>, GL_FLOAT, GL_FALSE,</span><br><span class="line">                          <span class="hljs-keyword">sizeof</span>(vertices[<span class="hljs-number">0</span>]), (<span class="hljs-keyword">void</span>*) (<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">float</span>) * <span class="hljs-number">2</span>));</span><br><span class="line"> </span><br><span class="line">    <span class="hljs-keyword">while</span> (!glfwWindowShouldClose(window))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="hljs-keyword">float</span> ratio;</span><br><span class="line">        <span class="hljs-keyword">int</span> width, height;</span><br><span class="line">        mat4x4 m, p, mvp;</span><br><span class="line"> </span><br><span class="line">        glfwGetFramebufferSize(window, &amp;width, &amp;height);</span><br><span class="line">        ratio = width / (<span class="hljs-keyword">float</span>) height;</span><br><span class="line"> </span><br><span class="line">        glViewport(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, width, height);</span><br><span class="line">        glClear(GL_COLOR_BUFFER_BIT);</span><br><span class="line"> </span><br><span class="line">        mat4x4_identity(m);</span><br><span class="line">        mat4x4_rotate_Z(m, m, (<span class="hljs-keyword">float</span>) glfwGetTime());</span><br><span class="line">        mat4x4_ortho(p, -ratio, ratio, <span class="hljs-number">-1.f</span>, <span class="hljs-number">1.f</span>, <span class="hljs-number">1.f</span>, <span class="hljs-number">-1.f</span>);</span><br><span class="line">        mat4x4_mul(mvp, p, m);</span><br><span class="line"> </span><br><span class="line">        glUseProgram(program);</span><br><span class="line">        glUniformMatrix4fv(mvp_location, <span class="hljs-number">1</span>, GL_FALSE, (<span class="hljs-keyword">const</span> GLfloat*) mvp);</span><br><span class="line">        glDrawArrays(GL_TRIANGLES, <span class="hljs-number">0</span>, <span class="hljs-number">3</span>);</span><br><span class="line"> </span><br><span class="line">        glfwSwapBuffers(window);</span><br><span class="line">        glfwPollEvents();</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    glfwDestroyWindow(window);</span><br><span class="line"> </span><br><span class="line">    glfwTerminate();</span><br><span class="line">    <span class="hljs-built_in">exit</span>(EXIT_SUCCESS);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Introduction-to-the-API"><a href="#Introduction-to-the-API" class="headerlink" title="Introduction to the API"></a><a href="https://www.glfw.org/docs/latest/intro_guide.html" target="_blank" rel="noopener">Introduction to the API</a></h1><h1 id="Window-guide"><a href="#Window-guide" class="headerlink" title="Window guide"></a><a href="https://www.glfw.org/docs/latest/window_guide.html" target="_blank" rel="noopener">Window guide</a></h1><h1 id="Context-guide"><a href="#Context-guide" class="headerlink" title="Context guide"></a><a href="https://www.glfw.org/docs/latest/context_guide.html" target="_blank" rel="noopener">Context guide</a></h1><h1 id="Monitor-guide"><a href="#Monitor-guide" class="headerlink" title="Monitor guide"></a><a href="https://www.glfw.org/docs/latest/monitor_guide.html" target="_blank" rel="noopener">Monitor guide</a></h1><h1 id="Input-guide"><a href="#Input-guide" class="headerlink" title="Input guide"></a><a href="https://www.glfw.org/docs/latest/input_guide.html" target="_blank" rel="noopener">Input guide</a></h1>
         </div>
         
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/08/11/6DPose/localFeaturesHough/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
         
         
     </div>
@@ -306,17 +267,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-08-07T12:57:49.000Z">2019-08-07</time>
+                <time class="level-item has-text-grey" datetime="2021-03-29T16:20:00.000Z">2021-03-30</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/">ObjectDetection and PoseEstimation</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/3-2016HinterstoisserPPF/">3.2016HinterstoisserPPF</a>
+                <a class="has-link-grey -link" href="/categories/可视化/">可视化</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/可视化/glfw和cuda/">glfw和cuda</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    25 分钟 读完 (大约 3701 个字)
+                    23 分钟 读完 (大约 3518 个字)
                 </span>
                 
                 
@@ -325,23 +286,133 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/08/07/6DPose/PPF/2016HinterstoisserPPF/">2016HinterstoisserPPF</a>
+                <a class="has-link-black-ter" href="/2021/03/30/OPENGL/GLFW_N_CUDA/">glfw相关知识以及与cuda之间的互操作</a>
             
         </h1>
         <div class="content">
-            <p>论文：Going Further with Point Pair Features</p>
-<p><strong>linemod作者改进2010的<a href="https://littlebearsama.github.io/2019/07/28/PPF/2010HoughvotePPF/#more" target="_blank" rel="noopener">Drost-PPF</a>，使得改进PPF在2016年的“state of the art”。</strong>在下面数据集中，本文方法只使用了深度数据，而<code>[12][5][21]</code>使用了彩色数据，还是在13种类别中，在8个类别里面获得了最高分。</p>
-<p><img src="/2019/08/07/6DPose/PPF/2016HinterstoisserPPF/testresult.png" alt></p>
+            <h1 id="OpenGL与CUDA互操作"><a href="#OpenGL与CUDA互操作" class="headerlink" title="OpenGL与CUDA互操作"></a>OpenGL与CUDA互操作</h1><h2 id="0-基本概念："><a href="#0-基本概念：" class="headerlink" title="0. 基本概念："></a>0. <a href="https://blog.csdn.net/dcrmg/article/details/53556664" target="_blank" rel="noopener">基本概念：</a></h2><h3 id="VBO：顶点缓冲对象（Vertex-Buffer-Objects，VBO）"><a href="#VBO：顶点缓冲对象（Vertex-Buffer-Objects，VBO）" class="headerlink" title="VBO：顶点缓冲对象（Vertex Buffer Objects，VBO）"></a>VBO：顶点缓冲对象（Vertex Buffer Objects，VBO）</h3><p>顶点缓冲对象VBO是在显卡存储空间中开辟出的一块内存缓存区，用于存储顶点的各类属性信息，如顶点坐标，顶点法向量，顶点颜色数据等。在渲染时，可以直接从VBO中取出顶点的各类属性数据，由于VBO在显存而不是在内存中，不需要从CPU传输数据，处理效率更高。</p>
+<p>所以可以理解为VBO就是显存中的一个存储区域，可以保持大量的顶点属性信息。并且可以开辟很多个VBO，每个VBO在OpenGL中有它的唯一标识ID，这个ID对应着具体的VBO的显存地址，通过这个ID可以对特定的VBO内的数据进行存取操作。</p>
+<p><strong>VBO的创建以及配置</strong></p>
+<p>创建VBO的第一步需要开辟（声明/获得）显存空间并分配VBO的ID：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//创建vertex buffer object对象</span></span><br><span class="line">GLuint vboId;<span class="hljs-comment">//vertex buffer object句柄</span></span><br><span class="line">glGenBuffers(<span class="hljs-number">1</span>, &amp;vboId);</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-openGL的基本使用"><a href="#1-openGL的基本使用" class="headerlink" title="1.openGL的基本使用"></a>1.openGL的基本使用</h2><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-comment">//被init()调用</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">errorCallback</span><span class="hljs-params">(<span class="hljs-keyword">int</span> error, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span> *description)</span></span>;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">keyCallback</span><span class="hljs-params">(GLFWwindow* window, <span class="hljs-keyword">int</span> key, <span class="hljs-keyword">int</span> scancode, <span class="hljs-keyword">int</span> action, <span class="hljs-keyword">int</span> mods)</span></span>;<span class="hljs-comment">//键盘响应</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">mouseButtonCallback</span><span class="hljs-params">(GLFWwindow* window, <span class="hljs-keyword">int</span> button, <span class="hljs-keyword">int</span> action, <span class="hljs-keyword">int</span> mods)</span></span>;<span class="hljs-comment">//鼠标按键响应</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">mousePositionCallback</span><span class="hljs-params">(GLFWwindow* window, <span class="hljs-keyword">double</span> xpos, <span class="hljs-keyword">double</span> ypos)</span></span>;<span class="hljs-comment">//鼠标位置响应</span></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">updateCamera</span><span class="hljs-params">()</span></span>;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">initVAO</span><span class="hljs-params">()</span></span>;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">initShaders</span><span class="hljs-params">(GLuint *program)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">bool</span> <span class="hljs-title">init</span><span class="hljs-params">()</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line">	<span class="hljs-comment">//初始化前设置错误回调函数</span></span><br><span class="line">	glfwSetErrorCallback(errorCallback);</span><br><span class="line">	<span class="hljs-comment">//调用glfwInit函数，初始化glfw，在程序终止之前，必须终止glfw，这个函数只能在主线程上被调用</span></span><br><span class="line">	<span class="hljs-keyword">if</span> (!glfwInit()) &#123;</span><br><span class="line">		<span class="hljs-built_in">std</span>::<span class="hljs-built_in">cout</span></span><br><span class="line">			&lt;&lt; <span class="hljs-string">"Error: Could not initialize GLFW!"</span></span><br><span class="line">			&lt;&lt; <span class="hljs-string">" Perhaps OpenGL 3.3 isn't available?"</span></span><br><span class="line">			&lt;&lt; <span class="hljs-built_in">std</span>::<span class="hljs-built_in">endl</span>;</span><br><span class="line">		<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="hljs-comment">//在创建窗口之前调用glfwWindowHint，设置一些窗口的信息</span></span><br><span class="line">	<span class="hljs-comment">//这些hints，设置以后将会保持不变，只能由glfwWindowHint、glfwDefaultWindowHints或者glfwTerminate修改。</span></span><br><span class="line">	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, <span class="hljs-number">3</span>);</span><br><span class="line">	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, <span class="hljs-number">3</span>);</span><br><span class="line">	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);</span><br><span class="line">	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);</span><br><span class="line">	<span class="hljs-comment">//如果创建window失败则终结glfw，指定尺寸</span></span><br><span class="line">	<span class="hljs-comment">//(int width, int height, const char* title, GLFWmonitor* monitor, GLFWwidnow* share);</span></span><br><span class="line">	window = glfwCreateWindow(width, height, windowName.c_str(), <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);</span><br><span class="line">	<span class="hljs-keyword">if</span> (!window) &#123;</span><br><span class="line">		glfwTerminate();<span class="hljs-comment">//glfwTerminate会销毁窗口释放资源，因此在调用该函数后，如果想使用glfw库函数，就必须重新初始化</span></span><br><span class="line">		<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="hljs-comment">//</span></span><br><span class="line">	glfwMakeContextCurrent(window);</span><br><span class="line">	glfwSetKeyCallback(window, keyCallback);</span><br><span class="line">	glfwSetCursorPosCallback(window, mousePositionCallback);</span><br><span class="line">	glfwSetMouseButtonCallback(window, mouseButtonCallback);</span><br><span class="line">	glewExperimental = GL_TRUE;</span><br><span class="line">	<span class="hljs-keyword">if</span> (glewInit() != GLEW_OK) &#123;</span><br><span class="line">		<span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="hljs-comment">// 初始化绘图状态</span></span><br><span class="line">	initVAO();</span><br><span class="line">	<span class="hljs-comment">//互操作</span></span><br><span class="line">	cudaGLSetGLDevice(<span class="hljs-number">0</span>);<span class="hljs-comment">//设置CUDA环境</span></span><br><span class="line">	<span class="hljs-comment">//用cuda登记缓冲区</span></span><br><span class="line">	cudaGLRegisterBufferObject(pointVBO_positions);<span class="hljs-comment">//pointVBO_positions=0 </span></span><br><span class="line">	cudaGLRegisterBufferObject(pointVBO_velocities);<span class="hljs-comment">//pointVBO_velocities=0</span></span><br><span class="line"></span><br><span class="line">	updateCamera();</span><br><span class="line">	initShaders(program);</span><br><span class="line">	glEnable(GL_DEPTH_TEST);</span><br><span class="line">	<span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">loop</span><span class="hljs-params">()</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line">	<span class="hljs-keyword">double</span> fps = <span class="hljs-number">0</span>;</span><br><span class="line">	<span class="hljs-keyword">double</span> timebase = <span class="hljs-number">0</span>;</span><br><span class="line">	<span class="hljs-keyword">int</span> frame = <span class="hljs-number">0</span>;</span><br><span class="line">	<span class="hljs-comment">//返回指定窗口是否关闭的flag变量，可以在任何线程中被调用。</span></span><br><span class="line">	<span class="hljs-keyword">while</span> (!glfwWindowShouldClose(window) &amp;&amp; !BreakLoop)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="hljs-comment">//这个函数主要用来处理已经在事件队列中的事件，通常处理窗口的回调事件，包括输入，窗口的移动，窗口大小的改变等，</span></span><br><span class="line">		<span class="hljs-comment">//回调函数可以自己手动设置，比如之前所写的设置窗口大小的回调函数；如果没有该函数，则不会调用回调函数，同时也不会接收用户输入，例如接下来介绍的按键交互就不会被响应；</span></span><br><span class="line">		glfwPollEvents();</span><br><span class="line">		frame++;</span><br><span class="line">		<span class="hljs-keyword">double</span> time = glfwGetTime();<span class="hljs-comment">//当前时间</span></span><br><span class="line">		<span class="hljs-keyword">if</span> (time - timebase &gt; <span class="hljs-number">1.0</span>) &#123;</span><br><span class="line">			fps = frame / (time - timebase);</span><br><span class="line">			timebase = time;</span><br><span class="line">			frame = <span class="hljs-number">0</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		runcuda();<span class="hljs-comment">//更新点云</span></span><br><span class="line">		endrun();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">runcuda</span><span class="hljs-params">()</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line">	<span class="hljs-comment">// Map OpenGL buffer object for writing from CUDA on a single GPU</span></span><br><span class="line">	<span class="hljs-comment">// No data is moved (Win &amp; Linux). When mapped to CUDA, OpenGL should not</span></span><br><span class="line">	<span class="hljs-comment">// use this buffer</span></span><br><span class="line">	float4 *dptr = <span class="hljs-literal">NULL</span>;</span><br><span class="line">	<span class="hljs-keyword">float</span> *dptrVertPositions = <span class="hljs-literal">NULL</span>;</span><br><span class="line">	<span class="hljs-keyword">float</span> *dptrVertVelocities = <span class="hljs-literal">NULL</span>;</span><br><span class="line">	cudaGLMapBufferObject((<span class="hljs-keyword">void</span>**)&amp;dptrVertPositions, pointVBO_positions);</span><br><span class="line">	cudaGLMapBufferObject((<span class="hljs-keyword">void</span>**)&amp;dptrVertVelocities, pointVBO_velocities);</span><br><span class="line">	<span class="hljs-comment">//</span></span><br><span class="line">	<span class="hljs-keyword">float</span> c_scale = <span class="hljs-number">1</span>;</span><br><span class="line">	<span class="hljs-comment">//自己定义的复制函数</span></span><br><span class="line">	copyPointsToVBO(dptrVertPositions, dptrVertVelocities, numObjects_fixed, numObjects_rotated, blockSize, c_scale);<span class="hljs-comment">//显存里面的数据相互赋值</span></span><br><span class="line">	<span class="hljs-comment">// 解除yi</span></span><br><span class="line">	cudaGLUnmapBufferObject(pointVBO_positions);</span><br><span class="line">	cudaGLUnmapBufferObject(pointVBO_velocities);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">endrun</span><span class="hljs-params">()</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line">	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);</span><br><span class="line"></span><br><span class="line">	glUseProgram(program[PROG_POINT]);</span><br><span class="line">	glBindVertexArray(pointVAO);</span><br><span class="line">	glPointSize((GLfloat)pointSize);</span><br><span class="line">	glDrawElements(GL_POINTS, N + N2 + <span class="hljs-number">1</span>, GL_UNSIGNED_INT, <span class="hljs-number">0</span>);</span><br><span class="line">	glPointSize(<span class="hljs-number">1.0f</span>);</span><br><span class="line">	glUseProgram(<span class="hljs-number">0</span>);</span><br><span class="line">	glBindVertexArray(<span class="hljs-number">0</span>);</span><br><span class="line">	glfwSwapBuffers(window);<span class="hljs-comment">//opengl采用双缓冲机制，该函数用于交换前后颜色缓冲区的内容</span></span><br><span class="line">	glfwDestroyWindow(window);</span><br><span class="line">	glfwTerminate();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-opengl和cuda互操作基本原理"><a href="#2-opengl和cuda互操作基本原理" class="headerlink" title="2. opengl和cuda互操作基本原理"></a>2. opengl和cuda互操作基本原理</h2><h3 id="CUDA和OpenGL互操作的过程"><a href="#CUDA和OpenGL互操作的过程" class="headerlink" title="CUDA和OpenGL互操作的过程"></a><a href="http://blog.chinaunix.net/uid-20620288-id-4755572.html" target="_blank" rel="noopener"><strong>CUDA和OpenGL互操作的过程</strong></a></h3><h4 id="CUDA和OpenGL互操作具体步骤如下："><a href="#CUDA和OpenGL互操作具体步骤如下：" class="headerlink" title="CUDA和OpenGL互操作具体步骤如下："></a>CUDA和OpenGL互操作具体步骤如下：</h4><blockquote>
+<p> 1) 创建窗口及OpenGL运行环境。</p>
+<p>2) 设置OpenGL视口和坐标系。要根据绘制的图形是2D还是3D等具体情况设置。(1)和(2)是所有OpenGL程序必需的，这里也没什么特殊之处，需要注意的是，后面的一些功能需要OpenGL 2.0及以上版本支持，所以在这里需要进行版本检查。</p>
+<p>3)创建CUDA环境。可以使用cuGLCtxCreate或<strong>cudaGLSetGLDevice</strong>来设置CUDA环境。该设置一定要放在其他CUDA的API调用之前。</p>
+<p>4)产生一个或多个<strong>OpenGL缓冲区</strong>用以和CUDA共享。使用PBO和使用VBO差不多，只是有些函数调用参数不同。以下是具体过程。</p>
+<p>(5)用CUDA登记缓冲区。登记可以使用cuGLRegisterBufferObject或<br><strong>cudaGLRegisterBufferObject</strong>，该命令告诉OpenGL和CUDA 驱动程序该缓冲区为二者共同使用。</p>
+<p>(6)将OpenGL缓冲区映射到CUDA内存。可以使用cuGLMapBufferObject或<strong>cudaGLMapBufferObject</strong>，它实际是将CUDA内存的指针指向OpenGL的缓冲区，这样如果只有一个GPU，就不需要数据传递。<strong>当映射完成后，OpenGL不能再使用该缓冲区</strong>。</p>
+<p>(7)使用CUDA往该映射的内存写图像数据。前面的准备工作在这里真正发挥作用了，此时可以调用CUDA的kernel，像使用全局内存一样使用映射了的缓冲区，向其中写数据。</p>
+<p>(8)取消OpenGL缓冲区映射。要等前面CUDA的活动完成以后，使用cuGLUnmapBufferObject或<strong>cudaGLUnmapBufferObject</strong>函数取消映射。</p>
+<p>(9)前面的步骤完成以后就可以真正开始绘图了， OpenGL的PBO和VBO的绘图方式不同，分别为以下两个过程。</p>
+<p>①如果只是绘制平面图形，需要使用OpenGL的PBO及纹理。</p>
+<p>glEnable(GL_TEXTURE_2D)； //使纹理可用<br>glGenTextures(1，&amp;textureID)； //生成一个textureID<br>glBindTexture(GL_TEXTURE_2D，textureID)；<br>//使该纹理成为当前可用纹理<br>glTexImage2D(GL_TEXTURE_2D，0，GL_RGBA8，Width， Height，0，GL_BGRA，GL_UNSIGNED_BYTE，NULL)；<br>//分配纹理内存。最后的参数设置数据来源，这里设置为NULL，表示数据来自PBO，不是来自主机内存<br>glTexParameteri(GL_TEXTURE_2D，GL_TEXTURE_MIN <em>FILTER，GL_LINEAR)；<br>glTexParameteri(GL_TEXTURE_2D，GL_TEXTURE_MAG</em> FILTER，GL_LINEAR)；//必须设置滤波模式，GL_LINEAR允许图形伸缩时线性差值。如果不需要线性差值，可以用GL_TEXTURE_RECTANGLE_ARB代替GL_TEXTURE_2D以提高性能，同时在glTexParameteri()调用里使用GL_NEAREST替换GL_LINEAR<br>然后就可以指定4个角的纹理坐标，绘制长方形了。</p>
+<p>②绘制3D场景，需要使用VBO。<br>glEnableClientState(GL_VERTEX_ARRAY)；<br>//使顶点和颜色数组可用<br>glEnableClientState(GL_COLOR_ARRAY)；<br>glVertexPointer(3，GL_FLOAT，16，0)；<br>//设置顶点和颜色指针<br>glColorPointer(4，GL_UNSIGNED_BYTE，16，12)；<br>glDrawArrays(GL_POINTS，0，numVerticies)；<br>//根据顶点数据绘图，参数可以使用GL_LINES， GL_LINE_STRIP， GL_LINE_LOOP， GL_TRIANGLES，GL_TRIANGLE_STRIP， GL_TRIANGLE_FAN， GL_QUADS，GL_QUAD_STRIP，GL_POLYGON<br>(10)前后缓存区来回切换，实现动画显示效果。调用SwapBuffers()，缓冲区切换通常会在垂直刷新间隙来处理，因此，可以在控制面板上关掉垂直同步，使得缓冲区切换立刻进行。</p>
+</blockquote>
+<h2 id="3-详细文档"><a href="#3-详细文档" class="headerlink" title="3. 详细文档"></a>3. 详细文档</h2><h3 id="一、-缓冲区相关"><a href="#一、-缓冲区相关" class="headerlink" title="一、 缓冲区相关"></a>一、 缓冲区相关</h3><h4 id="1-glGenVertexArrays："><a href="#1-glGenVertexArrays：" class="headerlink" title="1. glGenVertexArrays："></a><a href="https://blog.csdn.net/MSK1111/article/details/103114272" target="_blank" rel="noopener">1. glGenVertexArrays：</a></h4><p>名称: glGenVertexArrays —生成顶点数组对象名称</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">void</span> glGenVertexArrays（GLsizei n， GLuint *arrays）;</span><br></pre></td></tr></table></figure>
+
+<p>n
+指定要生成的顶点数组对象名称的数量。</p>
+<p>arrays<br>指定一个数组，在其中存储生成的顶点数组对象名称。</p>
+<h4 id="2-glGenBuffers："><a href="#2-glGenBuffers：" class="headerlink" title="2. glGenBuffers："></a>2. glGenBuffers：</h4><p><strong>generate buffer object names</strong> 该函数用来生成缓冲区对象的<strong>名称</strong>，第一个参数是要生成的缓冲区对象的数量，第二个是要用来存储缓冲对象名称的数组</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GLuint vbo;</span><br><span class="line">glGenBuffers(<span class="hljs-number">1</span>,&amp;vbo);</span><br><span class="line">GLuint vbo[<span class="hljs-number">3</span>];</span><br><span class="line">glGenBuffers(<span class="hljs-number">3</span>,vbo);</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-glBindBuffer："><a href="#3-glBindBuffer：" class="headerlink" title="3. glBindBuffer："></a>3. glBindBuffer：</h4><p><strong>bind a named buffer object</strong></p>
+<p>第一个就是缓冲对象的类型，第二个参数就是要绑定的缓冲对象的名称，也就是我们在上一个函数里生成的名称，使用该函数将缓冲对象绑定到OpenGL上下文环境中以便使用。如果把target绑定到一个已经创建好的缓冲对象，那么这个缓冲对象将为当前target的激活对象；但是如果绑定的buffer值为0，那么OpenGL将不再对当前target使用任何缓存对象。</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">glBindBuffer</span><span class="hljs-params">(GLenum target,GLuint buffer)</span></span>;<span class="hljs-comment">//函数原型</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="4-glBindVertexArray："><a href="#4-glBindVertexArray：" class="headerlink" title="4. glBindVertexArray："></a>4. <a href="https://blog.csdn.net/MSK1111/article/details/103072687" target="_blank" rel="noopener">glBindVertexArray：</a></h4><p><strong>绑定一个顶点数组对象</strong></p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">glBindVertexArray</span><span class="hljs-params">( GLuint <span class="hljs-built_in">array</span>)</span></span>;<span class="hljs-comment">//原型,array 指定要绑定的顶点数组的名称</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>描述<br>glBindVertexArray将顶点数组对象与名称数组绑定。 array是先前从glGenVertexArrays调用返回的顶点数组对象的名称，或者为0以绑定默认的顶点数组对象绑定。</p>
+<p>如果不存在名称为array的顶点数组对象，则在第一次绑定array时创建一个对象。 如果绑定成功，则不会更改顶点数组对象的状态，并且任何先前的顶点数组对象绑定都会中断。</p>
+<p>错误<br>如果array不为零或先前从调用glGenVertexArrays返回的顶点数组对象的名称，则生成GL_INVALID_OPERATION。</p>
+</blockquote>
+<h4 id="5-glBufferData："><a href="#5-glBufferData：" class="headerlink" title="5. glBufferData："></a>5. <a href="https://blog.csdn.net/qq_24283329/article/details/75453013" target="_blank" rel="noopener">glBufferData：</a></h4><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">glBufferData</span><span class="hljs-params">( GLenum target,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">GLsizeiptr size,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params"><span class="hljs-keyword">const</span> GLvoid * data,</span></span></span><br><span class="line"><span class="hljs-function"><span class="hljs-params">GLenum usage)</span></span>;<span class="hljs-comment">//原型</span></span><br><span class="line"><span class="hljs-comment">//用法</span></span><br><span class="line">glBufferData(GL_ARRAY_BUFFER, <span class="hljs-number">4</span> * (<span class="hljs-number">2</span> * N) * <span class="hljs-keyword">sizeof</span>(GLfloat), bodies.get(), GL_DYNAMIC_DRAW); <span class="hljs-comment">// transfer data，创建和初始化一个buffer object的数据存储。</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>target 指定target buffer object。必须是GL_ARRAY_BUFFER or GL_ELEMENT_ARRAY_BUFFER常量。</p>
+</blockquote>
+<blockquote>
+<p>size 指定buffer object的新data store的大小。</p>
+</blockquote>
+<blockquote>
+<p>data 指定即将被拷贝进data store并初始化的数据的指针，或者null，如果没有data要拷贝。</p>
+</blockquote>
+<blockquote>
+<p>usage 指定你希望data store使用的模式。必须是GL_STREAM_DRAW, GL_STATIC_DRAW, or GL_DYNAMIC_DRAW.</p>
+</blockquote>
+<blockquote>
+<p>1.glBufferData为绑定在target上的buffer object currently创建了一个新的data store。任何之前存在的data store被删除。新创建的data store将被指定size和usage.如果data参数为NULL,data store将被这个pointer指向的data初始化。</p>
+<p>2.usage参数提示了在GL实现中一个a buffer object’s data store将如何被访问。这使GL做出更明智的可能显著提升性能的选择。然而，如果没有，这将限制data store的准确的usage。usage可以被拆成两部分：一，被访问的频率（修改或使用），二，访问的性质。访问的频率是如下几个之一:<br>STREAM<br>该data store内容将被修改一次，且被使用的次数也很少；</p>
+<p>STATIC<br>该data store内容将被修改一次，但会被多次使用；</p>
+<p>DYNAMIC<br>该data store内容将被不断修改，且被多次使用；</p>
+<p>访问的性质如下：<br>DRAW<br>该data store内容将被应用程序修改，且被当做GL渲染和图像设置命令的源数据。</p>
+</blockquote>
+<h4 id="6-glEnableVertexAttribArray："><a href="#6-glEnableVertexAttribArray：" class="headerlink" title="6. glEnableVertexAttribArray："></a>6. <a href="https://blog.csdn.net/qq_24283329/article/details/76120787" target="_blank" rel="noopener">glEnableVertexAttribArray：</a></h4><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">glEnableVertexAttribArray</span><span class="hljs-params">(GLuint index)</span></span>;</span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">glDisableVertexAttribArray</span><span class="hljs-params">(GLuint index)</span></span>;</span><br><span class="line"><span class="hljs-comment">//index</span></span><br><span class="line"><span class="hljs-comment">//指定一个将被使能或禁止的已生成的顶点属性数组的索引。</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>glEnableVertexAttribArray enables the generic vertex attribute array specified by index. glDisableVertexAttribArray disables the generic vertex attribute array specified by index. 默认情况下，对所有客户端都是禁止状态，包括所有已生成的顶点属性数组。当使能时，如当调用 glDrawArrays or glDrawElements这些顶点数组命令时，这些顶点属性数组将被访问和用来渲染。</p>
+</blockquote>
+<h4 id="7-glVertexAttribPointer："><a href="#7-glVertexAttribPointer：" class="headerlink" title="7. glVertexAttribPointer："></a>7. <a href="https://blog.csdn.net/flycatdeng/article/details/82667374" target="_blank" rel="noopener">glVertexAttribPointer：</a></h4><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">void</span> glVertexAttribPointer</span><br><span class="line">（GLuint index,</span><br><span class="line">GLint size,</span><br><span class="line">GLenum type,</span><br><span class="line">GLboolean normalized,</span><br><span class="line">GLsize stride,</span><br><span class="line"><span class="hljs-keyword">const</span> GLvoid * pointer）;<span class="hljs-comment">//原型</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><em>index</em></p>
+<p>指定要<strong>修改</strong>的通用顶点属性的索引。</p>
+<p><em>size</em></p>
+<p>指定每个通用顶点属性的组件数。 必须为1,2,3或4.初始值为4。</p>
+<p><em>type</em></p>
+<p>指定数组中每个组件的数据类型。 接受符号常量<strong>GL_BYTE</strong>，<strong>GL_UNSIGNED_BYTE</strong>，<strong>GL_SHORT</strong>，<strong>GL_UNSIGNED_SHORT</strong>，<strong>GL_FIXED</strong>或<strong>GL_FLOAT</strong>。 初始值为<strong>GL_FLOAT</strong>。</p>
+<p><em>normalized</em></p>
+<p>指定在访问定点数据值时是应将其标准化（<strong>GL_TRUE</strong>）还是直接转换为定点值（<strong>GL_FALSE</strong>）。</p>
+<p><em>stride</em></p>
+<p>指定连续通用顶点属性之间的字节偏移量。 如果<em>stride</em>为0，则通用顶点属性被理解为紧密打包在数组中的。 初始值为0。</p>
+<p><em>pointer</em></p>
+<p>指定指向数组中第一个通用顶点属性的第一个组件的指针。 初始值为0。</p>
+</blockquote>
+<hr>
+<p>缓冲区对象只是OpenGL众多对象中的一种，其实当我们使用其它对象时，都是类似的思路</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GLuint vbo;</span><br><span class="line">glGenObject(<span class="hljs-number">1</span>,&amp;vbo);</span><br><span class="line">GLuint vbo[<span class="hljs-number">3</span>];</span><br><span class="line">glGenObject(<span class="hljs-number">3</span>,vbo);</span><br><span class="line">glBindObject(GL_WINDOW_TARGET,vbo[<span class="hljs-number">1</span>]);</span><br></pre></td></tr></table></figure>
+
+<p>创建对象，绑定类型，设置数据。</p>
+<h3 id="二、"><a href="#二、" class="headerlink" title="二、"></a>二、</h3><h4 id="1-glutMainLoop"><a href="#1-glutMainLoop" class="headerlink" title="1. glutMainLoop"></a><a href>1. glutMainLoop</a></h4><p>glutLeaveMainLoop()</p>
+<h4 id="2-glUseProgram"><a href="#2-glUseProgram" class="headerlink" title="2. glUseProgram"></a><a href="https://blog.csdn.net/flycatdeng/article/details/82667360" target="_blank" rel="noopener">2. glUseProgram</a></h4><p>glUseProgram- 使用程序对象作为当前渲染状态的一部分</p>
+<p>void <strong>glUseProgram</strong>（GLuint <em>program</em>）;</p>
+<p><strong>参数</strong></p>
+<p><em>program</em> 指定程序对象的句柄，该程序对象的可执行文件将用作当前渲染状态的一部分。</p>
+<h3 id="三、线程相关"><a href="#三、线程相关" class="headerlink" title="三、线程相关"></a>三、线程相关</h3><p>GLFWthread glfwCreateThread( GLFWthreadfun fun, void *arg )</p>
+<p>A thread can wait for another thread to die with the command glfwWaitThread:</p>
+<p>int glfwWaitThread( GLFWthread ID, int waitmode )</p>
+<p>终止一个线程</p>
+<p>void glfwDestroyThread( GLFWthread ID )</p>
+<p>产生互斥锁</p>
+<p>GLFWmutex glfwCreateMutex( void )</p>
+<p>终止</p>
+<p>void glfwDestroyMutex( GLFWmutex mutex )</p>
+<p>上锁</p>
+<p>void glfwLockMutex( GLFWmutex mutex )</p>
+<p>解锁</p>
+<p>void glfwUnlockMutex( GLFWmutex mutex )</p>
+<p> 这个是等待状态变量</p>
+<p>void glfwWaitCond( GLFWcond cond, GLFWmutex mutex, double timeout )</p>
+<p>void glfwSignalCond( GLFWcond cond )</p>
+<p>void glfwBroadcastCond( GLFWcond cond )</p>
+
         </div>
         
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/08/07/6DPose/PPF/2016HinterstoisserPPF/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
         
         
     </div>
@@ -360,17 +431,13 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-07-30T15:02:49.000Z">2019-07-30</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/机器学习与深度学习/">机器学习与深度学习</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/机器学习与深度学习/Deep-Learning-Notes/">Deep Learning Notes</a>
-                </div>
+                <time class="level-item has-text-grey" datetime="2021-03-19T08:06:23.895Z">2021-03-19</time>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    20 分钟 读完 (大约 3031 个字)
+                    几秒 读完 (大约 68 个字)
                 </span>
                 
                 
@@ -379,21 +446,19 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/07/30/MAD_Learning/DeepLearningNotes/">Neural Networks and Deep Learning Notes</a>
+                <a class="has-link-black-ter" href="/2021/03/19/Eigen/Eigen/"></a>
             
         </h1>
         <div class="content">
-            <p>神经网络与深度学习（Neural Networks and Deep Learning）读书笔记</p>
+            <h1 id="一、Eigen的坑"><a href="#一、Eigen的坑" class="headerlink" title="一、Eigen的坑"></a>一、Eigen的坑</h1><p><a href="https://blog.csdn.net/Charles_ke/article/details/89067150" target="_blank" rel="noopener">参考</a></p>
+<ol>
+<li>YOU_MIXED_MATRICES_OF_DIFFERENT_SIZES    </li>
+</ol>
+<p>错误原因：两个向量表达式类型不兼容（相同的固定大小或动态大小）</p>
+<h1 id="二、Eigen的使用"><a href="#二、Eigen的使用" class="headerlink" title="二、Eigen的使用"></a>二、Eigen的使用</h1><p>不同大小之间的Vector赋值</p>
+
         </div>
         
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/07/30/MAD_Learning/DeepLearningNotes/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
         
         
     </div>
@@ -412,17 +477,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-07-28T14:43:49.000Z">2019-07-28</time>
+                <time class="level-item has-text-grey" datetime="2021-01-17T14:47:14.000Z">2021-01-17</time>
                 
                 <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/">ObjectDetection and PoseEstimation</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/2-2010HoughvotePPF/">2.2010HoughvotePPF</a>
+                <a class="has-link-grey -link" href="/categories/编程/">编程</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/编程/CUDA/">CUDA</a>
                 </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    17 分钟 读完 (大约 2602 个字)
+                    1 分钟 读完 (大约 127 个字)
                 </span>
                 
                 
@@ -431,255 +496,259 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2019/07/28/6DPose/PPF/2010HoughvotePPF/">2010HoughvotePPF</a>
-            
-        </h1>
-        <div class="content">
-            <p>1.PPF在三维物体识别与位姿估计算法中表现优异，本文是论文“Model Globally, Match Locally: Efficient and Robust 3D Object Recognition”的解读</p>
-<p>2.PPF是halcon中<a href="https://docs.opencv.org/3.0-beta/modules/surface_matching/doc/surface_matching.html" target="_blank" rel="noopener">surface_matching</a>算子实现原理</p>
-<p>3.PPFoutline</p>
-<p><img src="/2019/07/28/6DPose/PPF/2010HoughvotePPF/outline.jpg" alt></p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/07/28/6DPose/PPF/2010HoughvotePPF/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-07-28T08:51:49.000Z">2019-07-28</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/">ObjectDetection and PoseEstimation</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/ObjectDetection-and-PoseEstimation/0-tutorial/">0.tutorial</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    14 分钟 读完 (大约 2064 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/07/28/6DPose/ObjectDetection-and-PoseEstimation/">ObjectDetection and PoseEstimation</a>
-            
-        </h1>
-        <div class="content">
-            <p><strong>物体检测与位姿估计</strong></p>
-<p>针对刚性物体识别与位姿估计的方法主要分为三类：</p>
-<ul>
-<li>基于模板匹配</li>
-<li>基于三维局部特征</li>
-<li>基于学习</li>
-</ul>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/07/28/6DPose/ObjectDetection-and-PoseEstimation/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-07-26T08:13:06.000Z">2019-07-26</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/PCL/">PCL</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/PCL/5-Region-Growing-Segmentation/">5.Region Growing Segmentation</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    4 分钟 读完 (大约 661 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/07/26/PCL/regiongrowing/">区域生长法分割</a>
-            
-        </h1>
-        <div class="content">
-            <p><img src="/2019/07/26/PCL/regiongrowing/result.png" alt="result"></p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/07/26/PCL/regiongrowing/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-07-13T07:02:07.000Z">2019-07-13</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/PCL/">PCL</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/PCL/4-descriptors/">4.descriptors</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    12 分钟 读完 (大约 1766 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/07/13/PCL/about-Descriptors/">about-Descriptors</a>
-            
-        </h1>
-        <div class="content">
-            <p><img src="/2019/07/13/PCL/about-Descriptors/1.png" alt="img"></p>
-<p>图：使用手持式扫描仪收集的数据，利用采样点与其FPFH特征描述的SAC-IA配准（粗配准）</p>
-        </div>
-        
-        
-        <div class="level is-mobile">
-            <div class="level-start">
-                <div class="level-item">
-                <a class="button is-size-7 is-light" href="/2019/07/13/PCL/about-Descriptors/#more">阅读更多</a>
-                </div>
-            </div>
-        </div>
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2019-07-01T13:55:49.000Z">2019-07-01</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/CV-Source/">CV-Source</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/CV-Source/3-SFM/">3.SFM</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    4 分钟 读完 (大约 662 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2019/07/01/CV-Source/SFM/">SFM</a>
+                <a class="has-link-black-ter" href="/2021/01/17/cuda/CUDA_CodeError/">cuda code error</a>
             
         </h1>
         <div class="content">
             <a id="more"></a>
 
-<h3 id="SLAM和SfM"><a href="#SLAM和SfM" class="headerlink" title="SLAM和SfM"></a>SLAM和SfM</h3><p>视觉SLAM中大量使用了SfM中的方法，如特征点跟踪、捆集优化(Bundle Adjustment)等，以至于许多研究者把它们视为同一个研究领域。然而，尽管方法上很相似，SLAM和SfM的侧重点是不同的。SLAM的应用场合主要在机器人和VR/AR，计算资源有限，需要很强的实时性，故侧重点在于，如何在有限的资源里快速地对相机进行定位。而SfM方法通常是离线的，可以调用大量计算资源进行长时间的计算，侧重于重建出更精确、美观的场景。</p>
-<h3 id="SFM开源项目"><a href="#SFM开源项目" class="headerlink" title="SFM开源项目"></a>SFM开源项目</h3><ol>
-<li><a href="https://github.com/mapillary/OpenSfM" target="_blank" rel="noopener">https://github.com/mapillary/OpenSfM</a></li>
-<li><a href="https://github.com/snavely/bundler_sfm" target="_blank" rel="noopener">https://github.com/snavely/bundler_sfm</a></li>
-<li><a href="https://github.com/colmap/colmap" target="_blank" rel="noopener">https://github.com/colmap/colmap</a></li>
-<li><a href="https://github.com/openMVG/openMVG" target="_blank" rel="noopener">https://github.com/openMVG/openMVG</a></li>
-</ol>
-<h3 id="博文"><a href="#博文" class="headerlink" title="博文"></a>博文</h3><ol>
-<li><a href="https://blog.csdn.net/baidu_31981559/article/details/65634814" target="_blank" rel="noopener">关于三维重建的一些东西-VisualSFM+PMVS +MeshLab= PhotoScan</a></li>
-</ol>
-<ol start="2">
-<li><p><a href="https://blog.csdn.net/Crystal_YS/article/details/88724985" target="_blank" rel="noopener">SFM与MVS的区别</a></p>
-<p>SFM中我们用来做重建的点是由特征匹配提供的！这些匹配点天生不密集！</p>
-<p>而MVS则几乎对照片中的每个像素点都进行匹配，几乎重建每一个像素点的三维坐标，这样得到的点的密集程度可以较接近图像为我们展示出的清晰度。</p>
-<p>其实现的理论依据在于，多视图照片间，对于拍摄到的相同的三维几何结构部分，存在极线几何约束。</p>
-<p>描述这种几何约束：</p>
-<p>　　想象，对于在两张图片中的同一个点。现在回到拍摄照片的那一刻，在三维世界中，存在一条光线从照片上这一点，同时穿过拍摄这张照片的相机的成像中心点，最后会到达空间中一个三维点，这个三维点同时也会在另一张照片中以同样的方式投影。</p>
-<p>这个过程这样看来，很普通，就如同普通的相机投影而已。但是因为两张图片的原因，他们之间存在联系，这种联系的证明超过了能力范围，但是我们只需要知道，此种情况下，两张照片天然存在了一种约束</p>
-</li>
-<li><p><a href="http://planckscale.info/tag/poisson表面重建/" target="_blank" rel="noopener">从图像到网格</a></p>
-</li>
-</ol>
-<h3 id="深度学习"><a href="#深度学习" class="headerlink" title="深度学习"></a>深度学习</h3><p>DeepSFM：通过深度BA进行SFM(运动推断结构) 《DeepSFM: Structure From Motion Via Deep Bundle Adjustment》</p>
-<p>DeepSFM性能优于BANet、LS-Net和COLMAP等网络</p>
+<h1 id="thrust"><a href="#thrust" class="headerlink" title="thrust"></a>thrust</h1><p>[thrust::system::system_error]</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cudaMalloc((<span class="hljs-keyword">void</span>**)&amp;nanFlags_dev, N*<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>));</span><br><span class="line">getNANpts &lt;&lt; &lt;fullBlocksPerGrid, blockSize &gt;&gt; &gt;(N, z_dev, nanFlags_dev);</span><br><span class="line">cudaDeviceSynchronize();</span><br><span class="line">thrust::device_ptr&lt;<span class="hljs-keyword">int</span>&gt; thrust_nanflags(nanFlags_dev);</span><br><span class="line"><span class="hljs-comment">//int num_of_nan = thrust::reduce(thrust_nanflags, thrust_nanflags + N, (int)0, thrust::plus &lt;int &gt;());  //统计有多少个NAN点</span></span><br><span class="line"><span class="hljs-keyword">int</span> num_of_nan = thrust::count(thrust_nanflags, thrust_nanflags + N, <span class="hljs-number">1</span>);  <span class="hljs-comment">//统计有多少个NAN点</span></span><br><span class="line">cudaDeviceSynchronize();</span><br></pre></td></tr></table></figure>
 
+<p>出现错误：</p>
+<p><img src="/2021/01/17/cuda/CUDA_CodeError/thrust_error.png" alt></p>
+<p>原因：核函数getNANpts写错了。只对nanFlags_dev中的一个位置进行初始化，其他位置没有赋值，所以进行计算时会错误。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2021-01-17T14:40:04.552Z">2021-01-17</time>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    1 分钟 读完 (大约 118 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2021/01/17/Reconstruction/3d_reconstruction2/"></a>
+            
+        </h1>
+        <div class="content">
+            <p>知识星球（3D视觉工坊）吴博课程笔记</p>
+<p>解决左右相机匹配，通过投影机投影标记信息来标记物体的每个点的位置。</p>
+<p>相关人：</p>
+<p>南京理工大学左超教授</p>
+<p>主讲嘉宾：吴博，四川大学三维传感与机器视觉实验室博士研究生,研究方向为便携式三维测量、高速三维形貌及形变测量。</p>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2021-01-17T14:38:14.000Z">2021-01-17</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/编程/">编程</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/编程/cuda/">cuda</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    1 分钟 读完 (大约 112 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2021/01/17/cuda/cudaKnowledgefragment/">CUDA知识片段</a>
+            
+        </h1>
+        <div class="content">
+            <a id="more"></a>
+
+<ol>
+<li><p>线程模型适合用于OpenMP。进程模型适用于MPI</p>
+<p>在GPU环境下：CUDA使用一个线程块（block）构成网格（grid）。这可以看成是一个进程（即线程块）组成的队列（即网格），而进程之间没有通信。每一个线程块内部有很多线程以批处理的方式运行，称为线程束（warp）</p>
+</li>
+</ol>
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2021-01-16T11:45:21.000Z">2021-01-16</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/git/">git</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    1 分钟 读完 (大约 128 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2021/01/16/other/git2/">GIT教程2</a>
+            
+        </h1>
+        <div class="content">
+            <a id="more"></a>
+
+<h1 id="GIT2—笔记补充"><a href="#GIT2—笔记补充" class="headerlink" title="GIT2—笔记补充"></a>GIT2—笔记补充</h1><figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">快速创建分支：</span><br><span class="line">git branch test</span><br><span class="line">切换分支：</span><br><span class="line">git checkout test</span><br><span class="line">删除分支：</span><br><span class="line">git branch -d test</span><br><span class="line"></span><br><span class="line">修改了很多文件时候，需要commit，通过添加-a来避免每个都commit</span><br><span class="line">git commit -a -m &quot;Changed some files&quot;</span><br><span class="line">查看远端：</span><br><span class="line">git remote -v</span><br><span class="line">移除远端关联：</span><br><span class="line">1 git remote rm origin // 移除本地关联</span><br><span class="line">2 git remote add origin git@github.com/example.git // 添加线上仓库</span><br><span class="line">3 git push -u origin master // 注意：更改后，第一次上传需要指定 origin</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-07-18T16:23:46.000Z">2020-07-19</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/hexo/">hexo</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    4 分钟 读完 (大约 552 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2020/07/19/other/hexo2/">hexo教程2</a>
+            
+        </h1>
+        <div class="content">
+            <p>在两台电脑上面更新hexo博客</p>
+        </div>
+        
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2020/07/19/other/hexo2/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-07-13T15:10:33.000Z">2020-07-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/编程/">编程</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/编程/STL/">STL</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    几秒 读完 (大约 1 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2020/07/13/C++/STL/STL1/">C++ STL1</a>
+            
+        </h1>
+        <div class="content">
+            <a id="more"></a>
         </div>
         
         
@@ -714,7 +783,7 @@
             
             <li><span class="pagination-ellipsis has-text-black-ter">&hellip;</span></li>
             
-            <li><a class="pagination-link has-text-black-ter" href="/page/7/">7</a></li>
+            <li><a class="pagination-link has-text-black-ter" href="/page/9/">9</a></li>
             
         </ul>
     </nav>
@@ -762,7 +831,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        66
+                        82
                     </p>
                 </div>
             </div>
@@ -772,7 +841,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        54
+                        67
                     </p>
                 </div>
             </div>
@@ -782,7 +851,7 @@
                         标签
                     </p>
                     <p class="title has-text-weight-normal">
-                        37
+                        44
                     </p>
                 </div>
             </div>
@@ -885,6 +954,22 @@
                 <span class="level-item tag">1</span>
             </span>
         </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/Mobile-Robot/">
+            <span class="level-start">
+                <span class="level-item">Mobile Robot</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/Mobile-Robot/sparse-pointcloud-segemntation/">
+            <span class="level-start">
+                <span class="level-item">sparse pointcloud segemntation</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
         <a class="level is-marginless" href="/categories/ObjectDetection-and-PoseEstimation/">
             <span class="level-start">
                 <span class="level-item">ObjectDetection and PoseEstimation</span>
@@ -938,7 +1023,7 @@
                 <span class="level-item">PCL</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">7</span>
+                <span class="level-item tag">8</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/PCL/0-tutorial/">
@@ -996,13 +1081,21 @@
             <span class="level-end">
                 <span class="level-item tag">1</span>
             </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/PCL/6-Algorithm-Time/">
+            <span class="level-start">
+                <span class="level-item">6.Algorithm Time</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
         </a></li></ul></li><li>
         <a class="level is-marginless" href="/categories/Reconstruction/">
             <span class="level-start">
                 <span class="level-item">Reconstruction</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">3</span>
+                <span class="level-item tag">4</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Reconstruction/1-3D-Reconstruction/">
@@ -1021,6 +1114,14 @@
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Reconstruction/3-3D-Reconstruction/">
+            <span class="level-start">
+                <span class="level-item">3.3D Reconstruction</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Reconstruction/3-3D-scene-Reconstruction/">
             <span class="level-start">
                 <span class="level-item">3.3D scene Reconstruction</span>
@@ -1034,7 +1135,7 @@
                 <span class="level-item">Registration</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">11</span>
+                <span class="level-item tag">12</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Registration/0-SAC-IA/">
@@ -1101,6 +1202,14 @@
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/Registration/6-Super4PCS/">
+            <span class="level-start">
+                <span class="level-item">6.Super4PCS</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/Registration/6-mv-LM-ICP/">
             <span class="level-start">
                 <span class="level-item">6.mv-LM-ICP</span>
@@ -1144,6 +1253,38 @@
         <a class="level is-marginless" href="/categories/其他/好用的工具/">
             <span class="level-start">
                 <span class="level-item">好用的工具</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li></ul></li><li>
+        <a class="level is-marginless" href="/categories/可视化/">
+            <span class="level-start">
+                <span class="level-item">可视化</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">3</span>
+            </span>
+        </a><ul><li>
+        <a class="level is-marginless" href="/categories/可视化/glfw和cuda/">
+            <span class="level-start">
+                <span class="level-item">glfw和cuda</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/可视化/glfw学习文档/">
+            <span class="level-start">
+                <span class="level-item">glfw学习文档</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/可视化/learn-OpenGL/">
+            <span class="level-start">
+                <span class="level-item">learn OpenGL</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
@@ -1194,7 +1335,7 @@
                 <span class="level-item">编程</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">28</span>
+                <span class="level-item tag">33</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/编程/C/">
@@ -1218,12 +1359,20 @@
                 <span class="level-item">CUDA</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">9</span>
+                <span class="level-item tag">11</span>
             </span>
         </a></li><li>
         <a class="level is-marginless" href="/categories/编程/Generic-Programming/">
             <span class="level-start">
                 <span class="level-item">Generic Programming</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/编程/Hash-Map/">
+            <span class="level-start">
+                <span class="level-item">Hash Map</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
@@ -1237,9 +1386,25 @@
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
+        <a class="level is-marginless" href="/categories/编程/SSE/">
+            <span class="level-start">
+                <span class="level-item">SSE</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
         <a class="level is-marginless" href="/categories/编程/STL/">
             <span class="level-start">
                 <span class="level-item">STL</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/编程/cuda/">
+            <span class="level-start">
+                <span class="level-item">cuda</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
@@ -1288,7 +1453,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/3D-Reconstruction/" style="font-size: 10px;">3D Reconstruction</a> <a href="/tags/3D-scene-Reconstruction/" style="font-size: 10px;">3D scene Reconstruction</a> <a href="/tags/C/" style="font-size: 18.75px;">C++</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CV-Source/" style="font-size: 13.75px;">CV-Source</a> <a href="/tags/Deep-Learning/" style="font-size: 11.25px;">Deep Learning</a> <a href="/tags/Despriptors/" style="font-size: 10px;">Despriptors</a> <a href="/tags/Efficient-Sparse-ICP/" style="font-size: 10px;">Efficient Sparse ICP</a> <a href="/tags/FastICP/" style="font-size: 10px;">FastICP</a> <a href="/tags/GOICP/" style="font-size: 10px;">GOICP</a> <a href="/tags/Generalized-ICP/" style="font-size: 11.25px;">Generalized-ICP</a> <a href="/tags/Generic-Programming/" style="font-size: 10px;">Generic Programming</a> <a href="/tags/ICP/" style="font-size: 16.25px;">ICP</a> <a href="/tags/LM/" style="font-size: 10px;">LM</a> <a href="/tags/Memory-Management/" style="font-size: 10px;">Memory Management</a> <a href="/tags/NDT/" style="font-size: 11.25px;">NDT</a> <a href="/tags/ObjectDetection/" style="font-size: 15px;">ObjectDetection</a> <a href="/tags/PCL/" style="font-size: 16.25px;">PCL</a> <a href="/tags/PoseEstimation/" style="font-size: 16.25px;">PoseEstimation</a> <a href="/tags/RANSAC/" style="font-size: 10px;">RANSAC</a> <a href="/tags/Reconstruction/" style="font-size: 12.5px;">Reconstruction</a> <a href="/tags/Registration/" style="font-size: 17.5px;">Registration</a> <a href="/tags/SAC-IA/" style="font-size: 10px;">SAC-IA</a> <a href="/tags/SFM/" style="font-size: 10px;">SFM</a> <a href="/tags/STL/" style="font-size: 11.25px;">STL</a> <a href="/tags/SVD/" style="font-size: 10px;">SVD</a> <a href="/tags/Sparse-ICP/" style="font-size: 10px;">Sparse ICP</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/git/" style="font-size: 11.25px;">git</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/keypoints/" style="font-size: 10px;">keypoints</a> <a href="/tags/mv-LM-ICP/" style="font-size: 10px;">mv-LM-ICP</a> <a href="/tags/std/" style="font-size: 10px;">std</a> <a href="/tags/surface-Reconstruction/" style="font-size: 10px;">surface Reconstruction</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/图像/" style="font-size: 11.25px;">图像</a> <a href="/tags/编程知识与VS错误/" style="font-size: 10px;">编程知识与VS错误</a>
+        <a href="/tags/3D-Reconstruction/" style="font-size: 11.25px;">3D Reconstruction</a> <a href="/tags/3D-scene-Reconstruction/" style="font-size: 10px;">3D scene Reconstruction</a> <a href="/tags/4PCS/" style="font-size: 10px;">4PCS</a> <a href="/tags/C/" style="font-size: 18.75px;">C++</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CV-Source/" style="font-size: 12.5px;">CV-Source</a> <a href="/tags/Deep-Learning/" style="font-size: 11.25px;">Deep Learning</a> <a href="/tags/Despriptors/" style="font-size: 10px;">Despriptors</a> <a href="/tags/Efficient-Sparse-ICP/" style="font-size: 10px;">Efficient Sparse ICP</a> <a href="/tags/FastICP/" style="font-size: 10px;">FastICP</a> <a href="/tags/GOICP/" style="font-size: 10px;">GOICP</a> <a href="/tags/Generalized-ICP/" style="font-size: 11.25px;">Generalized-ICP</a> <a href="/tags/Generic-Programming/" style="font-size: 10px;">Generic Programming</a> <a href="/tags/Hash-Map/" style="font-size: 10px;">Hash Map</a> <a href="/tags/ICP/" style="font-size: 15px;">ICP</a> <a href="/tags/LM/" style="font-size: 10px;">LM</a> <a href="/tags/Memory-Management/" style="font-size: 10px;">Memory Management</a> <a href="/tags/NDT/" style="font-size: 11.25px;">NDT</a> <a href="/tags/ObjectDetection/" style="font-size: 13.75px;">ObjectDetection</a> <a href="/tags/OpenGL/" style="font-size: 10px;">OpenGL</a> <a href="/tags/PCL/" style="font-size: 16.25px;">PCL</a> <a href="/tags/PoseEstimation/" style="font-size: 15px;">PoseEstimation</a> <a href="/tags/RANSAC/" style="font-size: 10px;">RANSAC</a> <a href="/tags/Reconstruction/" style="font-size: 12.5px;">Reconstruction</a> <a href="/tags/Registration/" style="font-size: 17.5px;">Registration</a> <a href="/tags/SAC-IA/" style="font-size: 10px;">SAC-IA</a> <a href="/tags/SFM/" style="font-size: 10px;">SFM</a> <a href="/tags/SSE/" style="font-size: 10px;">SSE</a> <a href="/tags/STL/" style="font-size: 11.25px;">STL</a> <a href="/tags/SVD/" style="font-size: 10px;">SVD</a> <a href="/tags/Segmentation/" style="font-size: 10px;">Segmentation</a> <a href="/tags/Sparse-ICP/" style="font-size: 10px;">Sparse ICP</a> <a href="/tags/Super4PCS/" style="font-size: 10px;">Super4PCS</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/git/" style="font-size: 11.25px;">git</a> <a href="/tags/glfw/" style="font-size: 11.25px;">glfw</a> <a href="/tags/hexo/" style="font-size: 10px;">hexo</a> <a href="/tags/keypoints/" style="font-size: 10px;">keypoints</a> <a href="/tags/mv-LM-ICP/" style="font-size: 10px;">mv-LM-ICP</a> <a href="/tags/std/" style="font-size: 10px;">std</a> <a href="/tags/surface-Reconstruction/" style="font-size: 10px;">surface Reconstruction</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/图像/" style="font-size: 11.25px;">图像</a> <a href="/tags/编程知识与VS错误/" style="font-size: 10px;">编程知识与VS错误</a>
     </div>
 </div>
 
@@ -1305,18 +1470,18 @@
         
         <article class="media">
             
-            <a href="/2021/01/16/other/git2/" class="media-left">
+            <a href="/2021/05/26/MobileRobot/segmentation/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="GIT教程2">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="PointCloud Segmentation">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-16T11:45:21.000Z">2021-01-16</time></div>
-                    <a href="/2021/01/16/other/git2/" class="has-link-black-ter is-size-6">GIT教程2</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-05-26T03:06:49.000Z">2021-05-26</time></div>
+                    <a href="/2021/05/26/MobileRobot/segmentation/" class="has-link-black-ter is-size-6">PointCloud Segmentation</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/git/">git</a>
+                        <a class="has-link-grey -link" href="/categories/Mobile-Robot/">Mobile Robot</a> / <a class="has-link-grey -link" href="/categories/Mobile-Robot/sparse-pointcloud-segemntation/">sparse pointcloud segemntation</a>
                     </p>
                 </div>
             </div>
@@ -1324,18 +1489,18 @@
         
         <article class="media">
             
-            <a href="/2020/07/19/other/hexo2/" class="media-left">
+            <a href="/2021/05/26/Reconstruction/3d_reconstruction3/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="hexo教程2">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="无标定立体视觉计算深度">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-18T16:23:46.000Z">2020-07-19</time></div>
-                    <a href="/2020/07/19/other/hexo2/" class="has-link-black-ter is-size-6">hexo教程2</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-05-26T02:39:49.000Z">2021-05-26</time></div>
+                    <a href="/2021/05/26/Reconstruction/3d_reconstruction3/" class="has-link-black-ter is-size-6">无标定立体视觉计算深度</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/hexo/">hexo</a>
+                        <a class="has-link-grey -link" href="/categories/Reconstruction/">Reconstruction</a> / <a class="has-link-grey -link" href="/categories/Reconstruction/3-3D-Reconstruction/">3.3D Reconstruction</a>
                     </p>
                 </div>
             </div>
@@ -1343,18 +1508,18 @@
         
         <article class="media">
             
-            <a href="/2020/07/13/C++/MemoryManagement/MemoryManagement1/" class="media-left">
+            <a href="/2021/05/17/SSE/SSE/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 内存管理1">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="SSE coding">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-13T15:10:33.000Z">2020-07-13</time></div>
-                    <a href="/2020/07/13/C++/MemoryManagement/MemoryManagement1/" class="has-link-black-ter is-size-6">C++ 内存管理1</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-05-17T12:00:00.000Z">2021-05-17</time></div>
+                    <a href="/2021/05/17/SSE/SSE/" class="has-link-black-ter is-size-6">SSE coding</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/Memory-Management/">Memory Management</a>
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/SSE/">SSE</a>
                     </p>
                 </div>
             </div>
@@ -1362,18 +1527,18 @@
         
         <article class="media">
             
-            <a href="/2020/07/13/C++/STL/STL1/" class="media-left">
+            <a href="/2021/05/11/Reconstruction/surface_reconstruction/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ STL1">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="surface reconstruction">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-13T15:10:33.000Z">2020-07-13</time></div>
-                    <a href="/2020/07/13/C++/STL/STL1/" class="has-link-black-ter is-size-6">C++ STL1</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-05-11T12:00:00.000Z">2021-05-11</time></div>
+                    <a href="/2021/05/11/Reconstruction/surface_reconstruction/" class="has-link-black-ter is-size-6">surface reconstruction</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/STL/">STL</a>
+                        <a class="has-link-grey -link" href="/categories/Reconstruction/">Reconstruction</a> / <a class="has-link-grey -link" href="/categories/Reconstruction/2-surface-Reconstruction/">2.surface Reconstruction</a>
                     </p>
                 </div>
             </div>
@@ -1381,18 +1546,18 @@
         
         <article class="media">
             
-            <a href="/2020/07/13/C++/GenericProgramming/Generic Programming1/" class="media-left">
+            <a href="/2021/05/06/cuda/CUDA_baseKnowledge/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 泛型编程">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="CUDA basic knowledge">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-13T15:10:33.000Z">2020-07-13</time></div>
-                    <a href="/2020/07/13/C++/GenericProgramming/Generic Programming1/" class="has-link-black-ter is-size-6">C++ 泛型编程</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-05-06T12:00:00.000Z">2021-05-06</time></div>
+                    <a href="/2021/05/06/cuda/CUDA_baseKnowledge/" class="has-link-black-ter is-size-6">CUDA basic knowledge</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/Generic-Programming/">Generic Programming</a>
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/CUDA/">CUDA</a>
                     </p>
                 </div>
             </div>
@@ -1411,12 +1576,45 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2021/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2021/01/">
                 <span class="level-start">
                     <span class="level-item">一月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1482,7 +1680,7 @@
                     <span class="level-item">六月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">14</span>
+                    <span class="level-item tag">13</span>
                 </span>
             </a>
         </li>
@@ -1525,7 +1723,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/3D-Reconstruction/">
                         <span class="tag">3D Reconstruction</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -1537,16 +1735,23 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/4PCS/">
+                        <span class="tag">4PCS</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/C/">
                         <span class="tag">C++</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">13</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/CUDA/">
                         <span class="tag">CUDA</span>
-                        <span class="tag is-grey">13</span>
+                        <span class="tag is-grey">16</span>
                     </a>
                 </div>
                 
@@ -1607,6 +1812,13 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/Hash-Map/">
+                        <span class="tag">Hash Map</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/ICP/">
                         <span class="tag">ICP</span>
                         <span class="tag is-grey">7</span>
@@ -1642,9 +1854,16 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/OpenGL/">
+                        <span class="tag">OpenGL</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/PCL/">
                         <span class="tag">PCL</span>
-                        <span class="tag is-grey">7</span>
+                        <span class="tag is-grey">8</span>
                     </a>
                 </div>
                 
@@ -1665,14 +1884,14 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Reconstruction/">
                         <span class="tag">Reconstruction</span>
-                        <span class="tag is-grey">3</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Registration/">
                         <span class="tag">Registration</span>
-                        <span class="tag is-grey">10</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 
@@ -1686,6 +1905,13 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/SFM/">
                         <span class="tag">SFM</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SSE/">
+                        <span class="tag">SSE</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1705,8 +1931,22 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/Segmentation/">
+                        <span class="tag">Segmentation</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/Sparse-ICP/">
                         <span class="tag">Sparse ICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Super4PCS/">
+                        <span class="tag">Super4PCS</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -1721,6 +1961,13 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/git/">
                         <span class="tag">git</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/glfw/">
+                        <span class="tag">glfw</span>
                         <span class="tag is-grey">2</span>
                     </a>
                 </div>
@@ -1806,18 +2053,18 @@
         
         <article class="media">
             
-            <a href="/2021/01/16/other/git2/" class="media-left">
+            <a href="/2021/05/26/MobileRobot/segmentation/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="GIT教程2">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="PointCloud Segmentation">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-01-16T11:45:21.000Z">2021-01-16</time></div>
-                    <a href="/2021/01/16/other/git2/" class="has-link-black-ter is-size-6">GIT教程2</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-05-26T03:06:49.000Z">2021-05-26</time></div>
+                    <a href="/2021/05/26/MobileRobot/segmentation/" class="has-link-black-ter is-size-6">PointCloud Segmentation</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/git/">git</a>
+                        <a class="has-link-grey -link" href="/categories/Mobile-Robot/">Mobile Robot</a> / <a class="has-link-grey -link" href="/categories/Mobile-Robot/sparse-pointcloud-segemntation/">sparse pointcloud segemntation</a>
                     </p>
                 </div>
             </div>
@@ -1825,18 +2072,18 @@
         
         <article class="media">
             
-            <a href="/2020/07/19/other/hexo2/" class="media-left">
+            <a href="/2021/05/26/Reconstruction/3d_reconstruction3/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="hexo教程2">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="无标定立体视觉计算深度">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-18T16:23:46.000Z">2020-07-19</time></div>
-                    <a href="/2020/07/19/other/hexo2/" class="has-link-black-ter is-size-6">hexo教程2</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-05-26T02:39:49.000Z">2021-05-26</time></div>
+                    <a href="/2021/05/26/Reconstruction/3d_reconstruction3/" class="has-link-black-ter is-size-6">无标定立体视觉计算深度</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/hexo/">hexo</a>
+                        <a class="has-link-grey -link" href="/categories/Reconstruction/">Reconstruction</a> / <a class="has-link-grey -link" href="/categories/Reconstruction/3-3D-Reconstruction/">3.3D Reconstruction</a>
                     </p>
                 </div>
             </div>
@@ -1844,18 +2091,18 @@
         
         <article class="media">
             
-            <a href="/2020/07/13/C++/MemoryManagement/MemoryManagement1/" class="media-left">
+            <a href="/2021/05/17/SSE/SSE/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 内存管理1">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="SSE coding">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-13T15:10:33.000Z">2020-07-13</time></div>
-                    <a href="/2020/07/13/C++/MemoryManagement/MemoryManagement1/" class="has-link-black-ter is-size-6">C++ 内存管理1</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-05-17T12:00:00.000Z">2021-05-17</time></div>
+                    <a href="/2021/05/17/SSE/SSE/" class="has-link-black-ter is-size-6">SSE coding</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/Memory-Management/">Memory Management</a>
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/SSE/">SSE</a>
                     </p>
                 </div>
             </div>
@@ -1863,18 +2110,18 @@
         
         <article class="media">
             
-            <a href="/2020/07/13/C++/STL/STL1/" class="media-left">
+            <a href="/2021/05/11/Reconstruction/surface_reconstruction/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ STL1">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="surface reconstruction">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-13T15:10:33.000Z">2020-07-13</time></div>
-                    <a href="/2020/07/13/C++/STL/STL1/" class="has-link-black-ter is-size-6">C++ STL1</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-05-11T12:00:00.000Z">2021-05-11</time></div>
+                    <a href="/2021/05/11/Reconstruction/surface_reconstruction/" class="has-link-black-ter is-size-6">surface reconstruction</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/STL/">STL</a>
+                        <a class="has-link-grey -link" href="/categories/Reconstruction/">Reconstruction</a> / <a class="has-link-grey -link" href="/categories/Reconstruction/2-surface-Reconstruction/">2.surface Reconstruction</a>
                     </p>
                 </div>
             </div>
@@ -1882,18 +2129,18 @@
         
         <article class="media">
             
-            <a href="/2020/07/13/C++/GenericProgramming/Generic Programming1/" class="media-left">
+            <a href="/2021/05/06/cuda/CUDA_baseKnowledge/" class="media-left">
                 <p class="image is-64x64">
-                    <img class="thumbnail" src="/images/thumbnail.svg" alt="C++ 泛型编程">
+                    <img class="thumbnail" src="/images/thumbnail.svg" alt="CUDA basic knowledge">
                 </p>
             </a>
             
             <div class="media-content">
                 <div class="content">
-                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2020-07-13T15:10:33.000Z">2020-07-13</time></div>
-                    <a href="/2020/07/13/C++/GenericProgramming/Generic Programming1/" class="has-link-black-ter is-size-6">C++ 泛型编程</a>
+                    <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-05-06T12:00:00.000Z">2021-05-06</time></div>
+                    <a href="/2021/05/06/cuda/CUDA_baseKnowledge/" class="has-link-black-ter is-size-6">CUDA basic knowledge</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/Generic-Programming/">Generic Programming</a>
+                        <a class="has-link-grey -link" href="/categories/编程/">编程</a> / <a class="has-link-grey -link" href="/categories/编程/CUDA/">CUDA</a>
                     </p>
                 </div>
             </div>
@@ -1912,12 +2159,45 @@
         <ul class="menu-list">
         
         <li>
+            <a class="level is-marginless" href="/archives/2021/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">5</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/04/">
+                <span class="level-start">
+                    <span class="level-item">四月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">6</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a class="level is-marginless" href="/archives/2021/03/">
+                <span class="level-start">
+                    <span class="level-item">三月 2021</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">3</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
             <a class="level is-marginless" href="/archives/2021/01/">
                 <span class="level-start">
                     <span class="level-item">一月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">1</span>
+                    <span class="level-item tag">4</span>
                 </span>
             </a>
         </li>
@@ -1983,7 +2263,7 @@
                     <span class="level-item">六月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">14</span>
+                    <span class="level-item tag">13</span>
                 </span>
             </a>
         </li>
@@ -2026,7 +2306,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/3D-Reconstruction/">
                         <span class="tag">3D Reconstruction</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">2</span>
                     </a>
                 </div>
                 
@@ -2038,16 +2318,23 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/4PCS/">
+                        <span class="tag">4PCS</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/C/">
                         <span class="tag">C++</span>
-                        <span class="tag is-grey">12</span>
+                        <span class="tag is-grey">13</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/CUDA/">
                         <span class="tag">CUDA</span>
-                        <span class="tag is-grey">13</span>
+                        <span class="tag is-grey">16</span>
                     </a>
                 </div>
                 
@@ -2108,6 +2395,13 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/Hash-Map/">
+                        <span class="tag">Hash Map</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/ICP/">
                         <span class="tag">ICP</span>
                         <span class="tag is-grey">7</span>
@@ -2143,9 +2437,16 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/OpenGL/">
+                        <span class="tag">OpenGL</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/PCL/">
                         <span class="tag">PCL</span>
-                        <span class="tag is-grey">7</span>
+                        <span class="tag is-grey">8</span>
                     </a>
                 </div>
                 
@@ -2166,14 +2467,14 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Reconstruction/">
                         <span class="tag">Reconstruction</span>
-                        <span class="tag is-grey">3</span>
+                        <span class="tag is-grey">4</span>
                     </a>
                 </div>
                 
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Registration/">
                         <span class="tag">Registration</span>
-                        <span class="tag is-grey">10</span>
+                        <span class="tag is-grey">11</span>
                     </a>
                 </div>
                 
@@ -2187,6 +2488,13 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/SFM/">
                         <span class="tag">SFM</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/SSE/">
+                        <span class="tag">SSE</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -2206,8 +2514,22 @@
                 </div>
                 
                 <div class="control">
+                    <a class="tags has-addons" href="/tags/Segmentation/">
+                        <span class="tag">Segmentation</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
                     <a class="tags has-addons" href="/tags/Sparse-ICP/">
                         <span class="tag">Sparse ICP</span>
+                        <span class="tag is-grey">1</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/Super4PCS/">
+                        <span class="tag">Super4PCS</span>
                         <span class="tag is-grey">1</span>
                     </a>
                 </div>
@@ -2222,6 +2544,13 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/git/">
                         <span class="tag">git</span>
+                        <span class="tag is-grey">2</span>
+                    </a>
+                </div>
+                
+                <div class="control">
+                    <a class="tags has-addons" href="/tags/glfw/">
+                        <span class="tag">glfw</span>
                         <span class="tag is-grey">2</span>
                     </a>
                 </div>
