@@ -317,7 +317,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    5 分钟 读完 (大约 745 个字)
+                    5 分钟 读完 (大约 751 个字)
                 </span>
                 
                 
@@ -330,84 +330,17 @@
             
         </h1>
         <div class="content">
-            <a id="more"></a>
-
-<h1 id="表面重建（点云到网格）"><a href="#表面重建（点云到网格）" class="headerlink" title="表面重建（点云到网格）"></a>表面重建（点云到网格）</h1><p><a href="https://mp.weixin.qq.com/s?__biz=MzI0MDYxMDk0Ng==&mid=2247487165&idx=1&sn=9d62faf73d2d5a85777e2e5d14812471&chksm=e9197550de6efc4652a893761a1a4dceb83edb66c7e023cb2cc326d46ca0fcbdb6912ff29e83&scene=21#wechat_redirect" target="_blank" rel="noopener">[线上分享录播]基于点云数据的 Mesh重建与处理</a></p>
-<p>笔记TODO</p>
-<h2 id="PCL中的表面重建"><a href="#PCL中的表面重建" class="headerlink" title="PCL中的表面重建"></a>PCL中的表面重建</h2><ol>
-<li><p>gp3</p>
-<p>greedy projection—贪婪投影算法</p>
-<p><a href="https://mp.weixin.qq.com/s/FfHkVY-lmlOSf4jKoZqjEA" target="_blank" rel="noopener">参考</a></p>
-<p>贪心投影三角化的大致流程是这样的：</p>
-<p>（1）先将点云通过法线投影到某一二维坐标平面内</p>
-<p>（2）然后对投影得到的点云做平面内的三角化，从而得到各点的拓扑连接关系。平面三角化的过程中用到了基于Delaunay三角剖分 的空间区域增长算法</p>
-<p>（3）最后根据平面内投影点的拓扑连接关系确定各原始三维点间的拓扑连接，所得三角网格即为重建得到的曲面模型</p>
-</li>
-</ol>
-<ol start="2">
-<li><p>grid_projection</p>
-<p>网格投影</p>
-</li>
-<li><p>marching_cubes 移动立方体</p>
-<p>marching_cubes_hoppe</p>
-<p>marching_cubes_rbf</p>
-</li>
-<li><p>mls</p>
-<p>移动最小二乘法</p>
-</li>
-<li><p>organized_fast_mesh</p>
-</li>
-<li><p>poisson</p>
-<p>泊松重建</p>
-</li>
-<li><p>EarClipping</p>
-<p><a href="https://blog.csdn.net/noahzuo/article/details/78478617" target="_blank" rel="noopener">耳切法</a></p>
-<p>将一个普通多边形拆解成多个三角形</p>
-</li>
-<li><p>delaunay2.5D（cloudcompare）</p>
-<p><strong>所有边都是德劳内边的剖分是德劳内三角剖分</strong>。</p>
-<ol>
-<li><p>扫描线法（Sweepline）</p>
-</li>
-<li><p>随机增量法（Incremental）</p>
-<blockquote>
-<p>按照随机的顺序依次插入点集中的点</p>
-<ol>
-<li>首先确定vi落在哪个三角形中（或边上）</li>
-<li>然后将vi与三角形三个顶点连接起来构成三个三角形（或与共边的两个三角形的对顶点连接起来构成四个三角形）</li>
-<li>由于新生成的边以及原来的边可能不是或不再是Delaunay边，故进行边翻转来调整使之都成为Delaunay边，从而得出DT(v1,v2,…,vi)。</li>
-</ol>
-</blockquote>
-</li>
-<li><p>分治法（Divide and Conquer）</p>
-</li>
-</ol>
-<p>三角剖分原理：</p>
-<ol>
-<li><a href="https://en.wikipedia.org/wiki/Bowyer%E2%80%93Watson_algorithm" target="_blank" rel="noopener">德劳内三角剖分</a></li>
-<li><a href="https://www.cnblogs.com/soroman/archive/2007/05/17/750430.html" target="_blank" rel="noopener">三种计算方法</a></li>
-</ol>
-</li>
-</ol>
-<p>   开源：</p>
-<p>   <a href="https://github.com/obviousjim/ofxDelaunay" target="_blank" rel="noopener">ofxDelaunay:</a></p>
-<p>   <a href="https://github.com/bl4ckb0ne/delaunay-triangulation" target="_blank" rel="noopener">delaunay-triangulation:</a></p>
-<p>   Delaunay三角剖分算法是一种常用的算法，<strong>它的特点是剖分结果的每个三角形都尽量接近等边三角形。</strong></p>
-<ol>
-<li><p>平面域三角剖分、平面投影法</p>
-<p>将三维点投影到某个平面，如XY平面，然后对投影点集 作平面域的三角剖分, 最终形成的曲面三角剖<br>分的点间连接关系与相应的投影点间的连接关系相同,</p>
-</li>
-<li><p>最佳平面拟合</p>
-<p>同理，只是投影到最佳拟合的平面上，再对点进行剖分。</p>
-</li>
-</ol>
-<hr>
-<h1 id="直线或线段与mesh网格相交的计算"><a href="#直线或线段与mesh网格相交的计算" class="headerlink" title="直线或线段与mesh网格相交的计算"></a>直线或线段与mesh网格相交的计算</h1><p><a href="https://blog.csdn.net/qq_33263124/article/details/88179289" target="_blank" rel="noopener">https://blog.csdn.net/qq_33263124/article/details/88179289</a></p>
-<h1 id="MLS"><a href="#MLS" class="headerlink" title="MLS"></a>MLS</h1><p><a href="https://github.com/EvangelosKatsavrias/CUDA_MLS" target="_blank" rel="noopener">CUDA-MLS</a></p>
-<h1 id="VOXELIZER"><a href="#VOXELIZER" class="headerlink" title="VOXELIZER"></a>VOXELIZER</h1><p><a href="https://github.com/Forceflow/cuda_voxelizer" target="_blank" rel="noopener">https://github.com/Forceflow/cuda_voxelizer</a></p>
-
+            <p>点云生成网格</p>
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2021/05/11/Reconstruction/surface_reconstruction/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
         
         
     </div>
@@ -688,79 +621,6 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    4 分钟 读完 (大约 628 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2021/04/03/OPENGL/OpenGLFQA/">OpenGL遇到的问题</a>
-            
-        </h1>
-        <div class="content">
-            <a id="more"></a>
-
-<h1 id="一、显示问题"><a href="#一、显示问题" class="headerlink" title="一、显示问题"></a>一、显示问题</h1><h2 id="1-OpenGL画点，为什么点的坐标值超出-1-1-范围就显示不了？？？"><a href="#1-OpenGL画点，为什么点的坐标值超出-1-1-范围就显示不了？？？" class="headerlink" title="1. OpenGL画点，为什么点的坐标值超出[-1,1]范围就显示不了？？？"></a>1. OpenGL画点，为什么点的坐标值超出[-1,1]范围就显示不了？？？</h2><p><a href="https://ask.csdn.net/questions/259655" target="_blank" rel="noopener">https://ask.csdn.net/questions/259655</a></p>
-<blockquote>
-<p>1.OpenGL工作在一个叫做NDC（Normalized Device Coordinates）的坐标系统下，在这个坐标系统中，x、y和z的值全部都坐落在[-1, +1]范围内，超出这个范围的点会被OpenGL忽略。因为我们直接使用OpenGL的NDC坐标系统，所以顶点坐标的值在-1到+1之间。</p>
-</blockquote>
-<blockquote>
-<p>2.设置投影模式，这样坐标就可以是超过-1到1了。Opengl的坐标是可以无限大的，通过设定视场大小来确定显示的范围，只有在视场范围内的坐标才能被看见，在视场之外的看不到。视场是可以用函数设定的。具体你要看看投影模式怎么回事。我很久没弄opengl了，具体也不太了解。</p>
-</blockquote>
-<h2 id="2-如何使用GLSL"><a href="#2-如何使用GLSL" class="headerlink" title="2. 如何使用GLSL"></a>2. 如何使用GLSL</h2><p>三大着色器：顶点、几何、片段</p>
-<p><a href="https://blog.csdn.net/baidu_28949227/article/details/91990567" target="_blank" rel="noopener">OpenGL顶点着色器、编译着色器、片段着色器</a></p>
-<p>boid.vert.glsl</p>
-<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#version 330</span></span><br><span class="line"></span><br><span class="line">in vec4 Position;</span><br><span class="line">in vec4 Velocity;</span><br><span class="line">out vec4 vFragColorVs;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    vFragColorVs = Velocity;</span><br><span class="line">    gl_Position = Position;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>使用in 关键字，在顶点着色器中声明所有的输入顶点属性。GLSL有一个向量数据类型，包含1到4个float分量。由于每个顶点都有一个3D坐标，我们就创建一个vec3输入变量aPos。<br>为了设置顶点着色器的输出，我们必须把位置数据赋值给<strong>预定义的gl_Position</strong>，它在幕后的vec4.<br>在main函数最后，我们将gl_Position设置的值会成为该顶点着色器的输出</p>
-<p>boid.geom.glsl</p>
-<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#version 330</span></span><br><span class="line"></span><br><span class="line">in vec4 vFragColor;</span><br><span class="line">out vec4 fragColor;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    fragColor.r = <span class="hljs-built_in">abs</span>(vFragColor.r);</span><br><span class="line">    fragColor.g = <span class="hljs-built_in">abs</span>(vFragColor.g);</span><br><span class="line">    fragColor.b = <span class="hljs-built_in">abs</span>(vFragColor.b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>boid.frag.glsl</p>
-<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#version 330</span></span><br><span class="line"></span><br><span class="line">uniform mat4 u_projMatrix;</span><br><span class="line"></span><br><span class="line">layout(points) in;</span><br><span class="line">layout(points) out;</span><br><span class="line">layout(max_vertices = <span class="hljs-number">1</span>) out;</span><br><span class="line"></span><br><span class="line">in vec4 vFragColorVs[];</span><br><span class="line">out vec4 vFragColor;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    vec3 Position = gl_in[<span class="hljs-number">0</span>].gl_Position.xyz;</span><br><span class="line">    vFragColor = vFragColorVs[<span class="hljs-number">0</span>];</span><br><span class="line">    gl_Position = u_projMatrix * vec4(Position, <span class="hljs-number">1.0</span>);</span><br><span class="line">    EmitVertex();</span><br><span class="line">    EndPrimitive();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="3-其他显示问题"><a href="#3-其他显示问题" class="headerlink" title="3.其他显示问题"></a>3.其他显示问题</h2><p>glDrawElements</p>
-<p>原型：</p>
-<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">glDrawElements</span><span class="hljs-params">(GLenum mode,GLsizei count,GLenum type,<span class="hljs-keyword">const</span> GLvoid *indices)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p>mode:接受的值和在glBegin()中接受的值一样，可以是GL_POLYGON、GL_TRIANGLES、GL_TRIANGLE_STRIP、GL_LINE_STRIP等。</p>
-<p>count：组合几何图形的元素的个数，一般是点的个数。</p>
-<p>type:indeices数组的数据类型，既然是索引，一般是整型的。</p>
-<p>indices:索引数组</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2021-04-02T16:20:00.000Z">2021-04-03</time>
-                
-                <div class="level-item">
-                <a class="has-link-grey -link" href="/categories/可视化/">可视化</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/可视化/learn-OpenGL/">learn OpenGL</a>
-                </div>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
                     10 分钟 读完 (大约 1508 个字)
                 </span>
                 
@@ -856,6 +716,79 @@
 <figure class="highlight plain hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">glBindBuffer(GL_ARRAY_BUFFER, VBO);</span><br></pre></td></tr></table></figure>
 
 <h3 id="顶点着色器"><a href="#顶点着色器" class="headerlink" title="顶点着色器"></a>顶点着色器</h3>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2021-04-02T16:20:00.000Z">2021-04-03</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/可视化/">可视化</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/可视化/learn-OpenGL/">learn OpenGL</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    4 分钟 读完 (大约 628 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2021/04/03/OPENGL/OpenGLFQA/">OpenGL遇到的问题</a>
+            
+        </h1>
+        <div class="content">
+            <a id="more"></a>
+
+<h1 id="一、显示问题"><a href="#一、显示问题" class="headerlink" title="一、显示问题"></a>一、显示问题</h1><h2 id="1-OpenGL画点，为什么点的坐标值超出-1-1-范围就显示不了？？？"><a href="#1-OpenGL画点，为什么点的坐标值超出-1-1-范围就显示不了？？？" class="headerlink" title="1. OpenGL画点，为什么点的坐标值超出[-1,1]范围就显示不了？？？"></a>1. OpenGL画点，为什么点的坐标值超出[-1,1]范围就显示不了？？？</h2><p><a href="https://ask.csdn.net/questions/259655" target="_blank" rel="noopener">https://ask.csdn.net/questions/259655</a></p>
+<blockquote>
+<p>1.OpenGL工作在一个叫做NDC（Normalized Device Coordinates）的坐标系统下，在这个坐标系统中，x、y和z的值全部都坐落在[-1, +1]范围内，超出这个范围的点会被OpenGL忽略。因为我们直接使用OpenGL的NDC坐标系统，所以顶点坐标的值在-1到+1之间。</p>
+</blockquote>
+<blockquote>
+<p>2.设置投影模式，这样坐标就可以是超过-1到1了。Opengl的坐标是可以无限大的，通过设定视场大小来确定显示的范围，只有在视场范围内的坐标才能被看见，在视场之外的看不到。视场是可以用函数设定的。具体你要看看投影模式怎么回事。我很久没弄opengl了，具体也不太了解。</p>
+</blockquote>
+<h2 id="2-如何使用GLSL"><a href="#2-如何使用GLSL" class="headerlink" title="2. 如何使用GLSL"></a>2. 如何使用GLSL</h2><p>三大着色器：顶点、几何、片段</p>
+<p><a href="https://blog.csdn.net/baidu_28949227/article/details/91990567" target="_blank" rel="noopener">OpenGL顶点着色器、编译着色器、片段着色器</a></p>
+<p>boid.vert.glsl</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#version 330</span></span><br><span class="line"></span><br><span class="line">in vec4 Position;</span><br><span class="line">in vec4 Velocity;</span><br><span class="line">out vec4 vFragColorVs;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    vFragColorVs = Velocity;</span><br><span class="line">    gl_Position = Position;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用in 关键字，在顶点着色器中声明所有的输入顶点属性。GLSL有一个向量数据类型，包含1到4个float分量。由于每个顶点都有一个3D坐标，我们就创建一个vec3输入变量aPos。<br>为了设置顶点着色器的输出，我们必须把位置数据赋值给<strong>预定义的gl_Position</strong>，它在幕后的vec4.<br>在main函数最后，我们将gl_Position设置的值会成为该顶点着色器的输出</p>
+<p>boid.geom.glsl</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#version 330</span></span><br><span class="line"></span><br><span class="line">in vec4 vFragColor;</span><br><span class="line">out vec4 fragColor;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    fragColor.r = <span class="hljs-built_in">abs</span>(vFragColor.r);</span><br><span class="line">    fragColor.g = <span class="hljs-built_in">abs</span>(vFragColor.g);</span><br><span class="line">    fragColor.b = <span class="hljs-built_in">abs</span>(vFragColor.b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>boid.frag.glsl</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#version 330</span></span><br><span class="line"></span><br><span class="line">uniform mat4 u_projMatrix;</span><br><span class="line"></span><br><span class="line">layout(points) in;</span><br><span class="line">layout(points) out;</span><br><span class="line">layout(max_vertices = <span class="hljs-number">1</span>) out;</span><br><span class="line"></span><br><span class="line">in vec4 vFragColorVs[];</span><br><span class="line">out vec4 vFragColor;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    vec3 Position = gl_in[<span class="hljs-number">0</span>].gl_Position.xyz;</span><br><span class="line">    vFragColor = vFragColorVs[<span class="hljs-number">0</span>];</span><br><span class="line">    gl_Position = u_projMatrix * vec4(Position, <span class="hljs-number">1.0</span>);</span><br><span class="line">    EmitVertex();</span><br><span class="line">    EndPrimitive();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-其他显示问题"><a href="#3-其他显示问题" class="headerlink" title="3.其他显示问题"></a>3.其他显示问题</h2><p>glDrawElements</p>
+<p>原型：</p>
+<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">glDrawElements</span><span class="hljs-params">(GLenum mode,GLsizei count,GLenum type,<span class="hljs-keyword">const</span> GLvoid *indices)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>mode:接受的值和在glBegin()中接受的值一样，可以是GL_POLYGON、GL_TRIANGLES、GL_TRIANGLE_STRIP、GL_LINE_STRIP等。</p>
+<p>count：组合几何图形的元素的个数，一般是点的个数。</p>
+<p>type:indeices数组的数据类型，既然是索引，一般是整型的。</p>
+<p>indices:索引数组</p>
+
         </div>
         
         

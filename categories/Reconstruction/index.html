@@ -227,7 +227,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    5 分钟 读完 (大约 745 个字)
+                    5 分钟 读完 (大约 751 个字)
                 </span>
                 
                 
@@ -240,84 +240,17 @@
             
         </h1>
         <div class="content">
-            <a id="more"></a>
-
-<h1 id="表面重建（点云到网格）"><a href="#表面重建（点云到网格）" class="headerlink" title="表面重建（点云到网格）"></a>表面重建（点云到网格）</h1><p><a href="https://mp.weixin.qq.com/s?__biz=MzI0MDYxMDk0Ng==&mid=2247487165&idx=1&sn=9d62faf73d2d5a85777e2e5d14812471&chksm=e9197550de6efc4652a893761a1a4dceb83edb66c7e023cb2cc326d46ca0fcbdb6912ff29e83&scene=21#wechat_redirect" target="_blank" rel="noopener">[线上分享录播]基于点云数据的 Mesh重建与处理</a></p>
-<p>笔记TODO</p>
-<h2 id="PCL中的表面重建"><a href="#PCL中的表面重建" class="headerlink" title="PCL中的表面重建"></a>PCL中的表面重建</h2><ol>
-<li><p>gp3</p>
-<p>greedy projection—贪婪投影算法</p>
-<p><a href="https://mp.weixin.qq.com/s/FfHkVY-lmlOSf4jKoZqjEA" target="_blank" rel="noopener">参考</a></p>
-<p>贪心投影三角化的大致流程是这样的：</p>
-<p>（1）先将点云通过法线投影到某一二维坐标平面内</p>
-<p>（2）然后对投影得到的点云做平面内的三角化，从而得到各点的拓扑连接关系。平面三角化的过程中用到了基于Delaunay三角剖分 的空间区域增长算法</p>
-<p>（3）最后根据平面内投影点的拓扑连接关系确定各原始三维点间的拓扑连接，所得三角网格即为重建得到的曲面模型</p>
-</li>
-</ol>
-<ol start="2">
-<li><p>grid_projection</p>
-<p>网格投影</p>
-</li>
-<li><p>marching_cubes 移动立方体</p>
-<p>marching_cubes_hoppe</p>
-<p>marching_cubes_rbf</p>
-</li>
-<li><p>mls</p>
-<p>移动最小二乘法</p>
-</li>
-<li><p>organized_fast_mesh</p>
-</li>
-<li><p>poisson</p>
-<p>泊松重建</p>
-</li>
-<li><p>EarClipping</p>
-<p><a href="https://blog.csdn.net/noahzuo/article/details/78478617" target="_blank" rel="noopener">耳切法</a></p>
-<p>将一个普通多边形拆解成多个三角形</p>
-</li>
-<li><p>delaunay2.5D（cloudcompare）</p>
-<p><strong>所有边都是德劳内边的剖分是德劳内三角剖分</strong>。</p>
-<ol>
-<li><p>扫描线法（Sweepline）</p>
-</li>
-<li><p>随机增量法（Incremental）</p>
-<blockquote>
-<p>按照随机的顺序依次插入点集中的点</p>
-<ol>
-<li>首先确定vi落在哪个三角形中（或边上）</li>
-<li>然后将vi与三角形三个顶点连接起来构成三个三角形（或与共边的两个三角形的对顶点连接起来构成四个三角形）</li>
-<li>由于新生成的边以及原来的边可能不是或不再是Delaunay边，故进行边翻转来调整使之都成为Delaunay边，从而得出DT(v1,v2,…,vi)。</li>
-</ol>
-</blockquote>
-</li>
-<li><p>分治法（Divide and Conquer）</p>
-</li>
-</ol>
-<p>三角剖分原理：</p>
-<ol>
-<li><a href="https://en.wikipedia.org/wiki/Bowyer%E2%80%93Watson_algorithm" target="_blank" rel="noopener">德劳内三角剖分</a></li>
-<li><a href="https://www.cnblogs.com/soroman/archive/2007/05/17/750430.html" target="_blank" rel="noopener">三种计算方法</a></li>
-</ol>
-</li>
-</ol>
-<p>   开源：</p>
-<p>   <a href="https://github.com/obviousjim/ofxDelaunay" target="_blank" rel="noopener">ofxDelaunay:</a></p>
-<p>   <a href="https://github.com/bl4ckb0ne/delaunay-triangulation" target="_blank" rel="noopener">delaunay-triangulation:</a></p>
-<p>   Delaunay三角剖分算法是一种常用的算法，<strong>它的特点是剖分结果的每个三角形都尽量接近等边三角形。</strong></p>
-<ol>
-<li><p>平面域三角剖分、平面投影法</p>
-<p>将三维点投影到某个平面，如XY平面，然后对投影点集 作平面域的三角剖分, 最终形成的曲面三角剖<br>分的点间连接关系与相应的投影点间的连接关系相同,</p>
-</li>
-<li><p>最佳平面拟合</p>
-<p>同理，只是投影到最佳拟合的平面上，再对点进行剖分。</p>
-</li>
-</ol>
-<hr>
-<h1 id="直线或线段与mesh网格相交的计算"><a href="#直线或线段与mesh网格相交的计算" class="headerlink" title="直线或线段与mesh网格相交的计算"></a>直线或线段与mesh网格相交的计算</h1><p><a href="https://blog.csdn.net/qq_33263124/article/details/88179289" target="_blank" rel="noopener">https://blog.csdn.net/qq_33263124/article/details/88179289</a></p>
-<h1 id="MLS"><a href="#MLS" class="headerlink" title="MLS"></a>MLS</h1><p><a href="https://github.com/EvangelosKatsavrias/CUDA_MLS" target="_blank" rel="noopener">CUDA-MLS</a></p>
-<h1 id="VOXELIZER"><a href="#VOXELIZER" class="headerlink" title="VOXELIZER"></a>VOXELIZER</h1><p><a href="https://github.com/Forceflow/cuda_voxelizer" target="_blank" rel="noopener">https://github.com/Forceflow/cuda_voxelizer</a></p>
-
+            <p>点云生成网格</p>
         </div>
         
+        
+        <div class="level is-mobile">
+            <div class="level-start">
+                <div class="level-item">
+                <a class="button is-size-7 is-light" href="/2021/05/11/Reconstruction/surface_reconstruction/#more">阅读更多</a>
+                </div>
+            </div>
+        </div>
         
         
     </div>
