@@ -7,19 +7,19 @@
 
 
 
-    <meta name="description" content="表面重建（点云到网格）[线上分享录播]基于点云数据的 Mesh重建与处理 PCL中的表面重建 gp3 greedy projection—贪婪投影算法 参考 贪心投影三角化的大致流程是这样的： （1）先将点云通过法线投影到某一二维坐标平面内 （2）然后对投影得到的点云做平面内的三角化，从而得到各点的拓扑连接关系。平面三角化的过程中用到了基于Delaunay三角剖分 的空间区域增长算法 （3）最后根">
+    <meta name="description" content="表面重建（点云到网格）[线上分享录播]基于点云数据的 Mesh重建与处理 笔记TODO PCL中的表面重建 gp3 greedy projection—贪婪投影算法 参考 贪心投影三角化的大致流程是这样的： （1）先将点云通过法线投影到某一二维坐标平面内 （2）然后对投影得到的点云做平面内的三角化，从而得到各点的拓扑连接关系。平面三角化的过程中用到了基于Delaunay三角剖分 的空间区域增长">
 <meta name="keywords" content="Reconstruction,surface Reconstruction">
 <meta property="og:type" content="article">
 <meta property="og:title" content="surface reconstruction">
 <meta property="og:url" content="https://littlebearsama.github.io/2021/05/11/Reconstruction/surface_reconstruction/index.html">
 <meta property="og:site_name" content="LittleBear！！！">
-<meta property="og:description" content="表面重建（点云到网格）[线上分享录播]基于点云数据的 Mesh重建与处理 PCL中的表面重建 gp3 greedy projection—贪婪投影算法 参考 贪心投影三角化的大致流程是这样的： （1）先将点云通过法线投影到某一二维坐标平面内 （2）然后对投影得到的点云做平面内的三角化，从而得到各点的拓扑连接关系。平面三角化的过程中用到了基于Delaunay三角剖分 的空间区域增长算法 （3）最后根">
+<meta property="og:description" content="表面重建（点云到网格）[线上分享录播]基于点云数据的 Mesh重建与处理 笔记TODO PCL中的表面重建 gp3 greedy projection—贪婪投影算法 参考 贪心投影三角化的大致流程是这样的： （1）先将点云通过法线投影到某一二维坐标平面内 （2）然后对投影得到的点云做平面内的三角化，从而得到各点的拓扑连接关系。平面三角化的过程中用到了基于Delaunay三角剖分 的空间区域增长">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2021-05-26T03:21:24.110Z">
+<meta property="og:updated_time" content="2021-05-26T07:38:42.352Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="surface reconstruction">
-<meta name="twitter:description" content="表面重建（点云到网格）[线上分享录播]基于点云数据的 Mesh重建与处理 PCL中的表面重建 gp3 greedy projection—贪婪投影算法 参考 贪心投影三角化的大致流程是这样的： （1）先将点云通过法线投影到某一二维坐标平面内 （2）然后对投影得到的点云做平面内的三角化，从而得到各点的拓扑连接关系。平面三角化的过程中用到了基于Delaunay三角剖分 的空间区域增长算法 （3）最后根">
+<meta name="twitter:description" content="表面重建（点云到网格）[线上分享录播]基于点云数据的 Mesh重建与处理 笔记TODO PCL中的表面重建 gp3 greedy projection—贪婪投影算法 参考 贪心投影三角化的大致流程是这样的： （1）先将点云通过法线投影到某一二维坐标平面内 （2）然后对投影得到的点云做平面内的三角化，从而得到各点的拓扑连接关系。平面三角化的过程中用到了基于Delaunay三角剖分 的空间区域增长">
 <meta name="twitter:image" content="https://littlebearsama.github.io/images/og_image.png">
 
 
@@ -164,7 +164,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    5 分钟 读完 (大约 741 个字)
+                    5 分钟 读完 (大约 745 个字)
                 </span>
                 
                 
@@ -177,7 +177,10 @@
             
         </h1>
         <div class="content">
-            <h1 id="表面重建（点云到网格）"><a href="#表面重建（点云到网格）" class="headerlink" title="表面重建（点云到网格）"></a>表面重建（点云到网格）</h1><p><a href="https://mp.weixin.qq.com/s?__biz=MzI0MDYxMDk0Ng==&mid=2247487165&idx=1&sn=9d62faf73d2d5a85777e2e5d14812471&chksm=e9197550de6efc4652a893761a1a4dceb83edb66c7e023cb2cc326d46ca0fcbdb6912ff29e83&scene=21#wechat_redirect" target="_blank" rel="noopener">[线上分享录播]基于点云数据的 Mesh重建与处理</a></p>
+            <a id="more"></a>
+
+<h1 id="表面重建（点云到网格）"><a href="#表面重建（点云到网格）" class="headerlink" title="表面重建（点云到网格）"></a>表面重建（点云到网格）</h1><p><a href="https://mp.weixin.qq.com/s?__biz=MzI0MDYxMDk0Ng==&mid=2247487165&idx=1&sn=9d62faf73d2d5a85777e2e5d14812471&chksm=e9197550de6efc4652a893761a1a4dceb83edb66c7e023cb2cc326d46ca0fcbdb6912ff29e83&scene=21#wechat_redirect" target="_blank" rel="noopener">[线上分享录播]基于点云数据的 Mesh重建与处理</a></p>
+<p>笔记TODO</p>
 <h2 id="PCL中的表面重建"><a href="#PCL中的表面重建" class="headerlink" title="PCL中的表面重建"></a>PCL中的表面重建</h2><ol>
 <li><p>gp3</p>
 <p>greedy projection—贪婪投影算法</p>
@@ -400,7 +403,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        67
+                        68
                     </p>
                 </div>
             </div>
@@ -654,12 +657,20 @@
                 <span class="level-item">Reconstruction</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">4</span>
+                <span class="level-item tag">5</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Reconstruction/1-3D-Reconstruction/">
             <span class="level-start">
                 <span class="level-item">1.3D Reconstruction</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Reconstruction/1-3D-Reconstruction2/">
+            <span class="level-start">
+                <span class="level-item">1.3D Reconstruction2</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
@@ -673,9 +684,9 @@
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
-        <a class="level is-marginless" href="/categories/Reconstruction/3-3D-Reconstruction/">
+        <a class="level is-marginless" href="/categories/Reconstruction/3-3D-Reconstruction3/">
             <span class="level-start">
-                <span class="level-item">3.3D Reconstruction</span>
+                <span class="level-item">3.3D Reconstruction3</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
@@ -822,7 +833,7 @@
                 <span class="level-item">可视化</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">3</span>
+                <span class="level-item tag">5</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/可视化/glfw和cuda/">
@@ -846,7 +857,7 @@
                 <span class="level-item">learn OpenGL</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">3</span>
             </span>
         </a></li></ul></li><li>
         <a class="level is-marginless" href="/categories/图像/">
@@ -1012,7 +1023,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/3D-Reconstruction/" style="font-size: 11.25px;">3D Reconstruction</a> <a href="/tags/3D-scene-Reconstruction/" style="font-size: 10px;">3D scene Reconstruction</a> <a href="/tags/4PCS/" style="font-size: 10px;">4PCS</a> <a href="/tags/C/" style="font-size: 18.75px;">C++</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CV-Source/" style="font-size: 12.5px;">CV-Source</a> <a href="/tags/Deep-Learning/" style="font-size: 11.25px;">Deep Learning</a> <a href="/tags/Despriptors/" style="font-size: 10px;">Despriptors</a> <a href="/tags/Efficient-Sparse-ICP/" style="font-size: 10px;">Efficient Sparse ICP</a> <a href="/tags/FastICP/" style="font-size: 10px;">FastICP</a> <a href="/tags/GOICP/" style="font-size: 10px;">GOICP</a> <a href="/tags/Generalized-ICP/" style="font-size: 11.25px;">Generalized-ICP</a> <a href="/tags/Generic-Programming/" style="font-size: 10px;">Generic Programming</a> <a href="/tags/Hash-Map/" style="font-size: 10px;">Hash Map</a> <a href="/tags/ICP/" style="font-size: 15px;">ICP</a> <a href="/tags/LM/" style="font-size: 10px;">LM</a> <a href="/tags/Memory-Management/" style="font-size: 10px;">Memory Management</a> <a href="/tags/NDT/" style="font-size: 11.25px;">NDT</a> <a href="/tags/ObjectDetection/" style="font-size: 13.75px;">ObjectDetection</a> <a href="/tags/OpenGL/" style="font-size: 10px;">OpenGL</a> <a href="/tags/PCL/" style="font-size: 16.25px;">PCL</a> <a href="/tags/PoseEstimation/" style="font-size: 15px;">PoseEstimation</a> <a href="/tags/RANSAC/" style="font-size: 10px;">RANSAC</a> <a href="/tags/Reconstruction/" style="font-size: 12.5px;">Reconstruction</a> <a href="/tags/Registration/" style="font-size: 17.5px;">Registration</a> <a href="/tags/SAC-IA/" style="font-size: 10px;">SAC-IA</a> <a href="/tags/SFM/" style="font-size: 10px;">SFM</a> <a href="/tags/SSE/" style="font-size: 10px;">SSE</a> <a href="/tags/STL/" style="font-size: 11.25px;">STL</a> <a href="/tags/SVD/" style="font-size: 10px;">SVD</a> <a href="/tags/Segmentation/" style="font-size: 10px;">Segmentation</a> <a href="/tags/Sparse-ICP/" style="font-size: 10px;">Sparse ICP</a> <a href="/tags/Super4PCS/" style="font-size: 10px;">Super4PCS</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/git/" style="font-size: 11.25px;">git</a> <a href="/tags/glfw/" style="font-size: 11.25px;">glfw</a> <a href="/tags/hexo/" style="font-size: 11.25px;">hexo</a> <a href="/tags/keypoints/" style="font-size: 10px;">keypoints</a> <a href="/tags/mv-LM-ICP/" style="font-size: 10px;">mv-LM-ICP</a> <a href="/tags/std/" style="font-size: 10px;">std</a> <a href="/tags/surface-Reconstruction/" style="font-size: 10px;">surface Reconstruction</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/图像/" style="font-size: 11.25px;">图像</a> <a href="/tags/编程知识与VS错误/" style="font-size: 10px;">编程知识与VS错误</a>
+        <a href="/tags/3D-Reconstruction/" style="font-size: 12.22px;">3D Reconstruction</a> <a href="/tags/3D-scene-Reconstruction/" style="font-size: 10px;">3D scene Reconstruction</a> <a href="/tags/4PCS/" style="font-size: 10px;">4PCS</a> <a href="/tags/C/" style="font-size: 18.89px;">C++</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CV-Source/" style="font-size: 13.33px;">CV-Source</a> <a href="/tags/Deep-Learning/" style="font-size: 11.11px;">Deep Learning</a> <a href="/tags/Despriptors/" style="font-size: 10px;">Despriptors</a> <a href="/tags/Efficient-Sparse-ICP/" style="font-size: 10px;">Efficient Sparse ICP</a> <a href="/tags/FastICP/" style="font-size: 10px;">FastICP</a> <a href="/tags/GOICP/" style="font-size: 10px;">GOICP</a> <a href="/tags/Generalized-ICP/" style="font-size: 11.11px;">Generalized-ICP</a> <a href="/tags/Generic-Programming/" style="font-size: 10px;">Generic Programming</a> <a href="/tags/Hash-Map/" style="font-size: 10px;">Hash Map</a> <a href="/tags/ICP/" style="font-size: 15.56px;">ICP</a> <a href="/tags/LM/" style="font-size: 10px;">LM</a> <a href="/tags/Memory-Management/" style="font-size: 10px;">Memory Management</a> <a href="/tags/NDT/" style="font-size: 11.11px;">NDT</a> <a href="/tags/ObjectDetection/" style="font-size: 14.44px;">ObjectDetection</a> <a href="/tags/OpenGL/" style="font-size: 12.22px;">OpenGL</a> <a href="/tags/PCL/" style="font-size: 16.67px;">PCL</a> <a href="/tags/PoseEstimation/" style="font-size: 15.56px;">PoseEstimation</a> <a href="/tags/RANSAC/" style="font-size: 10px;">RANSAC</a> <a href="/tags/Reconstruction/" style="font-size: 14.44px;">Reconstruction</a> <a href="/tags/Registration/" style="font-size: 17.78px;">Registration</a> <a href="/tags/SAC-IA/" style="font-size: 10px;">SAC-IA</a> <a href="/tags/SFM/" style="font-size: 10px;">SFM</a> <a href="/tags/SSE/" style="font-size: 10px;">SSE</a> <a href="/tags/STL/" style="font-size: 11.11px;">STL</a> <a href="/tags/SVD/" style="font-size: 10px;">SVD</a> <a href="/tags/Segmentation/" style="font-size: 10px;">Segmentation</a> <a href="/tags/Sparse-ICP/" style="font-size: 10px;">Sparse ICP</a> <a href="/tags/Super4PCS/" style="font-size: 10px;">Super4PCS</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/git/" style="font-size: 11.11px;">git</a> <a href="/tags/glfw/" style="font-size: 11.11px;">glfw</a> <a href="/tags/hexo/" style="font-size: 11.11px;">hexo</a> <a href="/tags/keypoints/" style="font-size: 10px;">keypoints</a> <a href="/tags/mv-LM-ICP/" style="font-size: 10px;">mv-LM-ICP</a> <a href="/tags/std/" style="font-size: 10px;">std</a> <a href="/tags/surface-Reconstruction/" style="font-size: 10px;">surface Reconstruction</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/图像/" style="font-size: 11.11px;">图像</a> <a href="/tags/编程知识与VS错误/" style="font-size: 10px;">编程知识与VS错误</a>
     </div>
 </div>
 
@@ -1059,7 +1070,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-05-26T02:39:49.000Z">2021-05-26</time></div>
                     <a href="/2021/05/26/Reconstruction/3d_reconstruction3/" class="has-link-black-ter is-size-6">无标定立体视觉计算深度</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Reconstruction/">Reconstruction</a> / <a class="has-link-grey -link" href="/categories/Reconstruction/3-3D-Reconstruction/">3.3D Reconstruction</a>
+                        <a class="has-link-grey -link" href="/categories/Reconstruction/">Reconstruction</a> / <a class="has-link-grey -link" href="/categories/Reconstruction/3-3D-Reconstruction3/">3.3D Reconstruction3</a>
                     </p>
                 </div>
             </div>
@@ -1173,7 +1184,7 @@
                     <span class="level-item">一月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">4</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -1239,7 +1250,7 @@
                     <span class="level-item">六月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">13</span>
+                    <span class="level-item tag">14</span>
                 </span>
             </a>
         </li>
@@ -1282,7 +1293,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/3D-Reconstruction/">
                         <span class="tag">3D Reconstruction</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1415,7 +1426,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/OpenGL/">
                         <span class="tag">OpenGL</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1443,7 +1454,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Reconstruction/">
                         <span class="tag">Reconstruction</span>
-                        <span class="tag is-grey">4</span>
+                        <span class="tag is-grey">5</span>
                     </a>
                 </div>
                 
@@ -1642,7 +1653,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-05-26T02:39:49.000Z">2021-05-26</time></div>
                     <a href="/2021/05/26/Reconstruction/3d_reconstruction3/" class="has-link-black-ter is-size-6">无标定立体视觉计算深度</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Reconstruction/">Reconstruction</a> / <a class="has-link-grey -link" href="/categories/Reconstruction/3-3D-Reconstruction/">3.3D Reconstruction</a>
+                        <a class="has-link-grey -link" href="/categories/Reconstruction/">Reconstruction</a> / <a class="has-link-grey -link" href="/categories/Reconstruction/3-3D-Reconstruction3/">3.3D Reconstruction3</a>
                     </p>
                 </div>
             </div>
@@ -1756,7 +1767,7 @@
                     <span class="level-item">一月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">4</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -1822,7 +1833,7 @@
                     <span class="level-item">六月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">13</span>
+                    <span class="level-item tag">14</span>
                 </span>
             </a>
         </li>
@@ -1865,7 +1876,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/3D-Reconstruction/">
                         <span class="tag">3D Reconstruction</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1998,7 +2009,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/OpenGL/">
                         <span class="tag">OpenGL</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -2026,7 +2037,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Reconstruction/">
                         <span class="tag">Reconstruction</span>
-                        <span class="tag is-grey">4</span>
+                        <span class="tag is-grey">5</span>
                     </a>
                 </div>
                 

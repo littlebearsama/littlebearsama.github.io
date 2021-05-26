@@ -154,13 +154,17 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2021-04-01T02:22:00.833Z">2021-04-01</time>
+                <time class="level-item has-text-grey" datetime="2021-04-02T12:00:00.000Z">2021-04-02</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/PCL/">PCL</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/PCL/6-Algorithm-Time/">6.Algorithm Time</a>
+                </div>
                 
                 
                 <span class="level-item has-text-grey">
                     
                     
-                    4 分钟 读完 (大约 627 个字)
+                    1 分钟 读完 (大约 198 个字)
                 </span>
                 
                 
@@ -169,37 +173,83 @@
         
         <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
             
-                <a class="has-link-black-ter" href="/2021/04/01/OPENGL/OpenGLFQA/"></a>
+                <a class="has-link-black-ter" href="/2021/04/02/PCL/AlgorithmTime/">算法性能时间记录</a>
             
         </h1>
         <div class="content">
-            <h1 id="一、显示问题"><a href="#一、显示问题" class="headerlink" title="一、显示问题"></a>一、显示问题</h1><h2 id="1-OpenGL画点，为什么点的坐标值超出-1-1-范围就显示不了？？？"><a href="#1-OpenGL画点，为什么点的坐标值超出-1-1-范围就显示不了？？？" class="headerlink" title="1. OpenGL画点，为什么点的坐标值超出[-1,1]范围就显示不了？？？"></a>1. OpenGL画点，为什么点的坐标值超出[-1,1]范围就显示不了？？？</h2><p><a href="https://ask.csdn.net/questions/259655" target="_blank" rel="noopener">https://ask.csdn.net/questions/259655</a></p>
-<blockquote>
-<p>1.OpenGL工作在一个叫做NDC（Normalized Device Coordinates）的坐标系统下，在这个坐标系统中，x、y和z的值全部都坐落在[-1, +1]范围内，超出这个范围的点会被OpenGL忽略。因为我们直接使用OpenGL的NDC坐标系统，所以顶点坐标的值在-1到+1之间。</p>
-</blockquote>
-<blockquote>
-<p>2.设置投影模式，这样坐标就可以是超过-1到1了。Opengl的坐标是可以无限大的，通过设定视场大小来确定显示的范围，只有在视场范围内的坐标才能被看见，在视场之外的看不到。视场是可以用函数设定的。具体你要看看投影模式怎么回事。我很久没弄opengl了，具体也不太了解。</p>
-</blockquote>
-<h2 id="2-如何使用GLSL"><a href="#2-如何使用GLSL" class="headerlink" title="2. 如何使用GLSL"></a>2. 如何使用GLSL</h2><p>三大着色器：顶点、几何、片段</p>
-<p><a href="https://blog.csdn.net/baidu_28949227/article/details/91990567" target="_blank" rel="noopener">OpenGL顶点着色器、编译着色器、片段着色器</a></p>
-<p>boid.vert.glsl</p>
-<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#version 330</span></span><br><span class="line"></span><br><span class="line">in vec4 Position;</span><br><span class="line">in vec4 Velocity;</span><br><span class="line">out vec4 vFragColorVs;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    vFragColorVs = Velocity;</span><br><span class="line">    gl_Position = Position;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>使用in 关键字，在顶点着色器中声明所有的输入顶点属性。GLSL有一个向量数据类型，包含1到4个float分量。由于每个顶点都有一个3D坐标，我们就创建一个vec3输入变量aPos。<br>为了设置顶点着色器的输出，我们必须把位置数据赋值给<strong>预定义的gl_Position</strong>，它在幕后的vec4.<br>在main函数最后，我们将gl_Position设置的值会成为该顶点着色器的输出</p>
-<p>boid.geom.glsl</p>
-<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#version 330</span></span><br><span class="line"></span><br><span class="line">in vec4 vFragColor;</span><br><span class="line">out vec4 fragColor;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    fragColor.r = <span class="hljs-built_in">abs</span>(vFragColor.r);</span><br><span class="line">    fragColor.g = <span class="hljs-built_in">abs</span>(vFragColor.g);</span><br><span class="line">    fragColor.b = <span class="hljs-built_in">abs</span>(vFragColor.b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>boid.frag.glsl</p>
-<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#version 330</span></span><br><span class="line"></span><br><span class="line">uniform mat4 u_projMatrix;</span><br><span class="line"></span><br><span class="line">layout(points) in;</span><br><span class="line">layout(points) out;</span><br><span class="line">layout(max_vertices = <span class="hljs-number">1</span>) out;</span><br><span class="line"></span><br><span class="line">in vec4 vFragColorVs[];</span><br><span class="line">out vec4 vFragColor;</span><br><span class="line"></span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;</span><br><span class="line">    vec3 Position = gl_in[<span class="hljs-number">0</span>].gl_Position.xyz;</span><br><span class="line">    vFragColor = vFragColorVs[<span class="hljs-number">0</span>];</span><br><span class="line">    gl_Position = u_projMatrix * vec4(Position, <span class="hljs-number">1.0</span>);</span><br><span class="line">    EmitVertex();</span><br><span class="line">    EndPrimitive();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="3-其他显示问题"><a href="#3-其他显示问题" class="headerlink" title="3.其他显示问题"></a>3.其他显示问题</h2><p>glDrawElements</p>
-<p>原型：</p>
-<figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">glDrawElements</span><span class="hljs-params">(GLenum mode,GLsizei count,GLenum type,<span class="hljs-keyword">const</span> GLvoid *indices)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p>mode:接受的值和在glBegin()中接受的值一样，可以是GL_POLYGON、GL_TRIANGLES、GL_TRIANGLE_STRIP、GL_LINE_STRIP等。</p>
-<p>count：组合几何图形的元素的个数，一般是点的个数。</p>
-<p>type:indeices数组的数据类型，既然是索引，一般是整型的。</p>
-<p>indices:索引数组</p>
+            <h1 id="一、加载点云数据"><a href="#一、加载点云数据" class="headerlink" title="一、加载点云数据"></a>一、加载点云数据</h1><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>数据量</th>
+<th>时间</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LoadData（自己写的加载txt点云时间）</td>
+<td>32469（ASCII码txt文件）</td>
+<td>463ms</td>
+</tr>
+<tr>
+<td>pcl::io::loadPCDFile()</td>
+<td>32469（二进制pcd文件）</td>
+<td>2ms</td>
+</tr>
+<tr>
+<td>PCL加载ascii码</td>
+<td>32469（ASCII码pcd文件）</td>
+<td>452ms</td>
+</tr>
+<tr>
+<td>utilityCore::safeGetline(this-&gt;fp_in, line);（自己写的加载txt点云时间）</td>
+<td>32469（ASCII码txt文件）</td>
+<td>304ms</td>
+</tr>
+</tbody></table>
+<h1 id="二、迭代最近点ICP"><a href="#二、迭代最近点ICP" class="headerlink" title="二、迭代最近点ICP"></a>二、迭代最近点ICP</h1><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>数据量</th>
+<th>kdtree构建时间为</th>
+<th>迭代次数</th>
+<th>平均迭代时间（不算kdtree构建）</th>
+<th>时间</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>自己写的ICP（由于里面多了一些多余的复制操作导致比pcl的慢？）</td>
+<td>target:32469/source:24183</td>
+<td>4ms</td>
+<td>38</td>
+<td>118.8ms</td>
+<td>4516ms</td>
+</tr>
+<tr>
+<td>pcl::IterativeClosestPoint&lt;pcl::PointXYZ, pcl::PointXYZ&gt;</td>
+<td>target:32469/source:24183</td>
+<td>？</td>
+<td>38</td>
+<td>82.4ms</td>
+<td>3134ms</td>
+</tr>
+<tr>
+<td>自己写的cudaicp</td>
+<td>target:32469/source:24183</td>
+<td>61ms（与CPU版本的kdtree不同）</td>
+<td>43</td>
+<td>1.186ms</td>
+<td>112.112ms</td>
+</tr>
+<tr>
+<td><strong>自己写的cudaicp</strong></td>
+<td>target:600343/source:5992673</td>
+<td>1207ms</td>
+<td>59</td>
+<td>4.755ms</td>
+<td>1487.55ms</td>
+</tr>
+</tbody></table>
 
         </div>
         
@@ -231,7 +281,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    3 分钟 读完 (大约 461 个字)
+                    3 分钟 读完 (大约 462 个字)
                 </span>
                 
                 
@@ -244,7 +294,9 @@
             
         </h1>
         <div class="content">
-            <h1 id="Getting-Start"><a href="#Getting-Start" class="headerlink" title="Getting Start"></a><a href="https://www.glfw.org/docs/latest/quick_guide.html" target="_blank" rel="noopener">Getting Start</a></h1><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;glad/gl.h&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> GLFW_INCLUDE_NONE</span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;GLFW/glfw3.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">"linmath.h"</span></span></span><br><span class="line"> </span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-class"><span class="hljs-keyword">struct</span></span></span><br><span class="line"><span class="hljs-class">&#123;</span></span><br><span class="line">    <span class="hljs-keyword">float</span> x, y;</span><br><span class="line">    <span class="hljs-keyword">float</span> r, g, b;</span><br><span class="line">&#125; vertices[<span class="hljs-number">3</span>] =</span><br><span class="line">&#123;</span><br><span class="line">    &#123; <span class="hljs-number">-0.6f</span>, <span class="hljs-number">-0.4f</span>, <span class="hljs-number">1.f</span>, <span class="hljs-number">0.f</span>, <span class="hljs-number">0.f</span> &#125;,</span><br><span class="line">    &#123;  <span class="hljs-number">0.6f</span>, <span class="hljs-number">-0.4f</span>, <span class="hljs-number">0.f</span>, <span class="hljs-number">1.f</span>, <span class="hljs-number">0.f</span> &#125;,</span><br><span class="line">    &#123;   <span class="hljs-number">0.f</span>,  <span class="hljs-number">0.6f</span>, <span class="hljs-number">0.f</span>, <span class="hljs-number">0.f</span>, <span class="hljs-number">1.f</span> &#125;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* vertex_shader_text =</span><br><span class="line"><span class="hljs-string">"#version 110\n"</span></span><br><span class="line"><span class="hljs-string">"uniform mat4 MVP;\n"</span></span><br><span class="line"><span class="hljs-string">"attribute vec3 vCol;\n"</span></span><br><span class="line"><span class="hljs-string">"attribute vec2 vPos;\n"</span></span><br><span class="line"><span class="hljs-string">"varying vec3 color;\n"</span></span><br><span class="line"><span class="hljs-string">"void main()\n"</span></span><br><span class="line"><span class="hljs-string">"&#123;\n"</span></span><br><span class="line"><span class="hljs-string">"    gl_Position = MVP * vec4(vPos, 0.0, 1.0);\n"</span></span><br><span class="line"><span class="hljs-string">"    color = vCol;\n"</span></span><br><span class="line"><span class="hljs-string">"&#125;\n"</span>;</span><br><span class="line"> </span><br><span class="line"><span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* fragment_shader_text =</span><br><span class="line"><span class="hljs-string">"#version 110\n"</span></span><br><span class="line"><span class="hljs-string">"varying vec3 color;\n"</span></span><br><span class="line"><span class="hljs-string">"void main()\n"</span></span><br><span class="line"><span class="hljs-string">"&#123;\n"</span></span><br><span class="line"><span class="hljs-string">"    gl_FragColor = vec4(color, 1.0);\n"</span></span><br><span class="line"><span class="hljs-string">"&#125;\n"</span>;</span><br><span class="line"> </span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">error_callback</span><span class="hljs-params">(<span class="hljs-keyword">int</span> error, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* description)</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line">    <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">"Error: %s\n"</span>, description);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">key_callback</span><span class="hljs-params">(GLFWwindow* window, <span class="hljs-keyword">int</span> key, <span class="hljs-keyword">int</span> scancode, <span class="hljs-keyword">int</span> action, <span class="hljs-keyword">int</span> mods)</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line">    <span class="hljs-keyword">if</span> (key == GLFW_KEY_ESCAPE &amp;&amp; action == GLFW_PRESS)</span><br><span class="line">        glfwSetWindowShouldClose(window, GLFW_TRUE);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line">    GLFWwindow* window;</span><br><span class="line">    GLuint vertex_buffer, vertex_shader, fragment_shader, program;</span><br><span class="line">    GLint mvp_location, vpos_location, vcol_location;</span><br><span class="line"> </span><br><span class="line">    glfwSetErrorCallback(error_callback);</span><br><span class="line"> </span><br><span class="line">    <span class="hljs-keyword">if</span> (!glfwInit())</span><br><span class="line">        <span class="hljs-built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line"> </span><br><span class="line">    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, <span class="hljs-number">2</span>);</span><br><span class="line">    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, <span class="hljs-number">0</span>);</span><br><span class="line"> </span><br><span class="line">    window = glfwCreateWindow(<span class="hljs-number">640</span>, <span class="hljs-number">480</span>, <span class="hljs-string">"Simple example"</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);</span><br><span class="line">    <span class="hljs-keyword">if</span> (!window)</span><br><span class="line">    &#123;</span><br><span class="line">        glfwTerminate();</span><br><span class="line">        <span class="hljs-built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    glfwSetKeyCallback(window, key_callback);</span><br><span class="line"> </span><br><span class="line">    glfwMakeContextCurrent(window);</span><br><span class="line">    gladLoadGL(glfwGetProcAddress);</span><br><span class="line">    glfwSwapInterval(<span class="hljs-number">1</span>);</span><br><span class="line"> </span><br><span class="line">    <span class="hljs-comment">// <span class="hljs-doctag">NOTE:</span> OpenGL error checks have been omitted for brevity</span></span><br><span class="line"> </span><br><span class="line">    glGenBuffers(<span class="hljs-number">1</span>, &amp;vertex_buffer);</span><br><span class="line">    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);</span><br><span class="line">    glBufferData(GL_ARRAY_BUFFER, <span class="hljs-keyword">sizeof</span>(vertices), vertices, GL_STATIC_DRAW);</span><br><span class="line"> </span><br><span class="line">    vertex_shader = glCreateShader(GL_VERTEX_SHADER);</span><br><span class="line">    glShaderSource(vertex_shader, <span class="hljs-number">1</span>, &amp;vertex_shader_text, <span class="hljs-literal">NULL</span>);</span><br><span class="line">    glCompileShader(vertex_shader);</span><br><span class="line"> </span><br><span class="line">    fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);</span><br><span class="line">    glShaderSource(fragment_shader, <span class="hljs-number">1</span>, &amp;fragment_shader_text, <span class="hljs-literal">NULL</span>);</span><br><span class="line">    glCompileShader(fragment_shader);</span><br><span class="line"> </span><br><span class="line">    program = glCreateProgram();</span><br><span class="line">    glAttachShader(program, vertex_shader);</span><br><span class="line">    glAttachShader(program, fragment_shader);</span><br><span class="line">    glLinkProgram(program);</span><br><span class="line"> </span><br><span class="line">    mvp_location = glGetUniformLocation(program, <span class="hljs-string">"MVP"</span>);</span><br><span class="line">    vpos_location = glGetAttribLocation(program, <span class="hljs-string">"vPos"</span>);</span><br><span class="line">    vcol_location = glGetAttribLocation(program, <span class="hljs-string">"vCol"</span>);</span><br><span class="line"> </span><br><span class="line">    glEnableVertexAttribArray(vpos_location);</span><br><span class="line">    glVertexAttribPointer(vpos_location, <span class="hljs-number">2</span>, GL_FLOAT, GL_FALSE,</span><br><span class="line">                          <span class="hljs-keyword">sizeof</span>(vertices[<span class="hljs-number">0</span>]), (<span class="hljs-keyword">void</span>*) <span class="hljs-number">0</span>);</span><br><span class="line">    glEnableVertexAttribArray(vcol_location);</span><br><span class="line">    glVertexAttribPointer(vcol_location, <span class="hljs-number">3</span>, GL_FLOAT, GL_FALSE,</span><br><span class="line">                          <span class="hljs-keyword">sizeof</span>(vertices[<span class="hljs-number">0</span>]), (<span class="hljs-keyword">void</span>*) (<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">float</span>) * <span class="hljs-number">2</span>));</span><br><span class="line"> </span><br><span class="line">    <span class="hljs-keyword">while</span> (!glfwWindowShouldClose(window))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="hljs-keyword">float</span> ratio;</span><br><span class="line">        <span class="hljs-keyword">int</span> width, height;</span><br><span class="line">        mat4x4 m, p, mvp;</span><br><span class="line"> </span><br><span class="line">        glfwGetFramebufferSize(window, &amp;width, &amp;height);</span><br><span class="line">        ratio = width / (<span class="hljs-keyword">float</span>) height;</span><br><span class="line"> </span><br><span class="line">        glViewport(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, width, height);</span><br><span class="line">        glClear(GL_COLOR_BUFFER_BIT);</span><br><span class="line"> </span><br><span class="line">        mat4x4_identity(m);</span><br><span class="line">        mat4x4_rotate_Z(m, m, (<span class="hljs-keyword">float</span>) glfwGetTime());</span><br><span class="line">        mat4x4_ortho(p, -ratio, ratio, <span class="hljs-number">-1.f</span>, <span class="hljs-number">1.f</span>, <span class="hljs-number">1.f</span>, <span class="hljs-number">-1.f</span>);</span><br><span class="line">        mat4x4_mul(mvp, p, m);</span><br><span class="line"> </span><br><span class="line">        glUseProgram(program);</span><br><span class="line">        glUniformMatrix4fv(mvp_location, <span class="hljs-number">1</span>, GL_FALSE, (<span class="hljs-keyword">const</span> GLfloat*) mvp);</span><br><span class="line">        glDrawArrays(GL_TRIANGLES, <span class="hljs-number">0</span>, <span class="hljs-number">3</span>);</span><br><span class="line"> </span><br><span class="line">        glfwSwapBuffers(window);</span><br><span class="line">        glfwPollEvents();</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    glfwDestroyWindow(window);</span><br><span class="line"> </span><br><span class="line">    glfwTerminate();</span><br><span class="line">    <span class="hljs-built_in">exit</span>(EXIT_SUCCESS);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+            <a id="more"></a>
+
+<h1 id="Getting-Start"><a href="#Getting-Start" class="headerlink" title="Getting Start"></a><a href="https://www.glfw.org/docs/latest/quick_guide.html" target="_blank" rel="noopener">Getting Start</a></h1><figure class="highlight c++ hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;glad/gl.h&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> GLFW_INCLUDE_NONE</span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;GLFW/glfw3.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">"linmath.h"</span></span></span><br><span class="line"> </span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"> </span><br><span class="line"><span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-class"><span class="hljs-keyword">struct</span></span></span><br><span class="line"><span class="hljs-class">&#123;</span></span><br><span class="line">    <span class="hljs-keyword">float</span> x, y;</span><br><span class="line">    <span class="hljs-keyword">float</span> r, g, b;</span><br><span class="line">&#125; vertices[<span class="hljs-number">3</span>] =</span><br><span class="line">&#123;</span><br><span class="line">    &#123; <span class="hljs-number">-0.6f</span>, <span class="hljs-number">-0.4f</span>, <span class="hljs-number">1.f</span>, <span class="hljs-number">0.f</span>, <span class="hljs-number">0.f</span> &#125;,</span><br><span class="line">    &#123;  <span class="hljs-number">0.6f</span>, <span class="hljs-number">-0.4f</span>, <span class="hljs-number">0.f</span>, <span class="hljs-number">1.f</span>, <span class="hljs-number">0.f</span> &#125;,</span><br><span class="line">    &#123;   <span class="hljs-number">0.f</span>,  <span class="hljs-number">0.6f</span>, <span class="hljs-number">0.f</span>, <span class="hljs-number">0.f</span>, <span class="hljs-number">1.f</span> &#125;</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* vertex_shader_text =</span><br><span class="line"><span class="hljs-string">"#version 110\n"</span></span><br><span class="line"><span class="hljs-string">"uniform mat4 MVP;\n"</span></span><br><span class="line"><span class="hljs-string">"attribute vec3 vCol;\n"</span></span><br><span class="line"><span class="hljs-string">"attribute vec2 vPos;\n"</span></span><br><span class="line"><span class="hljs-string">"varying vec3 color;\n"</span></span><br><span class="line"><span class="hljs-string">"void main()\n"</span></span><br><span class="line"><span class="hljs-string">"&#123;\n"</span></span><br><span class="line"><span class="hljs-string">"    gl_Position = MVP * vec4(vPos, 0.0, 1.0);\n"</span></span><br><span class="line"><span class="hljs-string">"    color = vCol;\n"</span></span><br><span class="line"><span class="hljs-string">"&#125;\n"</span>;</span><br><span class="line"> </span><br><span class="line"><span class="hljs-keyword">static</span> <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* fragment_shader_text =</span><br><span class="line"><span class="hljs-string">"#version 110\n"</span></span><br><span class="line"><span class="hljs-string">"varying vec3 color;\n"</span></span><br><span class="line"><span class="hljs-string">"void main()\n"</span></span><br><span class="line"><span class="hljs-string">"&#123;\n"</span></span><br><span class="line"><span class="hljs-string">"    gl_FragColor = vec4(color, 1.0);\n"</span></span><br><span class="line"><span class="hljs-string">"&#125;\n"</span>;</span><br><span class="line"> </span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">error_callback</span><span class="hljs-params">(<span class="hljs-keyword">int</span> error, <span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* description)</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line">    <span class="hljs-built_in">fprintf</span>(<span class="hljs-built_in">stderr</span>, <span class="hljs-string">"Error: %s\n"</span>, description);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">key_callback</span><span class="hljs-params">(GLFWwindow* window, <span class="hljs-keyword">int</span> key, <span class="hljs-keyword">int</span> scancode, <span class="hljs-keyword">int</span> action, <span class="hljs-keyword">int</span> mods)</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line">    <span class="hljs-keyword">if</span> (key == GLFW_KEY_ESCAPE &amp;&amp; action == GLFW_PRESS)</span><br><span class="line">        glfwSetWindowShouldClose(window, GLFW_TRUE);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span></span><br><span class="line"><span class="hljs-function"></span>&#123;</span><br><span class="line">    GLFWwindow* window;</span><br><span class="line">    GLuint vertex_buffer, vertex_shader, fragment_shader, program;</span><br><span class="line">    GLint mvp_location, vpos_location, vcol_location;</span><br><span class="line"> </span><br><span class="line">    glfwSetErrorCallback(error_callback);</span><br><span class="line"> </span><br><span class="line">    <span class="hljs-keyword">if</span> (!glfwInit())</span><br><span class="line">        <span class="hljs-built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line"> </span><br><span class="line">    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, <span class="hljs-number">2</span>);</span><br><span class="line">    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, <span class="hljs-number">0</span>);</span><br><span class="line"> </span><br><span class="line">    window = glfwCreateWindow(<span class="hljs-number">640</span>, <span class="hljs-number">480</span>, <span class="hljs-string">"Simple example"</span>, <span class="hljs-literal">NULL</span>, <span class="hljs-literal">NULL</span>);</span><br><span class="line">    <span class="hljs-keyword">if</span> (!window)</span><br><span class="line">    &#123;</span><br><span class="line">        glfwTerminate();</span><br><span class="line">        <span class="hljs-built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    glfwSetKeyCallback(window, key_callback);</span><br><span class="line"> </span><br><span class="line">    glfwMakeContextCurrent(window);</span><br><span class="line">    gladLoadGL(glfwGetProcAddress);</span><br><span class="line">    glfwSwapInterval(<span class="hljs-number">1</span>);</span><br><span class="line"> </span><br><span class="line">    <span class="hljs-comment">// <span class="hljs-doctag">NOTE:</span> OpenGL error checks have been omitted for brevity</span></span><br><span class="line"> </span><br><span class="line">    glGenBuffers(<span class="hljs-number">1</span>, &amp;vertex_buffer);</span><br><span class="line">    glBindBuffer(GL_ARRAY_BUFFER, vertex_buffer);</span><br><span class="line">    glBufferData(GL_ARRAY_BUFFER, <span class="hljs-keyword">sizeof</span>(vertices), vertices, GL_STATIC_DRAW);</span><br><span class="line"> </span><br><span class="line">    vertex_shader = glCreateShader(GL_VERTEX_SHADER);</span><br><span class="line">    glShaderSource(vertex_shader, <span class="hljs-number">1</span>, &amp;vertex_shader_text, <span class="hljs-literal">NULL</span>);</span><br><span class="line">    glCompileShader(vertex_shader);</span><br><span class="line"> </span><br><span class="line">    fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);</span><br><span class="line">    glShaderSource(fragment_shader, <span class="hljs-number">1</span>, &amp;fragment_shader_text, <span class="hljs-literal">NULL</span>);</span><br><span class="line">    glCompileShader(fragment_shader);</span><br><span class="line"> </span><br><span class="line">    program = glCreateProgram();</span><br><span class="line">    glAttachShader(program, vertex_shader);</span><br><span class="line">    glAttachShader(program, fragment_shader);</span><br><span class="line">    glLinkProgram(program);</span><br><span class="line"> </span><br><span class="line">    mvp_location = glGetUniformLocation(program, <span class="hljs-string">"MVP"</span>);</span><br><span class="line">    vpos_location = glGetAttribLocation(program, <span class="hljs-string">"vPos"</span>);</span><br><span class="line">    vcol_location = glGetAttribLocation(program, <span class="hljs-string">"vCol"</span>);</span><br><span class="line"> </span><br><span class="line">    glEnableVertexAttribArray(vpos_location);</span><br><span class="line">    glVertexAttribPointer(vpos_location, <span class="hljs-number">2</span>, GL_FLOAT, GL_FALSE,</span><br><span class="line">                          <span class="hljs-keyword">sizeof</span>(vertices[<span class="hljs-number">0</span>]), (<span class="hljs-keyword">void</span>*) <span class="hljs-number">0</span>);</span><br><span class="line">    glEnableVertexAttribArray(vcol_location);</span><br><span class="line">    glVertexAttribPointer(vcol_location, <span class="hljs-number">3</span>, GL_FLOAT, GL_FALSE,</span><br><span class="line">                          <span class="hljs-keyword">sizeof</span>(vertices[<span class="hljs-number">0</span>]), (<span class="hljs-keyword">void</span>*) (<span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">float</span>) * <span class="hljs-number">2</span>));</span><br><span class="line"> </span><br><span class="line">    <span class="hljs-keyword">while</span> (!glfwWindowShouldClose(window))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="hljs-keyword">float</span> ratio;</span><br><span class="line">        <span class="hljs-keyword">int</span> width, height;</span><br><span class="line">        mat4x4 m, p, mvp;</span><br><span class="line"> </span><br><span class="line">        glfwGetFramebufferSize(window, &amp;width, &amp;height);</span><br><span class="line">        ratio = width / (<span class="hljs-keyword">float</span>) height;</span><br><span class="line"> </span><br><span class="line">        glViewport(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, width, height);</span><br><span class="line">        glClear(GL_COLOR_BUFFER_BIT);</span><br><span class="line"> </span><br><span class="line">        mat4x4_identity(m);</span><br><span class="line">        mat4x4_rotate_Z(m, m, (<span class="hljs-keyword">float</span>) glfwGetTime());</span><br><span class="line">        mat4x4_ortho(p, -ratio, ratio, <span class="hljs-number">-1.f</span>, <span class="hljs-number">1.f</span>, <span class="hljs-number">1.f</span>, <span class="hljs-number">-1.f</span>);</span><br><span class="line">        mat4x4_mul(mvp, p, m);</span><br><span class="line"> </span><br><span class="line">        glUseProgram(program);</span><br><span class="line">        glUniformMatrix4fv(mvp_location, <span class="hljs-number">1</span>, GL_FALSE, (<span class="hljs-keyword">const</span> GLfloat*) mvp);</span><br><span class="line">        glDrawArrays(GL_TRIANGLES, <span class="hljs-number">0</span>, <span class="hljs-number">3</span>);</span><br><span class="line"> </span><br><span class="line">        glfwSwapBuffers(window);</span><br><span class="line">        glfwPollEvents();</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    glfwDestroyWindow(window);</span><br><span class="line"> </span><br><span class="line">    glfwTerminate();</span><br><span class="line">    <span class="hljs-built_in">exit</span>(EXIT_SUCCESS);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h1 id="Introduction-to-the-API"><a href="#Introduction-to-the-API" class="headerlink" title="Introduction to the API"></a><a href="https://www.glfw.org/docs/latest/intro_guide.html" target="_blank" rel="noopener">Introduction to the API</a></h1><h1 id="Window-guide"><a href="#Window-guide" class="headerlink" title="Window guide"></a><a href="https://www.glfw.org/docs/latest/window_guide.html" target="_blank" rel="noopener">Window guide</a></h1><h1 id="Context-guide"><a href="#Context-guide" class="headerlink" title="Context guide"></a><a href="https://www.glfw.org/docs/latest/context_guide.html" target="_blank" rel="noopener">Context guide</a></h1><h1 id="Monitor-guide"><a href="#Monitor-guide" class="headerlink" title="Monitor guide"></a><a href="https://www.glfw.org/docs/latest/monitor_guide.html" target="_blank" rel="noopener">Monitor guide</a></h1><h1 id="Input-guide"><a href="#Input-guide" class="headerlink" title="Input guide"></a><a href="https://www.glfw.org/docs/latest/input_guide.html" target="_blank" rel="noopener">Input guide</a></h1>
         </div>
@@ -277,7 +329,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    23 分钟 读完 (大约 3518 个字)
+                    23 分钟 读完 (大约 3519 个字)
                 </span>
                 
                 
@@ -290,7 +342,9 @@
             
         </h1>
         <div class="content">
-            <h1 id="OpenGL与CUDA互操作"><a href="#OpenGL与CUDA互操作" class="headerlink" title="OpenGL与CUDA互操作"></a>OpenGL与CUDA互操作</h1><h2 id="0-基本概念："><a href="#0-基本概念：" class="headerlink" title="0. 基本概念："></a>0. <a href="https://blog.csdn.net/dcrmg/article/details/53556664" target="_blank" rel="noopener">基本概念：</a></h2><h3 id="VBO：顶点缓冲对象（Vertex-Buffer-Objects，VBO）"><a href="#VBO：顶点缓冲对象（Vertex-Buffer-Objects，VBO）" class="headerlink" title="VBO：顶点缓冲对象（Vertex Buffer Objects，VBO）"></a>VBO：顶点缓冲对象（Vertex Buffer Objects，VBO）</h3><p>顶点缓冲对象VBO是在显卡存储空间中开辟出的一块内存缓存区，用于存储顶点的各类属性信息，如顶点坐标，顶点法向量，顶点颜色数据等。在渲染时，可以直接从VBO中取出顶点的各类属性数据，由于VBO在显存而不是在内存中，不需要从CPU传输数据，处理效率更高。</p>
+            <a id="more"></a>
+
+<h1 id="OpenGL与CUDA互操作"><a href="#OpenGL与CUDA互操作" class="headerlink" title="OpenGL与CUDA互操作"></a>OpenGL与CUDA互操作</h1><h2 id="0-基本概念："><a href="#0-基本概念：" class="headerlink" title="0. 基本概念："></a>0. <a href="https://blog.csdn.net/dcrmg/article/details/53556664" target="_blank" rel="noopener">基本概念：</a></h2><h3 id="VBO：顶点缓冲对象（Vertex-Buffer-Objects，VBO）"><a href="#VBO：顶点缓冲对象（Vertex-Buffer-Objects，VBO）" class="headerlink" title="VBO：顶点缓冲对象（Vertex Buffer Objects，VBO）"></a>VBO：顶点缓冲对象（Vertex Buffer Objects，VBO）</h3><p>顶点缓冲对象VBO是在显卡存储空间中开辟出的一块内存缓存区，用于存储顶点的各类属性信息，如顶点坐标，顶点法向量，顶点颜色数据等。在渲染时，可以直接从VBO中取出顶点的各类属性数据，由于VBO在显存而不是在内存中，不需要从CPU传输数据，处理效率更高。</p>
 <p>所以可以理解为VBO就是显存中的一个存储区域，可以保持大量的顶点属性信息。并且可以开辟很多个VBO，每个VBO在OpenGL中有它的唯一标识ID，这个ID对应着具体的VBO的显存地址，通过这个ID可以对特定的VBO内的数据进行存取操作。</p>
 <p><strong>VBO的创建以及配置</strong></p>
 <p>创建VBO的第一步需要开辟（声明/获得）显存空间并分配VBO的ID：</p>
@@ -529,51 +583,6 @@
         
         <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
             <div class="level-left">
-                <time class="level-item has-text-grey" datetime="2021-01-17T14:40:04.552Z">2021-01-17</time>
-                
-                
-                <span class="level-item has-text-grey">
-                    
-                    
-                    1 分钟 读完 (大约 118 个字)
-                </span>
-                
-                
-            </div>
-        </div>
-        
-        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
-            
-                <a class="has-link-black-ter" href="/2021/01/17/Reconstruction/3d_reconstruction2/"></a>
-            
-        </h1>
-        <div class="content">
-            <p>知识星球（3D视觉工坊）吴博课程笔记</p>
-<p>解决左右相机匹配，通过投影机投影标记信息来标记物体的每个点的位置。</p>
-<p>相关人：</p>
-<p>南京理工大学左超教授</p>
-<p>主讲嘉宾：吴博，四川大学三维传感与机器视觉实验室博士研究生,研究方向为便携式三维测量、高速三维形貌及形变测量。</p>
-
-        </div>
-        
-        
-        
-    </div>
-</div>
-
-
-
-
-
-
-
-
-    <div class="card">
-    
-    <div class="card-content article ">
-        
-        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
-            <div class="level-left">
                 <time class="level-item has-text-grey" datetime="2021-01-17T14:38:14.000Z">2021-01-17</time>
                 
                 <div class="level-item">
@@ -763,6 +772,50 @@
 
 
 
+    <div class="card">
+    
+    <div class="card-content article ">
+        
+        <div class="level article-meta is-size-7 is-uppercase is-mobile is-overflow-x-auto">
+            <div class="level-left">
+                <time class="level-item has-text-grey" datetime="2020-07-13T15:10:33.000Z">2020-07-13</time>
+                
+                <div class="level-item">
+                <a class="has-link-grey -link" href="/categories/编程/">编程</a>&nbsp;/&nbsp;<a class="has-link-grey -link" href="/categories/编程/Memory-Management/">Memory Management</a>
+                </div>
+                
+                
+                <span class="level-item has-text-grey">
+                    
+                    
+                    几秒 读完 (大约 1 个字)
+                </span>
+                
+                
+            </div>
+        </div>
+        
+        <h1 class="title is-size-3 is-size-4-mobile has-text-weight-normal">
+            
+                <a class="has-link-black-ter" href="/2020/07/13/C++/MemoryManagement/MemoryManagement1/">C++ 内存管理1</a>
+            
+        </h1>
+        <div class="content">
+            <a id="more"></a>
+        </div>
+        
+        
+        
+    </div>
+</div>
+
+
+
+
+
+
+
+
 
     
 <div class="card card-transparent">
@@ -841,7 +894,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        67
+                        68
                     </p>
                 </div>
             </div>
@@ -1095,12 +1148,20 @@
                 <span class="level-item">Reconstruction</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">4</span>
+                <span class="level-item tag">5</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/Reconstruction/1-3D-Reconstruction/">
             <span class="level-start">
                 <span class="level-item">1.3D Reconstruction</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/Reconstruction/1-3D-Reconstruction2/">
+            <span class="level-start">
+                <span class="level-item">1.3D Reconstruction2</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
@@ -1114,9 +1175,9 @@
                 <span class="level-item tag">1</span>
             </span>
         </a></li><li>
-        <a class="level is-marginless" href="/categories/Reconstruction/3-3D-Reconstruction/">
+        <a class="level is-marginless" href="/categories/Reconstruction/3-3D-Reconstruction3/">
             <span class="level-start">
-                <span class="level-item">3.3D Reconstruction</span>
+                <span class="level-item">3.3D Reconstruction3</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
@@ -1263,7 +1324,7 @@
                 <span class="level-item">可视化</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">3</span>
+                <span class="level-item tag">5</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/可视化/glfw和cuda/">
@@ -1287,7 +1348,7 @@
                 <span class="level-item">learn OpenGL</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">1</span>
+                <span class="level-item tag">3</span>
             </span>
         </a></li></ul></li><li>
         <a class="level is-marginless" href="/categories/图像/">
@@ -1453,7 +1514,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/3D-Reconstruction/" style="font-size: 11.25px;">3D Reconstruction</a> <a href="/tags/3D-scene-Reconstruction/" style="font-size: 10px;">3D scene Reconstruction</a> <a href="/tags/4PCS/" style="font-size: 10px;">4PCS</a> <a href="/tags/C/" style="font-size: 18.75px;">C++</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CV-Source/" style="font-size: 12.5px;">CV-Source</a> <a href="/tags/Deep-Learning/" style="font-size: 11.25px;">Deep Learning</a> <a href="/tags/Despriptors/" style="font-size: 10px;">Despriptors</a> <a href="/tags/Efficient-Sparse-ICP/" style="font-size: 10px;">Efficient Sparse ICP</a> <a href="/tags/FastICP/" style="font-size: 10px;">FastICP</a> <a href="/tags/GOICP/" style="font-size: 10px;">GOICP</a> <a href="/tags/Generalized-ICP/" style="font-size: 11.25px;">Generalized-ICP</a> <a href="/tags/Generic-Programming/" style="font-size: 10px;">Generic Programming</a> <a href="/tags/Hash-Map/" style="font-size: 10px;">Hash Map</a> <a href="/tags/ICP/" style="font-size: 15px;">ICP</a> <a href="/tags/LM/" style="font-size: 10px;">LM</a> <a href="/tags/Memory-Management/" style="font-size: 10px;">Memory Management</a> <a href="/tags/NDT/" style="font-size: 11.25px;">NDT</a> <a href="/tags/ObjectDetection/" style="font-size: 13.75px;">ObjectDetection</a> <a href="/tags/OpenGL/" style="font-size: 10px;">OpenGL</a> <a href="/tags/PCL/" style="font-size: 16.25px;">PCL</a> <a href="/tags/PoseEstimation/" style="font-size: 15px;">PoseEstimation</a> <a href="/tags/RANSAC/" style="font-size: 10px;">RANSAC</a> <a href="/tags/Reconstruction/" style="font-size: 12.5px;">Reconstruction</a> <a href="/tags/Registration/" style="font-size: 17.5px;">Registration</a> <a href="/tags/SAC-IA/" style="font-size: 10px;">SAC-IA</a> <a href="/tags/SFM/" style="font-size: 10px;">SFM</a> <a href="/tags/SSE/" style="font-size: 10px;">SSE</a> <a href="/tags/STL/" style="font-size: 11.25px;">STL</a> <a href="/tags/SVD/" style="font-size: 10px;">SVD</a> <a href="/tags/Segmentation/" style="font-size: 10px;">Segmentation</a> <a href="/tags/Sparse-ICP/" style="font-size: 10px;">Sparse ICP</a> <a href="/tags/Super4PCS/" style="font-size: 10px;">Super4PCS</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/git/" style="font-size: 11.25px;">git</a> <a href="/tags/glfw/" style="font-size: 11.25px;">glfw</a> <a href="/tags/hexo/" style="font-size: 11.25px;">hexo</a> <a href="/tags/keypoints/" style="font-size: 10px;">keypoints</a> <a href="/tags/mv-LM-ICP/" style="font-size: 10px;">mv-LM-ICP</a> <a href="/tags/std/" style="font-size: 10px;">std</a> <a href="/tags/surface-Reconstruction/" style="font-size: 10px;">surface Reconstruction</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/图像/" style="font-size: 11.25px;">图像</a> <a href="/tags/编程知识与VS错误/" style="font-size: 10px;">编程知识与VS错误</a>
+        <a href="/tags/3D-Reconstruction/" style="font-size: 12.22px;">3D Reconstruction</a> <a href="/tags/3D-scene-Reconstruction/" style="font-size: 10px;">3D scene Reconstruction</a> <a href="/tags/4PCS/" style="font-size: 10px;">4PCS</a> <a href="/tags/C/" style="font-size: 18.89px;">C++</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CV-Source/" style="font-size: 13.33px;">CV-Source</a> <a href="/tags/Deep-Learning/" style="font-size: 11.11px;">Deep Learning</a> <a href="/tags/Despriptors/" style="font-size: 10px;">Despriptors</a> <a href="/tags/Efficient-Sparse-ICP/" style="font-size: 10px;">Efficient Sparse ICP</a> <a href="/tags/FastICP/" style="font-size: 10px;">FastICP</a> <a href="/tags/GOICP/" style="font-size: 10px;">GOICP</a> <a href="/tags/Generalized-ICP/" style="font-size: 11.11px;">Generalized-ICP</a> <a href="/tags/Generic-Programming/" style="font-size: 10px;">Generic Programming</a> <a href="/tags/Hash-Map/" style="font-size: 10px;">Hash Map</a> <a href="/tags/ICP/" style="font-size: 15.56px;">ICP</a> <a href="/tags/LM/" style="font-size: 10px;">LM</a> <a href="/tags/Memory-Management/" style="font-size: 10px;">Memory Management</a> <a href="/tags/NDT/" style="font-size: 11.11px;">NDT</a> <a href="/tags/ObjectDetection/" style="font-size: 14.44px;">ObjectDetection</a> <a href="/tags/OpenGL/" style="font-size: 12.22px;">OpenGL</a> <a href="/tags/PCL/" style="font-size: 16.67px;">PCL</a> <a href="/tags/PoseEstimation/" style="font-size: 15.56px;">PoseEstimation</a> <a href="/tags/RANSAC/" style="font-size: 10px;">RANSAC</a> <a href="/tags/Reconstruction/" style="font-size: 14.44px;">Reconstruction</a> <a href="/tags/Registration/" style="font-size: 17.78px;">Registration</a> <a href="/tags/SAC-IA/" style="font-size: 10px;">SAC-IA</a> <a href="/tags/SFM/" style="font-size: 10px;">SFM</a> <a href="/tags/SSE/" style="font-size: 10px;">SSE</a> <a href="/tags/STL/" style="font-size: 11.11px;">STL</a> <a href="/tags/SVD/" style="font-size: 10px;">SVD</a> <a href="/tags/Segmentation/" style="font-size: 10px;">Segmentation</a> <a href="/tags/Sparse-ICP/" style="font-size: 10px;">Sparse ICP</a> <a href="/tags/Super4PCS/" style="font-size: 10px;">Super4PCS</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/git/" style="font-size: 11.11px;">git</a> <a href="/tags/glfw/" style="font-size: 11.11px;">glfw</a> <a href="/tags/hexo/" style="font-size: 11.11px;">hexo</a> <a href="/tags/keypoints/" style="font-size: 10px;">keypoints</a> <a href="/tags/mv-LM-ICP/" style="font-size: 10px;">mv-LM-ICP</a> <a href="/tags/std/" style="font-size: 10px;">std</a> <a href="/tags/surface-Reconstruction/" style="font-size: 10px;">surface Reconstruction</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/图像/" style="font-size: 11.11px;">图像</a> <a href="/tags/编程知识与VS错误/" style="font-size: 10px;">编程知识与VS错误</a>
     </div>
 </div>
 
@@ -1500,7 +1561,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-05-26T02:39:49.000Z">2021-05-26</time></div>
                     <a href="/2021/05/26/Reconstruction/3d_reconstruction3/" class="has-link-black-ter is-size-6">无标定立体视觉计算深度</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Reconstruction/">Reconstruction</a> / <a class="has-link-grey -link" href="/categories/Reconstruction/3-3D-Reconstruction/">3.3D Reconstruction</a>
+                        <a class="has-link-grey -link" href="/categories/Reconstruction/">Reconstruction</a> / <a class="has-link-grey -link" href="/categories/Reconstruction/3-3D-Reconstruction3/">3.3D Reconstruction3</a>
                     </p>
                 </div>
             </div>
@@ -1614,7 +1675,7 @@
                     <span class="level-item">一月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">4</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -1680,7 +1741,7 @@
                     <span class="level-item">六月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">13</span>
+                    <span class="level-item tag">14</span>
                 </span>
             </a>
         </li>
@@ -1723,7 +1784,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/3D-Reconstruction/">
                         <span class="tag">3D Reconstruction</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1856,7 +1917,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/OpenGL/">
                         <span class="tag">OpenGL</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -1884,7 +1945,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Reconstruction/">
                         <span class="tag">Reconstruction</span>
-                        <span class="tag is-grey">4</span>
+                        <span class="tag is-grey">5</span>
                     </a>
                 </div>
                 
@@ -2083,7 +2144,7 @@
                     <div><time class="has-text-grey is-size-7 is-uppercase" datetime="2021-05-26T02:39:49.000Z">2021-05-26</time></div>
                     <a href="/2021/05/26/Reconstruction/3d_reconstruction3/" class="has-link-black-ter is-size-6">无标定立体视觉计算深度</a>
                     <p class="is-size-7 is-uppercase">
-                        <a class="has-link-grey -link" href="/categories/Reconstruction/">Reconstruction</a> / <a class="has-link-grey -link" href="/categories/Reconstruction/3-3D-Reconstruction/">3.3D Reconstruction</a>
+                        <a class="has-link-grey -link" href="/categories/Reconstruction/">Reconstruction</a> / <a class="has-link-grey -link" href="/categories/Reconstruction/3-3D-Reconstruction3/">3.3D Reconstruction3</a>
                     </p>
                 </div>
             </div>
@@ -2197,7 +2258,7 @@
                     <span class="level-item">一月 2021</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">4</span>
+                    <span class="level-item tag">3</span>
                 </span>
             </a>
         </li>
@@ -2263,7 +2324,7 @@
                     <span class="level-item">六月 2019</span>
                 </span>
                 <span class="level-end">
-                    <span class="level-item tag">13</span>
+                    <span class="level-item tag">14</span>
                 </span>
             </a>
         </li>
@@ -2306,7 +2367,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/3D-Reconstruction/">
                         <span class="tag">3D Reconstruction</span>
-                        <span class="tag is-grey">2</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -2439,7 +2500,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/OpenGL/">
                         <span class="tag">OpenGL</span>
-                        <span class="tag is-grey">1</span>
+                        <span class="tag is-grey">3</span>
                     </a>
                 </div>
                 
@@ -2467,7 +2528,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/Reconstruction/">
                         <span class="tag">Reconstruction</span>
-                        <span class="tag is-grey">4</span>
+                        <span class="tag is-grey">5</span>
                     </a>
                 </div>
                 
