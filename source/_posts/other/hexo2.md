@@ -13,67 +13,90 @@ categories: [hexo]
 
 ## 在两台电脑上面更新hexo博客
 
-实现思路：hexo d上传部署到github的其实是hexo编译后的文件，用来生成网页的，不包含源文件，上传的是.depoly_git里面的东西。
+亲测成功：
 
-利用git分支实现，将整个hexo博客文件夹内容push到新建分支（本博客新分支名字为hexosource）。
+https://blog.csdn.net/qq_30105599/article/details/118302086
 
-我们现在将源文件（source、配置文件、主题文件）上传到仓库的新的分支。
+在利用Hexo+Github Pages写我们的博客的时候，真正的原始Hexo文件在我们的电脑本地，而GitHub上传的只是Hexo生成的静态网页，即public文件夹里面的内容。
 
-步骤：
+那么假如我们有两台电脑工作，Hexo最开始搭建在其中一台电脑上，而我们需要在另外一台电脑上同时更新我们的博客，该怎么做呢？
 
-1. 在GitHub中创建一个私有仓库hexoblog_source，设为私有。
+也就是说，我们需要实现多台电脑间博客项目的迁移与同步。为实现这一点，我们可以利用Git的分支。
 
-2. 在本地中新建文件夹hexosource，创建一个仓库
+### 1. 创建分支
 
-   ```
-   git init
-   git add README.md
-   git commit -m "first commit"
-   git remote add origin git@github.com:littlebearsama/hexoblog_source.git
-   git push -u origin master
-   ```
+博客搭建好后(博客搭建教程见——利用Hexo框架从零开始搭建个人博客 - 江客 (jettsblog.top))，我们在Github上创建分支
 
-3. 创建一个新的分支xiaoxiong
+* 创建一个名为hexo的分支
 
-   $ git checkout -b xiaoxiong
+* 设置hexo分支为默认分支
+  将博客项目仓库的Settings->Branches->Default branch修改为hexo
 
-4. 将hexo的文件夹整个复制过来，将所有文件添加到暂存区
+### 2. 将创建的分支（hexo）的远程仓库克隆到本地
 
-   ![](hexo2/1.png)
+* 删去除.git文件夹以外的所有你内容
+* 在克隆的仓库下分别执行以下命令更新删除操作到远程
 
-   > git add littlebear_hexoblog/
-   >
-   > git ls-files 显示暂存区内容
-   >
-   > git commit -m "add  littlebear_hexoblog"
+> git add -A
+> git commit -m "--"
+> git push origin hexo
 
-   >  git push --set-upstream origin xiaoxiong
+* 将分支克隆到本地的仓库中的.git文件夹复制到博客文件夹中
 
-   
+* 在博客目录下执行命令同步到远程的hexo分支
 
-5. 在github的xxx.github.io仓库上新建一个hexo分支，并切换到改分支，并在仓库-->setting--->Branches--->Default中将默认分支设为hexo（之前默认分支为master）,update保存。
+>git add -A
+>git commit -m "备份Hexo(提交的描述)"
+>git push origin hexo
 
-   这样每次同步的时候就不用指定分支，比较方便。
+### 3. 另一台电脑的操作
+* git bash将远程仓库克隆到本地
 
-   
+>  git clone 仓库地址
 
-6. 新建hexosource分支
+* 然后进入项目目录，**安装依赖**，启动博客服务器，生成静态文件
 
-   > git checkout -b hexosource
+  > npm install
+  > hexo g
+  > hexo s
+  >
+  > 执行以上指令后，便可以在浏览器通过http://localhost:4000/访问博客
 
-7. 使用git branch 可以看到当前已经在hexosource分支上
+* 另一台电脑发布文章
 
-   > git checkout hexosource
+  > hexo clean
+  > hexo g 
+  >
+  > hexo d
 
-8. 文件夹下面的内容全部添加到
+### 4. 两台电脑同步写博客
+我们的博客仓库有两个分支，master分支和hexo分支
 
-9. 
+其中，master分支用于存放Hexo生成的静态资源文件，hexo分支用于存放网站的原始文件
 
-10. 
+所以，我们在一台设备上写好一篇文章或进行了博客的修改后
 
-11. 
+执行以下命令，将master中的静态资源文件更新
 
-12. q
+在博客目录下的cmd中
+
+> hexo clean
+> hexo d -g
+
+
+执行以下命令，将hexo中的网站原始文件更新
+
+* 在博客目录下的git bash中
+
+> git pull
+> git add -A
+> git commit -m "描述"
+> git push origin hexo
+
+### 注意事项
+**每次有新的操作的时候，别忘了在另一台电脑上更新**
+
+>  git pull hexo
 
 ## 手贱将**GitHub Page**仓库转成私有
 
