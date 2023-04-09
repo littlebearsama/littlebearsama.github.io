@@ -3,7 +3,7 @@ title: Neural Networks and Deep Learning Notes
 subtitle: 深度学习笔记
 date: 2019-07-30 23:02:49
 tags: [Deep Learning]
-categories:[Deep Learning,Notes]
+categories: [Deep Learning,Notes]
 ---
 
 

@@ -4,7 +4,7 @@ subtitle: Learn OpenGL
 author: 小熊
 date: 2021-04-03 0:20:00
 tags: OpenGL
-categories: [可视化,learn OpenGL]1
+categories: [可视化,learn OpenGL2]
 ---
 
 一个简单的glfw显示点云的例程
