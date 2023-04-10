@@ -121,3 +121,6 @@ evo_traj tum –h
 
 注意一定要输入完整的evo指令（evo_traj, evo_ape等），与必选参数，即数据格式(tum/kitti/euroc/bag)
 
+解决时间对齐问题：
+https://blog.csdn.net/Laney_Midory/article/details/124246711?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-124246711-blog-129202897.235%5Ev28%5Epc_relevant_recovery_v2&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-124246711-blog-129202897.235%5Ev28%5Epc_relevant_recovery_v2&utm_relevant_index=2
+
