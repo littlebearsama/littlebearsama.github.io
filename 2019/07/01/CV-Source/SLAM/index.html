@@ -16,7 +16,7 @@
 <meta property="og:description" content="SLAM技术分类 SLAM资源">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2019-08-11T09:30:46.764Z">
+<meta property="og:updated_time" content="2023-04-10T12:35:32.958Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SLAM_tutorial">
 <meta name="twitter:description" content="SLAM技术分类 SLAM资源">
@@ -164,7 +164,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    3 分钟 读完 (大约 486 个字)
+                    9 分钟 读完 (大约 1421 个字)
                 </span>
                 
                 
@@ -224,6 +224,52 @@
 </li>
 </ul>
 <h2 id="SLAM资源"><a href="#SLAM资源" class="headerlink" title="SLAM资源"></a>SLAM资源</h2><p><a href="https://github.com/dianyunPCL/ORB-SLAM-bydianyunpcl" target="_blank" rel="noopener"><strong>ORB-SLAM-bydianyunpcl</strong></a></p>
+<h2 id="1-EVO"><a href="#1-EVO" class="headerlink" title="1. EVO"></a>1. EVO</h2><p>evo是一款用于视觉里程计和slam问题的轨迹评估工具。核心功能是能够绘制相机的轨迹，或评估估计轨迹与真值的误差。支持多种数据集的轨迹格式（TUM、KITTI、EuRoC MAV、ROS的bag），同时支持这些数据格式之间进行相互转换。在此仅对其基本功能做简要介绍。</p>
+<h3 id="一、安装"><a href="#一、安装" class="headerlink" title="一、安装"></a>一、安装</h3><p>安装方式极其简单，采用pip安装：</p>
+<blockquote>
+<p>pip install evo –upgrade –no-binary evo</p>
+</blockquote>
+<p>或者通过github下载源码后(<a href="https://github.com/MichaelGrupp/evo)，使用源码安装：" target="_blank" rel="noopener">https://github.com/MichaelGrupp/evo)，使用源码安装：</a></p>
+<blockquote>
+<p>pip install –editable . –upgrade –no-binary evo</p>
+</blockquote>
+<p>安装时会自动安装相关依赖项。</p>
+<p>安装完毕后，在命令行输入evo，若显示了相关信息，则表明安装成功。若提示”command not found”也不用惊慌，很多人遇到这种问题，重启电脑即可找到evo相应指令。</p>
+<h3 id="二、绘制轨迹"><a href="#二、绘制轨迹" class="headerlink" title="二、绘制轨迹"></a>二、绘制轨迹</h3><ol>
+<li>基础指令</li>
+</ol>
+<p>evo绘制轨迹的指令为：evo_traj，后跟必要参数有：数据的格式（tum/kitti/bag/euroc等），轨迹文件。轨迹文件可以有多个，例如：</p>
+<blockquote>
+<p>evo_traj tum traj1.txt traj2.txt</p>
+</blockquote>
+<p>这个指令只是显示轨迹的基本信息，若要绘制轨迹，则增加可选参数 -p 或 –plot</p>
+<blockquote>
+<p>evo_traj tum traj1.txt –p</p>
+</blockquote>
+<ol start="2">
+<li>轨迹对齐</li>
+</ol>
+<p>我们时常需要将估计轨迹与真实轨迹同时绘制，可采用指令：</p>
+<blockquote>
+<p>evo_traj tum realTraj.txt estTraj.txt -p</p>
+</blockquote>
+<p>然而存储时轨迹多为相对位置变化，所以绘制出的轨迹在初始位置上存在一定的位置和角度偏移，出现以下情况。<br>（如图所示，左图为绘制的两条曲线，通过调整可以发现两个曲线形状大体相同，但没有对齐，从而具有较大的误差）</p>
+<p>这时我们采用对齐指令将两条轨迹进行对齐。为此我们需要通–ref参数指定参考轨迹，并增加参数-a（或–align）进行对齐（旋转与平移）</p>
+<blockquote>
+<p>evo_traj tum estTraj.txt –ref realTraj.txt -p -a</p>
+</blockquote>
+<h3 id="三、轨迹评估"><a href="#三、轨迹评估" class="headerlink" title="三、轨迹评估"></a>三、轨迹评估</h3><p>evo可以评估两条轨迹的误差，主要有两个命令：</p>
+<p>evo_ape：计算绝对位姿误差(absolute pose error)，用于整体评估整条轨迹的全局一致性；</p>
+<p>evo_rpe：计算相对位姿误差(relative pose error)，用于评价轨迹局部的准确性。</p>
+<p>这两个指令也支持evo_traj的可选参数，轨迹对齐-a与尺度缩放-s。完整指令如下：</p>
+<p>evo_ape tum realTraj.txt estTraj.txt -a –s</p>
+<p>此时将显示轨迹误差相关结果<br>若增加可选参数-p，可以绘制误差相关曲线</p>
+<h3 id="四、进阶学习"><a href="#四、进阶学习" class="headerlink" title="四、进阶学习"></a>四、进阶学习</h3><p>这里只介绍了evo的基本操作，除此之外evo可以进行数据格式转化、曲线颜色配置、轨迹导出等多种功能，详细请参考evo在github上的wiki：</p>
+<p>​ ​<a href="https://github.com/MichaelGrupp/evo/wiki​​" target="_blank" rel="noopener">https://github.com/MichaelGrupp/evo/wiki​​</a></p>
+<p>同时，可以在命令行通过-h参数查看当前evo指令的参数及相关说明。例如：</p>
+<p>evo_traj tum –h</p>
+<p>注意一定要输入完整的evo指令（evo_traj, evo_ape等），与必选参数，即数据格式(tum/kitti/euroc/bag)</p>
+<p>解决时间对齐问题：<br><a href="https://blog.csdn.net/Laney_Midory/article/details/124246711?spm=1001.2101.3001.6650.1&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-124246711-blog-129202897.235%5Ev28%5Epc_relevant_recovery_v2&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-124246711-blog-129202897.235%5Ev28%5Epc_relevant_recovery_v2&amp;utm_relevant_index=2" target="_blank" rel="noopener">https://blog.csdn.net/Laney_Midory/article/details/124246711?spm=1001.2101.3001.6650.1&amp;utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-124246711-blog-129202897.235%5Ev28%5Epc_relevant_recovery_v2&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-124246711-blog-129202897.235%5Ev28%5Epc_relevant_recovery_v2&amp;utm_relevant_index=2</a></p>
 
         </div>
         
@@ -365,7 +411,7 @@
                         文章
                     </p>
                     <p class="title has-text-weight-normal">
-                        84
+                        85
                     </p>
                 </div>
             </div>
@@ -375,7 +421,7 @@
                         分类
                     </p>
                     <p class="title has-text-weight-normal">
-                        71
+                        72
                     </p>
                 </div>
             </div>
@@ -589,7 +635,7 @@
                 <span class="level-item">PCL</span>
             </span>
             <span class="level-end">
-                <span class="level-item tag">7</span>
+                <span class="level-item tag">8</span>
             </span>
         </a><ul><li>
         <a class="level is-marginless" href="/categories/PCL/0-tutorial/">
@@ -603,6 +649,14 @@
         <a class="level is-marginless" href="/categories/PCL/1-configuration/">
             <span class="level-start">
                 <span class="level-item">1.configuration</span>
+            </span>
+            <span class="level-end">
+                <span class="level-item tag">1</span>
+            </span>
+        </a></li><li>
+        <a class="level is-marginless" href="/categories/PCL/10-helper-functions/">
+            <span class="level-start">
+                <span class="level-item">10.helper functions</span>
             </span>
             <span class="level-end">
                 <span class="level-item tag">1</span>
@@ -1019,7 +1073,7 @@
         <h3 class="menu-label">
             标签云
         </h3>
-        <a href="/tags/3D-Reconstruction/" style="font-size: 12.5px;">3D Reconstruction</a> <a href="/tags/3D-scene-Reconstruction/" style="font-size: 10px;">3D scene Reconstruction</a> <a href="/tags/4PCS/" style="font-size: 10px;">4PCS</a> <a href="/tags/C/" style="font-size: 18.75px;">C++</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CV-Source/" style="font-size: 13.75px;">CV-Source</a> <a href="/tags/Deep-Learning/" style="font-size: 11.25px;">Deep Learning</a> <a href="/tags/Despriptors/" style="font-size: 10px;">Despriptors</a> <a href="/tags/Efficient-Sparse-ICP/" style="font-size: 10px;">Efficient Sparse ICP</a> <a href="/tags/FastICP/" style="font-size: 10px;">FastICP</a> <a href="/tags/GOICP/" style="font-size: 10px;">GOICP</a> <a href="/tags/Generalized-ICP/" style="font-size: 11.25px;">Generalized-ICP</a> <a href="/tags/Generic-Programming/" style="font-size: 10px;">Generic Programming</a> <a href="/tags/Hash-Map/" style="font-size: 10px;">Hash Map</a> <a href="/tags/ICP/" style="font-size: 16.25px;">ICP</a> <a href="/tags/LM/" style="font-size: 10px;">LM</a> <a href="/tags/Memory-Management/" style="font-size: 10px;">Memory Management</a> <a href="/tags/NDT/" style="font-size: 11.25px;">NDT</a> <a href="/tags/ObjectDetection/" style="font-size: 15px;">ObjectDetection</a> <a href="/tags/OpenGL/" style="font-size: 12.5px;">OpenGL</a> <a href="/tags/PCL/" style="font-size: 16.25px;">PCL</a> <a href="/tags/Path-Planning/" style="font-size: 10px;">Path Planning</a> <a href="/tags/Performance/" style="font-size: 10px;">Performance</a> <a href="/tags/PoseEstimation/" style="font-size: 16.25px;">PoseEstimation</a> <a href="/tags/RANSAC/" style="font-size: 10px;">RANSAC</a> <a href="/tags/Reconstruction/" style="font-size: 15px;">Reconstruction</a> <a href="/tags/Registration/" style="font-size: 17.5px;">Registration</a> <a href="/tags/SAC-IA/" style="font-size: 10px;">SAC-IA</a> <a href="/tags/SFM/" style="font-size: 10px;">SFM</a> <a href="/tags/SSE/" style="font-size: 10px;">SSE</a> <a href="/tags/STL/" style="font-size: 11.25px;">STL</a> <a href="/tags/SVD/" style="font-size: 10px;">SVD</a> <a href="/tags/Segmentation/" style="font-size: 10px;">Segmentation</a> <a href="/tags/Sparse-ICP/" style="font-size: 10px;">Sparse ICP</a> <a href="/tags/Super4PCS/" style="font-size: 10px;">Super4PCS</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/git/" style="font-size: 11.25px;">git</a> <a href="/tags/glfw/" style="font-size: 11.25px;">glfw</a> <a href="/tags/hexo/" style="font-size: 11.25px;">hexo</a> <a href="/tags/keypoints/" style="font-size: 10px;">keypoints</a> <a href="/tags/mv-LM-ICP/" style="font-size: 10px;">mv-LM-ICP</a> <a href="/tags/std/" style="font-size: 10px;">std</a> <a href="/tags/surface-Reconstruction/" style="font-size: 10px;">surface Reconstruction</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/图像/" style="font-size: 11.25px;">图像</a> <a href="/tags/编程知识与VS错误/" style="font-size: 10px;">编程知识与VS错误</a>
+        <a href="/tags/3D-Reconstruction/" style="font-size: 12.22px;">3D Reconstruction</a> <a href="/tags/3D-scene-Reconstruction/" style="font-size: 10px;">3D scene Reconstruction</a> <a href="/tags/4PCS/" style="font-size: 10px;">4PCS</a> <a href="/tags/C/" style="font-size: 18.89px;">C++</a> <a href="/tags/CUDA/" style="font-size: 20px;">CUDA</a> <a href="/tags/CV-Source/" style="font-size: 13.33px;">CV-Source</a> <a href="/tags/Deep-Learning/" style="font-size: 11.11px;">Deep Learning</a> <a href="/tags/Despriptors/" style="font-size: 10px;">Despriptors</a> <a href="/tags/Efficient-Sparse-ICP/" style="font-size: 10px;">Efficient Sparse ICP</a> <a href="/tags/FastICP/" style="font-size: 10px;">FastICP</a> <a href="/tags/GOICP/" style="font-size: 10px;">GOICP</a> <a href="/tags/Generalized-ICP/" style="font-size: 11.11px;">Generalized-ICP</a> <a href="/tags/Generic-Programming/" style="font-size: 10px;">Generic Programming</a> <a href="/tags/Hash-Map/" style="font-size: 10px;">Hash Map</a> <a href="/tags/ICP/" style="font-size: 15.56px;">ICP</a> <a href="/tags/LM/" style="font-size: 10px;">LM</a> <a href="/tags/Memory-Management/" style="font-size: 10px;">Memory Management</a> <a href="/tags/NDT/" style="font-size: 11.11px;">NDT</a> <a href="/tags/ObjectDetection/" style="font-size: 14.44px;">ObjectDetection</a> <a href="/tags/OpenGL/" style="font-size: 12.22px;">OpenGL</a> <a href="/tags/PCL/" style="font-size: 16.67px;">PCL</a> <a href="/tags/Path-Planning/" style="font-size: 10px;">Path Planning</a> <a href="/tags/Performance/" style="font-size: 10px;">Performance</a> <a href="/tags/PoseEstimation/" style="font-size: 15.56px;">PoseEstimation</a> <a href="/tags/RANSAC/" style="font-size: 10px;">RANSAC</a> <a href="/tags/Reconstruction/" style="font-size: 14.44px;">Reconstruction</a> <a href="/tags/Registration/" style="font-size: 17.78px;">Registration</a> <a href="/tags/SAC-IA/" style="font-size: 10px;">SAC-IA</a> <a href="/tags/SFM/" style="font-size: 10px;">SFM</a> <a href="/tags/SSE/" style="font-size: 10px;">SSE</a> <a href="/tags/STL/" style="font-size: 11.11px;">STL</a> <a href="/tags/SVD/" style="font-size: 10px;">SVD</a> <a href="/tags/Segmentation/" style="font-size: 10px;">Segmentation</a> <a href="/tags/Sparse-ICP/" style="font-size: 10px;">Sparse ICP</a> <a href="/tags/Super4PCS/" style="font-size: 10px;">Super4PCS</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/git/" style="font-size: 11.11px;">git</a> <a href="/tags/glfw/" style="font-size: 11.11px;">glfw</a> <a href="/tags/hexo/" style="font-size: 11.11px;">hexo</a> <a href="/tags/keypoints/" style="font-size: 10px;">keypoints</a> <a href="/tags/mv-LM-ICP/" style="font-size: 10px;">mv-LM-ICP</a> <a href="/tags/std/" style="font-size: 10px;">std</a> <a href="/tags/surface-Reconstruction/" style="font-size: 10px;">surface Reconstruction</a> <a href="/tags/tools/" style="font-size: 10px;">tools</a> <a href="/tags/图像/" style="font-size: 11.11px;">图像</a> <a href="/tags/编程知识与VS错误/" style="font-size: 10px;">编程知识与VS错误</a>
     </div>
 </div>
 
@@ -1284,6 +1338,17 @@
             </a>
         </li>
         
+        <li>
+            <a class="level is-marginless" href="/archives/2018/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
         </ul>
         </div>
     </div>
@@ -1440,7 +1505,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/PCL/">
                         <span class="tag">PCL</span>
-                        <span class="tag is-grey">7</span>
+                        <span class="tag is-grey">8</span>
                     </a>
                 </div>
                 
@@ -1892,6 +1957,17 @@
             </a>
         </li>
         
+        <li>
+            <a class="level is-marginless" href="/archives/2018/05/">
+                <span class="level-start">
+                    <span class="level-item">五月 2018</span>
+                </span>
+                <span class="level-end">
+                    <span class="level-item tag">1</span>
+                </span>
+            </a>
+        </li>
+        
         </ul>
         </div>
     </div>
@@ -2048,7 +2124,7 @@
                 <div class="control">
                     <a class="tags has-addons" href="/tags/PCL/">
                         <span class="tag">PCL</span>
-                        <span class="tag is-grey">7</span>
+                        <span class="tag is-grey">8</span>
                     </a>
                 </div>
                 
