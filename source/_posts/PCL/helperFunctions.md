@@ -1,4 +1,13 @@
-//create by luojinhong 2022 11 30
+---
+title: how-to-start-PCL
+subtitle: 如何开始学习PCL点云库
+date: 2018-05-24 14:38:06
+tags: [PCL]
+categories: [PCL,10.helper functions]
+---
+
+algCommon.h
+```C++
 #pragma once
 #define PCL_NO_PRECOMPILE
 
@@ -85,7 +94,7 @@ struct PlaneMode
 	float b = 0;
 	float c = 1;
 	float d = 0;
-
+	
 	//三点确定一个平面
 	void getPlane(float x1,float y1,float z1
 				,float x2,float y2,float z2
@@ -100,7 +109,7 @@ struct PlaneMode
 		c =C;
 		d =D;
 	}
-
+	
 	void transformPlane(Eigen::Matrix4f T)
 	{
 		Eigen::Vector4f newPlane = T*Eigen::Vector4f(a,b,c,d);
@@ -118,33 +127,33 @@ struct PlaneMode
 		b = newPlane(1);
 		c = newPlane(2);
 		d = newPlane(3);
-
+	
 		   //aX+cY+cZ+d =0;
-    	pcl::PointXYZ ptO,ptA,ptB;
-    	ptO.x = 0;
-    	ptO.y = 0;
-    	ptO.z = -d/c;
-    	ptA.x = 1;
-    	ptA.y = 0;
-    	ptA.z = -(d+a*ptA.x)/c;
-    	ptB.x = 0;
-    	ptB.y = 1;
-    	ptB.z = -(d+b*ptB.y)/c;
-    	pcl::PointCloud<pcl::PointXYZ> clloudIn;
-    	clloudIn.push_back(ptA);
-    	clloudIn.push_back(ptB);
-    	clloudIn.push_back(ptO);
-    	pcl::PointCloud<pcl::PointXYZ> clloudOut;
-    	pcl::transformPointCloud(clloudIn,clloudOut,T);
-    	pcl::PointXYZ ptONew,ptANew,ptBNew;
-    	ptONew = clloudOut.points[2];
-    	ptBNew = clloudOut.points[1];
-    	ptANew = clloudOut.points[0];
+		pcl::PointXYZ ptO,ptA,ptB;
+		ptO.x = 0;
+		ptO.y = 0;
+		ptO.z = -d/c;
+		ptA.x = 1;
+		ptA.y = 0;
+		ptA.z = -(d+a*ptA.x)/c;
+		ptB.x = 0;
+		ptB.y = 1;
+		ptB.z = -(d+b*ptB.y)/c;
+		pcl::PointCloud<pcl::PointXYZ> clloudIn;
+		clloudIn.push_back(ptA);
+		clloudIn.push_back(ptB);
+		clloudIn.push_back(ptO);
+		pcl::PointCloud<pcl::PointXYZ> clloudOut;
+		pcl::transformPointCloud(clloudIn,clloudOut,T);
+		pcl::PointXYZ ptONew,ptANew,ptBNew;
+		ptONew = clloudOut.points[2];
+		ptBNew = clloudOut.points[1];
+		ptANew = clloudOut.points[0];
 		getPlane(ptONew.x,ptONew.y,ptONew.z,
-                            ptBNew.x,ptBNew.y,ptBNew.z,
-                            ptANew.x,ptANew.y,ptANew.z);
+	                        ptBNew.x,ptBNew.y,ptBNew.z,
+	                        ptANew.x,ptANew.y,ptANew.z);
 	}
-
+	
 	pcl::PointXYZ getFootInPlane(const pcl::PointXYZ& pt)
 	{
 		float x0 = 0;
@@ -195,7 +204,7 @@ struct Color
 {
 
 	float r, g, b;
-
+	
 	Color(float setR, float setG, float setB)
 		: r(setR), g(setG), b(setB)
 	{}
@@ -237,7 +246,7 @@ struct ObjectXYHull
 		minZ = FLT_MAX;
 		maxZ = -FLT_MAX;
 	}
-
+	
 	//拷贝构造
 	ObjectXYHull(const ObjectXYHull& other)
 	{
@@ -366,12 +375,12 @@ inline std::vector<typename pcl::PointCloud<PointT>::Ptr> PointCloudCluster<Poin
 {
 
 	std::vector<typename pcl::PointCloud<PointT>::Ptr> clusters;
-
+	
 	// TODO:: Fill in the function to perform euclidean clustering to group detected obstacles
 	// Creating the KdTree object for the search method of the extraction
 	typename pcl::search::KdTree<PointT>::Ptr tree(new pcl::search::KdTree<PointT>);
 	tree->setInputCloud(cloud);
-
+	
 	std::vector<pcl::PointIndices> cluster_indices;
 	pcl::EuclideanClusterExtraction<PointT> ec;
 	ec.setClusterTolerance(para.distanceTol); // 2cm
@@ -380,7 +389,7 @@ inline std::vector<typename pcl::PointCloud<PointT>::Ptr> PointCloudCluster<Poin
 	ec.setSearchMethod(tree);
 	ec.setInputCloud(cloud);
 	ec.extract(cluster_indices);
-
+	
 	for (std::vector<pcl::PointIndices>::const_iterator it = cluster_indices.begin(); it != cluster_indices.end(); ++it)
 	{
 		typename pcl::PointCloud<PointT>::Ptr cloud_cluster(new pcl::PointCloud<PointT>);
@@ -389,10 +398,10 @@ inline std::vector<typename pcl::PointCloud<PointT>::Ptr> PointCloudCluster<Poin
 		cloud_cluster->width = cloud_cluster->points.size();
 		cloud_cluster->height = 1;
 		cloud_cluster->is_dense = true;
-
+	
 		clusters.push_back(cloud_cluster);
 	}
-
+	
 	return clusters;
 }
 #pragma endregion
@@ -412,13 +421,13 @@ struct line2DTools
 	}
 	line2DTools(float A,float B,float C):m_a(A),m_b(B),m_c(C)
 	{
-
+	
 	}
 	//a*X+b*y+c=0
 	float m_a = NAN;
 	float m_b = NAN;
 	float m_c = NAN;
-
+	
 	//角度
 	float m_angle;//角度
 	cv::Point2f m_startPt;
@@ -432,7 +441,7 @@ struct line2DTools
 			return false;
 		return true;
 	}
-
+	
 	float gety(float x)
 	{
 		return -(m_a*x+m_c)/m_b;
@@ -445,20 +454,20 @@ struct line2DTools
 	{
 		m_a = line1Y - line2Y;
 		m_b = line2X - line1X;
-    	m_c = line1X*line2Y - line1Y*line2X;
+		m_c = line1X*line2Y - line1Y*line2X;
 		m_startPt = cv::Point2f(line1X,line1Y);
 		m_endPt = cv::Point2f(line2X,line2Y);
-
+	
 	}
 	float getLen()
 	{
 		return sqrt((m_startPt.x-m_endPt.x)*(m_startPt.x-m_endPt.x)+(m_startPt.y-m_endPt.y)*(m_startPt.y-m_endPt.y));
 	}
-
+	
 	inline float getangle(Eigen::Vector3f before,Eigen::Vector3f after)
 	{
-        float signal = (after.x()*after.y())<0?1.0:-1.0;
-        float alphaAngle = signal*acos(before.dot(after));
+	    float signal = (after.x()*after.y())<0?1.0:-1.0;
+	    float alphaAngle = signal*acos(before.dot(after));
 		return alphaAngle;
 	}
 	//点到直线的距离
@@ -467,7 +476,7 @@ struct line2DTools
 		if(!checkLine())
 			return NAN;
 		float distance = 0;
-    	distance = (m_a*X + m_b*Y + m_c) /sqrtf(m_a*m_a + m_b*m_b);
+		distance = (m_a*X + m_b*Y + m_c) /sqrtf(m_a*m_a + m_b*m_b);
 		return distance;
 	}
 	//求垂足
@@ -479,14 +488,20 @@ struct line2DTools
 			footY = NAN;
 		}
 		footX=(m_b*m_b*PtX-m_a*m_b*PtY-m_a*m_c)/(m_a*m_a+m_b*m_b);
-        footY=(-m_a*m_b*PtX+m_a*m_a*PtY-m_b*m_c)/(m_a*m_a+m_b*m_b);
+	    footY=(-m_a*m_b*PtX+m_a*m_a*PtY-m_b*m_c)/(m_a*m_a+m_b*m_b);
 	}
 };
 
 bool fittingLine2D(std::vector<float> &X, std::vector<float> &Y, int startIndex, int endIndex,line2DTools& line);
 bool fittingLine2DSVD(std::vector<float> &X, std::vector<float> &Y,int startIndex,int endIndex,line2DTools& line);
+```
 
-#include "../include/algCommon.h"
+
+
+algCommon.cpp
+
+```c++
+#include "algCommon.h"
 //自适应canny
 //从确定边缘点出发，延长边缘
 bool inline checkInRang(int r, int c, int rows, int cols) {
@@ -514,8 +529,8 @@ void EdgePoint_Trace(cv::Mat& edgeMag_noMaxsup, cv::Mat& edge, unsigned TL, int 
 	}
 }
 
-                                                                                                              
-            
+
+​            
 
 void writePointCloudJH(const char* filename, pcl::PointCloud<pcl::PointXYZ>& cloud)
 {
@@ -524,7 +539,7 @@ void writePointCloudJH(const char* filename, pcl::PointCloud<pcl::PointXYZ>& clo
     unsigned int i;
     float distance_min=0.012f;
     int numPoints = cloud.size();
-
+    
     fp = fopen(filename, "w"); //save more frames
     if(!fp)
     {
@@ -538,10 +553,10 @@ void writePointCloudJH(const char* filename, pcl::PointCloud<pcl::PointXYZ>& clo
     fprintf(fp,"%s\n", "property float32 y");
     fprintf(fp,"%s\n", "property float32 z");
     fprintf(fp,"%s\n", "end_header");
-
+    
     for (i = 0; i < numPoints; i ++)    //2020-3-22
     {
-
+    
         if(sqrt(cloud[i].x*cloud[i].x + cloud[i].y*cloud[i].y +cloud[i].z*cloud[i].z) < distance_min )
         {
             fprintf(fp,"%f %f %f\n", 0.0, 0.0, 0.0);
@@ -551,9 +566,9 @@ void writePointCloudJH(const char* filename, pcl::PointCloud<pcl::PointXYZ>& clo
             fprintf(fp,"%f %f %f\n", cloud[i].x, cloud[i].y, cloud[i].z);
         }
     }
-
+    
     fclose(fp);
-
+    
     return;
 }
 // /**
@@ -583,7 +598,7 @@ cv::Mat regionGrowSegmentation(cv::Mat srcImage, cv::Point pt, int ch1Thres, int
     {
         pt = growPtVector.back(); // 取出一个生长点
         growPtVector.pop_back();
-
+    
         // 分别对八个方向上的点进行生长
         for (int i = 0; i < 8; ++i)
         {
@@ -593,7 +608,7 @@ cv::Mat regionGrowSegmentation(cv::Mat srcImage, cv::Point pt, int ch1Thres, int
             if (pToGrowing.x < 0 || pToGrowing.y < 0 ||
                 pToGrowing.x > (srcImage.cols - 1) || (pToGrowing.y > srcImage.rows - 1))
                 continue;
-
+    
             pGrowValue = growImage.at<uchar>(pToGrowing.y, pToGrowing.x); // 当前待生长点的灰度值
             pSrcValue = srcImage.at<uchar>(pt.y, pt.x);
             if (pGrowValue == 0) // 如果标记点还没有被生长
@@ -652,7 +667,7 @@ cv::Mat regionGrowSegmentation(cv::Mat srcImage, cv::Point pt, int ch1Thres, int
             if (pToGrowing.x < 0 || pToGrowing.y < 0 ||
                 pToGrowing.x > (srcImage.cols - 1) || (pToGrowing.y > srcImage.rows - 1))
                 continue;
-
+        
             pGrowValue = growImage.at<uchar>(pToGrowing.y, pToGrowing.x); // 当前待生长点的灰度值
             pSrcValue = srcImage.at<cv::Vec3b>(pt.y, pt.x);
             if (pGrowValue == 0) // 如果标记点还没有被生长
@@ -781,7 +796,7 @@ Eigen::Matrix4f getCloudToSpecialVectorR(const pcl::PointCloud<pcl::PointXYZ> &c
     seg.segment(*inliers, *coefficientsMove);
     // std::cout<<"输入点云点数量："<<cloud.size()<< std::endl;
     // std::cout<<"得到的内点数量："<<inliers->indices.size()<<std::endl;
-
+    
     float a_move = coefficientsMove->values[0];
     float b_move = coefficientsMove->values[1];
     float c_move = coefficientsMove->values[2];
@@ -828,7 +843,7 @@ Eigen::Matrix4f getCloudToFloorT(const pcl::PointCloud<pcl::PointXYZ> &cloud, fl
     seg.segment(*inliers, *coefficientsMove);
     // std::cout<<"输入点云点数量："<<cloud.size()<< std::endl;
     // std::cout<<"得到的内点数量："<<inliers->indices.size()<<std::endl;
-
+    
     float a_move = coefficientsMove->values[0];
     float b_move = coefficientsMove->values[1];
     float c_move = coefficientsMove->values[2];
@@ -840,23 +855,23 @@ Eigen::Matrix4f getCloudToFloorT(const pcl::PointCloud<pcl::PointXYZ> &cloud, fl
         c_move = -c_move;
         d_move = -d_move;
     }
-
+    
     // 提取内点
     // pcl::PointCloud<pcl::PointXYZ>::Ptr cloudInliers(new pcl::PointCloud<pcl::PointXYZ>);
     // pcl::copyPointCloud(cloud, *inliers, *cloudInliers);
     Eigen::Vector3f before = Eigen::Vector3f(a_move, b_move, c_move);
     Eigen::Vector3f after = Eigen::Vector3f(0, 0, 1);
     Eigen::Matrix4f rotateT = CreateRotateMatrix(before, after);
-
+    
     Eigen::Vector4f centroid;
     // pcl::compute3DCentroid(cloud,*inliers, centroid);
     pcl::PointCloud<pcl::PointXYZ> cloudAfterRotated;
     pcl::transformPointCloud(cloud,*inliers,cloudAfterRotated,rotateT);
     pcl::compute3DCentroid(cloudAfterRotated, centroid);
-
+    
     // Eigen::Matrix4f t = Eigen::Matrix4f::Identity();
     T(2, 3) = -centroid.z();
-
+    
     planemodel.a = a_move; 
     planemodel.b = b_move; 
     planemodel.c = c_move; 
@@ -977,3 +992,6 @@ bool fittingLine2D(std::vector<float> &X, std::vector<float> &Y, int startIndex,
         return false;
     
 }
+```
+
+
