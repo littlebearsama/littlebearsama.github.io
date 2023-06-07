@@ -7,19 +7,19 @@
 
 
 
-    <meta name="description" content="cs231n0.学习资源2023.04.16  视频  官方课程笔记  课程笔记中文翻译  ConvNetJS  ppt  gcloud   1. 工具python教程：https://cs231n.github.io/python-numpy-tutorial/ 看完这个就好了 Colab:google 版的 Jupyter Notebook">
+    <meta name="description" content="cs231n PPT与笔记0.学习资源2023.04.16  视频  官方课程笔记  课程笔记中文翻译  ConvNetJS  ppt  gcloud   1. 工具python教程：https://cs231n.github.io/python-numpy-tutorial/ 看完这个就好了 Colab:google 版的 Jupyter Notebook 基于数据驱动线性分类器：f(x,W)">
 <meta name="keywords" content="Deep Learning,cs231n">
 <meta property="og:type" content="article">
 <meta property="og:title" content="cs231n Notes">
 <meta property="og:url" content="https://littlebearsama.github.io/2023/04/16/MAD_Learning/cs231nNotes/index.html">
 <meta property="og:site_name" content="LittleBear！！！">
-<meta property="og:description" content="cs231n0.学习资源2023.04.16  视频  官方课程笔记  课程笔记中文翻译  ConvNetJS  ppt  gcloud   1. 工具python教程：https://cs231n.github.io/python-numpy-tutorial/ 看完这个就好了 Colab:google 版的 Jupyter Notebook">
+<meta property="og:description" content="cs231n PPT与笔记0.学习资源2023.04.16  视频  官方课程笔记  课程笔记中文翻译  ConvNetJS  ppt  gcloud   1. 工具python教程：https://cs231n.github.io/python-numpy-tutorial/ 看完这个就好了 Colab:google 版的 Jupyter Notebook 基于数据驱动线性分类器：f(x,W)">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2023-04-16T04:53:01.691Z">
+<meta property="og:updated_time" content="2023-06-07T15:56:24.775Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cs231n Notes">
-<meta name="twitter:description" content="cs231n0.学习资源2023.04.16  视频  官方课程笔记  课程笔记中文翻译  ConvNetJS  ppt  gcloud   1. 工具python教程：https://cs231n.github.io/python-numpy-tutorial/ 看完这个就好了 Colab:google 版的 Jupyter Notebook">
+<meta name="twitter:description" content="cs231n PPT与笔记0.学习资源2023.04.16  视频  官方课程笔记  课程笔记中文翻译  ConvNetJS  ppt  gcloud   1. 工具python教程：https://cs231n.github.io/python-numpy-tutorial/ 看完这个就好了 Colab:google 版的 Jupyter Notebook 基于数据驱动线性分类器：f(x,W)">
 <meta name="twitter:image" content="https://littlebearsama.github.io/images/og_image.png">
 
 
@@ -164,7 +164,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    1 分钟 读完 (大约 124 个字)
+                    36 分钟 读完 (大约 5341 个字)
                 </span>
                 
                 
@@ -177,7 +177,7 @@
             
         </h1>
         <div class="content">
-            <h1 id="cs231n"><a href="#cs231n" class="headerlink" title="cs231n"></a>cs231n</h1><h2 id="0-学习资源"><a href="#0-学习资源" class="headerlink" title="0.学习资源"></a>0.学习资源</h2><p>2023.04.16</p>
+            <h1 id="cs231n-PPT与笔记"><a href="#cs231n-PPT与笔记" class="headerlink" title="cs231n PPT与笔记"></a>cs231n PPT与笔记</h1><h2 id="0-学习资源"><a href="#0-学习资源" class="headerlink" title="0.学习资源"></a>0.学习资源</h2><p>2023.04.16</p>
 <ol>
 <li><p><a href="https://www.bilibili.com/video/BV1nJ411z7fe/?spm_id_from=333.337.search-card.all.click&vd_source=a94b5fd38cff92184520d9def0d281d8" target="_blank" rel="noopener">视频</a></p>
 </li>
@@ -194,6 +194,285 @@
 </ol>
 <h2 id="1-工具"><a href="#1-工具" class="headerlink" title="1. 工具"></a>1. 工具</h2><h3 id="python"><a href="#python" class="headerlink" title="python"></a>python</h3><p>教程：<a href="https://cs231n.github.io/python-numpy-tutorial/" target="_blank" rel="noopener">https://cs231n.github.io/python-numpy-tutorial/</a></p>
 <p>看完这个就好了 <a href="https://colab.research.google.com/github/cs231n/cs231n.github.io/blob/master/python-colab.ipynb" target="_blank" rel="noopener">Colab</a>:google 版的 Jupyter Notebook</p>
+<h2 id="基于数据驱动"><a href="#基于数据驱动" class="headerlink" title="基于数据驱动"></a>基于数据驱动</h2><h2 id="线性分类器：f-x-W-Wx-b"><a href="#线性分类器：f-x-W-Wx-b" class="headerlink" title="线性分类器：f(x,W) = Wx + b"></a>线性分类器：f(x,W) = Wx + b</h2><p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CLinearClassifier.png" alt></p>
+<h3 id="损失函数："><a href="#损失函数：" class="headerlink" title="损失函数："></a>损失函数：</h3><blockquote>
+<ol>
+<li>需要一个度量W好坏的方法，可以用一个函数把W当作输入，看一下得分，定量估计W的好坏，这个函数被称为损失函数。</li>
+<li>将权重w衡量权重好坏的函数叫<strong>损失函数*</strong> loss function</li>
+</ol>
+</blockquote>
+<p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CSVMloss.png" alt></p>
+<p>python:</p>
+<p><img src="/2023/04/16/MAD_Learning/cs231nNotes/D:%5CBlogs%5Clittlebear_hexoblog%5Csource_posts%5CMAD_Learning%5Ccs231nNotes%5CSVMloss2.png" alt></p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">L_i_vectorized</span><span class="hljs-params">(x,y,W)</span>:</span></span><br><span class="line">    scores = W.dot(x)</span><br><span class="line">    margins = np.maximum(<span class="hljs-number">0</span>, scores - scores[y] + <span class="hljs-number">1</span>)</span><br><span class="line">    margins[y] = <span class="hljs-number">0</span></span><br><span class="line">    loss_i = np.sum(margins)</span><br><span class="line">    <span class="hljs-keyword">return</span> loss_i</span><br></pre></td></tr></table></figure>
+
+<h3 id="正则项：（惩罚模型的复杂性，提高模型泛化能力）"><a href="#正则项：（惩罚模型的复杂性，提高模型泛化能力）" class="headerlink" title="正则项：（惩罚模型的复杂性，提高模型泛化能力）"></a>正则项：（惩罚模型的复杂性，提高模型泛化能力）</h3><p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CRegularization.png" alt></p>
+<p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CregularizationR.png" alt></p>
+<blockquote>
+<ol>
+<li>绿色线是我们更希望看到的。</li>
+<li>正则化惩罚项 lamdaR ,lamda是超参数。使得没有加入惩罚项之前的W拟合出来的过拟合的曲线，我们更希望看到的是直线，这样在测试集上也能用。主要目的是减轻模型的复杂程度，而不是去试图过拟合数据。</li>
+<li>L2正则项目是对这个权重向量W的欧式范数进行惩罚</li>
+<li>同理，L1正则项是对权重向量W的L1范数进行惩罚</li>
+</ol>
+</blockquote>
+<h3 id="SoftMax-分类器"><a href="#SoftMax-分类器" class="headerlink" title="SoftMax 分类器"></a>SoftMax 分类器</h3><p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5Csoftmax.png" alt></p>
+<blockquote>
+<ol>
+<li>所有类别的概率和为1</li>
+</ol>
+</blockquote>
+<p>Softmax vs. SVM</p>
+<p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CcompareSVM_Softmax.png" alt></p>
+<blockquote>
+<p>两个损失函数的区别是：</p>
+<ol>
+<li>svm关心的是正确分类的分值和不正确分类的分值的边际</li>
+<li>softmax或者交叉熵损失，我们计算一个概率分布，然后查看正确分类负对数的概率。</li>
+</ol>
+</blockquote>
+<h2 id="优化-Optimization"><a href="#优化-Optimization" class="headerlink" title="优化 Optimization"></a>优化 Optimization</h2><p>通过损失函数求最优参数W</p>
+<ol>
+<li>梯度就是偏导数组组成的向量，指向函数增加最快的方向，负方向指向函数下降最快的方向。</li>
+<li>使用梯度更新参数向量。</li>
+</ol>
+<h3 id="Gradient-Descent："><a href="#Gradient-Descent：" class="headerlink" title="Gradient Descent："></a>Gradient Descent：</h3><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:</span><br><span class="line">    weights_grad = evaluate_gradient(loss_fun,data,weights) <span class="hljs-comment"># weights 预先随机化为初值</span></span><br><span class="line">    weights + = -setp_size * weights_grad</span><br></pre></td></tr></table></figure>
+
+<p>步长step_size 是超参数（学习率learning rate）</p>
+<p>步长国小有可能2陷入局部最优解。</p>
+<h3 id="Stochastic-Gradient-Descent-随机梯度下降"><a href="#Stochastic-Gradient-Descent-随机梯度下降" class="headerlink" title="Stochastic Gradient Descent 随机梯度下降"></a>Stochastic Gradient Descent 随机梯度下降</h3><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>：</span><br><span class="line">	data_batch = sample_training_data(data,<span class="hljs-number">256</span>)<span class="hljs-comment">#sample 256 examples</span></span><br><span class="line">    weights_grad = evaluate_gradient(loss_fun, data_batch, weights)</span><br><span class="line">    weights += -steps_size*weights_grad <span class="hljs-comment">#perform parameter update</span></span><br></pre></td></tr></table></figure>
+
+<p>batch（minibatch） 一般大小为32 64 128，使用minbatch来估算总误差和以及实际梯度</p>
+<h2 id="Aside-Image-Features"><a href="#Aside-Image-Features" class="headerlink" title="Aside:Image Features"></a>Aside:Image Features</h2><p>two stage:</p>
+<ol>
+<li>计算特征，将不同特征合起来得到图像的特征表述</li>
+<li>将这些特征表述作为输入源传入线性分类器</li>
+</ol>
+<p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CimageFeatures.png" alt></p>
+<p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5Chog.png" alt></p>
+<h2 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h2><h3 id="计算图-帮助你更好地理解BP"><a href="#计算图-帮助你更好地理解BP" class="headerlink" title="计算图(帮助你更好地理解BP)"></a>计算图(帮助你更好地理解BP)</h3><p>![](cs231nNotes\computational graphs.png)</p>
+<p>hinge loss: 计算数据损失项Li</p>
+<p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CBP.png" alt></p>
+<p>现在想求x，y，z的偏导数，绿色为输入值，红色为反向链式计算出来的梯度值</p>
+<p>上面例子df/dy = -4，使用链式法则就能求出想要的梯度值</p>
+<blockquote>
+<p>反向传播就是在计算图上用链式法则求梯度，用于更新W。</p>
+<p>上面的流程就是输入绿色的输入值，前向传播得到最终的L。</p>
+<p>然后反向传播计算的到一层一层的梯度值。</p>
+</blockquote>
+<p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5Canotherexample.png" alt></p>
+<p>  <img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5Csigmoid.png" alt></p>
+<p>sigmoid 求偏导是上面df(x)/dx将结果0.73代入到该点灯饰得到梯度为(1-0.73)*0,73 = 0.2</p>
+<h3 id="当一个节点的输入是一个向量，权重是矩阵时"><a href="#当一个节点的输入是一个向量，权重是矩阵时" class="headerlink" title="当一个节点的输入是一个向量，权重是矩阵时"></a>当一个节点的输入是一个向量，权重是矩阵时</h3><p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CvectorizedExample.png" alt></p>
+<p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CvectorizedExample2.png" alt></p>
+<p>Graph(or Net)object  (rough psuedo code)</p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">![activationfunctions](D:\Blogs\littlebear_hexoblog\source\_posts\MAD_Learning\cs231nNotes\activationfunctions.png)<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ComputationalGraph</span><span class="hljs-params">(object)</span>:</span></span><br><span class="line">    <span class="hljs-comment">#...</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward</span><span class="hljs-params">(inputs)</span>:</span></span><br><span class="line">        <span class="hljs-comment"># 1.[pass inputs to gates...]</span></span><br><span class="line">        <span class="hljs-comment"># 2.forward the computational graph:</span></span><br><span class="line">        <span class="hljs-keyword">for</span> gate <span class="hljs-keyword">in</span> self.graph.nodes_topologically_sorted():</span><br><span class="line">            gate.forward()</span><br><span class="line">        <span class="hljs-keyword">return</span> loss <span class="hljs-comment"># the final gate in the graph outputs the loss</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">backward</span><span class="hljs-params">()</span>:</span></span><br><span class="line">        <span class="hljs-keyword">for</span> gate <span class="hljs-keyword">in</span> reversed(self.graph.nodes_topologically_sorted()):</span><br><span class="line">            gate.backward() <span class="hljs-comment"># little piece of backprop(chain rule applied)</span></span><br><span class="line">        <span class="hljs-keyword">return</span> inputes_gradients</span><br><span class="line">    </span><br><span class="line"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MultiplyGate</span><span class="hljs-params">(object)</span>:</span></span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">forward</span><span class="hljs-params">(x, y)</span>:</span></span><br><span class="line">        z = x*y</span><br><span class="line">        self.x = x <span class="hljs-comment"># must keep these around!</span></span><br><span class="line">        self.y = y</span><br><span class="line">        <span class="hljs-keyword">return</span> z</span><br><span class="line">    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">backward</span><span class="hljs-params">(dz)</span>:</span></span><br><span class="line">        dx = self.y * dz <span class="hljs-comment"># [dz/dx * dL/dz]</span></span><br><span class="line">        dy = self.x * dz <span class="hljs-comment"># [dz/dy * dL/dz]</span></span><br><span class="line">       	<span class="hljs-keyword">return</span> [dx, dy]</span><br></pre></td></tr></table></figure>
+
+<h2 id="神经网络"><a href="#神经网络" class="headerlink" title="神经网络"></a>神经网络</h2><h3 id="激活函数"><a href="#激活函数" class="headerlink" title="激活函数"></a>激活函数</h3><p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5Cactivationfunctions.png" alt></p>
+<blockquote>
+<p><a href="https://brickexperts.github.io/2019/09/03/%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0/" target="_blank" rel="noopener">激活函数以及作用</a></p>
+<p>问题一：为什么我们要使用激活函数呢？</p>
+<p>如果不使用激活函数，我们的每一层输出只是承接了上一层输入函数的线性变换，无论神经网络有 多少层，输出都是输入的线性组合。如果使用的话，激活函数给神经元引入了非线性的因素，使得神经网络可以逼近任何非线性函数，这样神经网络就可以应用到非线性模型中。</p>
+<p>问题二：那么为什么我们需要非线性函数？</p>
+<p>非线性函数是那些一级以上的函数，而且当绘制非线性函数时它们具有曲率。现在我们需要一个可以学习和表示几乎任何东西的神经网络模型，以及可以将输入映射到输出的任意复杂函数。神经网络被认为是通用函数近似器（Universal Function Approximators）。这意味着他们可以计算和学习任何函数。几乎我们可以想到的任何过程都可以表示为神经网络中的函数计算。</p>
+<p>问题三：如何选择激活函数？</p>
+<p>1、sigmoid 激活函数：除了输出层是一个二分类问题基本不会用它。</p>
+<p>2、tanh 激活函数： tanh 是非常优秀的， 几乎适合所有场合。</p>
+<p>3、ReLu 激活函数：最常用的默认函数，如果不确定用哪个激活函数，就使用 ReLu 或者Leaky ReLu。</p>
+</blockquote>
+<h3 id="全连接层"><a href="#全连接层" class="headerlink" title="全连接层"></a>全连接层</h3><p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5Cfully-connected.png" alt></p>
+<h3 id="神经网络-1"><a href="#神经网络-1" class="headerlink" title="神经网络"></a>神经网络</h3><p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CNeural.png" alt></p>
+<h2 id="卷积神经网络历史"><a href="#卷积神经网络历史" class="headerlink" title="卷积神经网络历史"></a>卷积神经网络历史</h2><h2 id="卷积和池化"><a href="#卷积和池化" class="headerlink" title="卷积和池化"></a>卷积和池化</h2><h3 id="卷积"><a href="#卷积" class="headerlink" title="卷积"></a>卷积</h3><p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CConvokutionLayer.png" alt></p>
+<blockquote>
+<ol>
+<li>卷积可以保持输入的形状</li>
+<li>一个卷积核就可以得到一层激活映射，六个卷积核就可以得到六层激活映射</li>
+<li>卷积层越深，特征越复杂</li>
+</ol>
+</blockquote>
+<p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CConvlayers.png" alt></p>
+<p> <img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CconverNetFeatures.png" alt></p>
+<blockquote>
+<ol>
+<li>第一层卷积层Conv1，这些网格中每个部分都是神经元，这里可视化是这个输入长什么样子它将特定神经元的激活函数最大化，输入什么长什么样子使得神经元拥有最大值。表示的是神经元寻找使得他们最大化的图像。</li>
+</ol>
+</blockquote>
+<p> <img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5Cconv_relu_pool.png" alt></p>
+<blockquote>
+<p>input image，经过卷积层，经过非线性层（一般是Relu），经过池化层……经过全连接层连接所有的卷积输出 ，最终获得一个最终的分值函数。</p>
+<p>这些措施大大降低了激活映射的采样尺寸。</p>
+</blockquote>
+<p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5Cpadding.png" alt></p>
+<p>0 padding 的作用是当stride是1的时候，保持输入的大小，以及在边角区域应用卷积核。</p>
+<p>需要处理的图像是多层叠在一起的，如果不做 0 padding，或任何形式的填充，输出图像会迅速减小，这回损失一些信息，你只能用很少的值</p>
+<p><strong>一个卷积层的参数量计算：</strong></p>
+<p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CconvsParasCount.png" alt></p>
+<p> stride的选择：是否降采样</p>
+<h3 id="池化"><a href="#池化" class="headerlink" title="池化"></a>池化</h3><p>图像中的相邻像素倾向于具有相似的值，因此通常卷积层相邻的输出像素也具有相似的值。这意味着，卷积层输出中包含的大部分信息都是冗余的。</p>
+<p>如果我们使用<a href="https://www.zhihu.com/search?q=边缘检测滤波器&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra={" sourcetype"%3a"answer"%2c"sourceid"%3a712089980}" target="_blank" rel="noopener">边缘检测滤波器</a>并在某个位置找到强边缘，那么我们也可能会在距离这个像素1个偏移的位置找到相对较强的边缘。但是它们都一样是边缘，我们并没有找到任何新东西。</p>
+<p><a href="https://www.zhihu.com/search?q=池化层&search_source=Entity&hybrid_search_source=Entity&hybrid_search_extra={" sourcetype"%3a"answer"%2c"sourceid"%3a712089980}" target="_blank" rel="noopener">池化层</a>解决了这个问题。这个网络层所做的就是通过减小输入的大小降低输出值的数量。</p>
+<p>池化一般通过简单的最大值、最小值或平均值操作完成。以下是池大小为2的最大池层的示例:</p>
+<p><img src="https://picx.zhimg.com/50/v2-ac441205fd06dc037b3db2dbf05660f7_720w.webp?source=1940ef5c" alt="动图"></p>
+<h2 id="视觉之外的卷积神经网络"><a href="#视觉之外的卷积神经网络" class="headerlink" title="视觉之外的卷积神经网络"></a>视觉之外的卷积神经网络</h2><p>![](cs231nNotes\pooling layer.png)</p>
+<blockquote>
+<ol>
+<li><p>pooling 类似于下采样</p>
+</li>
+<li><p>通常使用的 是max pooling，也会使用stride进行下采样</p>
+</li>
+<li><p>pooling不会进行padding，因为本身就是在下采样没必要做保持输出大小的padding操作</p>
+</li>
+</ol>
+</blockquote>
+<h3 id="全连接层-1"><a href="#全连接层-1" class="headerlink" title="全连接层"></a>全连接层</h3><p><a href="https://zhuanlan.zhihu.com/p/33841176" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/33841176</a></p>
+<blockquote>
+<p>在最后不在需要保全之前的空间结构了，而在最后一层把所有的内容汇聚到一起，我们想根据这些信息得到一些结论（score output） </p>
+</blockquote>
+<h1 id="训练神经网络"><a href="#训练神经网络" class="headerlink" title="训练神经网络"></a>训练神经网络</h1><h2 id="激活函数-1"><a href="#激活函数-1" class="headerlink" title="激活函数"></a>激活函数</h2><p><a href="https://blog.csdn.net/qq_38253797/article/details/116649277" target="_blank" rel="noopener">介绍</a></p>
+<p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5Csigmoid2.png" alt></p>
+<blockquote>
+<p>sigmoid：</p>
+<ol>
+<li><p>当输入很大或者很小的时候，饱和的神禁苑会造成梯度会消失，将无法得到梯度流的反馈，当输入接近于0的时候会得到比较好的梯度。</p>
+</li>
+<li><p>sigmoid函数是非0中心函数这种情况梯度更新效率会非常低。</p>
+<p>不是0均值（zero-centered）的，这会导致后层的神经元的输入是非0均值的信号，这会对梯度产生影响。以 f=sigmoid(wx+b)为例， 假设输入均为正数（或负数），那么对w的导数总是正数（或负数），这样在反向传播过程中要么都往正方向更新，要么都往负方向更新，导致有一种捆绑效果，使得收敛缓慢。</p>
+</li>
+<li><p>使用了指数函数，计算代价有点高。</p>
+</li>
+</ol>
+</blockquote>
+<p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5Ctanh.png" alt></p>
+<p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CRelu.png" alt></p>
+<blockquote>
+<p>优点:</p>
+<p>ReLu的收敛速度比 sigmoid 和 tanh 快；<br>输入为正时，解决了梯度消失的问题，适合用于反向传播。；<br>计算复杂度低，不需要进行指数运算；<br>缺点:</p>
+<p>ReLU的输出不是zero-centered；<br>ReLU不会对数据做幅度压缩，所以数据的幅度会随着模型层数的增加不断扩张。(有下界无上界)<br>Dead ReLU Problem（神经元坏死现象）：x为负数时，梯度都是0，这些神经元可能永远不会被激活，导致相应参数永远不会被更新。（输入为负时，函数存在梯度消失的现象）</p>
+</blockquote>
+<p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CdeadRelu.png" alt></p>
+<blockquote>
+<ol>
+<li>为了防止Relu函数不被激活，让更多的Relus在一开始就能放电的偏置项（0.01），可能有用可能没用。</li>
+</ol>
+</blockquote>
+<p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CleakyRelu.png" alt></p>
+<blockquote>
+<p>leaky ReLU</p>
+<p>PReLU</p>
+<p>ELU 负饱和</p>
+</blockquote>
+<p><img src="/2023/04/16/MAD_Learning/cs231nNotes/D:%5CBlogs%5Clittlebear_hexoblog%5Csource_posts%5CMAD_Learning%5Ccs231nNotes%5CsiLU.png" alt></p>
+<h2 id="批量归一化"><a href="#批量归一化" class="headerlink" title="批量归一化"></a>批量归一化</h2><blockquote>
+<p>不同的评价指标往往具有不同的量纲和量纲单位，这样无法对结果进行分析，难以对结果进行衡量，为了消除指标之间的量纲影响，需要对数据进行标准化处理，以使数据指标之间存在可比性。</p>
+<p>归一化：是指变量减去它的均值，再除以标准差；</p>
+<p>优点：归一化后加快了梯度下降求最优解的速度；并且有可能提高精度。</p>
+</blockquote>
+<p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5Cnormalized.png" alt></p>
+<blockquote>
+<p>图像在大部分情况下，我们的确会做零中心化的处理，但实际上我们不会真的过多地归一化像素值，因为一般对图像来说，在每个位置你已经得到了相对可比较地范围与分布，所以我们没必要归一化太多。（一般是在机器学习里面，这些特征会处于的范围差别特别大）</p>
+</blockquote>
+<h3 id="图像零中心处理："><a href="#图像零中心处理：" class="headerlink" title="图像零中心处理："></a>图像零中心处理：</h3><blockquote>
+<p>零均值化：是指变量减去它的均值；</p>
+<p>优点：在反向传播时加快网络中每层权重参数的收敛；还可以增加基向量的正交性。</p>
+</blockquote>
+<p><a href="https://blog.csdn.net/mooneve/article/details/81943904" target="_blank" rel="noopener">为了加快收敛</a></p>
+<p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CcenterOnly.png" alt></p>
+<p>在训练阶段，我们会决定我们的均值。然后会将一样的均值应用到测试数据中去。所以我们会从训练数据中得到相同的经验均值来归一化。</p>
+<p>对于一般图像，我们就是做零均值化的预处理。</p>
+<h3 id="Weight-Initialzation"><a href="#Weight-Initialzation" class="headerlink" title="Weight Initialzation"></a>Weight Initialzation</h3><p> <strong>Xavier初始化</strong></p>
+<p><a href="https://zhuanlan.zhihu.com/p/72374385" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/72374385</a></p>
+<h3 id="Batch-Normalization（批归一化）"><a href="#Batch-Normalization（批归一化）" class="headerlink" title="Batch Normalization（批归一化）"></a>Batch Normalization（批归一化）</h3><p><a href="https://zhuanlan.zhihu.com/p/34879333" target="_blank" rel="noopener">知乎 Batch Normalization原理与实战</a></p>
+<p>避免激活函数饱和</p>
+<blockquote>
+<p>每批是D维的，我们将对每个维度独立计算经验均值和方差，所以基本上每个特征元素通过批量处理我们都计算过了，并对其进行归一化。</p>
+</blockquote>
+<p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CBN.png" alt></p>
+<h3 id="训练流程"><a href="#训练流程" class="headerlink" title="训练流程"></a>训练流程</h3><blockquote>
+<ol>
+<li><p>数据零均值处理</p>
+</li>
+<li><p>选择架构</p>
+</li>
+<li><p>double check the loss is reasonable：</p>
+</li>
+<li><p>开始训练：</p>
+<p>a. 从小数据集开始，看是否可以过拟合loss = 0，正确率为1。</p>
+<p>b. 现在可以拿出所有的训练数据，加上一个小的正则化项，确定下什么才是最优的学习率（首先要确定的超参数）。一般范围是1e-3~1e-5。</p>
+<p>c. Hyperparameter Optimization</p>
+<p>Cross_validation strategy</p>
+<p>Random Search vs.Grid Search  </p>
+</li>
+</ol>
+</blockquote>
+<h2 id="更好地优化"><a href="#更好地优化" class="headerlink" title="更好地优化"></a>更好地优化</h2><h3 id="再解释一遍BN"><a href="#再解释一遍BN" class="headerlink" title="再解释一遍BN"></a>再解释一遍BN</h3><p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CbeforeNormalization.png" alt></p>
+<blockquote>
+<p>从左图上看，如果数据没有被中心化，而且距离坐标系原点很远。我们虽然仍然可以用一条直线（如图所示）分离它们，但是现在如果这条直线稍微转动一点。那么我们的分类器将会被完全破坏。意味着左边例子中的损失函数对于我们权重矩阵中的线性分类器中的小扰动非常敏感。这会使得学习非常困难，因为它们的损失对我们的参数向量非常敏感。</p>
+<p>而在使用数据集时，将数据点移动到原点附近并缩小他们的单位方差，我们仍然可以很好的对这些数据进行分类。但是现在当我们稍微的转动直线，我们的损失函数对参数值中的小扰动就不那么敏感了，优化更容易。</p>
+</blockquote>
+<h3 id="超参数搜索"><a href="#超参数搜索" class="headerlink" title="超参数搜索"></a>超参数搜索</h3><p>随机搜索：当你的模型性能对某一个超参数对比其他超参数更敏感的时候，随机搜索可以对超参数空间覆盖的更好。</p>
+<p>粗细粒交叉搜索（coarse to fine）：当你做超参数优化的时候，一开始可能会处理很大的搜索范围，几次迭代后，就可以缩小范围，圈定荷氏的超参数所在的区域。然后再对这个小范围重复这个过程。</p>
+<h3 id="优化问题"><a href="#优化问题" class="headerlink" title="优化问题"></a>优化问题</h3><h4 id="SGD"><a href="#SGD" class="headerlink" title="SGD"></a>SGD</h4><p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CSGDProblems.png" alt></p>
+<p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CSGD2.png" alt></p>
+<blockquote>
+<p>在多维问题上比起局部极小值点，鞍点是个大问题：</p>
+<p>在一亿个维度空间中，鞍点意味着在当前鞍点上，某些方向损失会增加，某些方向损失会减小，如果有一亿个维度，它会发生得更加频繁。基本上在任何点上都会发生，然而在局部极小值点上。向一亿个方向中任何一个方向前进损失都会变大，在考虑多维问题上，这种情况非常稀少。</p>
+</blockquote>
+<h4 id="SGD-Momentum"><a href="#SGD-Momentum" class="headerlink" title="SGD+Momentum"></a>SGD+Momentum</h4><p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CMomentun.png" alt></p>
+<p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CMomentun2.png" alt></p>
+<p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CNesterovMomentum.png" alt></p>
+<blockquote>
+<p>Nseterov动量：</p>
+<p>先取得速度方向得步进，之后评估这个位置（经过速度步进后得到的点）的梯度，然后回到原始点，将两者混合起来。</p>
+<p>为什么这样做：</p>
+<p>如果速度方向有一点作物，那它可以让你在目标函数得高等轮廓图更大一点得部分中加入梯度信息。</p>
+</blockquote>
+<h4 id="AdaGrad"><a href="#AdaGrad" class="headerlink" title="AdaGrad"></a>AdaGrad</h4><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">grad_squared = <span class="hljs-number">0</span></span><br><span class="line"><span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:</span><br><span class="line">    dx = compute_gradient(x)</span><br><span class="line">    grad_squared += dx * dx</span><br><span class="line">    x -= learning_rate * dx/(np.sqrt(grad_squared) + <span class="hljs-number">1e-7</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在优化过程中，需要保持一个在训练过程中的每一步的梯度的平方和的持续估计。</p>
+<p>与速度项不同的是，现在我们有了一个梯度平方项。在训练时，我们会一直累加当前梯度的平方到这个梯度的平方项。当我们在更新我们的参数向量时，我们会除以这个梯度平方项。那么现在的问题是这样的缩放，对于矩阵中条件数很大的情形有什么改进呢？</p>
+<p>如果我们有两个轴其中一个轴我们有很高的梯度，而另外一个轴方向却有很小的梯度。那么随着我们我们累加小梯度的平方，我们会在最后更新参数向量时候除以一个很小的数字，反而加速了小梯度维度上的学习速度。在另外一个维度方向上，由于梯度变得特别大，我们会除以一个特别大的数，所以我们会降低这个维度方向上的训练速度。</p>
+<p>当时间越来越大的时候，在训练过程中使用AdaGrad会发生什么？</p>
+<p>使用了Adagrad，步长会变得越来越小。因为随着时间更新梯度平方的估计值，所以这个估计值随着时间单调递增。</p>
+<p>当函数是非凸的时候会陷入局部极值</p>
+</blockquote>
+<h4 id="RMSProp"><a href="#RMSProp" class="headerlink" title="RMSProp"></a>RMSProp</h4><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">grad_squared = <span class="hljs-number">0</span></span><br><span class="line"><span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:</span><br><span class="line">    dx = compute_gradient(x)</span><br><span class="line">    grad_squared = decay_rate* grad_squared+（<span class="hljs-number">1</span> - devay_rate）* dx *dx </span><br><span class="line">    x -= learning_rate * dx/(np.sqrt(grad_squared) + <span class="hljs-number">1e-7</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在RMSProp中仍计算梯度的平方，但是不仅仅在训练中累加梯度平方。而是我们会让平方梯度按照一定比率下降。</p>
+</blockquote>
+<p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CRMSProp.png" alt></p>
+<h4 id="Adam"><a href="#Adam" class="headerlink" title="Adam"></a>Adam</h4><figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">first_moment = <span class="hljs-number">0</span></span><br><span class="line">second_moment = <span class="hljs-number">0</span></span><br><span class="line"><span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:</span><br><span class="line">    dx = compute_gradient(x)</span><br><span class="line">    first_moment = beta1 * first_moment + (<span class="hljs-number">1</span> - beta1) * dx <span class="hljs-comment"># Momentum</span></span><br><span class="line">    second_moment = beta2 * second_moment + (<span class="hljs-number">1</span> - beta2)* dx * dx <span class="hljs-comment"># AdaGrad/RMSProp</span></span><br><span class="line">    x - = learning_rate * first_moment/(np.sqrt(second_moment) + <span class="hljs-number">1e-7</span>)<span class="hljs-comment"># daGrad/RMSProp</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在最初的一步，在开始时，我们已经将第二动量初始化为0，第二动量经过第一步更新后，仍然非常非常接近于0，现在我们在这做出更新步骤除以第二动量，也就是一个非常小的数，会得到一个非常大的步长。</p>
+</blockquote>
+<p>Adam算法也增加了偏置矫正项，来避免出现开始时得到很大步长。</p>
+<figure class="highlight python hljs"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">first_moment = <span class="hljs-number">0</span></span><br><span class="line">second_moment = <span class="hljs-number">0</span></span><br><span class="line"><span class="hljs-keyword">for</span> t <span class="hljs-keyword">in</span> range(num_iterations):</span><br><span class="line">    dx = compute_gradient(x)</span><br><span class="line">    first_moment = beta1 * first_moment + (<span class="hljs-number">1</span> - beta1) * dx <span class="hljs-comment"># Momentum</span></span><br><span class="line">    second_moment = beta2 * second_moment + (<span class="hljs-number">1</span> - beta2)* dx * dx <span class="hljs-comment"># AdaGrad/RMSProp</span></span><br><span class="line">    first_unbias = first_moment / (<span class="hljs-number">1</span> - beta1**t)</span><br><span class="line">    second_unbias = second_moment / (<span class="hljs-number">1</span> - beta2**t)</span><br><span class="line">    x - = learning_rate * first_unbias/(np.sqrt(second_unbias) + <span class="hljs-number">1e-7</span>)<span class="hljs-comment"># daGrad/RMSProp</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>我们更新了第一和第二动量之后，我们构造了第一和第二动量的无偏估计。通过使用当前时间步t。现在我们实际上在使用无偏估计来做每一步更新，而不是初始的第一和第二动量估计值</p>
+</blockquote>
+<p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5Cadam.png" alt></p>
+<h4 id="学习率下降"><a href="#学习率下降" class="headerlink" title="学习率下降"></a>学习率下降</h4><p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5ClearningrateDecade.png" alt></p>
+<blockquote>
+<p>带动量SGD的学习率衰减很常见，但是像Adam的优化算法就很少用学习率衰减。</p>
+</blockquote>
+<h4 id="二阶优化"><a href="#二阶优化" class="headerlink" title="二阶优化"></a>二阶优化</h4><p>之间说过的所有算法都是一阶优化算法。</p>
+<p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CsecondOrderOptimization.png" alt></p>
+<blockquote>
+<p>二阶逼近没有学习率（原始版本）</p>
+<p>二阶逼近对深度学习来说有点不切实际，因为这个海森矩阵是N*N的，其中N表示网络中的参数的数量。</p>
+<p>通常使用拟牛顿法，而不是牛顿法。不是直接地去求完整地Hessian矩阵地逆</p>
+</blockquote>
+<h2 id="正则化"><a href="#正则化" class="headerlink" title="正则化"></a>正则化</h2><h2 id="迁移学习"><a href="#迁移学习" class="headerlink" title="迁移学习"></a>迁移学习</h2><h2 id="深度学习软件"><a href="#深度学习软件" class="headerlink" title="深度学习软件"></a>深度学习软件</h2><h2 id="CNN框架"><a href="#CNN框架" class="headerlink" title="CNN框架"></a>CNN框架</h2><h2 id="循环神经网络"><a href="#循环神经网络" class="headerlink" title="循环神经网络"></a>循环神经网络</h2><h2 id="识别和分割"><a href="#识别和分割" class="headerlink" title="识别和分割"></a>识别和分割</h2><h2 id="目标检测和图像分割"><a href="#目标检测和图像分割" class="headerlink" title="目标检测和图像分割"></a>目标检测和图像分割</h2><h2 id="可视化和理解"><a href="#可视化和理解" class="headerlink" title="可视化和理解"></a>可视化和理解</h2><h2 id="生成模型"><a href="#生成模型" class="headerlink" title="生成模型"></a>生成模型</h2><h2 id="深度增强学习"><a href="#深度增强学习" class="headerlink" title="深度增强学习"></a>深度增强学习</h2><h2 id="深度学习方法、硬件对抗样本和训练"><a href="#深度学习方法、硬件对抗样本和训练" class="headerlink" title="深度学习方法、硬件对抗样本和训练"></a>深度学习方法、硬件对抗样本和训练</h2><h1 id="网络介绍资讯"><a href="#网络介绍资讯" class="headerlink" title="网络介绍资讯"></a>网络介绍资讯</h1><h2 id="MMYOLO"><a href="#MMYOLO" class="headerlink" title="MMYOLO"></a>MMYOLO</h2><ol>
+<li><p><a href="https://mmyolo.readthedocs.io/zh_CN/latest/" target="_blank" rel="noopener">MMYolo</a></p>
+<p><a href="https://mmyolo.readthedocs.io/zh_CN/latest/recommended_topics/algorithm_descriptions/yolov8_description.html" target="_blank" rel="noopener">yolo v8 原理核实现全解析</a></p>
+</li>
+<li><p><a href="https://zhuanlan.zhihu.com/p/595497726" target="_blank" rel="noopener">MMYOLO保姆级教程</a></p>
+</li>
+<li></li>
+</ol>
 
         </div>
         
