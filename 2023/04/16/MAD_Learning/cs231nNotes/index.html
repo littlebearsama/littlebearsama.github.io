@@ -7,19 +7,19 @@
 
 
 
-    <meta name="description" content="cs231n PPT与笔记0.学习资源2023.04.16  视频  官方课程笔记  课程笔记中文翻译  ConvNetJS  ppt  gcloud   1. 工具python教程：https://cs231n.github.io/python-numpy-tutorial/ 看完这个就好了 Colab:google 版的 Jupyter Notebook 基于数据驱动线性分类器：f(x,W)">
+    <meta name="description" content="cs231n PPT与笔记">
 <meta name="keywords" content="Deep Learning,cs231n">
 <meta property="og:type" content="article">
 <meta property="og:title" content="cs231n Notes">
 <meta property="og:url" content="https://littlebearsama.github.io/2023/04/16/MAD_Learning/cs231nNotes/index.html">
 <meta property="og:site_name" content="LittleBear！！！">
-<meta property="og:description" content="cs231n PPT与笔记0.学习资源2023.04.16  视频  官方课程笔记  课程笔记中文翻译  ConvNetJS  ppt  gcloud   1. 工具python教程：https://cs231n.github.io/python-numpy-tutorial/ 看完这个就好了 Colab:google 版的 Jupyter Notebook 基于数据驱动线性分类器：f(x,W)">
+<meta property="og:description" content="cs231n PPT与笔记">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://littlebearsama.github.io/images/og_image.png">
-<meta property="og:updated_time" content="2023-06-07T15:56:24.775Z">
+<meta property="og:updated_time" content="2023-06-07T16:14:14.494Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cs231n Notes">
-<meta name="twitter:description" content="cs231n PPT与笔记0.学习资源2023.04.16  视频  官方课程笔记  课程笔记中文翻译  ConvNetJS  ppt  gcloud   1. 工具python教程：https://cs231n.github.io/python-numpy-tutorial/ 看完这个就好了 Colab:google 版的 Jupyter Notebook 基于数据驱动线性分类器：f(x,W)">
+<meta name="twitter:description" content="cs231n PPT与笔记">
 <meta name="twitter:image" content="https://littlebearsama.github.io/images/og_image.png">
 
 
@@ -164,7 +164,7 @@
                 <span class="level-item has-text-grey">
                     
                     
-                    36 分钟 读完 (大约 5341 个字)
+                    36 分钟 读完 (大约 5433 个字)
                 </span>
                 
                 
@@ -177,7 +177,9 @@
             
         </h1>
         <div class="content">
-            <h1 id="cs231n-PPT与笔记"><a href="#cs231n-PPT与笔记" class="headerlink" title="cs231n PPT与笔记"></a>cs231n PPT与笔记</h1><h2 id="0-学习资源"><a href="#0-学习资源" class="headerlink" title="0.学习资源"></a>0.学习资源</h2><p>2023.04.16</p>
+            <h1 id="cs231n-PPT与笔记"><a href="#cs231n-PPT与笔记" class="headerlink" title="cs231n PPT与笔记"></a>cs231n PPT与笔记</h1><a id="more"></a>
+
+<h2 id="0-学习资源"><a href="#0-学习资源" class="headerlink" title="0.学习资源"></a>0.学习资源</h2><p>2023.04.16</p>
 <ol>
 <li><p><a href="https://www.bilibili.com/video/BV1nJ411z7fe/?spm_id_from=333.337.search-card.all.click&vd_source=a94b5fd38cff92184520d9def0d281d8" target="_blank" rel="noopener">视频</a></p>
 </li>
@@ -458,13 +460,18 @@
 <blockquote>
 <p>带动量SGD的学习率衰减很常见，但是像Adam的优化算法就很少用学习率衰减。</p>
 </blockquote>
-<h4 id="二阶优化"><a href="#二阶优化" class="headerlink" title="二阶优化"></a>二阶优化</h4><p>之间说过的所有算法都是一阶优化算法。</p>
+<h4 id="二阶优化"><a href="#二阶优化" class="headerlink" title="二阶优化"></a>二阶优化</h4><p><strong>L-BFGS</strong></p>
+<p>在风格迁移里面用到：这个问题有很少地随机性，而且参数也很少，但是仍然是一个优化问题。</p>
+<p>之间说过的所有算法都是一阶优化算法。</p>
 <p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CsecondOrderOptimization.png" alt></p>
 <blockquote>
 <p>二阶逼近没有学习率（原始版本）</p>
 <p>二阶逼近对深度学习来说有点不切实际，因为这个海森矩阵是N*N的，其中N表示网络中的参数的数量。</p>
-<p>通常使用拟牛顿法，而不是牛顿法。不是直接地去求完整地Hessian矩阵地逆</p>
+<p>通常使用拟牛顿法，而不是牛顿法。不是直接地去求完整地Hessian矩阵地逆，而是去逼近（常用低阶逼近）这个矩阵地逆。</p>
 </blockquote>
+<p>减少训练误差和测试误差之间的差距。</p>
+<p>模型集成 ：</p>
+<p><img src="/2023/04/16/MAD_Learning/cs231nNotes/cs231nNotes%5CmodelEnsembles.png" alt></p>
 <h2 id="正则化"><a href="#正则化" class="headerlink" title="正则化"></a>正则化</h2><h2 id="迁移学习"><a href="#迁移学习" class="headerlink" title="迁移学习"></a>迁移学习</h2><h2 id="深度学习软件"><a href="#深度学习软件" class="headerlink" title="深度学习软件"></a>深度学习软件</h2><h2 id="CNN框架"><a href="#CNN框架" class="headerlink" title="CNN框架"></a>CNN框架</h2><h2 id="循环神经网络"><a href="#循环神经网络" class="headerlink" title="循环神经网络"></a>循环神经网络</h2><h2 id="识别和分割"><a href="#识别和分割" class="headerlink" title="识别和分割"></a>识别和分割</h2><h2 id="目标检测和图像分割"><a href="#目标检测和图像分割" class="headerlink" title="目标检测和图像分割"></a>目标检测和图像分割</h2><h2 id="可视化和理解"><a href="#可视化和理解" class="headerlink" title="可视化和理解"></a>可视化和理解</h2><h2 id="生成模型"><a href="#生成模型" class="headerlink" title="生成模型"></a>生成模型</h2><h2 id="深度增强学习"><a href="#深度增强学习" class="headerlink" title="深度增强学习"></a>深度增强学习</h2><h2 id="深度学习方法、硬件对抗样本和训练"><a href="#深度学习方法、硬件对抗样本和训练" class="headerlink" title="深度学习方法、硬件对抗样本和训练"></a>深度学习方法、硬件对抗样本和训练</h2><h1 id="网络介绍资讯"><a href="#网络介绍资讯" class="headerlink" title="网络介绍资讯"></a>网络介绍资讯</h1><h2 id="MMYOLO"><a href="#MMYOLO" class="headerlink" title="MMYOLO"></a>MMYOLO</h2><ol>
 <li><p><a href="https://mmyolo.readthedocs.io/zh_CN/latest/" target="_blank" rel="noopener">MMYolo</a></p>
 <p><a href="https://mmyolo.readthedocs.io/zh_CN/latest/recommended_topics/algorithm_descriptions/yolov8_description.html" target="_blank" rel="noopener">yolo v8 原理核实现全解析</a></p>
