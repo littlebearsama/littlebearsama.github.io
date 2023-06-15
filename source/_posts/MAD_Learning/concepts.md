@@ -8,3 +8,6 @@
 torch.backends.cudnn.benchmark = True
 如果想要避免这种结果波动，设置：
 torch.backends.cudnn.deterministic = True
+
+SPP SPPF
+空间金字塔池化 Spatial Pyramid Pooling - Fast (SPPF)
